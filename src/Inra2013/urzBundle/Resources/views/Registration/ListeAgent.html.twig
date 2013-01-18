@@ -1,0 +1,83 @@
+{% extends "Inra2013urzBundle:Default:IndexAdmin.html.twig" %}
+{% block title %}Gestion des Agents{% endblock %}
+
+{% block body %}
+
+{% if Status == "Delete" %}
+
+<div class="alert alert-error">
+    Votre agent à bien été supprimé
+</div>
+
+{%endif%}
+
+
+<table class="table table-striped">
+
+    <thead><tr>
+
+            <th>Nom</th>
+            <th>Prenom</th>
+            <th>Email</th>
+            <th>Fonction</th>
+              <th>Roles</th>
+            <th>Activé</th>
+            <th>Dernière visite</th>
+            <th>Delete</th>
+
+
+        </tr></thead>
+
+
+{% for liste in pagination %}
+
+    <tr>
+
+        <td><a href="{{path('Inra2013Bundle_UpdateAgent',{'id':liste.id })}}"> {{liste.Nom}}</a></td>
+        <td>{{liste.Prenom}}</td>
+        <td>{{liste.email}}</td>
+        <td>{{liste.Fonction}}</td>
+        <td>
+
+{% if liste.roles[0] == "ROLE_USER" %}
+
+Utilisateur
+
+{% elseif liste.roles[0] == "ROLE_ADMIN" %}
+
+Responsable
+
+{% elseif liste.roles[0] == "ROLE_SUPER_ADMIN" %}
+
+Administrateur
+
+{%endif%}
+        
+        
+        
+        
+        </td>
+        <td>
+        {% if liste.enabled == 1 %} <a href="{{ path('Inra2013Bundle_ActiveAgent',{'enable':liste.enabled,'username':liste.username }) }}"><img height="20" width="20" src="{{asset('img/user_blue.png')}}" /></a> 
+{% elseif liste.enabled is empty %}
+                    <a href="{{ path('Inra2013Bundle_ActiveAgent',{'enable': 0,'username':liste.username }) }}"><img height="20" width="20" src="{{asset('img/user_red.png')}}" /></a>
+{% endif %}
+
+                    </td>
+                    <td>{{liste.lastLogin|date('d/m/Y H:i:s')}}</td>
+                    <td><a href="{{path('Inra2013Bundle_DeleteAgent',{'id':liste.id })}}"><img height="20" width="20" src="{{asset('img/delete.png')}}" onclick="return confirm('Voulez vous vraiment supprimer cette agent ?')" /></a></td>
+                </tr>
+
+{% endfor %}
+
+            </table>
+
+<div  style="text-align: center " class="pagination">
+    {{ pagination.render()|raw }}
+</div>
+
+
+{% endblock %}
+
+
+

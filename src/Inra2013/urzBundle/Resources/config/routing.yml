@@ -1,0 +1,45 @@
+## YAML Template.
+---
+#Chemin pour la Page d'accueil
+
+Inra2013urzBundle_Homepage:
+    pattern : /Home
+    defaults: { _controller : Inra2013urzBundle:Agent:Index }
+
+# Chemin pour la redirection de l'Agent qui se connecte
+ 
+Inra2013urzBundle_Redirectionagent:
+    pattern:   /redirection/agent
+    defaults: { _controller: Inra2013urzBundle:Agent:Redirectionagent }
+    
+# Chemin pour la création de l'Agent
+
+Inra2013urzBundle_ShowAgent:
+    pattern: /Admin/Show/{Default}
+    defaults: { _controller: Inra2013urzBundle:Agent:ShowAgent }  
+    
+    
+# Chemin pour la création de l'Agent
+
+Inra2013urzBundle_CreateAgent:
+    pattern: /Admin/Create
+    defaults: { _controller: Inra2013urzBundle:Agent:CreateAgent }
+    
+# Chemin pour la mise à jour de l'Agent par son id
+
+Inra2013Bundle_UpdateAgent:
+    pattern: /Admin/Update/{id}
+    defaults: { _controller: Inra2013urzBundle:Agent:UpdateAgent}
+    
+    
+# Chemin pour supprime l'Agent par son id    
+
+Inra2013Bundle_DeleteAgent:
+    pattern: /Admin/Delete/{id}
+    defaults: { _controller: Inra2013urzBundle:Agent:DeleteAgent}
+    
+# Chemin pour active ou desactive l'Agent par son id 
+
+Inra2013Bundle_ActiveAgent:
+    pattern: /Admin/Active/{username}/{enable}
+    defaults: { _controller: Inra2013urzBundle:Agent:ActivateAgent}  

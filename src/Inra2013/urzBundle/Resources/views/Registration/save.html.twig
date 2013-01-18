@@ -1,0 +1,23 @@
+
+{% extends "::base.html.twig" %}
+{% block title %}Gestion des Agents{% endblock %}
+
+{% block body %}
+
+{% if Status == "Create" %}
+
+<div class="alert alert-success">
+    <h5> Votre nouveau agent est enregistré </h5>
+</div>
+
+{%elseif Status == "Update" %}
+<div class="alert alert-success">
+    <h5> Votre agent à bien été modifié </h5>
+</div>
+{%elseif Status == "Delete" %}
+<div class="alert alert-success">
+    <h5> Votre agent à bien été supprimé </h5>
+</div>
+{%endif%}
+
+{% endblock  %}

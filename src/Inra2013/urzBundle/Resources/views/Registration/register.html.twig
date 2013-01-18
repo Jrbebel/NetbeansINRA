@@ -1,0 +1,18 @@
+{% extends "Inra2013urzBundle:Default:IndexAdmin.html.twig" %}
+{% block title %}Gestion des Employes{% endblock %}
+
+
+{% block body%}
+
+    <form  {{ form_enctype(form) }} method="POST" class="fos_user_registration_register form-horizontal">
+<fieldset>
+
+
+        {{ form_widget(form) }}
+<br>
+        <button class="btn btn-primary" type="submit" value="{{ 'registration.submit'|trans({}, 'FOSUserBundle') }}" >Ajouter</button>
+</fieldset>
+    </form>
+
+{% endblock body %}
+
