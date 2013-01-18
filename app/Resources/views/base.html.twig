@@ -21,51 +21,57 @@
 
                 <div class="span3" > 
 
-                    <div>
+                    <div class="well" >
 {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                            <div class="btn-group navbar">
-  <a class="btn btn-primary" href="{{ path('fos_user_security_logout') }}"><i class="icon-user icon-white"></i>   {{ 'layout.logout'|trans([], 'FOSUserBundle') }}</a>
-
-</div>
                             
-                            <a href="{{ path('fos_user_profile_show') }}">{{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }}</a><br>
-                      
+                            <strong><a href="{{ path('fos_user_profile_show') }}">{{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }}</a></strong><br> <br>                          
+                            
+                            <div class="btn-group navbar">
+                                <a class="btn btn-primary" href="{{ path('fos_user_security_logout') }}"><i class="icon-user icon-white"></i>   {{ 'layout.logout'|trans([], 'FOSUserBundle') }}</a>
+
+                            </div>
+
+
+
 {% else %}
 
 {% render 'FOSUserBundle:Security:login' %}
 
 {% endif %}
-                            </div>
+                        </div>
 
 {% for key, flash in app.session.getFlashes() %}
-                            <div class="{{ flash }}">
+                        <div class="{{ flash }}">
     {{ key|trans([], 'FOSUserBundle') }}
-                                </div>
+                            </div>
 {% endfor %}
 
                     {% block menu%}
 
-<ul class="nav nav-list">
-  <li class="active"><a href="#"><i class="icon-home icon-white"></i> Home</a></li>
-  <li><a href="#"><i class="icon-book"></i> Library</a></li>
-  <li><a href="#"><i class="icon-pencil"></i> Applications</a></li>
-  <li><a href="#"><i class="i"></i> Misc</a></li>
-</ul>
+
+                            <div class="well" >
+
+                                <ul class="nav nav-list">
+                                    <li class="active"><a href="#"><i class="icon-home icon-white"></i> Home</a></li>
+                                    <li><a href="#"><i class="icon-book"></i> Library</a></li>
+                                    <li><a href="#"><i class="icon-pencil"></i> Applications</a></li>
+                                    <li><a href="#"><i class="i"></i> Misc</a></li>
+                                </ul></div>
                     {% endblock%}
 
-                            </div>
 
-                            <div class="span9" style="height: 300px">
+                        </div>
+                        <div class="span9" style="height: 300px">
 
 
    {% block body %}{% endblock %}
 
-                            </div>
-
                         </div>
+
+
                     </div>     
 
 
         {% block javascripts %}{% endblock %}
-                </body>
-            </html>
+            </body>
+        </html>
