@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        {% block stylesheets %}{% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <link rel="stylesheet" href="{{asset ('bootstrap/css/bootstrap.css')}}"
+              <link rel="stylesheet" href="{{asset ('bootstrap/js/bootstrap.js')}}"
+    </head>
+    <body>
+
+        <div class="container-fluid">
+
+            <div class="row-fluid ">
+                <div class="span3"><img  style=" margin-top: 10px; height: 200px; width: 285px" src="{{asset('img/suzlabo.JPG')}}" /></div>
+                <div class="span9"><h1 style="text-align: center ">UNITÉ DE RECHERCHE ZOOTECHNIQUE LABORATOIRE D'ANALYSE</h1></div>
+            </div> 
+            <div class="row-fluid"  style="margin-top: 50px">
+
+                <div class="span3" > 
+
+                    <div>
+{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                            <div class="btn-group navbar">
+  <a class="btn btn-primary" href="{{ path('fos_user_security_logout') }}"><i class="icon-user icon-white"></i>   {{ 'layout.logout'|trans([], 'FOSUserBundle') }}</a>
+
+</div>
+                            
+                            <a href="{{ path('fos_user_profile_show') }}">{{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }}</a><br>
+                      
+{% else %}
+
+{% render 'FOSUserBundle:Security:login' %}
+
+{% endif %}
+                            </div>
+
+{% for key, flash in app.session.getFlashes() %}
+                            <div class="{{ flash }}">
+    {{ key|trans([], 'FOSUserBundle') }}
+                                </div>
+{% endfor %}
+
+                    {% block menu%}
+
+<ul class="nav nav-list">
+  <li class="active"><a href="#"><i class="icon-home icon-white"></i> Home</a></li>
+  <li><a href="#"><i class="icon-book"></i> Library</a></li>
+  <li><a href="#"><i class="icon-pencil"></i> Applications</a></li>
+  <li><a href="#"><i class="i"></i> Misc</a></li>
+</ul>
+                    {% endblock%}
+
+                            </div>
+
+                            <div class="span9" style="height: 300px">
+
+
+   {% block body %}{% endblock %}
+
+                            </div>
+
+                        </div>
+                    </div>     
+
+
+        {% block javascripts %}{% endblock %}
+                </body>
+            </html>

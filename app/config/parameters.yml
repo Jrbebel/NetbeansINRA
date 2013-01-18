@@ -1,0 +1,14 @@
+parameters:
+    database_driver: pdo_mysql
+    database_host: 127.0.0.1
+    database_port: null
+    database_name: Inra2013
+    database_user: root
+    database_password: inra971
+    mailer_transport: smtp
+    mailer_host: 127.0.0.1
+    mailer_user: null
+    mailer_password: null
+    locale: fr
+    secret: 8185f0667ce5e64164c7779b2d7698da9a8599aa
+    database_path: null
