@@ -3,7 +3,7 @@
 
 
 {% block body%}
-<div class="form-actions">
+<div class="well">
     <form  {{ form_enctype(form) }} method="POST" class="fos_user_registration_register form-horizontal">
 <fieldset>
 
@@ -14,7 +14,7 @@
         
         
   <button class="btn btn-primary" type="submit" value="{{ 'registration.submit'|trans({}, 'FOSUserBundle') }}" >Ajouter</button>
-  <button type="button" class="btn">Cancel</button>
+  <button type="button" class="btn btn-danger" value="{{ 'registration.submit'|trans({}, 'FOSUserBundle') }}" >Cancel</button>
 </div>
 </fieldset>
     </form>
