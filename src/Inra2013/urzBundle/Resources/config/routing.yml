@@ -43,3 +43,8 @@ Inra2013Bundle_DeleteAgent:
 Inra2013Bundle_ActiveAgent:
     pattern: /Admin/Active/{username}/{enable}
     defaults: { _controller: Inra2013urzBundle:Agent:ActivateAgent}  
+    
+    
+Inra2013Bundle_UploadFile:
+    pattern: /User/UploadFile
+    defaults: { _controller: Inra2013urzBundle:GestionFichier:Uploadfile }

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Description of UserController
+ * Description of AgentrController
  *  Permet de gerer l'agent comme la creation,la suppression ou la modification.
  *
  * @author BEBEL Jean Raynal
