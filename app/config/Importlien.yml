@@ -1,0 +1,49 @@
+# Twig Configuration
+twig:
+    globals:
+      
+#Page d'accueil de l'application de
+      Accueil: 
+        
+        #Titre de l'application
+        Titre: UNITÉ DE RECHERCHE ZOOTECHNIQUE LABORATOIRE D'ANALYSE
+        #Les liens se trouvant dans la partie Accueil
+        Lien : 
+          #Premier lien dans l'accueil,item:Barcode
+           PremierLien: http://genomique.genotoul.fr/intranet/index.php?id=138
+           ItemPremier: Barcode 
+           #Deuxieme lien dans l'accueil
+           DeuxiemeLien: http://genomique.genotoul.fr/intranet/index.php?id=133
+           ItemDeuxieme: Document barcode
+          
+ #Partie administrative    
+      Administrateur:
+          
+              #Les liens se trouvant dans la partie Administrative
+        Lien : 
+          PremierLien:
+          ItemPremier:
+          DeuxiemeLien:
+          ItemDeuxieme:
+            
+#Partie Utilisateur  
+      User:
+             #Les liens se trouvant dans la partie Utilisateur
+
+       Lien:
+           
+           ItemPremier : www.google.fr
+
+       DeuxiemeLien:
+               ItemDeuxieme:
+
+#Partie Chercheur
+
+      Chercheur:
+        
+        Lien :
+          
+            PremierLien :
+            ItemPremier : 
+            DeuxiemeLien:
+            ItemDeuxieme:
