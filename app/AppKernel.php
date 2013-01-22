@@ -21,7 +21,8 @@ class AppKernel extends Kernel
             new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
             new FOS\UserBundle\FOSUserBundle(),
             new Inra2013\urzBundle\Inra2013urzBundle(),
-            new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle()
+            new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
+            new PunkAve\FileUploaderBundle\PunkAveFileUploaderBundle()
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

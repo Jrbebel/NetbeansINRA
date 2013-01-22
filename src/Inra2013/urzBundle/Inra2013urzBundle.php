@@ -10,5 +10,8 @@ class Inra2013urzBundle extends Bundle
     public function getParent()
     {
         return 'FOSUserBundle';
+ 
     }
+    
+    
 }

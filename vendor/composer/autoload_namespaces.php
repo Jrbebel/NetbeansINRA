@@ -16,6 +16,7 @@ return array(
     'Sensio\\Bundle\\GeneratorBundle' => $vendorDir . '/sensio/generator-bundle/',
     'Sensio\\Bundle\\FrameworkExtraBundle' => $vendorDir . '/sensio/framework-extra-bundle/',
     'Sensio\\Bundle\\DistributionBundle' => $vendorDir . '/sensio/distribution-bundle/',
+    'PunkAve\\FileUploaderBundle' => $vendorDir . '/punkave/symfony2-file-uploader-bundle/',
     'Monolog' => $vendorDir . '/monolog/monolog/src/',
     'Metadata\\' => $vendorDir . '/jms/metadata/src/',
     'Knp\\Component' => $vendorDir . '/knplabs/knp-components/src/',
