@@ -6,6 +6,7 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
+    'n3b\\Bundle\\Util\\HttpFoundation\\StreamResponse' => $vendorDir . '/irongit/symfony2-stream-response/',
     'Twig_Extensions_' => $vendorDir . '/twig/extensions/lib/',
     'Twig_' => $vendorDir . '/twig/twig/lib/',
     'Symfony\\Bundle\\SwiftmailerBundle' => $vendorDir . '/symfony/swiftmailer-bundle/',
@@ -17,8 +18,10 @@ return array(
     'Sensio\\Bundle\\FrameworkExtraBundle' => $vendorDir . '/sensio/framework-extra-bundle/',
     'Sensio\\Bundle\\DistributionBundle' => $vendorDir . '/sensio/distribution-bundle/',
     'PunkAve\\FileUploaderBundle' => $vendorDir . '/punkave/symfony2-file-uploader-bundle/',
+    'PHPExcel' => $vendorDir . '/CodePlex/PHPExcel/',
     'Monolog' => $vendorDir . '/monolog/monolog/src/',
     'Metadata\\' => $vendorDir . '/jms/metadata/src/',
+    'Liuggio\\ExcelBundle' => $vendorDir . '/liuggio/ExcelBundle/',
     'Knp\\Component' => $vendorDir . '/knplabs/knp-components/src/',
     'Knp\\Bundle\\PaginatorBundle' => $vendorDir . '/knplabs/knp-paginator-bundle/',
     'JMS\\SecurityExtraBundle' => $vendorDir . '/jms/security-extra-bundle/',

@@ -1,0 +1,29 @@
+{% extends "::base.html.twig" %}
+
+{% block body%}
+
+<h1>Essai </h1>
+
+<table class="table">
+{% for liste in xls.getRowIterator() %}
+        
+        
+ <tr class="success">
+{% for xls in liste.getCellIterator() %}
+
+         
+        
+        {% if  xls.getColumn() != 'I' %}
+        <td>{{xls.getCalculatedValue() }}</td>
+        {%else %}
+         <td>{{xls.getValue() }}</td>
+        {% endif%}
+
+
+ 
+{%endfor%}
+</tr>
+{% endfor%}
+
+</table>
+{% endblock %}

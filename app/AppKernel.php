@@ -22,7 +22,8 @@ class AppKernel extends Kernel
             new FOS\UserBundle\FOSUserBundle(),
             new Inra2013\urzBundle\Inra2013urzBundle(),
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
-            new PunkAve\FileUploaderBundle\PunkAveFileUploaderBundle()
+            new PunkAve\FileUploaderBundle\PunkAveFileUploaderBundle(),
+            new Liuggio\ExcelBundle\LiuggioExcelBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

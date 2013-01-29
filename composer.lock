@@ -1,6 +1,56 @@
 {
-    "hash": "22fc0dd3935b57c2b3084c56849e39fe",
+    "hash": "c18c3e7339b8407fc92c22f8c40ffd93",
     "packages": [
+        {
+            "name": "CodePlex/PHPExcel",
+            "version": "1.7.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/markushausammann/PHPExcel",
+                "reference": "1.7.8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/markushausammann/PHPExcel/archive/1.7.8.zip",
+                "reference": "1.7.8",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2.0",
+                "ext-xml": "*"
+            },
+            "time": "2012-11-21 10:55:52",
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "PHPExcel": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL"
+            ],
+            "authors": [
+                {
+                    "name": "Maarten Balliauw",
+                    "homepage": "http://blog.maartenballiauw.be"
+                },
+                {
+                    "name": "Mark Baker"
+                },
+                {
+                    "name": "Erit Tilt"
+                }
+            ],
+            "description": "PHPExcel - OpenXML - Create Excel2007 documents in PHP - Spreadsheet engine",
+            "homepage": "http://phpexcel.codeplex.com",
+            "keywords": [
+                "php",
+                "excel",
+                "spreadsheet",
+                "OpenXML"
+            ]
+        },
         {
             "name": "doctrine/common",
             "version": "2.3.0",
@@ -334,6 +384,54 @@
             "homepage": "http://friendsofsymfony.github.com",
             "keywords": [
                 "User management"
+            ]
+        },
+        {
+            "name": "irongit/symfony2-stream-response",
+            "version": "dev-master",
+            "target-dir": "n3b/Bundle/Util/HttpFoundation/StreamResponse",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/toretto460/Symfony2-StreamResponse",
+                "reference": "v1.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/toretto460/Symfony2-StreamResponse/archive/v1.0.zip",
+                "reference": "v1.0",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2"
+            },
+            "time": "2012-08-07 09:27:11",
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-0": {
+                    "n3b\\Bundle\\Util\\HttpFoundation\\StreamResponse": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "n3b",
+                    "email": "mail@n3b.ru",
+                    "homepage": "http://n3b.ru/"
+                },
+                {
+                    "name": "Simone Di Maulo",
+                    "homepage": "https://github.com/toretto460"
+                }
+            ],
+            "description": "Symfony2 StreamResponse Bundle",
+            "homepage": "https://github.com/toretto460/Symfony2-StreamResponse",
+            "keywords": [
+                "file",
+                "stream",
+                "StreamResponse"
             ]
         },
         {
@@ -756,6 +854,58 @@
                 "assets",
                 "compression",
                 "minification"
+            ]
+        },
+        {
+            "name": "liuggio/ExcelBundle",
+            "version": "v1.0.2",
+            "target-dir": "Liuggio/ExcelBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/liuggio/ExcelBundle",
+                "reference": "v1.0.2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/liuggio/ExcelBundle/archive/v1.0.2.zip",
+                "reference": "v1.0.2",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2",
+                "symfony/framework-bundle": "2.*",
+                "irongit/symfony2-stream-response": "dev-master",
+                "codeplex/phpexcel": "1.7.8"
+            },
+            "time": "2012-12-03 17:18:08",
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Liuggio\\ExcelBundle": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Giulio De Donato",
+                    "email": "liuggio@gmail.com",
+                    "homepage": "https://github.com/liuggio"
+                },
+                {
+                    "name": "ExcelBundle Contributors",
+                    "homepage": "https://github.com/liuggio/ExcelBundle#contributors"
+                }
+            ],
+            "description": "This is a Symfony2 Bundle helps you to read and write Excel files (including pdf, xlsx, odt), thanks to the PHPExcel library",
+            "homepage": "http://www.welcometothebundle.com",
+            "keywords": [
+                "Symfony2",
+                "excel",
+                "xls",
+                "bundle"
             ]
         },
         {
@@ -1432,6 +1582,7 @@
     ],
     "minimum-stability": "stable",
     "stability-flags": {
-        "punkave/symfony2-file-uploader-bundle": 20
+        "punkave/symfony2-file-uploader-bundle": 20,
+        "irongit/symfony2-stream-response": 20
     }
 }

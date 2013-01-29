@@ -45,6 +45,6 @@ Inra2013Bundle_ActiveAgent:
     defaults: { _controller: Inra2013urzBundle:Agent:ActivateAgent}  
     
     
-Inra2013Bundle_Edit:
+Inra2013Bundle_UploadFile:
     pattern: /User/UploadFile
-    defaults: { _controller: Inra2013urzBundle:GestionFichier:Edit }
+    defaults: { _controller: Inra2013urzBundle:GestionFichier:Upload }

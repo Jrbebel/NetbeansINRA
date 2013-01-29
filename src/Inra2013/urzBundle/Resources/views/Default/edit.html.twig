@@ -1,19 +1,26 @@
    {% extends "::base.html.twig" %}
 
+        {% block stylesheets %}
+  <link rel="stylesheet" href="{{ asset ('css/jquery.fileupload-ui.css') }}" />
+        {% endblock %}
+  
 {% block body %}
+    {% if xls is not defined %}
 <div class="well">
-<form id="fileupload" action="//jquery-file-upload.appspot.com/" method="POST" enctype="multipart/form-data">
+    
+<form id="fileupload" action = "{{ path('Inra2013Bundle_UploadFile') }}"  enctype="multipart/form-data" method="POST">
         <!-- Redirect browsers with JavaScript disabled to the origin page -->
-        <noscript><input type="hidden" name="redirect" value="http://blueimp.github.com/jQuery-File-Upload/"></noscript>
+       
         <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
         <div class="row fileupload-buttonbar">
-            <div class="span7">
+            <div class="span9">
                 <!-- The fileinput-button span is used to style the file input field as button -->
-                <span class="btn btn-success fileinput-button">
-                    <i class="icon-plus icon-white"></i>  
-                    <span>Add files...</span>
+               <span class="btn btn-success fileinput-button">
+                    <i class="icon-plus icon-white"></i>
+                    <span>Ajouter fichier csv</span>
                     <input type="file" name="files" >
                 </span>
+               
                 <button type="submit" class="btn btn-primary start">
                     <i class="icon-upload icon-white"></i>
                     <span>Start upload</span>
@@ -48,33 +55,52 @@
 
 </div>
 
+  {% else %}
 
+<table class="table">
+    
+{% for liste in xls.getRowIterator()  %}
+           
+ <tr >
+     
+{% for xls in liste.getCellIterator() %}
+
+         
+        
+        {% if  xls.getColumn() != 'I' %}
+        <td>{{xls.getCalculatedValue() }}</td>
+        {%else %}
+         <td>{{xls.getValue() }}</td>
+        {% endif%}
+
+
+ 
+{%endfor%}
+         
+</tr>
+{% endfor%}
+
+</table>
+  {% endif%}
+  
 {% endblock %}
 
    {% block javascripts %}
 
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-<!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
 
-<!-- The Templates plugin is included to render the upload/download listings -->
-<script src="http://blueimp.github.com/JavaScript-Templates/tmpl.min.js"></script>
-<!-- The Load Image plugin is included for the preview images and image resizing functionality -->
+
+<!--
+<!-- The Templates plugin is included to render the upload/download listings
+<script src="http://blueimp.github.com/JavaScript-Templates/tmpl.min.js"></script> -->
+<!-- The Load Image plugin is included for the preview images and image resizing functionality 
 <script src="http://blueimp.github.com/JavaScript-Load-Image/load-image.min.js"></script>
-<!-- The Canvas to Blob plugin is included for image resizing functionality -->
-<script src="http://blueimp.github.com/JavaScript-Canvas-to-Blob/canvas-to-blob.min.js"></script>
-<!-- Bootstrap JS and Bootstrap Image Gallery are not required, but included for the demo -->
+ The Canvas to Blob plugin is included for image resizing functionality
+<script src="http://blueimp.github.com/JavaScript-Canvas-to-Blob/canvas-to-blob.min.js"></script> -->
+<!-- Bootstrap JS and Bootstrap Image Gallery are not required, but included for the demo 
 <script src="http://blueimp.github.com/cdn/js/bootstrap.min.js"></script>
-<script src="http://blueimp.github.com/Bootstrap-Image-Gallery/js/bootstrap-image-gallery.min.js"></script>
+<script src="http://blueimp.github.com/Bootstrap-Image-Gallery/js/bootstrap-image-gallery.min.js"></script>-->
 <!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
 
-{% javascripts
-    '@Inra2013urzBundle/Resources/public/js/vendor/jquery.ui.widget.js' 
-    '@Inra2013urzBundle/Resources/public/js/jquery.iframe-transport.js'
-    '@Inra2013urzBundle/Resources/public/js/jquery.fileupload.js'
-    '@Inra2013urzBundle/Resources/public/js/jquery.fileupload-fp.js'
-    '@Inra2013urzBundle/Resources/public/js/jquery.fileupload-ui.js'
-    '@Inra2013urzBundle/Resources/public/js/main.js' %}
-       <script src="{{ asset_url }}"></script>
-{% endjavascripts %}
-<
+
+
 {% endblock %}
