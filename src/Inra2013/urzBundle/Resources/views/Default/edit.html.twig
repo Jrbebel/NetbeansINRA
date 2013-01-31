@@ -1,26 +1,36 @@
    {% extends "::base.html.twig" %}
 
-        {% block stylesheets %}
-  <link rel="stylesheet" href="{{ asset ('css/jquery.fileupload-ui.css') }}" />
-        {% endblock %}
-  
+  {% block stylesheets %}
+<link rel="stylesheet" href="{{ asset ('css/jquery.fileupload-ui.css') }}" />
+ {% endblock %}
+
 {% block body %}
+
+{%if Status is  defined %}
+
+<div class="alert alert-error"> 
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    Votre fichier excel à été bien enregistré.
+</div>
+{% endif%}
+
+
     {% if xls is not defined %}
 <div class="well">
-    
-<form id="fileupload" action = "{{ path('Inra2013Bundle_UploadFile') }}"  enctype="multipart/form-data" method="POST">
+
+    <form id="fileupload" action = "{{ path('Inra2013Bundle_UploadFile') }}"  enctype="multipart/form-data" method="POST">
         <!-- Redirect browsers with JavaScript disabled to the origin page -->
-       
+
         <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
         <div class="row fileupload-buttonbar">
             <div class="span9">
                 <!-- The fileinput-button span is used to style the file input field as button -->
-               <span class="btn btn-success fileinput-button">
+                <span class="btn btn-success fileinput-button">
                     <i class="icon-plus icon-white"></i>
                     <span>Ajouter fichier csv</span>
                     <input type="file" name="files" >
                 </span>
-               
+
                 <button type="submit" class="btn btn-primary start">
                     <i class="icon-upload icon-white"></i>
                     <span>Start upload</span>
@@ -56,50 +66,85 @@
 </div>
 
   {% else %}
+<div class="alert alert-info">Prévisualisation des données à insérer</div>
 
-<table class="table">
-    
+<form  action="{{path('Inra2013Bundle_SaveFile')}}" method="POST" >
+
+    <table class="table table-striped">
+
+
+
+
 {% for liste in xls.getRowIterator()  %}
-           
- <tr >
-     
-{% for xls in liste.getCellIterator() %}
 
-         
-        
-        {% if  xls.getColumn() != 'I' %}
-        <td>{{xls.getCalculatedValue() }}</td>
-        {%else %}
-         <td>{{xls.getValue() }}</td>
+        <tr>
+
+        {% for cell in liste.getCellIterator()  %} 
+
+{% if liste.getRowIndex() == 1  %}
+            <td>{{cell.getValue()}}</td>
+
+
+
+
+ {% endif %}
+        {%endfor%}
+        </tr>
+
+        <tr >
+    {% if loop.index < 10 %} {#On limite l'affichage a 10 resultat,ceci n'est qu'une previsualisation des données de la base#}  
+
+{% for cell in liste.getCellIterator()  %}
+
+{% if liste.getRowIndex() != 1  %}
+        {% if  cell.getColumn() == 'I' or cell.getColumn() == 'J' %}
+                <td>{{cell.getCalculatedValue() }}</td> {# Permet de calculer les fonctions mathématique de la feuille excel et permet ainsi d'avoir un affichage numérique #}
+        {% elseif  cell.getColumn() == "G" or cell.getColumn() == "H"   %}
+
+                <td>{{xls.getStyle('G1').getNumberFormat().toFormattedString(cell.getValue(), "M/D/YYYY") }}</td> {# Permet d'avoir les valeur des lignes #}
+
+{% else %}
+                <td>{{cell.getValue()}}</td>
         {% endif%}
 
 
- 
+ {% endif %}
 {%endfor%}
-         
-</tr>
+
+        {% endif%}
+
+            </tr>
 {% endfor%}
 
-</table>
+
+
+        </table> 
+
+        <input type="hidden" name="files" value="{{file}}"/>
+        <input type="submit" class="btn btn-danger" value="Cancel" />
+
+        <input type="submit" class="btn btn-primary" value="Enregistrer" />
+
+    </form> 
   {% endif%}
-  
+
 {% endblock %}
 
    {% block javascripts %}
 
 
 
-<!--
-<!-- The Templates plugin is included to render the upload/download listings
-<script src="http://blueimp.github.com/JavaScript-Templates/tmpl.min.js"></script> -->
-<!-- The Load Image plugin is included for the preview images and image resizing functionality 
-<script src="http://blueimp.github.com/JavaScript-Load-Image/load-image.min.js"></script>
- The Canvas to Blob plugin is included for image resizing functionality
-<script src="http://blueimp.github.com/JavaScript-Canvas-to-Blob/canvas-to-blob.min.js"></script> -->
-<!-- Bootstrap JS and Bootstrap Image Gallery are not required, but included for the demo 
-<script src="http://blueimp.github.com/cdn/js/bootstrap.min.js"></script>
-<script src="http://blueimp.github.com/Bootstrap-Image-Gallery/js/bootstrap-image-gallery.min.js"></script>-->
-<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
+    <!--
+    <!-- The Templates plugin is included to render the upload/download listings
+    <script src="http://blueimp.github.com/JavaScript-Templates/tmpl.min.js"></script> -->
+    <!-- The Load Image plugin is included for the preview images and image resizing functionality 
+    <script src="http://blueimp.github.com/JavaScript-Load-Image/load-image.min.js"></script>
+     The Canvas to Blob plugin is included for image resizing functionality
+    <script src="http://blueimp.github.com/JavaScript-Canvas-to-Blob/canvas-to-blob.min.js"></script> -->
+    <!-- Bootstrap JS and Bootstrap Image Gallery are not required, but included for the demo 
+    <script src="http://blueimp.github.com/cdn/js/bootstrap.min.js"></script>
+    <script src="http://blueimp.github.com/Bootstrap-Image-Gallery/js/bootstrap-image-gallery.min.js"></script>-->
+    <!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
 
 
 

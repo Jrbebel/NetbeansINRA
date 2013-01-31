@@ -15,8 +15,8 @@ class Eosino
 {
     
        /**
-     *  *@ORM\ManyToOne(targetEntity="Inra2013\urzBundle\Entity\Eosino")
-     * 
+     *  *@ORM\ManyToOne(targetEntity="Inra2013\urzBundle\Entity\Analyse")
+     * @ORM\JoinColumn(name="CodeLabo", referencedColumnName="CodeLabo")
      */
     private $CodeLabo;
     

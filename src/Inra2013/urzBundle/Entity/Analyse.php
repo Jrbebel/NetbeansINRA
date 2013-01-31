@@ -7,42 +7,40 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Analyse
  *
- * @ORM\Table()
+ * @ORM\Table(name="Analyse")
  * @ORM\Entity
  */
 class Analyse {
 
-    
-        /**
-     *  *@ORM\ManyToOne(targetEntity="Inra2013\urzBundle\Entity\User")
-     * 
-     */
-    
-    private $idUser;
-    
-       /**
-     *  *@ORM\ManyToOne(targetEntity="Inra2013\urzBundle\Entity\Animal")
-     * 
-     */
-    private $idAnimal;
-
     /**
      * @var integer
-     * * @ORM\Id
+     * @ORM\Id
      * @ORM\Column(name="CodeLabo", type="integer", length=255)
      */
     private $CodeLabo;
 
     /**
-     * @var \DateTime
+     *  *@ORM\ManyToOne(targetEntity="Inra2013\urzBundle\Entity\User")
+     * 
+     */
+    private $User;
+
+    /**
+     *  *@ORM\ManyToOne(targetEntity="Inra2013\urzBundle\Entity\Animal")
+     *  @ORM\JoinColumn(name="Animal", referencedColumnName="id") 
+     * @ORM\Column(type="integer")
+     */
+    private $Animal;
+
+    /**
+     * @var \Date
      *
      * @ORM\Column(name="DatePrelev", type="date")
      */
     private $DatePrelev;
 
     /**
-     * @var \DateTime
-     *
+     * @var \Date
      * @ORM\Column(name="DateAnalyse", type="date")
      */
     private $DateAnalyse;
@@ -50,37 +48,49 @@ class Analyse {
     /**
      * @var string
      *
-     * @ORM\Column(name="Observation", type="string", length=255)
+     * @ORM\Column(name="Observation", type="string", length=255 , nullable=true)
      */
     private $Observation;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="Lot_Groupe", type="text")
+     * @ORM\Column(name="Lot_Groupe", type="text",nullable=true)
      */
     private $Lot_Groupe;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="NaturEchant", type="string", length=255)
+     * @ORM\Column(name="NaturEchant", type="string", length=255 ,nullable=true)
      */
     private $NaturEchant;
 
     /**
-     * Get id
+     * Set Animal
+     *
+     * @param integer $animal
+     * @return Analyse
+     */
+    public function setAnimal($animal) {
+        $this->Animal = $animal;
+
+        return $this;
+    }
+
+    /**
+     * Get Animal
      *
      * @return integer 
      */
-    public function getId() {
-        return $this->id;
+    public function getAnimal() {
+        return $this->Animal;
     }
 
     /**
      * Set CodeLabo
      *
-     * @param string $codeLabo
+     * @param integer $codeLabo
      * @return Analyse
      */
     public function setCodeLabo($codeLabo) {
@@ -92,7 +102,7 @@ class Analyse {
     /**
      * Get CodeLabo
      *
-     * @return string 
+     * @return integer 
      */
     public function getCodeLabo() {
         return $this->CodeLabo;
@@ -203,50 +213,48 @@ class Analyse {
         return $this->NaturEchant;
     }
 
-
     /**
-     * Set idUser
+     * Set User
      *
-     * @param \Inra2013\urzBundle\Entity\User $idUser
+     * @param \Inra2013\urzBundle\Entity\User $user
      * @return Analyse
      */
-    public function setIdUser(\Inra2013\urzBundle\Entity\User $idUser = null)
-    {
-        $this->idUser = $idUser;
-    
+    public function setUser(\Inra2013\urzBundle\Entity\User $user = null) {
+        $this->User = $user;
+
         return $this;
     }
 
     /**
-     * Get idUser
+     * Get User
      *
      * @return \Inra2013\urzBundle\Entity\User 
      */
-    public function getIdUser()
-    {
-        return $this->idUser;
+    public function getUser() {
+        return $this->User;
     }
 
+
     /**
-     * Set idAnimal
+     * Set id
      *
-     * @param \Inra2013\urzBundle\Entity\Animal $idAnimal
+     * @param integer $id
      * @return Analyse
      */
-    public function setIdAnimal(\Inra2013\urzBundle\Entity\Animal $idAnimal = null)
+    public function setId($id)
     {
-        $this->idAnimal = $idAnimal;
+        $this->id = $id;
     
         return $this;
     }
 
     /**
-     * Get idAnimal
+     * Get id
      *
-     * @return \Inra2013\urzBundle\Entity\Animal 
+     * @return integer 
      */
-    public function getIdAnimal()
+    public function getId()
     {
-        return $this->idAnimal;
+        return $this->id;
     }
 }

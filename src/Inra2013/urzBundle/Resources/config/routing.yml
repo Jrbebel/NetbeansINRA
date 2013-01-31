@@ -43,8 +43,15 @@ Inra2013Bundle_DeleteAgent:
 Inra2013Bundle_ActiveAgent:
     pattern: /Admin/Active/{username}/{enable}
     defaults: { _controller: Inra2013urzBundle:Agent:ActivateAgent}  
-    
+
+
+    # Chemin pour l'upload du fichier excel et de la verification de son format et ...
     
 Inra2013Bundle_UploadFile:
     pattern: /User/UploadFile
     defaults: { _controller: Inra2013urzBundle:GestionFichier:Upload }
+    
+    
+Inra2013Bundle_SaveFile:
+   pattern : /User/SaveFile
+   defaults: { _controller : Inra2013urzBundle:GestionFichier:SaveExcel}

@@ -9,9 +9,23 @@
 namespace Inra2013\urzBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Inra2013\urzBundle\Entity\Animal;
+use Inra2013\urzBundle\Entity\Analyse;
+use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Response;
 
 class GestionFichierController extends Controller {
+
+    private $path;
+
+    /**
+     * Description of UploadAction
+     * Permet de faire la validation du fichier xls 
+     * @author BEBEL Jean Raynal
+     */
+    public function __construct() {
+        $this->path = dirname(__FILE__) . '/../Resources/Upload';
+    }
 
     public function UploadAction() {
 
@@ -38,15 +52,16 @@ class GestionFichierController extends Controller {
                         break;
                 }
             }
-            /*             * On regarde si le fichier est aux bon format qui est le csv(text/csv)* */ 
-            
-            else {
-// $_FILES['nom_du_fichier']['error'] vaut 0 soit UPLOAD_ERR_OK   
+            /*             * On regarde si le fichier est aux bon format qui est le csv(text/csv)* */ else {
+ 
                 $sheet = $this->ReadExcelAction($_FILES);
-
-                return $this->render("Inra2013urzBundle:Default:edit.html.twig", array('xls' => $sheet));
+              
+                $tmp_name = $_FILES['files']["tmp_name"];
+                          
+                move_uploaded_file($tmp_name, $this->path . "/" . $_FILES['files']['name']); /**On bouge le fichier dans la section Resources/Upload pour pourvoir l utilisé pour l'enregistrement**/
+       
+                return $this->render("Inra2013urzBundle:Default:edit.html.twig", array('xls' => $sheet, 'file' => $_FILES['files']['name']));
             }
-            
         }
 
 
@@ -58,14 +73,20 @@ class GestionFichierController extends Controller {
         return $this->render("Inra2013urzBundle:Default:edit.html.twig");
     }
 
+    /**
+     * Description of ReadExcelAction
+     * Permet de faire lire le fichier xls
+     * @param $file : fichier upload 
+     * @author BEBEL Jean Raynal
+     */
     public function ReadExcelAction($files) {
 
-        $excelObj = $this->get('xls.load_xls5')->load($files['files']["tmp_name"]); //load le fichier xls
-//$excelObj->getActiveSheet()->getStyle('I')->getNumberFormat()->applyFromArray(
-//			array(
-//			'code' => PHPExcel_Style_NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE
-//			));
+        $excelObj = $this->get('xls.load_xls5')->load($files['files']["tmp_name"]);
+        //  $excelObj->getActiveSheet()->getStyle('G1')->getNumberFormat()->applyFromArray(array('code' => 'M/D/YYYY'));
+        //$type = $excelObj->getActiveSheet()->getStyle('G1')->getNumberFormat()->toFormattedString($data, "M/D/YYYY");
+
         $page = 0;
+
 
         $sheet = $excelObj->getSheet($page);
 
@@ -73,19 +94,22 @@ class GestionFichierController extends Controller {
 
         print_r('<table border="1">');
 
-// On boucle sur les lignes
+        // On boucle sur les lignes
         foreach ($sheet->getRowIterator() as $row) {
 
             print_r('<tr>');
 
-// On boucle sur les cellule de la ligne
+            // On boucle sur les cellule de la ligne
             foreach ($row->getCellIterator() as $cell) {
-
+                //   \Doctrine\Common\Util\Debug::dump($cell);
                 if ($cell->getColumn() == 'G') {
 
+
                     print_r('<td>');
-                    ;
-                    print_r(date('d-m-y', 41281));
+                    $data = $cell->getValue();
+
+///print_r($$dateObj->format('Y-m-d H:i:s')) ;
+                    print_r($type);
                     print_r('</td>');
                 }
             }
@@ -94,6 +118,71 @@ class GestionFichierController extends Controller {
         }
 
         print_r('<table>');
+    }
+
+    /**
+     * Description of SaveExcel
+     * Permet d'enregistrer le fichier excel dans la base de données
+     * 
+     * @author BEBEL Jean Raynal
+     */
+    public function SaveExcelAction() {
+
+        $files['files']["tmp_name"] = $this->path . "/" . $_POST['files'];
+        $sheet = $this->ReadExcelAction($files); //On lit le fichier excel
+
+
+        $em = $this->getDoctrine()->getManager();  // On récupére l'EntityManager
+        $i = 0;
+
+        foreach ($sheet->getRowIterator() as $row) {
+            $Analyse[$i] = new Analyse();
+           
+      // On prend pas la première ligne du tableau,c'est les titre du tableau
+           
+            foreach ($row->getCellIterator() as $cell) {
+             
+      if($row->getRowIndex() != 1 )  {   
+                if ($cell->getColumn() == 'A') {
+
+                    $rest = substr($cell->getValue(), -4);
+                    $Analyse[$i]->setCodeLabo($rest);
+                    
+                } elseif ($cell->getColumn() == 'B') {
+
+                    $Animal = $cell->getValue();             
+                    $Analyse[$i]->setAnimal($Animal);
+                    
+                } elseif ($cell->getColumn() == 'G') {
+
+                    if ($cell->getValue() != "Date prvt") {
+                        
+                        $date = $sheet->getStyle('G1')->getNumberFormat()->toFormattedString($cell->getValue(), "M/D/YYYY"); //Etant donné que le format récuperé est un float,on utilise cette fonction pour le mettre aux format date
+                        $Analyse[$i]->setDatePrelev(new \DateTime($date));
+                    }
+                } elseif ($cell->getColumn() == 'H') {
+
+                    if ($cell->getValue() != "Date analyse") {
+                        
+                        $dateAnalyse = $sheet->getStyle('H1')->getNumberFormat()->toFormattedString($cell->getValue(), "M/D/YYYY");//Etant donné que le format récuperé est un float,on utilise cette fonction pour le mettre aux format date
+                        $Analyse[$i]->setDateAnalyse(new \DateTime($dateAnalyse));
+                        
+                    }
+                }
+                
+     
+
+                $em->persist($Analyse[$i]); //on persist l'objet analyse
+                 }
+            }
+
+            $i++;
+            $em->flush(); //on sauvegarde dans la base
+        }
+
+    return $this->render('Inra2013urzBundle:Default:edit.html.twig',array("Status"=>"Enregistrement"));
+    
+    
     }
 
 }

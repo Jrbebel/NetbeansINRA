@@ -30,37 +30,53 @@ class __TwigTemplate_644f0d1fd33d0f5a9c1cc624d77a3a21 extends Twig_Template
     public function block_stylesheets($context, array $blocks = array())
     {
         // line 4
-        echo "  <link rel=\"stylesheet\" href=\"";
+        echo "<link rel=\"stylesheet\" href=\"";
         echo twig_escape_filter($this->env, $this->env->getExtension('assets')->getAssetUrl("css/jquery.fileupload-ui.css"), "html", null, true);
         echo "\" />
-        ";
+ ";
     }
 
     // line 7
     public function block_body($context, array $blocks = array())
     {
         // line 8
-        echo "    ";
+        echo "
+";
+        // line 9
+        if (array_key_exists("Status", $context)) {
+            // line 10
+            echo "
+<div class=\"alert alert-error\"> 
+    <button type=\"button\" class=\"close\" data-dismiss=\"alert\">&times;</button>
+    Votre fichier excel à été bien enregistré.
+</div>
+";
+        }
+        // line 16
+        echo "
+
+    ";
+        // line 18
         if ((!array_key_exists("xls", $context))) {
-            // line 9
+            // line 19
             echo "<div class=\"well\">
-    
-<form id=\"fileupload\" action = \"";
-            // line 11
+
+    <form id=\"fileupload\" action = \"";
+            // line 21
             echo twig_escape_filter($this->env, $this->env->getExtension('routing')->getPath("Inra2013Bundle_UploadFile"), "html", null, true);
             echo "\"  enctype=\"multipart/form-data\" method=\"POST\">
         <!-- Redirect browsers with JavaScript disabled to the origin page -->
-       
+
         <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
         <div class=\"row fileupload-buttonbar\">
             <div class=\"span9\">
                 <!-- The fileinput-button span is used to style the file input field as button -->
-               <span class=\"btn btn-success fileinput-button\">
+                <span class=\"btn btn-success fileinput-button\">
                     <i class=\"icon-plus icon-white\"></i>
                     <span>Ajouter fichier csv</span>
                     <input type=\"file\" name=\"files\" >
                 </span>
-               
+
                 <button type=\"submit\" class=\"btn btn-primary start\">
                     <i class=\"icon-upload icon-white\"></i>
                     <span>Start upload</span>
@@ -97,88 +113,182 @@ class __TwigTemplate_644f0d1fd33d0f5a9c1cc624d77a3a21 extends Twig_Template
 
   ";
         } else {
-            // line 59
-            echo "
-<table class=\"table\">
-    
+            // line 69
+            echo "<div class=\"alert alert-info\">Prévisualisation des données à insérer</div>
+
+<form  action=\"";
+            // line 71
+            echo twig_escape_filter($this->env, $this->env->getExtension('routing')->getPath("Inra2013Bundle_SaveFile"), "html", null, true);
+            echo "\" method=\"POST\" >
+
+    <table class=\"table table-striped\">
+
+
+
+
 ";
-            // line 62
+            // line 78
             $context['_parent'] = (array) $context;
             $context['_seq'] = twig_ensure_traversable($this->getAttribute((isset($context["xls"]) ? $context["xls"] : $this->getContext($context, "xls")), "getRowIterator", array(), "method"));
+            $context['loop'] = array(
+              'parent' => $context['_parent'],
+              'index0' => 0,
+              'index'  => 1,
+              'first'  => true,
+            );
+            if (is_array($context['_seq']) || (is_object($context['_seq']) && $context['_seq'] instanceof Countable)) {
+                $length = count($context['_seq']);
+                $context['loop']['revindex0'] = $length - 1;
+                $context['loop']['revindex'] = $length;
+                $context['loop']['length'] = $length;
+                $context['loop']['last'] = 1 === $length;
+            }
             foreach ($context['_seq'] as $context["_key"] => $context["liste"]) {
-                // line 63
-                echo "           
- <tr >
-     
-";
-                // line 66
+                // line 79
+                echo "
+        <tr>
+
+        ";
+                // line 82
                 $context['_parent'] = (array) $context;
                 $context['_seq'] = twig_ensure_traversable($this->getAttribute((isset($context["liste"]) ? $context["liste"] : $this->getContext($context, "liste")), "getCellIterator", array(), "method"));
-                foreach ($context['_seq'] as $context["_key"] => $context["xls"]) {
-                    // line 67
-                    echo "
-         
-        
-        ";
-                    // line 70
-                    if (($this->getAttribute((isset($context["xls"]) ? $context["xls"] : $this->getContext($context, "xls")), "getColumn", array(), "method") != "I")) {
-                        // line 71
-                        echo "        <td>";
-                        echo twig_escape_filter($this->env, $this->getAttribute((isset($context["xls"]) ? $context["xls"] : $this->getContext($context, "xls")), "getCalculatedValue", array(), "method"), "html", null, true);
-                        echo "</td>
-        ";
-                    } else {
-                        // line 73
-                        echo "         <td>";
-                        echo twig_escape_filter($this->env, $this->getAttribute((isset($context["xls"]) ? $context["xls"] : $this->getContext($context, "xls")), "getValue", array(), "method"), "html", null, true);
-                        echo "</td>
-        ";
-                    }
-                    // line 75
-                    echo "
+                foreach ($context['_seq'] as $context["_key"] => $context["cell"]) {
+                    echo " 
 
- 
 ";
+                    // line 84
+                    if (($this->getAttribute((isset($context["liste"]) ? $context["liste"] : $this->getContext($context, "liste")), "getRowIndex", array(), "method") == 1)) {
+                        // line 85
+                        echo "            <td>";
+                        echo twig_escape_filter($this->env, $this->getAttribute((isset($context["cell"]) ? $context["cell"] : $this->getContext($context, "cell")), "getValue", array(), "method"), "html", null, true);
+                        echo "</td>
+
+
+
+
+ ";
+                    }
+                    // line 91
+                    echo "        ";
                 }
                 $_parent = $context['_parent'];
-                unset($context['_seq'], $context['_iterated'], $context['_key'], $context['xls'], $context['_parent'], $context['loop']);
+                unset($context['_seq'], $context['_iterated'], $context['_key'], $context['cell'], $context['_parent'], $context['loop']);
                 $context = array_merge($_parent, array_intersect_key($context, $_parent));
-                // line 79
-                echo "         
-</tr>
+                // line 92
+                echo "        </tr>
+
+        <tr >
+    ";
+                // line 95
+                if (($this->getAttribute((isset($context["loop"]) ? $context["loop"] : $this->getContext($context, "loop")), "index") < 10)) {
+                    echo " ";
+                    echo "  
+
 ";
+                    // line 97
+                    $context['_parent'] = (array) $context;
+                    $context['_seq'] = twig_ensure_traversable($this->getAttribute((isset($context["liste"]) ? $context["liste"] : $this->getContext($context, "liste")), "getCellIterator", array(), "method"));
+                    foreach ($context['_seq'] as $context["_key"] => $context["cell"]) {
+                        // line 98
+                        echo "
+";
+                        // line 99
+                        if (($this->getAttribute((isset($context["liste"]) ? $context["liste"] : $this->getContext($context, "liste")), "getRowIndex", array(), "method") != 1)) {
+                            // line 100
+                            echo "        ";
+                            if ((($this->getAttribute((isset($context["cell"]) ? $context["cell"] : $this->getContext($context, "cell")), "getColumn", array(), "method") == "I") || ($this->getAttribute((isset($context["cell"]) ? $context["cell"] : $this->getContext($context, "cell")), "getColumn", array(), "method") == "J"))) {
+                                // line 101
+                                echo "                <td>";
+                                echo twig_escape_filter($this->env, $this->getAttribute((isset($context["cell"]) ? $context["cell"] : $this->getContext($context, "cell")), "getCalculatedValue", array(), "method"), "html", null, true);
+                                echo "</td> ";
+                                // line 102
+                                echo "        ";
+                            } elseif ((($this->getAttribute((isset($context["cell"]) ? $context["cell"] : $this->getContext($context, "cell")), "getColumn", array(), "method") == "G") || ($this->getAttribute((isset($context["cell"]) ? $context["cell"] : $this->getContext($context, "cell")), "getColumn", array(), "method") == "H"))) {
+                                // line 103
+                                echo "
+                <td>";
+                                // line 104
+                                echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute($this->getAttribute((isset($context["xls"]) ? $context["xls"] : $this->getContext($context, "xls")), "getStyle", array(0 => "G1"), "method"), "getNumberFormat", array(), "method"), "toFormattedString", array(0 => $this->getAttribute((isset($context["cell"]) ? $context["cell"] : $this->getContext($context, "cell")), "getValue", array(), "method"), 1 => "M/D/YYYY"), "method"), "html", null, true);
+                                echo "</td> ";
+                                // line 105
+                                echo "
+";
+                            } else {
+                                // line 107
+                                echo "                <td>";
+                                echo twig_escape_filter($this->env, $this->getAttribute((isset($context["cell"]) ? $context["cell"] : $this->getContext($context, "cell")), "getValue", array(), "method"), "html", null, true);
+                                echo "</td>
+        ";
+                            }
+                            // line 109
+                            echo "
+
+ ";
+                        }
+                    }
+                    $_parent = $context['_parent'];
+                    unset($context['_seq'], $context['_iterated'], $context['_key'], $context['cell'], $context['_parent'], $context['loop']);
+                    $context = array_merge($_parent, array_intersect_key($context, $_parent));
+                    // line 113
+                    echo "
+        ";
+                }
+                // line 115
+                echo "
+            </tr>
+";
+                ++$context['loop']['index0'];
+                ++$context['loop']['index'];
+                $context['loop']['first'] = false;
+                if (isset($context['loop']['length'])) {
+                    --$context['loop']['revindex0'];
+                    --$context['loop']['revindex'];
+                    $context['loop']['last'] = 0 === $context['loop']['revindex0'];
+                }
             }
             $_parent = $context['_parent'];
             unset($context['_seq'], $context['_iterated'], $context['_key'], $context['liste'], $context['_parent'], $context['loop']);
             $context = array_merge($_parent, array_intersect_key($context, $_parent));
-            // line 82
+            // line 118
             echo "
-</table>
+
+
+        </table> 
+
+        <input type=\"hidden\" name=\"files\" value=\"";
+            // line 123
+            echo twig_escape_filter($this->env, (isset($context["file"]) ? $context["file"] : $this->getContext($context, "file")), "html", null, true);
+            echo "\"/>
+        <input type=\"submit\" class=\"btn btn-danger\" value=\"Cancel\" />
+
+        <input type=\"submit\" class=\"btn btn-primary\" value=\"Enregistrer\" />
+
+    </form> 
   ";
         }
-        // line 85
-        echo "  
+        // line 130
+        echo "
 ";
     }
 
-    // line 88
+    // line 133
     public function block_javascripts($context, array $blocks = array())
     {
-        // line 89
+        // line 134
         echo "
 
 
-<!--
-<!-- The Templates plugin is included to render the upload/download listings
-<script src=\"http://blueimp.github.com/JavaScript-Templates/tmpl.min.js\"></script> -->
-<!-- The Load Image plugin is included for the preview images and image resizing functionality 
-<script src=\"http://blueimp.github.com/JavaScript-Load-Image/load-image.min.js\"></script>
- The Canvas to Blob plugin is included for image resizing functionality
-<script src=\"http://blueimp.github.com/JavaScript-Canvas-to-Blob/canvas-to-blob.min.js\"></script> -->
-<!-- Bootstrap JS and Bootstrap Image Gallery are not required, but included for the demo 
-<script src=\"http://blueimp.github.com/cdn/js/bootstrap.min.js\"></script>
-<script src=\"http://blueimp.github.com/Bootstrap-Image-Gallery/js/bootstrap-image-gallery.min.js\"></script>-->
-<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
+    <!--
+    <!-- The Templates plugin is included to render the upload/download listings
+    <script src=\"http://blueimp.github.com/JavaScript-Templates/tmpl.min.js\"></script> -->
+    <!-- The Load Image plugin is included for the preview images and image resizing functionality 
+    <script src=\"http://blueimp.github.com/JavaScript-Load-Image/load-image.min.js\"></script>
+     The Canvas to Blob plugin is included for image resizing functionality
+    <script src=\"http://blueimp.github.com/JavaScript-Canvas-to-Blob/canvas-to-blob.min.js\"></script> -->
+    <!-- Bootstrap JS and Bootstrap Image Gallery are not required, but included for the demo 
+    <script src=\"http://blueimp.github.com/cdn/js/bootstrap.min.js\"></script>
+    <script src=\"http://blueimp.github.com/Bootstrap-Image-Gallery/js/bootstrap-image-gallery.min.js\"></script>-->
+    <!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
 
 
 
@@ -197,6 +307,6 @@ class __TwigTemplate_644f0d1fd33d0f5a9c1cc624d77a3a21 extends Twig_Template
 
     public function getDebugInfo()
     {
-        return array (  168 => 89,  124 => 70,  40 => 7,  69 => 21,  207 => 78,  202 => 70,  181 => 57,  174 => 52,  166 => 8,  128 => 50,  110 => 63,  97 => 39,  77 => 29,  62 => 20,  56 => 16,  23 => 3,  49 => 10,  20 => 1,  301 => 100,  295 => 96,  292 => 95,  289 => 94,  287 => 93,  282 => 90,  276 => 86,  273 => 85,  270 => 84,  268 => 83,  263 => 80,  249 => 79,  245 => 77,  230 => 75,  222 => 73,  220 => 72,  215 => 70,  211 => 69,  204 => 66,  198 => 63,  185 => 58,  183 => 60,  177 => 58,  160 => 85,  112 => 42,  82 => 24,  65 => 16,  38 => 4,  144 => 50,  141 => 70,  135 => 47,  126 => 71,  109 => 41,  103 => 34,  67 => 19,  61 => 16,  47 => 11,  105 => 24,  93 => 20,  76 => 22,  72 => 27,  68 => 12,  27 => 4,  225 => 96,  216 => 90,  212 => 88,  205 => 84,  201 => 83,  196 => 80,  194 => 62,  191 => 59,  189 => 77,  186 => 76,  180 => 72,  172 => 67,  159 => 61,  154 => 79,  147 => 79,  132 => 73,  127 => 49,  121 => 45,  118 => 44,  114 => 46,  104 => 36,  100 => 40,  78 => 25,  75 => 23,  71 => 19,  58 => 19,  34 => 5,  91 => 20,  84 => 28,  94 => 39,  88 => 27,  79 => 23,  59 => 16,  26 => 2,  21 => 2,  28 => 7,  24 => 6,  44 => 9,  31 => 4,  25 => 3,  19 => 1,  70 => 15,  63 => 19,  46 => 9,  22 => 1,  163 => 63,  155 => 82,  152 => 78,  149 => 51,  145 => 46,  139 => 50,  131 => 51,  123 => 47,  120 => 46,  115 => 66,  106 => 62,  101 => 59,  96 => 21,  83 => 18,  80 => 24,  74 => 28,  66 => 15,  55 => 16,  52 => 15,  50 => 11,  43 => 8,  41 => 9,  37 => 8,  35 => 3,  32 => 13,  29 => 2,  184 => 70,  178 => 71,  171 => 51,  165 => 88,  162 => 57,  157 => 56,  153 => 54,  151 => 52,  143 => 71,  138 => 75,  136 => 50,  133 => 64,  130 => 47,  122 => 44,  119 => 67,  116 => 35,  111 => 38,  108 => 37,  102 => 41,  98 => 22,  95 => 34,  92 => 28,  89 => 19,  85 => 27,  81 => 40,  73 => 19,  64 => 17,  60 => 17,  57 => 17,  54 => 12,  51 => 9,  48 => 9,  45 => 9,  42 => 8,  39 => 5,  36 => 4,  33 => 4,  30 => 3,);
+        return array (  278 => 134,  275 => 133,  270 => 130,  260 => 123,  253 => 118,  237 => 115,  233 => 113,  224 => 109,  218 => 107,  214 => 105,  211 => 104,  208 => 103,  205 => 102,  201 => 101,  198 => 100,  196 => 99,  193 => 98,  189 => 97,  183 => 95,  178 => 92,  172 => 91,  162 => 85,  160 => 84,  153 => 82,  148 => 79,  131 => 78,  121 => 71,  117 => 69,  66 => 21,  62 => 19,  60 => 18,  56 => 16,  48 => 10,  46 => 9,  43 => 8,  40 => 7,  33 => 4,  30 => 3,);
     }
 }
