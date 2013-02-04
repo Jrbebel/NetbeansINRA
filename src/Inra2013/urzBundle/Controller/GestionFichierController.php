@@ -82,42 +82,10 @@ class GestionFichierController extends Controller {
     public function ReadExcelAction($files) {
 
         $excelObj = $this->get('xls.load_xls5')->load($files['files']["tmp_name"]);
-        //  $excelObj->getActiveSheet()->getStyle('G1')->getNumberFormat()->applyFromArray(array('code' => 'M/D/YYYY'));
-        //$type = $excelObj->getActiveSheet()->getStyle('G1')->getNumberFormat()->toFormattedString($data, "M/D/YYYY");
-
         $page = 0;
-
-
         $sheet = $excelObj->getSheet($page);
-
         return $sheet;
 
-        print_r('<table border="1">');
-
-        // On boucle sur les lignes
-        foreach ($sheet->getRowIterator() as $row) {
-
-            print_r('<tr>');
-
-            // On boucle sur les cellule de la ligne
-            foreach ($row->getCellIterator() as $cell) {
-                //   \Doctrine\Common\Util\Debug::dump($cell);
-                if ($cell->getColumn() == 'G') {
-
-
-                    print_r('<td>');
-                    $data = $cell->getValue();
-
-///print_r($$dateObj->format('Y-m-d H:i:s')) ;
-                    print_r($type);
-                    print_r('</td>');
-                }
-            }
-
-            print_r('</tr>');
-        }
-
-        print_r('<table>');
     }
 
     /**
@@ -169,15 +137,15 @@ class GestionFichierController extends Controller {
                         
                     }
                 }
-                
-     
 
                 $em->persist($Analyse[$i]); //on persist l'objet analyse
+                
                  }
             }
 
             $i++;
             $em->flush(); //on sauvegarde dans la base
+            
         }
 
     return $this->render('Inra2013urzBundle:Default:edit.html.twig',array("Status"=>"Enregistrement"));

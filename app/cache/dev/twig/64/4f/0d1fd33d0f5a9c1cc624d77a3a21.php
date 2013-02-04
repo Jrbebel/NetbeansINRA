@@ -10,6 +10,7 @@ class __TwigTemplate_644f0d1fd33d0f5a9c1cc624d77a3a21 extends Twig_Template
         $this->parent = $this->env->loadTemplate("::base.html.twig");
 
         $this->blocks = array(
+            'title' => array($this, 'block_title'),
             'stylesheets' => array($this, 'block_stylesheets'),
             'body' => array($this, 'block_body'),
             'javascripts' => array($this, 'block_javascripts'),
@@ -24,6 +25,12 @@ class __TwigTemplate_644f0d1fd33d0f5a9c1cc624d77a3a21 extends Twig_Template
     protected function doDisplay(array $context, array $blocks = array())
     {
         $this->parent->display($context, array_merge($this->blocks, $blocks));
+    }
+
+    // line 2
+    public function block_title($context, array $blocks = array())
+    {
+        echo "Importation de fchier excel";
     }
 
     // line 3
@@ -59,37 +66,32 @@ class __TwigTemplate_644f0d1fd33d0f5a9c1cc624d77a3a21 extends Twig_Template
         // line 18
         if ((!array_key_exists("xls", $context))) {
             // line 19
-            echo "<div class=\"well\">
+            echo "
 
     <form id=\"fileupload\" action = \"";
             // line 21
             echo twig_escape_filter($this->env, $this->env->getExtension('routing')->getPath("Inra2013Bundle_UploadFile"), "html", null, true);
             echo "\"  enctype=\"multipart/form-data\" method=\"POST\">
         <!-- Redirect browsers with JavaScript disabled to the origin page -->
+<div class=\"well\">
+    
+   <ul class=\"thumbnails\">
+  <li class=\"span4\">
+    <a href=\"#\" class=\"thumbnail\">
+      <img data-src=\"holder.js/300x200\" alt=\"\">
+    </a>
+  </li>
 
+</ul>
         <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
         <div class=\"row fileupload-buttonbar\">
             <div class=\"span9\">
                 <!-- The fileinput-button span is used to style the file input field as button -->
-                <span class=\"btn btn-success fileinput-button\">
+                <span style=\"margin-left: 10px\" class=\"btn btn-success fileinput-button\">
                     <i class=\"icon-plus icon-white\"></i>
-                    <span>Ajouter fichier csv</span>
-                    <input type=\"file\" name=\"files\" >
+                    <span >Ajouter fichier csv</span>
+                    <input type=\"file\" id=\"fileElem\" name=\"files\" onchange=\"handleFiles(this.files)\" >
                 </span>
-
-                <button type=\"submit\" class=\"btn btn-primary start\">
-                    <i class=\"icon-upload icon-white\"></i>
-                    <span>Start upload</span>
-                </button>
-                <button type=\"reset\" class=\"btn btn-warning cancel\">
-                    <i class=\"icon-ban-circle icon-white\"></i>
-                    <span>Cancel upload</span>
-                </button>
-                <button type=\"button\" class=\"btn btn-danger delete\">
-                    <i class=\"icon-trash icon-white\"></i>
-                    <span>Delete</span>
-                </button>
-                <input type=\"checkbox\" class=\"toggle\">
             </div>
             <!-- The global progress information -->
             <div class=\"span5 fileupload-progress fade\">
@@ -106,28 +108,73 @@ class __TwigTemplate_644f0d1fd33d0f5a9c1cc624d77a3a21 extends Twig_Template
         <br>
         <!-- The table listing the files available for upload/download -->
         <table role=\"presentation\" class=\"table table-striped\"><tbody class=\"files\" data-toggle=\"modal-gallery\" data-target=\"#modal-gallery\"></tbody></table>
+        </div>
+ 
+    <div id=\"mon_element\">
+      
+    </div>
     </form>
     <br>
 
-</div>
+
 
   ";
         } else {
             // line 69
-            echo "<div class=\"alert alert-info\">Prévisualisation des données à insérer</div>
+            echo "    <div class=\"alert alert-info\">Prévisualisation des données à insérer</div>
 
-<form  action=\"";
+    <form  action=\"";
             // line 71
             echo twig_escape_filter($this->env, $this->env->getExtension('routing')->getPath("Inra2013Bundle_SaveFile"), "html", null, true);
             echo "\" method=\"POST\" >
 
-    <table class=\"table table-striped\">
+        <table class=\"table table-striped\">
 
-
-
+        ";
+            // line 75
+            $context['_parent'] = (array) $context;
+            $context['_seq'] = twig_ensure_traversable($this->getAttribute((isset($context["xls"]) ? $context["xls"] : $this->getContext($context, "xls")), "getRowIterator", array(), "method"));
+            foreach ($context['_seq'] as $context["_key"] => $context["cell"]) {
+                echo " 
 
 ";
-            // line 78
+                // line 77
+                if (($this->getAttribute((isset($context["cell"]) ? $context["cell"] : $this->getContext($context, "cell")), "getRowIndex", array(), "method") == 1)) {
+                    // line 78
+                    echo "            <thead> <tr>  
+         ";
+                    // line 79
+                    $context['_parent'] = (array) $context;
+                    $context['_seq'] = twig_ensure_traversable($this->getAttribute((isset($context["cell"]) ? $context["cell"] : $this->getContext($context, "cell")), "getCellIterator", array(), "method"));
+                    foreach ($context['_seq'] as $context["_key"] => $context["liste"]) {
+                        echo "   
+                            <th>";
+                        // line 80
+                        echo twig_escape_filter($this->env, $this->getAttribute((isset($context["liste"]) ? $context["liste"] : $this->getContext($context, "liste")), "getValue", array(), "method"), "html", null, true);
+                        echo "</th>
+
+        ";
+                    }
+                    $_parent = $context['_parent'];
+                    unset($context['_seq'], $context['_iterated'], $context['_key'], $context['liste'], $context['_parent'], $context['loop']);
+                    $context = array_merge($_parent, array_intersect_key($context, $_parent));
+                    // line 83
+                    echo "                        </tr></thead>
+
+
+ ";
+                }
+                // line 87
+                echo "
+        ";
+            }
+            $_parent = $context['_parent'];
+            unset($context['_seq'], $context['_iterated'], $context['_key'], $context['cell'], $context['_parent'], $context['loop']);
+            $context = array_merge($_parent, array_intersect_key($context, $_parent));
+            // line 89
+            echo "
+";
+            // line 90
             $context['_parent'] = (array) $context;
             $context['_seq'] = twig_ensure_traversable($this->getAttribute((isset($context["xls"]) ? $context["xls"] : $this->getContext($context, "xls")), "getRowIterator", array(), "method"));
             $context['loop'] = array(
@@ -144,98 +191,68 @@ class __TwigTemplate_644f0d1fd33d0f5a9c1cc624d77a3a21 extends Twig_Template
                 $context['loop']['last'] = 1 === $length;
             }
             foreach ($context['_seq'] as $context["_key"] => $context["liste"]) {
-                // line 79
+                // line 91
                 echo "
-        <tr>
+                    <tr>
 
-        ";
-                // line 82
-                $context['_parent'] = (array) $context;
-                $context['_seq'] = twig_ensure_traversable($this->getAttribute((isset($context["liste"]) ? $context["liste"] : $this->getContext($context, "liste")), "getCellIterator", array(), "method"));
-                foreach ($context['_seq'] as $context["_key"] => $context["cell"]) {
-                    echo " 
-
-";
-                    // line 84
-                    if (($this->getAttribute((isset($context["liste"]) ? $context["liste"] : $this->getContext($context, "liste")), "getRowIndex", array(), "method") == 1)) {
-                        // line 85
-                        echo "            <td>";
-                        echo twig_escape_filter($this->env, $this->getAttribute((isset($context["cell"]) ? $context["cell"] : $this->getContext($context, "cell")), "getValue", array(), "method"), "html", null, true);
-                        echo "</td>
-
-
-
-
- ";
-                    }
-                    // line 91
-                    echo "        ";
-                }
-                $_parent = $context['_parent'];
-                unset($context['_seq'], $context['_iterated'], $context['_key'], $context['cell'], $context['_parent'], $context['loop']);
-                $context = array_merge($_parent, array_intersect_key($context, $_parent));
-                // line 92
-                echo "        </tr>
-
-        <tr >
     ";
-                // line 95
-                if (($this->getAttribute((isset($context["loop"]) ? $context["loop"] : $this->getContext($context, "loop")), "index") < 10)) {
+                // line 94
+                if (($this->getAttribute((isset($context["loop"]) ? $context["loop"] : $this->getContext($context, "loop")), "index") < 15)) {
                     echo " ";
                     echo "  
 
 ";
-                    // line 97
+                    // line 96
                     $context['_parent'] = (array) $context;
                     $context['_seq'] = twig_ensure_traversable($this->getAttribute((isset($context["liste"]) ? $context["liste"] : $this->getContext($context, "liste")), "getCellIterator", array(), "method"));
                     foreach ($context['_seq'] as $context["_key"] => $context["cell"]) {
-                        // line 98
+                        // line 97
                         echo "
 ";
-                        // line 99
+                        // line 98
                         if (($this->getAttribute((isset($context["liste"]) ? $context["liste"] : $this->getContext($context, "liste")), "getRowIndex", array(), "method") != 1)) {
-                            // line 100
-                            echo "        ";
+                            echo " 
+        ";
+                            // line 99
                             if ((($this->getAttribute((isset($context["cell"]) ? $context["cell"] : $this->getContext($context, "cell")), "getColumn", array(), "method") == "I") || ($this->getAttribute((isset($context["cell"]) ? $context["cell"] : $this->getContext($context, "cell")), "getColumn", array(), "method") == "J"))) {
-                                // line 101
-                                echo "                <td>";
+                                // line 100
+                                echo "                        <td>";
                                 echo twig_escape_filter($this->env, $this->getAttribute((isset($context["cell"]) ? $context["cell"] : $this->getContext($context, "cell")), "getCalculatedValue", array(), "method"), "html", null, true);
                                 echo "</td> ";
-                                // line 102
+                                // line 101
                                 echo "        ";
                             } elseif ((($this->getAttribute((isset($context["cell"]) ? $context["cell"] : $this->getContext($context, "cell")), "getColumn", array(), "method") == "G") || ($this->getAttribute((isset($context["cell"]) ? $context["cell"] : $this->getContext($context, "cell")), "getColumn", array(), "method") == "H"))) {
-                                // line 103
+                                // line 102
                                 echo "
-                <td>";
-                                // line 104
+                        <td>";
+                                // line 103
                                 echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute($this->getAttribute((isset($context["xls"]) ? $context["xls"] : $this->getContext($context, "xls")), "getStyle", array(0 => "G1"), "method"), "getNumberFormat", array(), "method"), "toFormattedString", array(0 => $this->getAttribute((isset($context["cell"]) ? $context["cell"] : $this->getContext($context, "cell")), "getValue", array(), "method"), 1 => "M/D/YYYY"), "method"), "html", null, true);
                                 echo "</td> ";
-                                // line 105
+                                // line 104
                                 echo "
 ";
                             } else {
-                                // line 107
-                                echo "                <td>";
+                                // line 106
+                                echo "                        <td>";
                                 echo twig_escape_filter($this->env, $this->getAttribute((isset($context["cell"]) ? $context["cell"] : $this->getContext($context, "cell")), "getValue", array(), "method"), "html", null, true);
                                 echo "</td>
         ";
                             }
-                            // line 109
+                            // line 108
                             echo "
-
  ";
                         }
                     }
                     $_parent = $context['_parent'];
                     unset($context['_seq'], $context['_iterated'], $context['_key'], $context['cell'], $context['_parent'], $context['loop']);
                     $context = array_merge($_parent, array_intersect_key($context, $_parent));
-                    // line 113
+                    // line 111
                     echo "
         ";
                 }
-                // line 115
+                // line 113
                 echo "
-            </tr>
+
 ";
                 ++$context['loop']['index0'];
                 ++$context['loop']['index'];
@@ -249,25 +266,27 @@ class __TwigTemplate_644f0d1fd33d0f5a9c1cc624d77a3a21 extends Twig_Template
             $_parent = $context['_parent'];
             unset($context['_seq'], $context['_iterated'], $context['_key'], $context['liste'], $context['_parent'], $context['loop']);
             $context = array_merge($_parent, array_intersect_key($context, $_parent));
-            // line 118
+            // line 116
             echo "
 
 
-        </table> 
+                    </tr>
+                </table> 
 
-        <input type=\"hidden\" name=\"files\" value=\"";
-            // line 123
+                <input type=\"hidden\" name=\"files\" value=\"";
+            // line 122
             echo twig_escape_filter($this->env, (isset($context["file"]) ? $context["file"] : $this->getContext($context, "file")), "html", null, true);
             echo "\"/>
-        <input type=\"submit\" class=\"btn btn-danger\" value=\"Cancel\" />
+                <input type=\"submit\" class=\"btn btn-danger\" value=\"Cancel\" />
 
-        <input type=\"submit\" class=\"btn btn-primary\" value=\"Enregistrer\" />
+                <input type=\"submit\" class=\"btn btn-primary\" value=\"Enregistrer\"  />
 
-    </form> 
+            </form> 
   ";
         }
-        // line 130
+        // line 129
         echo "
+
 ";
     }
 
@@ -276,21 +295,31 @@ class __TwigTemplate_644f0d1fd33d0f5a9c1cc624d77a3a21 extends Twig_Template
     {
         // line 134
         echo "
+            <script type=\"text/javascript\">
+
+             function handleFiles(files) {
+              if (!files[0].length) {
+                fileList.innerHTML = \"<p>No files selected!</p>\";
+              } else {
+
+var texte =\"<table class='table table-striped'><tbody><tr><td><img height='40' width='40' src='";
+        // line 142
+        echo twig_escape_filter($this->env, $this->env->getExtension('assets')->getAssetUrl("img/icone_excel.jpg"), "html", null, true);
+        echo "'</td><td>\"+files[0].name+\"</td><td>\"+files[0].size+\"</td><td><button type='submit' class='btn btn-primary start'><i class='icon-upload icon-white'></i><span>Start upload</span></button></td><td><button type='reset' class='btn btn-warning cancel'><i class='icon-ban-circle icon-white'></i><span>Cancel upload</span> </button></td></tr></tbody></table>\";
+      
+                    \$('#mon_element').html(texte);
+      
+                }
+                fileList.appendChild(list);
+ 
+            }
+
+                </script>
 
 
-    <!--
-    <!-- The Templates plugin is included to render the upload/download listings
-    <script src=\"http://blueimp.github.com/JavaScript-Templates/tmpl.min.js\"></script> -->
-    <!-- The Load Image plugin is included for the preview images and image resizing functionality 
-    <script src=\"http://blueimp.github.com/JavaScript-Load-Image/load-image.min.js\"></script>
-     The Canvas to Blob plugin is included for image resizing functionality
-    <script src=\"http://blueimp.github.com/JavaScript-Canvas-to-Blob/canvas-to-blob.min.js\"></script> -->
-    <!-- Bootstrap JS and Bootstrap Image Gallery are not required, but included for the demo 
-    <script src=\"http://blueimp.github.com/cdn/js/bootstrap.min.js\"></script>
-    <script src=\"http://blueimp.github.com/Bootstrap-Image-Gallery/js/bootstrap-image-gallery.min.js\"></script>-->
-    <!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
 
 
+            
 
 ";
     }
@@ -307,6 +336,6 @@ class __TwigTemplate_644f0d1fd33d0f5a9c1cc624d77a3a21 extends Twig_Template
 
     public function getDebugInfo()
     {
-        return array (  278 => 134,  275 => 133,  270 => 130,  260 => 123,  253 => 118,  237 => 115,  233 => 113,  224 => 109,  218 => 107,  214 => 105,  211 => 104,  208 => 103,  205 => 102,  201 => 101,  198 => 100,  196 => 99,  193 => 98,  189 => 97,  183 => 95,  178 => 92,  172 => 91,  162 => 85,  160 => 84,  153 => 82,  148 => 79,  131 => 78,  121 => 71,  117 => 69,  66 => 21,  62 => 19,  60 => 18,  56 => 16,  48 => 10,  46 => 9,  43 => 8,  40 => 7,  33 => 4,  30 => 3,);
+        return array (  307 => 142,  297 => 134,  294 => 133,  288 => 129,  278 => 122,  254 => 113,  250 => 111,  242 => 108,  236 => 106,  232 => 104,  229 => 103,  226 => 102,  223 => 101,  219 => 100,  217 => 99,  213 => 98,  206 => 96,  200 => 94,  195 => 91,  175 => 89,  142 => 77,  128 => 71,  124 => 69,  53 => 9,  40 => 4,  69 => 19,  210 => 97,  199 => 61,  193 => 60,  182 => 54,  179 => 53,  174 => 8,  168 => 87,  110 => 43,  56 => 16,  23 => 3,  49 => 10,  20 => 1,  301 => 100,  295 => 96,  292 => 95,  289 => 94,  287 => 93,  282 => 90,  276 => 86,  273 => 85,  270 => 116,  268 => 83,  263 => 80,  249 => 79,  245 => 77,  230 => 75,  222 => 73,  220 => 72,  215 => 80,  211 => 69,  204 => 66,  198 => 63,  185 => 61,  183 => 60,  177 => 58,  160 => 80,  112 => 42,  82 => 30,  65 => 16,  38 => 4,  144 => 78,  141 => 66,  135 => 75,  126 => 45,  109 => 41,  103 => 34,  67 => 18,  61 => 16,  47 => 7,  105 => 41,  93 => 34,  76 => 22,  72 => 14,  68 => 12,  27 => 4,  225 => 96,  216 => 90,  212 => 88,  205 => 84,  201 => 83,  196 => 80,  194 => 62,  191 => 78,  189 => 59,  186 => 76,  180 => 72,  172 => 67,  159 => 61,  154 => 59,  147 => 79,  132 => 48,  127 => 49,  121 => 45,  118 => 47,  114 => 45,  104 => 36,  100 => 33,  78 => 25,  75 => 23,  71 => 19,  58 => 17,  34 => 5,  91 => 20,  84 => 28,  94 => 39,  88 => 27,  79 => 23,  59 => 16,  26 => 2,  21 => 2,  28 => 3,  24 => 6,  44 => 9,  31 => 2,  25 => 3,  19 => 1,  70 => 22,  63 => 16,  46 => 12,  22 => 1,  163 => 63,  155 => 58,  152 => 49,  149 => 72,  145 => 46,  139 => 53,  131 => 42,  123 => 47,  120 => 46,  115 => 39,  106 => 35,  101 => 36,  96 => 21,  83 => 18,  80 => 29,  74 => 16,  66 => 21,  55 => 10,  52 => 15,  50 => 8,  43 => 7,  41 => 9,  37 => 3,  35 => 3,  32 => 7,  29 => 2,  184 => 70,  178 => 90,  171 => 62,  165 => 58,  162 => 83,  157 => 56,  153 => 80,  151 => 73,  143 => 54,  138 => 51,  136 => 52,  133 => 43,  130 => 47,  122 => 48,  119 => 36,  116 => 35,  111 => 38,  108 => 42,  102 => 30,  98 => 22,  95 => 34,  92 => 28,  89 => 19,  85 => 27,  81 => 40,  73 => 21,  64 => 17,  60 => 17,  57 => 17,  54 => 12,  51 => 12,  48 => 9,  45 => 9,  42 => 8,  39 => 5,  36 => 4,  33 => 3,  30 => 3,);
     }
 }
