@@ -1,0 +1,17 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}Bienvenue Administrateur{% endblock %}
+
+{%block menu %}
+<div class="well" >
+    <ul class="nav nav-list">
+        <li class="active"><a href="Inra2013urzBundle:Default:IndexAdmin.html.twig"><i class="icon-home icon-white"></i> Home</a></li>
+        <li><a href={{ path("Inra2013urzBundle_ShowAgent",{'Default':'Default'}) }}><i class="icon-user"></i>Liste des agents</a></li>
+        <li><a href={{ path("Inra2013urzBundle_CreateAgent") }}><i class="icon-user"></i>Crée un agent</a></li>
+        <li><a href="#"><i class="icon-pencil"></i> Applications</a></li>
+        <li><a href="#"><i class="i"></i> Misc</a></li>
+    </ul>
+</div>
+{%endblock%}
+
+{% block body %} <h5>Vous êtes dans la partie chercheur</h5>{%endblock %}

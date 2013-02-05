@@ -53,13 +53,13 @@ class GestionFichierController extends Controller {
                 }
             }
             /*             * On regarde si le fichier est aux bon format qui est le csv(text/csv)* */ else {
- 
+
                 $sheet = $this->ReadExcelAction($_FILES);
-              
+
                 $tmp_name = $_FILES['files']["tmp_name"];
-                          
-                move_uploaded_file($tmp_name, $this->path . "/" . $_FILES['files']['name']); /**On bouge le fichier dans la section Resources/Upload pour pourvoir l utilisé pour l'enregistrement**/
-       
+
+                move_uploaded_file($tmp_name, $this->path . "/" . $_FILES['files']['name']); /*                 * On bouge le fichier dans la section Resources/Upload pour pourvoir l utilisé pour l'enregistrement* */
+
                 return $this->render("Inra2013urzBundle:Default:edit.html.twig", array('xls' => $sheet, 'file' => $_FILES['files']['name']));
             }
         }
@@ -85,7 +85,6 @@ class GestionFichierController extends Controller {
         $page = 0;
         $sheet = $excelObj->getSheet($page);
         return $sheet;
-
     }
 
     /**
@@ -105,52 +104,115 @@ class GestionFichierController extends Controller {
 
         foreach ($sheet->getRowIterator() as $row) {
             $Analyse[$i] = new Analyse();
-           
-      // On prend pas la première ligne du tableau,c'est les titre du tableau
-           
+
+            // On prend pas la première ligne du tableau,c'est les titre du tableau
+
             foreach ($row->getCellIterator() as $cell) {
-             
-      if($row->getRowIndex() != 1 )  {   
-                if ($cell->getColumn() == 'A') {
 
-                    $rest = substr($cell->getValue(), -4);
-                    $Analyse[$i]->setCodeLabo($rest);
-                    
-                } elseif ($cell->getColumn() == 'B') {
+                if ($row->getRowIndex() != 1) {
+                    if ($cell->getColumn() == 'A') {
 
-                    $Animal = $cell->getValue();             
-                    $Analyse[$i]->setAnimal($Animal);
-                    
-                } elseif ($cell->getColumn() == 'G') {
+                        $rest = substr($cell->getValue(), -4);
+                        $Analyse[$i]->setCodeLabo($rest);
+                    } elseif ($cell->getColumn() == 'B') {
 
-                    if ($cell->getValue() != "Date prvt") {
-                        
-                        $date = $sheet->getStyle('G1')->getNumberFormat()->toFormattedString($cell->getValue(), "M/D/YYYY"); //Etant donné que le format récuperé est un float,on utilise cette fonction pour le mettre aux format date
-                        $Analyse[$i]->setDatePrelev(new \DateTime($date));
+                        $Animal = $cell->getValue();
+                        $Analyse[$i]->setAnimal($Animal);
+                    } elseif ($cell->getColumn() == 'G') {
+
+                        if ($cell->getValue() != "Date prvt") {
+
+                            $date = $sheet->getStyle('G1')->getNumberFormat()->toFormattedString($cell->getValue(), "M/D/YYYY"); //Etant donné que le format récuperé est un float,on utilise cette fonction pour le mettre aux format date
+                            $Analyse[$i]->setDatePrelev(new \DateTime($date));
+                        }
+                    } elseif ($cell->getColumn() == 'H') {
+
+                        if ($cell->getValue() != "Date analyse") {
+
+                            $dateAnalyse = $sheet->getStyle('H1')->getNumberFormat()->toFormattedString($cell->getValue(), "M/D/YYYY"); //Etant donné que le format récuperé est un float,on utilise cette fonction pour le mettre aux format date
+                            $Analyse[$i]->setDateAnalyse(new \DateTime($dateAnalyse));
+                        }
                     }
-                } elseif ($cell->getColumn() == 'H') {
 
-                    if ($cell->getValue() != "Date analyse") {
-                        
-                        $dateAnalyse = $sheet->getStyle('H1')->getNumberFormat()->toFormattedString($cell->getValue(), "M/D/YYYY");//Etant donné que le format récuperé est un float,on utilise cette fonction pour le mettre aux format date
-                        $Analyse[$i]->setDateAnalyse(new \DateTime($dateAnalyse));
-                        
-                    }
+                    $em->persist($Analyse[$i]); //on persist l'objet analyse
                 }
-
-                $em->persist($Analyse[$i]); //on persist l'objet analyse
-                
-                 }
             }
 
             $i++;
             $em->flush(); //on sauvegarde dans la base
-            
+            /* faut que je supprime le fichier uploader et enregistrer sur le serveur* */
         }
 
-    return $this->render('Inra2013urzBundle:Default:edit.html.twig',array("Status"=>"Enregistrement"));
-    
-    
+        return $this->render('Inra2013urzBundle:Default:edit.html.twig', array("Status" => "Enregistrement"));
+    }
+
+    /**
+     * Description of CreateExcelAction
+     * Permet de creer un fichier excel pour l'importation 
+     * @param $file : fichier upload 
+     * @author BEBEL Jean Raynal
+     */
+    public function CreateExcelAction() {
+
+        $excelService = $this->get('xls.service_xls5');
+        
+        /*         * Creation des variable pour les titres** */
+        $A = "CodeLabo";
+        $B = "N° Protocol";
+        $C = "Nature";
+        $D = "Type";
+        $E = "Espèce Animal";
+        $F = "Espèce vegetale";
+        $G = "Identification Animale";
+        $H = "Traitement ou régime";
+        $I = "Date de prélèvement";
+        $J = "Analyse à faire";
+
+        /*         * Creation des variables pour la description du fichier* */
+
+        $Auteur = "Jean Raynal BEBEL";
+        $Title = "Un titre quelconque";
+        $Subject = "Teste document";
+        $Description = "Description test";
+        $NameFile = "Essai";
+
+
+        /*         * Un peut de style dans les cellules qui contient les titres les obligatoire seront en vet et les optionnels * */
+        
+        $excelService->excelObj->getActiveSheet()->getStyle('A1')->getFont()->getColor()->setARGB("FF00FF00");
+
+        // create the object see http://phpexcel.codeplex.com documentation
+        $excelService->excelObj->getProperties()->setCreator($Auteur)
+                ->setLastModifiedBy($Auteur)
+                ->setTitle($Title)
+                ->setSubject($Subject)
+                ->setDescription($Description);
+        // ->setKeywords("office 2005 openxml php")
+        //->setCategory("Test result file");
+        $excelService->excelObj->setActiveSheetIndex(0)
+                ->setCellValue('A1', $A)
+                ->setCellValue('B1', $B)
+                ->setCellValue('C1', $C)
+                ->setCellValue('D1', $D)
+                ->setCellValue('E1', $E)
+                ->setCellValue('F1', $F)
+                ->setCellValue('G1', $G)
+                ->setCellValue('H1', $H)
+                ->setCellValue('I1', $I)
+                ->setCellValue('J1', $J);
+        $excelService->excelObj->getActiveSheet()->setTitle('Simple');
+        // Set active sheet index to the first sheet, so Excel opens this as the first sheet
+        $excelService->excelObj->setActiveSheetIndex(0);
+
+        //create the response
+        $response = $excelService->getResponse();
+        $response->headers->set('Content-Type', 'text/vnd.ms-excel; charset=utf-8');
+        $response->headers->set('Content-Disposition', 'attachment;filename=' . $NameFile . '.xls');
+
+        // If you are using a https connection, you have to set those two headers for compatibility with IE <9
+        $response->headers->set('Pragma', 'public');
+        $response->headers->set('Cache-Control', 'maxage=1');
+        return $response;
     }
 
 }

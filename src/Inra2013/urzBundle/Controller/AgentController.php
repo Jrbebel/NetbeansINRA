@@ -38,7 +38,7 @@ class AgentController extends Controller {
         $user = $userManager->findUsers();
         $pagination = $paginator->paginate($user, $this->get('request')->query->get('page', 1)/* page number */, 10/* limit per page */
         );
-  
+
         return $this->render('Inra2013urzBundle:Registration:ListeAgent.html.twig', array('liste_user' => $user, 'Status' => $default, "pagination" => $pagination));
     }
 
@@ -127,22 +127,31 @@ class AgentController extends Controller {
 
         $user = $this->container->get('security.context')->getToken()->getUser()->getFonction(); // on récupere la fonction de l'utilisateur connecté
 
-        if ($this->get('security.context')->isGranted('ROLE_SUPER_ADMIN')) {
+        if ($this->get('security.context')->isGranted('ROLE_ADMINISTRATEUR')) {
 
-            // return $this->redirect($this->generateUrl('Inra2013urzBundle_Homepage'));
+          
             return $this->render("Inra2013urzBundle:Default:IndexAdmin.html.twig");
-        } elseif ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
+            
+        } elseif ($this->get('security.context')->isGranted('ROLE_RESPONSABLE')) {
 
             if ($user == "Laborantin(e)") {
 
                 return $this->render("Inra2013urzBundle:Default:IndexResponsable.html.twig");
+                
             } else if ($user == "Chercheur") {
 
                 return new Response('je suis chercheur');
             }
-        } elseif ($this->get('security.context')->isGranted('ROLE_USER')) {
+        } elseif ($this->get('security.context')->isGranted('ROLE_UTILISATEUR')) {
+            
+            if ($user == "Laborantin(e)") {
 
-            return $this->render("Inra2013urzBundle:Default:IndexUser.html.twig");
+                return $this->render("Inra2013urzBundle:Default:IndexUser.html.twig");
+                
+            } else if ($user == "Chercheur") {
+
+                return $this->render("Inra2013urzBundle:Default:IndexChercheur.html.twig");
+            }
         }
     }
 

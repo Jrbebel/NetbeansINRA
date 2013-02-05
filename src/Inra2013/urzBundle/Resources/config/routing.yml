@@ -51,7 +51,14 @@ Inra2013Bundle_UploadFile:
     pattern: /User/UploadFile
     defaults: { _controller: Inra2013urzBundle:GestionFichier:Upload }
     
+    #Chemin pour la sauvegarde du fichier excel dans la base de données
     
 Inra2013Bundle_SaveFile:
    pattern : /User/SaveFile
-   defaults: { _controller : Inra2013urzBundle:GestionFichier:SaveExcel}
+   defaults: { _controller : Inra2013urzBundle:GestionFichier:SaveExcel }
+   
+   # Chemin pour la création du fichier excel 
+   
+Inra2103Bundle_CreateExcel:
+  pattern: /User/CreateExcel
+  defaults: { _controller : Inra2013urzBundle:GestionFichier:CreateExcel }

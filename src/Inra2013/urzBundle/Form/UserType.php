@@ -22,7 +22,7 @@ class UserType extends BaseType {
                 ->add('Prenom',"text")
                 ->add('Telephone',"text")
                 ->add('Fonction',"text")
-                ->add('Roles', 'choice', array('choices' => array('ROLE_SUPER_ADMIN' => 'Administrateur', 'ROLE_ADMIN' => 'Responsable', 'ROLE_USER' => 'Utilisateur'), 'multiple' => true))
+                ->add('Roles', 'choice', array('choices' => array('ROLE_ADMINISTRATEUR' => 'Administrateur', 'ROLE_RESPONSABLE' => 'Responsable', 'ROLE_UTILISATEUR' => 'Utilisateur'), 'multiple' => true))
         ;
     }
 
