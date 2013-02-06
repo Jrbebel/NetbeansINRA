@@ -155,18 +155,35 @@ class GestionFichierController extends Controller {
     public function CreateExcelAction() {
 
         $excelService = $this->get('xls.service_xls5');
-        
-        /*         * Creation des variable pour les titres** */
+
+        /*         * Creation des variable pour les titres obligatoires** */
         $A = "CodeLabo";
         $B = "N° Protocol";
         $C = "Nature";
         $D = "Type";
         $E = "Espèce Animal";
-        $F = "Espèce vegetale";
-        $G = "Identification Animale";
+        $F = "Espèce végetale";
+        $G = "Identif Animale";
         $H = "Traitement ou régime";
-        $I = "Date de prélèvement";
+        $I = "Date de prélèvt";
         $J = "Analyse à faire";
+        /*         * Limite du debut et de la fin des champs obligatoire** */
+        $LimiteDebutObli = "A";
+        $LimiteFinObli = "J";
+        /*         * Couleur des champs obligatoire* */
+        $ColorObli = "ebf2df";
+
+        /* Création des variables pour les titres optionnels* */
+
+        $K = "Période";
+        $L = "Taille du broyage";
+        $M = "Lot";
+        $N = "Groupe";
+        /*         * Limite de dubut et de la fin des champs optionnels* */
+        $LimiteDebutOpt = "K";
+        $LimiteFinOpt = "N";
+        /*         * Couleur des champs optionnels* */
+        $ColorOpti = "ededed";
 
         /*         * Creation des variables pour la description du fichier* */
 
@@ -175,11 +192,40 @@ class GestionFichierController extends Controller {
         $Subject = "Teste document";
         $Description = "Description test";
         $NameFile = "Essai";
+        /*         * Propriété pour la hauteur de la cellule,par default c'est la première ligne.pour modification des celle ci mettre argument dans la fct getRowDimension() */
+        $pts = 24; //hauteur de la cellule exprimé en point
+        $excelService->excelObj->getActiveSheet()->getRowDimension()->setRowHeight($pts);
 
 
         /*         * Un peut de style dans les cellules qui contient les titres les obligatoire seront en vet et les optionnels * */
-        
-        $excelService->excelObj->getActiveSheet()->getStyle('A1')->getFont()->getColor()->setARGB("FF00FF00");
+        /*         * Pour les champs obligatoires* */
+        foreach (range($LimiteDebutObli, $LimiteFinObli) as $i) { //Boucle jusqu'a J pour applique le style
+            //  $excelService->excelObj->getActiveSheet()->getStyle($i.'1' )->getProtection()->setLocked('PROTECTION_PROTECTED');
+            $excelService->excelObj->getActiveSheet()->getColumnDimension($i)->setAutoSize(true); //autosize pour les colonnes
+            $excelService->excelObj->getActiveSheet()->getStyle($i . '1')->applyFromArray(
+                    array('fill' =>
+                        array('type' => "solid", 'color' =>
+                            array('rgb' => $ColorObli)
+                        ), 'font' => array('bold' => true)
+                    )
+            );
+            $excelService->excelObj->getActiveSheet()->getStyle($i . '1')->getBorders()->getAllBorders()->setBorderStyle('medium');
+        }
+
+        /*         * Pour les champs optionnels* */
+
+        foreach (range($LimiteDebutOpt, $LimiteFinOpt) as $i) { //Boucle jusqu'a J pour applique le style
+            $excelService->excelObj->getActiveSheet()->getColumnDimension($i)->setAutoSize(true); //autosize pour les colonnes
+            $excelService->excelObj->getActiveSheet()->getStyle($i . '1')->applyFromArray(
+                    array('fill' =>
+                        array('type' => "solid", 'color' =>
+                            array('rgb' => $ColorOpti)
+                        ), 'font' => array('bold' => true)
+                    )
+            );
+            $excelService->excelObj->getActiveSheet()->getStyle($i . '1')->getBorders()->getAllBorders()->setBorderStyle('medium');
+        }
+
 
         // create the object see http://phpexcel.codeplex.com documentation
         $excelService->excelObj->getProperties()->setCreator($Auteur)
@@ -190,6 +236,7 @@ class GestionFichierController extends Controller {
         // ->setKeywords("office 2005 openxml php")
         //->setCategory("Test result file");
         $excelService->excelObj->setActiveSheetIndex(0)
+                /*                 * Valeur pour les champs obligatoires* */
                 ->setCellValue('A1', $A)
                 ->setCellValue('B1', $B)
                 ->setCellValue('C1', $C)
@@ -199,12 +246,28 @@ class GestionFichierController extends Controller {
                 ->setCellValue('G1', $G)
                 ->setCellValue('H1', $H)
                 ->setCellValue('I1', $I)
-                ->setCellValue('J1', $J);
-        $excelService->excelObj->getActiveSheet()->setTitle('Simple');
+                ->setCellValue('J1', $J)
+                /*                 * Valeur pour les champs optionnels* */
+                ->setCellValue('K1', $K)
+                ->setCellValue('L1', $L)
+                ->setCellValue('M1', $M)
+                ->setCellValue('N1', $N);
+
+
+
+        $excelService->excelObj->getActiveSheet()->setTitle('Eosino'); //nom de la page
         // Set active sheet index to the first sheet, so Excel opens this as the first sheet
-        $excelService->excelObj->setActiveSheetIndex(0);
+        // Set active sheet index to the first sheet, so Excel opens this as the first sheet
+
+  
+
+        $objWorkSheet = $excelService->excelObj->createSheet();
+        $excelService->excelObj->addSheet($objWorkSheet);
+        $objPHPExcel->setActiveSheetIndex(1);
+        $sheet->setTitle('PVC');
 
         //create the response
+
         $response = $excelService->getResponse();
         $response->headers->set('Content-Type', 'text/vnd.ms-excel; charset=utf-8');
         $response->headers->set('Content-Disposition', 'attachment;filename=' . $NameFile . '.xls');
