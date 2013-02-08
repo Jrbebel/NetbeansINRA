@@ -62,3 +62,11 @@ Inra2013Bundle_SaveFile:
 Inra2103Bundle_CreateExcel:
   pattern: /User/CreateExcel
   defaults: { _controller : Inra2013urzBundle:GestionFichier:CreateExcel }
+  
+  
+  #Chemin pour la recherche du protocole dans un input
+  
+Inra2013Bundle_SearchProtocole:
+   pattern: /Search/Protocole
+   defaults: { _controller : Inra2013urzBundle:Analyse:SearchProtocole }
+ 

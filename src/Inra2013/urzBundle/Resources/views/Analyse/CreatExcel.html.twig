@@ -1,0 +1,109 @@
+{% extends "Inra2013urzBundle:Default:IndexUser.html.twig" %}
+{% block title %}Exporter Fichier{% endblock %}
+{% block stylesheets %}
+<link rel="stylesheet" href="{{asset('css/C.css')}}" />
+{% endblock %}
+{% block body %}
+<div class="well">
+    <form class="form-search" action="{{path('Inra2013Bundle_SearchProtocole')}}" method="POST">
+        <label>Entrez votre protocole ?</label>
+        </br>
+
+        <input type="text" id="essao" name="essao" />
+        <input type="hidden" name="institut" id="institut" />
+        <button type="submit" class="btn">Search</button>
+    </form>
+</div>
+
+{% if protocole is defined %}
+    <form class="form-search" action="{{path('Inra2103Bundle_CreateExcel')}}" method="POST">
+
+<div class="alert alert-info">
+    <dl class="dl-horizontal">
+        <dt>Num Protocole : </dt>
+        <dd>{{protocole[0].id}}</dd>
+        <dt>Description : </dt>
+        <dd>{{protocole[0].NomProtocole}}</dd>
+        <dt>Dirigé par : </dt>
+        <dd>{{protocole[1].Nom}} {{protocole[1].Prenom}}</dd>
+        <dt>Date validation: </dt>
+        <dd>{{protocole[0].DateValidation | date("d M Y")}}</dd>
+        <dt>Analyse faite : </dt>
+        <dd>
+    {% for analyse in Analyse %}
+                
+                {{analyse.Nom}},
+                
+                {%endfor%}
+        
+        </dd>
+    </dl>
+        <input type="hidden" name="NumProtocole" value="{{protocole[0].id}}" />
+        <input type="submit"  value="Générer Fichier Excel" class="btn btn-primary" />
+</div>
+    </form>
+{% endif %}
+
+{%endblock%}
+
+{% block javascripts %}
+
+<script type="text/javascript" src="{{asset('js/jquery.ui.autocomplete.js')}}"></script
+<script type="text/javascript" src="{{asset('js/jquery-ui-1.10.0.custom.js')}}"></script>
+<script type="text/javascript" src="{{asset('js/jquery.ui.core.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('js/jquery.ui.position.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('js/jquery.ui.autocomplete_1.js')}}"></script>
+<script type="text/javascript" src="{{asset('js/jquery.ui.widget_1.js')}}"></script>
+
+
+<script type="text/javascript">
+
+       $(document).ready(function () {
+
+
+            $("#essao").autocomplete({
+     
+
+
+                source: function (request, response) {
+                    
+                    var id = $('#essao').val();
+                   
+                    var DATA = 'id=' + id;
+                    $.ajax({
+                        url: "{{ path('Inra2013Bundle_SearchProtocole') }}", 
+                        method: "POST",
+                        dataType: "json",
+                        data: DATA,
+                        success: function (data) {
+                         
+                            response($.map(data, function (item,i) {   console.log(item.id);
+                                return {                                   
+                         
+                                    value: item.id,
+                                    }
+                            }))
+                        }
+                    })
+                },
+                select: function (event, ui) {
+                   
+                    $('#institut').val( ui.item.id);
+                
+                },
+                change: function (event, ui) {
+                 
+                    $('#institut').val(ui.item.id);
+
+
+
+                }
+            });
+     
+      });
+     
+     
+      
+    </script>
+
+{% endblock %}

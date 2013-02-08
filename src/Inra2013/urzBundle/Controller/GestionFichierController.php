@@ -140,7 +140,7 @@ class GestionFichierController extends Controller {
 
             $i++;
             $em->flush(); //on sauvegarde dans la base
-            /* faut que je supprime le fichier uploader et enregistrer sur le serveur* */
+            /* faut que je supprime le fichier uploader qui est enregistrer sur le serveur* */
         }
 
         return $this->render('Inra2013urzBundle:Default:edit.html.twig', array("Status" => "Enregistrement"));
@@ -153,6 +153,11 @@ class GestionFichierController extends Controller {
      * @author BEBEL Jean Raynal
      */
     public function CreateExcelAction() {
+
+        if ($this->getRequest()->getMethod() == 'GET') {  //si c est un GET alors on affiche le formulaire de recherche de protocole
+            return $this->render('Inra2013urzBundle:Analyse:CreatExcel.html.twig');
+        } else if ($this->getRequest()->getMethod() == 'POST') // si c est un POST alors on traite la demande de creation de la fiche
+            $id = $this->get('request')->get('NumProtocole');
 
         $excelService = $this->get('xls.service_xls5');
 
@@ -235,36 +240,41 @@ class GestionFichierController extends Controller {
                 ->setDescription($Description);
         // ->setKeywords("office 2005 openxml php")
         //->setCategory("Test result file");
-        $excelService->excelObj->setActiveSheetIndex(0)
-                /*                 * Valeur pour les champs obligatoires* */
-                ->setCellValue('A1', $A)
-                ->setCellValue('B1', $B)
-                ->setCellValue('C1', $C)
-                ->setCellValue('D1', $D)
-                ->setCellValue('E1', $E)
-                ->setCellValue('F1', $F)
-                ->setCellValue('G1', $G)
-                ->setCellValue('H1', $H)
-                ->setCellValue('I1', $I)
-                ->setCellValue('J1', $J)
-                /*                 * Valeur pour les champs optionnels* */
-                ->setCellValue('K1', $K)
-                ->setCellValue('L1', $L)
-                ->setCellValue('M1', $M)
-                ->setCellValue('N1', $N);
+        $Protocole = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Protocole')->AnalyseProtocole($id);
+
+        foreach ($Protocole as $Resultat => $Key) {
+            $objWorkSheet[$Resultat] = $excelService->excelObj->createSheet();
+
+            $objWorkSheet[$Resultat]->setTitle($Key['Nom']);
+
+            $excelService->excelObj->setActiveSheetIndex($Resultat)
+                    /*                     * Valeur pour les champs obligatoires* */
+                    ->setCellValue('A1', $A)
+                    ->setCellValue('B1', $B)
+                    ->setCellValue('C1', $C)
+                    ->setCellValue('D1', $D)
+                    ->setCellValue('E1', $E)
+                    ->setCellValue('F1', $F)
+                    ->setCellValue('G1', $G)
+                    ->setCellValue('H1', $H)
+                    ->setCellValue('I1', $I)
+                    ->setCellValue('J1', $J)
+                    /*                     * Valeur pour les champs optionnels* */
+                    ->setCellValue('K1', $K)
+                    ->setCellValue('L1', $L)
+                    ->setCellValue('M1', $M)
+                    ->setCellValue('N1', $N);
+
+            /*             * *On recupère toute les resultats du protocole* */
 
 
 
-        $excelService->excelObj->getActiveSheet()->setTitle('Eosino'); //nom de la page
-        // Set active sheet index to the first sheet, so Excel opens this as the first sheet
-        // Set active sheet index to the first sheet, so Excel opens this as the first sheet
 
-  
+            /*             * Rajouter des feuilles au fichier excel* */
+        }
 
-        $objWorkSheet = $excelService->excelObj->createSheet();
-        $excelService->excelObj->addSheet($objWorkSheet);
-        $objPHPExcel->setActiveSheetIndex(1);
-        $sheet->setTitle('PVC');
+
+
 
         //create the response
 

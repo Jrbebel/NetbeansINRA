@@ -5,30 +5,28 @@ namespace Inra2013\urzBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Eosino
+ * AnaEosino
  *
  * @ORM\Table()
  * @ORM\Entity
  *
  */
-class Eosino
-{
-    
-       /**
+class AnaEosino {
+
+    /**
+     * @ORM\Id
      *  *@ORM\ManyToOne(targetEntity="Inra2013\urzBundle\Entity\Analyse")
      * @ORM\JoinColumn(name="CodeLabo", referencedColumnName="CodeLabo")
      */
     private $CodeLabo;
-    
+
+  
+
     /**
-     * @var integer
-      * 
+     *  *@ORM\ManyToOne(targetEntity="Inra2013\urzBundle\Entity\User")
      * 
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    private $User;
 
     /**
      * @var integer
@@ -44,14 +42,12 @@ class Eosino
      */
     private $Eosino_val;
 
-
     /**
      * Get id
      *
      * @return integer 
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -61,10 +57,9 @@ class Eosino
      * @param integer $eosinoLu
      * @return Eosino
      */
-    public function setEosinoLu($eosinoLu)
-    {
+    public function setEosinoLu($eosinoLu) {
         $this->Eosino_lu = $eosinoLu;
-    
+
         return $this;
     }
 
@@ -73,8 +68,7 @@ class Eosino
      *
      * @return integer 
      */
-    public function getEosinoLu()
-    {
+    public function getEosinoLu() {
         return $this->Eosino_lu;
     }
 
@@ -84,10 +78,9 @@ class Eosino
      * @param integer $eosinoVal
      * @return Eosino
      */
-    public function setEosinoVal($eosinoVal)
-    {
+    public function setEosinoVal($eosinoVal) {
         $this->Eosino_val = $eosinoVal;
-    
+
         return $this;
     }
 
@@ -96,8 +89,7 @@ class Eosino
      *
      * @return integer 
      */
-    public function getEosinoVal()
-    {
+    public function getEosinoVal() {
         return $this->Eosino_val;
     }
 
@@ -107,10 +99,9 @@ class Eosino
      * @param \Inra2013\urzBundle\Entity\Eosino $codeLabo
      * @return Eosino
      */
-    public function setCodeLabo(\Inra2013\urzBundle\Entity\Eosino $codeLabo = null)
-    {
+    public function setCodeLabo(\Inra2013\urzBundle\Entity\Eosino $codeLabo = null) {
         $this->CodeLabo = $codeLabo;
-    
+
         return $this;
     }
 
@@ -119,8 +110,8 @@ class Eosino
      *
      * @return \Inra2013\urzBundle\Entity\Eosino 
      */
-    public function getCodeLabo()
-    {
+    public function getCodeLabo() {
         return $this->CodeLabo;
     }
+
 }

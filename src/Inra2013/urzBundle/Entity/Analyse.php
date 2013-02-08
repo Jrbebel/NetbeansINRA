@@ -18,12 +18,12 @@ class Analyse {
      * @ORM\Column(name="CodeLabo", type="integer", length=255)
      */
     private $CodeLabo;
-
-    /**
-     *  *@ORM\ManyToOne(targetEntity="Inra2013\urzBundle\Entity\User")
+    
+     /**
+     *  *@ORM\ManyToOne(targetEntity="Inra2013\urzBundle\Entity\Protocole")
      * 
      */
-    private $User;
+    private $Protocole;
 
     /**
      *  *@ORM\ManyToOne(targetEntity="Inra2013\urzBundle\Entity\Animal")
@@ -256,5 +256,28 @@ class Analyse {
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set Protocole
+     *
+     * @param \Inra2013\urzBundle\Entity\Protocole $protocole
+     * @return Analyse
+     */
+    public function setProtocole(\Inra2013\urzBundle\Entity\Protocole $protocole = null)
+    {
+        $this->Protocole = $protocole;
+    
+        return $this;
+    }
+
+    /**
+     * Get Protocole
+     *
+     * @return \Inra2013\urzBundle\Entity\Protocole 
+     */
+    public function getProtocole()
+    {
+        return $this->Protocole;
     }
 }
