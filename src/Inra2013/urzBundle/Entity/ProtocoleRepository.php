@@ -53,6 +53,29 @@ class ProtocoleRepository extends EntityRepository {
         return $qb->getQuery()->getArrayResult();
     }
 
+    /**
+     * Description of CodeLaboProtocole
+     * Permet de retourner les code labo pour une analyse données(eosino,opg,...) sur un protocole donné .
+     * @author BEBEL Jean Raynal
+     */
+    public function CodeLaboProtocole($Type, $id) {
+
+        $from = "Inra2013urzBundle:Ana" . $Type;
+        $alias = "a";
+        $from1 = "Inra2013urzBundle:Analyse";
+        $alias1 = "c";
+
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('a')
+                ->from($from, $alias)
+                ->join($from1, $alias1)
+                ->where('c.Protocole =:id')
+                ->andWhere('a.CodeLabo = c.CodeLabo')
+                ->setParameter('id', $id);
+
+        return $qb->getQuery()->getResult();
+    }
+
 }
 
 ?>

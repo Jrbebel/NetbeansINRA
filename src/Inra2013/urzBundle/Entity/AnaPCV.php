@@ -64,4 +64,50 @@ class AnaPCV
     {
         return $this->Pcv;
     }
+
+    /**
+     * Set CodeLabo
+     *
+     * @param \Inra2013\urzBundle\Entity\Analyse $codeLabo
+     * @return AnaPCV
+     */
+    public function setCodeLabo(\Inra2013\urzBundle\Entity\Analyse $codeLabo)
+    {
+        $this->CodeLabo = $codeLabo;
+    
+        return $this;
+    }
+
+    /**
+     * Get CodeLabo
+     *
+     * @return \Inra2013\urzBundle\Entity\Analyse 
+     */
+    public function getCodeLabo()
+    {
+        return $this->CodeLabo;
+    }
+
+    /**
+     * Set User
+     *
+     * @param \Inra2013\urzBundle\Entity\User $user
+     * @return AnaPCV
+     */
+    public function setUser(\Inra2013\urzBundle\Entity\User $user = null)
+    {
+        $this->User = $user;
+    
+        return $this;
+    }
+
+    /**
+     * Get User
+     *
+     * @return \Inra2013\urzBundle\Entity\User 
+     */
+    public function getUser()
+    {
+        return $this->User;
+    }
 }

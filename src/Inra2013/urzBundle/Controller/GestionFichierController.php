@@ -199,39 +199,7 @@ class GestionFichierController extends Controller {
         $NameFile = "Essai";
         /*         * Propriété pour la hauteur de la cellule,par default c'est la première ligne.pour modification des celle ci mettre argument dans la fct getRowDimension() */
         $pts = 24; //hauteur de la cellule exprimé en point
-        $excelService->excelObj->getActiveSheet()->getRowDimension()->setRowHeight($pts);
-
-
-        /*         * Un peut de style dans les cellules qui contient les titres les obligatoire seront en vet et les optionnels * */
-        /*         * Pour les champs obligatoires* */
-        foreach (range($LimiteDebutObli, $LimiteFinObli) as $i) { //Boucle jusqu'a J pour applique le style
-            //  $excelService->excelObj->getActiveSheet()->getStyle($i.'1' )->getProtection()->setLocked('PROTECTION_PROTECTED');
-            $excelService->excelObj->getActiveSheet()->getColumnDimension($i)->setAutoSize(true); //autosize pour les colonnes
-            $excelService->excelObj->getActiveSheet()->getStyle($i . '1')->applyFromArray(
-                    array('fill' =>
-                        array('type' => "solid", 'color' =>
-                            array('rgb' => $ColorObli)
-                        ), 'font' => array('bold' => true)
-                    )
-            );
-            $excelService->excelObj->getActiveSheet()->getStyle($i . '1')->getBorders()->getAllBorders()->setBorderStyle('medium');
-        }
-
-        /*         * Pour les champs optionnels* */
-
-        foreach (range($LimiteDebutOpt, $LimiteFinOpt) as $i) { //Boucle jusqu'a J pour applique le style
-            $excelService->excelObj->getActiveSheet()->getColumnDimension($i)->setAutoSize(true); //autosize pour les colonnes
-            $excelService->excelObj->getActiveSheet()->getStyle($i . '1')->applyFromArray(
-                    array('fill' =>
-                        array('type' => "solid", 'color' =>
-                            array('rgb' => $ColorOpti)
-                        ), 'font' => array('bold' => true)
-                    )
-            );
-            $excelService->excelObj->getActiveSheet()->getStyle($i . '1')->getBorders()->getAllBorders()->setBorderStyle('medium');
-        }
-
-
+        //
         // create the object see http://phpexcel.codeplex.com documentation
         $excelService->excelObj->getProperties()->setCreator($Auteur)
                 ->setLastModifiedBy($Auteur)
@@ -243,10 +211,8 @@ class GestionFichierController extends Controller {
         $Protocole = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Protocole')->AnalyseProtocole($id);
 
         foreach ($Protocole as $Resultat => $Key) {
+
             $objWorkSheet[$Resultat] = $excelService->excelObj->createSheet();
-
-            $objWorkSheet[$Resultat]->setTitle($Key['Nom']);
-
             $excelService->excelObj->setActiveSheetIndex($Resultat)
                     /*                     * Valeur pour les champs obligatoires* */
                     ->setCellValue('A1', $A)
@@ -265,12 +231,101 @@ class GestionFichierController extends Controller {
                     ->setCellValue('M1', $M)
                     ->setCellValue('N1', $N);
 
-            /*             * *On recupère toute les resultats du protocole* */
+
+
+            /*             * On ajoute les valeurs de la BDD dans la fiche excel par rapport au numéro du protocole (Pour les champs allant de A à N )* */
+
+            $AnalyseProto = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Protocole')->CodeLaboProtocole($Key['Nom'], $id);
+            
+          
+
+            /*             * Les valeurs recuperer,on les met dans les champs prévu* */
+            foreach ($AnalyseProto as $i => $analyse) {
+     
+                $resultatA = "null";
+                $resultatB = "Null";
+                $resultatC = "Null";
+                $resultatD = "Null";
+                $resultatE = "Null";
+                $resultatF = "Null";
+                $resultatG = "null";
+                $resultatH = "Null";
+                $resultatI = "null";
+                $resultatJ = "Null";
+                $resultatK = "Null";
+                $resultatL = "Null";
+                $resultatM = "Null";
+                $resultatN = "Null";
+
+
+
+                /*                 * On commence a partir de la ligne 2,la première sont les titres* */
+
+                $excelService->excelObj->setActiveSheetIndex($Resultat)
+                        /*                         * Valeur pour les champs obligatoires* */
+                        ->setCellValue('A' . ($i + 2), $resultatA)
+                        ->setCellValue('B' . ($i + 2), $resultatB)
+                        ->setCellValue('C' . ($i + 2), $resultatC)
+                        ->setCellValue('D' . ($i + 2), $resultatD)
+                        ->setCellValue('E' . ($i + 2), $resultatE)
+                        ->setCellValue('F' . ($i + 2), $resultatF)
+                        ->setCellValue('G' . ($i + 2), $resultatG)
+                        ->setCellValue('H' . ($i + 2), $resultatH)
+                        ->setCellValue('I' . ($i + 2), $resultatI)
+                        ->setCellValue('J' . ($i + 2), $resultatJ)
+                        /*                         * Valeur pour les champs optionnels* */
+                        ->setCellValue('K' . ($i + 2), $resultatK)
+                        ->setCellValue('L' . ($i + 2), $resultatL)
+                        ->setCellValue('M' . ($i + 2), $resultatM)
+                        ->setCellValue('N' . ($i + 2), $resultatN);
+
+
+
+                $Type = "Cell" . $Key['Nom']; //ON AJOUTE LES CHAMPS PAR RAPPORT AU TYPE D ANALYSE TROUVÉ
+                $this->$Type($excelService->excelObj, $Resultat,$AnalyseProto);
+            }
 
 
 
 
-            /*             * Rajouter des feuilles au fichier excel* */
+
+
+            /*             * On creer les feuille pour les differentes analyse du protocole* */
+            $excelService->excelObj->getActiveSheet()->setTitle($Key['Nom']);
+
+            /*             * Un peut de style dans les cellules qui contient les titres les obligatoire seront en vert et les optionnels en gris * */
+
+            $excelService->excelObj->getActiveSheet()->getRowDimension()->setRowHeight($pts);
+            
+            /*             * Pour les champs obligatoires* */
+            foreach (range($LimiteDebutObli, $LimiteFinObli) as $i) { //Boucle jusqu'a J pour applique le style
+                //
+                //  $excelService->excelObj->getActiveSheet()->getStyle($i.'1' )->getProtection()->setLocked('PROTECTION_PROTECTED');
+                $excelService->excelObj->getActiveSheet()->getColumnDimension($i)->setAutoSize(true); //autosize pour les colonnes
+                $excelService->excelObj->getActiveSheet()->getStyle($i . '1')->applyFromArray(
+                        array('fill' =>
+                            array('type' => "solid", 'color' =>
+                                array('rgb' => $ColorObli)
+                            ), 'font' => array('bold' => true)
+                        )
+                );
+
+                $excelService->excelObj->getActiveSheet()->getStyle($i . '1')->getBorders()->getAllBorders()->setBorderStyle('medium');
+            }
+
+            /*             * Pour les champs optionnels* */
+
+            foreach (range($LimiteDebutOpt, $LimiteFinOpt) as $i) { //Boucle jusqu'a J pour applique le style
+                $excelService->excelObj->getActiveSheet()->getColumnDimension($i)->setAutoSize(true); //autosize pour les colonnes
+                $excelService->excelObj->getActiveSheet()->getStyle($i . '1')->applyFromArray(
+                        array('fill' =>
+                            array('type' => "solid", 'color' =>
+                                array('rgb' => $ColorOpti)
+                            ), 'font' => array('bold' => true)
+                        )
+                );
+                $excelService->excelObj->getActiveSheet()->getStyle($i . '1')->getBorders()->getAllBorders()->setBorderStyle('medium');
+            }
         }
 
 
@@ -285,7 +340,115 @@ class GestionFichierController extends Controller {
         // If you are using a https connection, you have to set those two headers for compatibility with IE <9
         $response->headers->set('Pragma', 'public');
         $response->headers->set('Cache-Control', 'maxage=1');
-        return $response;
+       return $response;
+    }
+
+    /**
+     * Description of CellEosino
+     * Permet de creer les champs dans la feuille excel pour ce type d'analyse 
+     * @param $file : Feuille,Resultat
+     * @author BEBEL Jean Raynal
+     */
+    public function CellEosino($feuille, $Resultat,$AnalyseProto) {
+
+        $LimiteDebut = "O";
+        $LimiteFin = "P";
+        $O = "Eosino lu";
+        $P = "Eosino val";
+
+        $this->getStyleCell($feuille, $LimiteDebut, $LimiteFin);
+
+        foreach (range($LimiteDebut, $LimiteFin) as $lettre) {
+
+            $feuille->setActiveSheetIndex($Resultat)
+                    ->setCellValue($lettre . '1', $$lettre);   
+            
+            foreach ($AnalyseProto as $i => $analyse) {
+                 $feuille->setActiveSheetIndex($Resultat)
+                        /*                         * Valeur pour les champs obligatoires* */
+                        ->setCellValue($lettre . ($i + 2), $analyse->getEosinoLu());
+                
+            }
+         
+        }
+        
+     
+        
+        
+    }
+
+    /**
+     * Description of CellOPG
+     * Permet de creer les champs dans la feuille excel pour ce type d'analyse 
+     * @param $file : Feuille,Resultat
+     * @author BEBEL Jean Raynal
+     */
+    public function CellOPG($feuille, $Resultat) {
+
+        $LimiteDebut = "O";
+        $LimiteFin = "U";
+        $O = "Prise d'essai KK(g)";
+        $P = "Oeufs lu";
+        $Q = "volume lu";
+        $R = "OPG";
+        $S = "Coccidies";
+        $T = "Monezia";
+        $U = "Strongyloides";
+        $this->getStyleCell($feuille, $LimiteDebut, $LimiteFin);
+        foreach (range($LimiteDebut, $LimiteFin) as $lettre) {
+
+            $feuille->setActiveSheetIndex($Resultat)
+                    ->setCellValue($lettre . '1', $$lettre);
+        }
+    }
+
+    /**
+     * Description of CellPVC
+     * Permet de creer les champs dans la feuille excel pour ce type d'analyse 
+     * @param $file : Feuille,Resultat
+     * @author BEBEL Jean Raynal
+     */
+    public function CellPCV($feuille, $Resultat) {
+
+        $LimiteDebut = "O";
+        $LimiteFin = "O";
+        $O = "PVC";
+        $this->getStyleCell($feuille, $LimiteDebut, $LimiteFin);
+        foreach (range($LimiteDebut, $LimiteFin) as $lettre) {
+            $feuille->setActiveSheetIndex($Resultat)
+                    ->setCellValue($lettre . '1', $$lettre);
+
+            ;
+        }
+    }
+
+    /**
+     * Description of getStyleCell
+     * Permet de creer un style pour les champs de resultat
+     * @param $file : Feuille,limitedebut,limitefin
+     * @author BEBEL Jean Raynal
+     */
+    public function getStyleCell($feuille, $LimiteDebut, $LimiteFin) {
+
+        $ColorObli = "ded43c";
+        $pts = 24;
+
+        $feuille->getActiveSheet()->getRowDimension()->setRowHeight($pts);
+        /*         * Pour les champs obligatoires* */
+        foreach (range($LimiteDebut, $LimiteFin) as $i) { //Boucle jusqu'a J pour applique le style
+            //
+                //  $excelService->excelObj->getActiveSheet()->getStyle($i.'1' )->getProtection()->setLocked('PROTECTION_PROTECTED');
+            $feuille->getActiveSheet()->getColumnDimension($i)->setAutoSize(true); //autosize pour les colonnes
+            $feuille->getActiveSheet()->getStyle($i . '1')->applyFromArray(
+                    array('fill' =>
+                        array('type' => "solid", 'color' =>
+                            array('rgb' => $ColorObli)
+                        ), 'font' => array('bold' => true)
+                    )
+            );
+
+            $feuille->getActiveSheet()->getStyle($i . '1')->getBorders()->getAllBorders()->setBorderStyle('medium');
+        }
     }
 
 }

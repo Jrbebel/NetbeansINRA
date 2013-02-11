@@ -15,8 +15,8 @@ class AnaEosino {
 
     /**
      * @ORM\Id
-     *  *@ORM\ManyToOne(targetEntity="Inra2013\urzBundle\Entity\Analyse")
-     * @ORM\JoinColumn(name="CodeLabo", referencedColumnName="CodeLabo")
+     *   @ORM\Column(name="CodeLabo", type="integer", length=255)
+     * 
      */
     private $CodeLabo;
 
