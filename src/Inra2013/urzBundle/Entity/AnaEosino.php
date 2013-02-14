@@ -15,12 +15,10 @@ class AnaEosino {
 
     /**
      * @ORM\Id
-     *   @ORM\Column(name="CodeLabo", type="integer", length=255)
-     * 
+     * @ORM\ManyToOne(targetEntity="Inra2013\urzBundle\Entity\Analyse")
+     * @ORM\JoinColumn(name="CodeLabo", referencedColumnName="CodeLabo")
      */
     private $CodeLabo;
-
-  
 
     /**
      *  *@ORM\ManyToOne(targetEntity="Inra2013\urzBundle\Entity\User")
@@ -42,24 +40,19 @@ class AnaEosino {
      */
     private $Eosino_val;
 
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId() {
-        return $this->id;
-    }
+   
+
 
     /**
      * Set Eosino_lu
      *
      * @param integer $eosinoLu
-     * @return Eosino
+     * @return AnaEosino
      */
-    public function setEosinoLu($eosinoLu) {
+    public function setEosinoLu($eosinoLu)
+    {
         $this->Eosino_lu = $eosinoLu;
-
+    
         return $this;
     }
 
@@ -68,7 +61,8 @@ class AnaEosino {
      *
      * @return integer 
      */
-    public function getEosinoLu() {
+    public function getEosinoLu()
+    {
         return $this->Eosino_lu;
     }
 
@@ -76,11 +70,12 @@ class AnaEosino {
      * Set Eosino_val
      *
      * @param integer $eosinoVal
-     * @return Eosino
+     * @return AnaEosino
      */
-    public function setEosinoVal($eosinoVal) {
+    public function setEosinoVal($eosinoVal)
+    {
         $this->Eosino_val = $eosinoVal;
-
+    
         return $this;
     }
 
@@ -89,29 +84,54 @@ class AnaEosino {
      *
      * @return integer 
      */
-    public function getEosinoVal() {
+    public function getEosinoVal()
+    {
         return $this->Eosino_val;
     }
 
     /**
      * Set CodeLabo
      *
-     * @param \Inra2013\urzBundle\Entity\Eosino $codeLabo
-     * @return Eosino
+     * @param \Inra2013\urzBundle\Entity\Analyse $codeLabo
+     * @return AnaEosino
      */
-    public function setCodeLabo(\Inra2013\urzBundle\Entity\Eosino $codeLabo = null) {
+    public function setCodeLabo(\Inra2013\urzBundle\Entity\Analyse $codeLabo)
+    {
         $this->CodeLabo = $codeLabo;
-
+    
         return $this;
     }
 
     /**
      * Get CodeLabo
      *
-     * @return \Inra2013\urzBundle\Entity\Eosino 
+     * @return \Inra2013\urzBundle\Entity\Analyse 
      */
-    public function getCodeLabo() {
+    public function getCodeLabo()
+    {
         return $this->CodeLabo;
     }
 
+    /**
+     * Set User
+     *
+     * @param \Inra2013\urzBundle\Entity\User $user
+     * @return AnaEosino
+     */
+    public function setUser(\Inra2013\urzBundle\Entity\User $user = null)
+    {
+        $this->User = $user;
+    
+        return $this;
+    }
+
+    /**
+     * Get User
+     *
+     * @return \Inra2013\urzBundle\Entity\User 
+     */
+    public function getUser()
+    {
+        return $this->User;
+    }
 }

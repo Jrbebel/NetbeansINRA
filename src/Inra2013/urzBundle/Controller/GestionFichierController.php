@@ -9,10 +9,10 @@
 namespace Inra2013\urzBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Inra2013\urzBundle\Entity\Animal;
 use Inra2013\urzBundle\Entity\Analyse;
-use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 class GestionFichierController extends Controller {
 
@@ -234,24 +234,24 @@ class GestionFichierController extends Controller {
 
 
             /*             * On ajoute les valeurs de la BDD dans la fiche excel par rapport au numéro du protocole (Pour les champs allant de A à N )* */
-
+            /*             * Key['Nom'] = OPG,EOsino ... * */
             $AnalyseProto = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Protocole')->CodeLaboProtocole($Key['Nom'], $id);
-            
-          
 
-            /*             * Les valeurs recuperer,on les met dans les champs prévu* */
+
+            /*             * Les valeurs recuperer,on les mets dans les champs prévu* */
             foreach ($AnalyseProto as $i => $analyse) {
-     
-                $resultatA = "null";
-                $resultatB = "Null";
+
+                //    \Doctrine\Common\Util\Debug::dump( $analyse->getCodeLabo()->getProtocole());
+                $resultatA = $analyse->getCodeLabo()->getCodeLabo();
+                $resultatB = $analyse->getCodeLabo()->getProtocole()->getId();
                 $resultatC = "Null";
                 $resultatD = "Null";
                 $resultatE = "Null";
                 $resultatF = "Null";
                 $resultatG = "null";
                 $resultatH = "Null";
-                $resultatI = "null";
-                $resultatJ = "Null";
+                $resultatI = $analyse->getCodeLabo()->getDatePrelev()->format('d-m-Y');
+                $resultatJ = $analyse->getCodeLabo()->getDateAnalyse()->format('d-m-Y');
                 $resultatK = "Null";
                 $resultatL = "Null";
                 $resultatM = "Null";
@@ -282,7 +282,7 @@ class GestionFichierController extends Controller {
 
 
                 $Type = "Cell" . $Key['Nom']; //ON AJOUTE LES CHAMPS PAR RAPPORT AU TYPE D ANALYSE TROUVÉ
-                $this->$Type($excelService->excelObj, $Resultat,$AnalyseProto);
+                $this->$Type($excelService->excelObj, $Resultat, $AnalyseProto);
             }
 
 
@@ -296,7 +296,7 @@ class GestionFichierController extends Controller {
             /*             * Un peut de style dans les cellules qui contient les titres les obligatoire seront en vert et les optionnels en gris * */
 
             $excelService->excelObj->getActiveSheet()->getRowDimension()->setRowHeight($pts);
-            
+
             /*             * Pour les champs obligatoires* */
             foreach (range($LimiteDebutObli, $LimiteFinObli) as $i) { //Boucle jusqu'a J pour applique le style
                 //
@@ -340,7 +340,7 @@ class GestionFichierController extends Controller {
         // If you are using a https connection, you have to set those two headers for compatibility with IE <9
         $response->headers->set('Pragma', 'public');
         $response->headers->set('Cache-Control', 'maxage=1');
-       return $response;
+        return $response;
     }
 
     /**
@@ -349,7 +349,7 @@ class GestionFichierController extends Controller {
      * @param $file : Feuille,Resultat
      * @author BEBEL Jean Raynal
      */
-    public function CellEosino($feuille, $Resultat,$AnalyseProto) {
+    public function CellEosino($feuille, $Resultat, $AnalyseProto) {
 
         $LimiteDebut = "O";
         $LimiteFin = "P";
@@ -361,20 +361,15 @@ class GestionFichierController extends Controller {
         foreach (range($LimiteDebut, $LimiteFin) as $lettre) {
 
             $feuille->setActiveSheetIndex($Resultat)
-                    ->setCellValue($lettre . '1', $$lettre);   
-            
+                    ->setCellValue($lettre . '1', $$lettre);
+
             foreach ($AnalyseProto as $i => $analyse) {
-                 $feuille->setActiveSheetIndex($Resultat)
+                $feuille->setActiveSheetIndex($Resultat)
                         /*                         * Valeur pour les champs obligatoires* */
-                        ->setCellValue($lettre . ($i + 2), $analyse->getEosinoLu());
-                
+                        ->setCellValue("O" . ($i + 2), $analyse->getEosinoLu())
+                        ->setCellValue("P" . ($i + 2), $analyse->getEosinoVal());
             }
-         
         }
-        
-     
-        
-        
     }
 
     /**
@@ -383,22 +378,36 @@ class GestionFichierController extends Controller {
      * @param $file : Feuille,Resultat
      * @author BEBEL Jean Raynal
      */
-    public function CellOPG($feuille, $Resultat) {
+    public function CellOPG($feuille, $Resultat, $AnalyseProto) {
 
         $LimiteDebut = "O";
         $LimiteFin = "U";
-        $O = "Prise d'essai KK(g)";
-        $P = "Oeufs lu";
-        $Q = "volume lu";
-        $R = "OPG";
-        $S = "Coccidies";
-        $T = "Monezia";
-        $U = "Strongyloides";
+        $O = "Prise d'essai KK(g)"; 
+        $P = "Oeufs lu";          
+        $Q = "volume lu";    
+        $R="OPG";
+        $S = "Coccidies";       
+        $T = "Monezia";          
+        $U = "Strongyloides";     
+       
+        
+        
         $this->getStyleCell($feuille, $LimiteDebut, $LimiteFin);
         foreach (range($LimiteDebut, $LimiteFin) as $lettre) {
 
             $feuille->setActiveSheetIndex($Resultat)
                     ->setCellValue($lettre . '1', $$lettre);
+        }
+        foreach ($AnalyseProto as $i => $analyse) {
+            $feuille->setActiveSheetIndex($Resultat)
+                    /*                     * Valeur pour les champs obligatoires* */
+                    ->setCellValue("O" . ($i + 2), $analyse->getPrisEssai())
+                    ->setCellValue("P" . ($i + 2), $analyse->getOeufLu())
+                    ->setCellValue("Q" . ($i + 2), $analyse->getVolLu())
+                    ->setCellValue("R" . ($i + 2), $analyse->getOpg())
+                    ->setCellValue("S" . ($i + 2), $analyse->getConccidies())
+                    ->setCellValue("T" . ($i + 2), $analyse->getMonezia())
+                    ->setCellValue("U" . ($i + 2), $analyse->getStrongeledia());
         }
     }
 

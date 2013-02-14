@@ -48,6 +48,12 @@ class Protocole
      */
     private $Validation;
     
+          /**
+     * @var text
+     *
+     * @ORM\Column(name="Description", type="text")
+     */
+    private $Description;
 
 
     /**
@@ -60,6 +66,9 @@ class Protocole
         return $this->id;
     }
 
+    public function __toString() {
+        return $this->getNomProtocole();
+    }
     /**
      * Set NomProtocole
      *
@@ -150,5 +159,28 @@ class Protocole
     public function getValidation()
     {
         return $this->Validation;
+    }
+
+    /**
+     * Set Description
+     *
+     * @param string $description
+     * @return Protocole
+     */
+    public function setDescription($description)
+    {
+        $this->Description = $description;
+    
+        return $this;
+    }
+
+    /**
+     * Get Description
+     *
+     * @return string 
+     */
+    public function getDescription()
+    {
+        return $this->Description;
     }
 }

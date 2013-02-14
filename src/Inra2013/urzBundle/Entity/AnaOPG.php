@@ -24,12 +24,20 @@ class AnaOPG
      */
     private $User;
 
+        /**
+     * @var integer
+     *
+     * @ORM\Column(name="PrisEssai", type="integer")
+     */
+    private $PrisEssai;
+    
     /**
      * @var integer
      *
      * @ORM\Column(name="OeufLu", type="integer")
      */
     private $OeufLu;
+    
 
     /**
      * @var integer
@@ -250,5 +258,28 @@ class AnaOPG
     public function getUser()
     {
         return $this->User;
+    }
+
+    /**
+     * Set PrisEssai
+     *
+     * @param integer $prisEssai
+     * @return AnaOPG
+     */
+    public function setPrisEssai($prisEssai)
+    {
+        $this->PrisEssai = $prisEssai;
+    
+        return $this;
+    }
+
+    /**
+     * Get PrisEssai
+     *
+     * @return integer 
+     */
+    public function getPrisEssai()
+    {
+        return $this->PrisEssai;
     }
 }

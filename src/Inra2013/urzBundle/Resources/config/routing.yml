@@ -70,3 +70,13 @@ Inra2013Bundle_SearchProtocole:
    pattern: /Search/Protocole
    defaults: { _controller : Inra2013urzBundle:Analyse:SearchProtocole }
  
+ #Chemin Pour la creation des analyses
+ 
+Inra2013Bundle_CreateAnalyse:
+   pattern: /CreateAnalyse
+   defaults: { _controller : Inra2013urzBundle:Analyse:CreateAnalyse }
+ 
+ #Chemin pour la creation d'un protocole
+Inra2013Bundle_CreateProtocole:
+   pattern: /CreateProtocole
+   defaults: { _controller : Inra2013urzBundle:Analyse:CreateProtocole }

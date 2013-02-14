@@ -31,7 +31,9 @@ class TypeAnalyse
      */
     private $Nom;
 
-
+public function __toString() {
+    return $this->getNom();
+}
     /**
      * Get id
      *

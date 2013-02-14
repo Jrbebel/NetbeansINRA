@@ -10,8 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table()
  * @ORM\Entity
  */
-class Echantillon
-{
+class Echantillon {
+
     /**
      * @var integer
      *
@@ -20,13 +20,13 @@ class Echantillon
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
     /**
-     * @var string
-     *
-     * @ORM\Column(name="Code", type="string", length=255)
+     * 
+     * @ORM\ManyToOne(targetEntity="Inra2013\urzBundle\Entity\TypeEchantillon")
+
+     * 
      */
-    private $Code;
+    private $TypeEchanti;
 
     /**
      * @var string
@@ -35,14 +35,12 @@ class Echantillon
      */
     private $Intitulé;
 
-
     /**
      * Get id
      *
      * @return integer 
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -52,10 +50,9 @@ class Echantillon
      * @param string $code
      * @return Echantillon
      */
-    public function setCode($code)
-    {
+    public function setCode($code) {
         $this->Code = $code;
-    
+
         return $this;
     }
 
@@ -64,8 +61,7 @@ class Echantillon
      *
      * @return string 
      */
-    public function getCode()
-    {
+    public function getCode() {
         return $this->Code;
     }
 
@@ -75,10 +71,9 @@ class Echantillon
      * @param string $intitulé
      * @return Echantillon
      */
-    public function setIntitulé($intitulé)
-    {
+    public function setIntitulé($intitulé) {
         $this->Intitulé = $intitulé;
-    
+
         return $this;
     }
 
@@ -87,8 +82,31 @@ class Echantillon
      *
      * @return string 
      */
-    public function getIntitulé()
-    {
+    public function getIntitulé() {
         return $this->Intitulé;
+    }
+
+
+    /**
+     * Set TypeEchanti
+     *
+     * @param \Inra2013\urzBundle\Entity\TypeEchantillon $typeEchanti
+     * @return Echantillon
+     */
+    public function setTypeEchanti(\Inra2013\urzBundle\Entity\TypeEchantillon $typeEchanti = null)
+    {
+        $this->TypeEchanti = $typeEchanti;
+    
+        return $this;
+    }
+
+    /**
+     * Get TypeEchanti
+     *
+     * @return \Inra2013\urzBundle\Entity\TypeEchantillon 
+     */
+    public function getTypeEchanti()
+    {
+        return $this->TypeEchanti;
     }
 }

@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class ProtocoleAnalyse {
     /**
-     * @ORM\Id
+     * 
      * @ORM\ManyToOne(targetEntity = "Inra2013\urzBundle\Entity\Protocole")
      * 
      */
@@ -30,8 +30,11 @@ class ProtocoleAnalyse {
      */
     private $AnalyseUser;
 
+public function __toString() {
+    return $this->getTypeAnalyse();
+}
 
-    /**
+/**
      * Set TypeAnalyse
      *
      * @param \Inra2013\urzBundle\Entity\TypeAnalyse $typeAnalyse

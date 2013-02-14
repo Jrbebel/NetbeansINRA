@@ -1,0 +1,35 @@
+{% extends "Inra2013urzBundle:Default:IndexChercheur.html.twig" %}
+{% block title %}Create Analyse{% endblock %}
+{%block body%}
+
+{%if Status is defined%}
+<div class="alert alert-success"><button type="button" class="close" data-dismiss="alert">&times;</button>
+    <p>Le protocole numéro a bien été enregistrer.</p>
+
+</div>
+
+{% else %}
+<div class="well">
+    <h4>Création du protocole</h4></br>
+    <form method="POST" action="{{form_enctype(form)}}">
+        
+     {{form_rest(form)}}  
+
+
+            </br> 
+            <h4>Analyse à effectué</h4>  </br> 
+
+     {{form_rest(form2)}}  
+            <input type="submit" value="Annuler" class="btn btn-danger" />
+            <input type="submit" class="btn btn-primary" />
+
+        </form> 
+
+    </div>
+
+
+
+
+{%endif%}
+
+{%endblock %}
