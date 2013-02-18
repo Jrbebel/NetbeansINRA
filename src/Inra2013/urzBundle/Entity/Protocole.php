@@ -21,6 +21,17 @@ class Protocole
      */
     private $id;
 
+    
+    /**
+     *
+     * @ORM\OneToOne(targetEntity = "Inra2013\urzBundle\Entity\ProtocoleAnalyse",mappedBy="Protocole")
+     * 
+     * 
+     */
+    
+    private $Analyse;
+
+
     /**
      * @var string
      *
@@ -67,6 +78,7 @@ class Protocole
     }
 
     public function __toString() {
+        
         return $this->getNomProtocole();
     }
     /**
@@ -182,5 +194,58 @@ class Protocole
     public function getDescription()
     {
         return $this->Description;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->Analyse = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Add Analyse
+     *
+     * @param \Inra2013\urzBundle\Entity\ProtocoleAnalyse $analyse
+     * @return Protocole
+     */
+    public function addAnalyse(\Inra2013\urzBundle\Entity\ProtocoleAnalyse $analyse)
+    {
+        $this->Analyse[] = $analyse;
+    
+        return $this;
+    }
+
+    /**
+     * Remove Analyse
+     *
+     * @param \Inra2013\urzBundle\Entity\ProtocoleAnalyse $analyse
+     */
+    public function removeAnalyse(\Inra2013\urzBundle\Entity\ProtocoleAnalyse $analyse)
+    {
+        $this->Analyse->removeElement($analyse);
+    }
+
+    /**
+     * Get Analyse
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getAnalyse()
+    {
+        return $this->Analyse;
+    }
+
+    /**
+     * Set Analyse
+     *
+     * @param \Inra2013\urzBundle\Entity\ProtocoleAnalyse $analyse
+     * @return Protocole
+     */
+    public function setAnalyse(\Inra2013\urzBundle\Entity\ProtocoleAnalyse $analyse = null)
+    {
+        $this->Analyse = $analyse;
+    
+        return $this;
     }
 }

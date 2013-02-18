@@ -13,7 +13,7 @@ class ProtocoleAnalyseType extends AbstractType
         $builder
             ->add('Protocole')
             ->add('TypeAnalyse')
-            ->add('AnalyseUser')
+            
         ;
     }
 

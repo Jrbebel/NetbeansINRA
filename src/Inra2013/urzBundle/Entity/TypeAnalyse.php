@@ -10,10 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table()
  * @ORM\Entity
  */
-class TypeAnalyse
-{ 
-  
-    
+class TypeAnalyse {
+
     /**
      * @var integer
      *
@@ -23,7 +21,6 @@ class TypeAnalyse
      */
     private $id;
 
-  
     /**
      * @var string
      *
@@ -31,16 +28,16 @@ class TypeAnalyse
      */
     private $Nom;
 
-public function __toString() {
-    return $this->getNom();
-}
+    public function __toString() {
+        return $this->getNom();
+    }
+
     /**
      * Get id
      *
      * @return integer 
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -50,10 +47,9 @@ public function __toString() {
      * @param string $nom
      * @return TypeAnalyse
      */
-    public function setNom($nom)
-    {
+    public function setNom($nom) {
         $this->Nom = $nom;
-    
+
         return $this;
     }
 
@@ -62,28 +58,26 @@ public function __toString() {
      *
      * @return string 
      */
-    public function getNom()
-    {
+    public function getNom() {
         return $this->Nom;
     }
+
     /**
      * Constructor
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->Protocole = new \Doctrine\Common\Collections\ArrayCollection();
     }
-    
+
     /**
      * Add Protocole
      *
      * @param \Inra2013\urzBundle\Entity\Protocole $protocole
      * @return TypeAnalyse
      */
-    public function addProtocole(\Inra2013\urzBundle\Entity\Protocole $protocole)
-    {
+    public function addProtocole(\Inra2013\urzBundle\Entity\Protocole $protocole) {
         $this->Protocole[] = $protocole;
-    
+
         return $this;
     }
 
@@ -92,8 +86,7 @@ public function __toString() {
      *
      * @param \Inra2013\urzBundle\Entity\Protocole $protocole
      */
-    public function removeProtocole(\Inra2013\urzBundle\Entity\Protocole $protocole)
-    {
+    public function removeProtocole(\Inra2013\urzBundle\Entity\Protocole $protocole) {
         $this->Protocole->removeElement($protocole);
     }
 
@@ -102,31 +95,10 @@ public function __toString() {
      *
      * @return \Doctrine\Common\Collections\Collection 
      */
-    public function getProtocole()
-    {
+    public function getProtocole() {
         return $this->Protocole;
     }
 
-    /**
-     * Set User
-     *
-     * @param \Inra2013\urzBundle\Entity\User $user
-     * @return TypeAnalyse
-     */
-    public function setUser(\Inra2013\urzBundle\Entity\User $user = null)
-    {
-        $this->User = $user;
-    
-        return $this;
-    }
 
-    /**
-     * Get User
-     *
-     * @return \Inra2013\urzBundle\Entity\User 
-     */
-    public function getUser()
-    {
-        return $this->User;
-    }
+
 }

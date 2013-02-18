@@ -15,7 +15,8 @@ class AnalyseController extends Controller {
 
     /**
      * Description of SearchProtocole
-     * Permet de recherche le protocole a partir de son id
+     * Permet de recherche le protocole a partir de son id 
+     * à partir d'un champ input avec autocomplétion
      * @author BEBEL Jean Raynal
      */
     public function SearchProtocoleAction() {
@@ -43,6 +44,31 @@ class AnalyseController extends Controller {
         }
     }
 
+    /**
+     * Description of SearchAnalyseCategorie
+     * Permet de recherche à partir du type de categorie,les categorie d'analyse associés 
+     * renvoie un json.
+     * page utilisé:Creer un protocole
+     * @author BEBEL Jean Raynal
+     */
+    public function SearchAnalyseCategorieAction() {
+
+        $request = $this->get('request');
+
+        if ($request->isXmlHttpRequest()) {
+
+            $id = $request->request->get('id');
+
+            $array = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:CategorieAnalyse')->SearchCategorieAnalyse($id);
+
+
+            $reponse = new Response(json_encode($array));
+
+            $reponse->headers->set('content-Type', 'application/json');
+            return $reponse;
+        }
+    }
+
     function ValidAnalyseAction() {
         
     }
@@ -58,11 +84,11 @@ class AnalyseController extends Controller {
         $responsable = $this->container->get('security.context')->getToken()->getUser();
         $typeProtocole->setResponsable($responsable);
         $typeProtocole->setValidation(FALSE);
-        $form = $this->createForm(new \Inra2013\urzBundle\Form\ProtocoleType(), $typeProtocole);
+        $form = $this->createForm(
+                new \Inra2013\urzBundle\Form\ProtocoleType(), $typeProtocole);
         /*         * On crée le formulaire pour les analyse a faire dans le protocole* */
-       // $typeAnalyse = new \Inra2013\urzBundle\Entity\ProtocoleAnalyse;
-        //$typeAnalyse->setProtocole($typeProtocole);
-       // $form2 = $this->createForm(new \Inra2013\urzBundle\Form\ProtocoleAnalyseType(), $typeAnalyse);
+        // $typeAnalyse = new \Inra2013\urzBundle\Entity\ProtocoleAnalyse;
+        // $form2 = $this->createForm(new \Inra2013\urzBundle\Form\ProtocoleAnalyseType(), $typeAnalyse);
 
         $request = $this->get('request');
         if ($request->getMethod() == 'POST') {
@@ -70,16 +96,21 @@ class AnalyseController extends Controller {
             if ($form->isValid()) {
                 $em = $this->getDoctrine()->getEntityManager();
                 $em->persist($typeProtocole);
-              //  $em->persist($typeAnalyse);
+
                 $em->flush();
 
                 return $this->render("Inra2013urzBundle:Analyse:CreateProtocole.html.twig", array('Status' => 'Save'));
             }
         }
 
-        return $this->render("Inra2013urzBundle:Analyse:CreateProtocole.html.twig", array('form' => $form->createView(), 'form2' => $form2->createView()));
+        return $this->render("Inra2013urzBundle:Analyse:CreateProtocole.html.twig", array('form' => $form->createView()));
     }
 
+    /**
+     * Description of CreateAnalyse
+     * Permet de rentrer les analyses pour un protocole donnée
+     * @author BEBEL Jean Raynal
+     */
     function CreateAnalyseAction() {
 
         return $this->render("Inra2013urzBundle:Analyse:CreateAnalyse.html.twig");

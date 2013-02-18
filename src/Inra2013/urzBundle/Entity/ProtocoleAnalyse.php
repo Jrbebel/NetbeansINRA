@@ -24,11 +24,7 @@ class ProtocoleAnalyse {
      */
     private $TypeAnalyse;
 
-    /**
-     *  *@ORM\ManyToOne(targetEntity="Inra2013\urzBundle\Entity\User")
-     * 
-     */
-    private $AnalyseUser;
+
 
 public function __toString() {
     return $this->getTypeAnalyse();

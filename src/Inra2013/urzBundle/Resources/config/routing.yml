@@ -64,7 +64,7 @@ Inra2103Bundle_CreateExcel:
   defaults: { _controller : Inra2013urzBundle:GestionFichier:CreateExcel }
   
   
-  #Chemin pour la recherche du protocole dans un input
+  #Chemin pour la recherche du protocole dans un input(requete json et ajax)
   
 Inra2013Bundle_SearchProtocole:
    pattern: /Search/Protocole
@@ -80,3 +80,9 @@ Inra2013Bundle_CreateAnalyse:
 Inra2013Bundle_CreateProtocole:
    pattern: /CreateProtocole
    defaults: { _controller : Inra2013urzBundle:Analyse:CreateProtocole }
+   
+   #Chemin pour la recherche de la categorie des analyses(requete json et ajax)
+   
+Inra2013Bundle_SearchCategorieAnalyse:
+   pattern: /Search/CategorieAnalyse
+   defaults: { _controller : Inra2013urzBundle:Analyse:SearchAnalyseCategorie }

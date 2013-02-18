@@ -12,20 +12,20 @@
 <div class="well">
     <h4>Création du protocole</h4></br>
     <form method="POST" action="{{form_enctype(form)}}">
-        
+
      {{form_rest(form)}}  
 
 
-            </br> 
-            <h4>Analyse à effectué</h4>  </br> 
+        </br> 
+        <h4>Analyse à effectué</h4>  </br> 
 
-     {{form_rest(form2)}}  
-            <input type="submit" value="Annuler" class="btn btn-danger" />
-            <input type="submit" class="btn btn-primary" />
+        <div id="weather-temp"></div>
+        <input type="submit" value="Annuler" class="btn btn-danger" />
+        <input type="submit" class="btn btn-primary" />
 
-        </form> 
+    </form> 
 
-    </div>
+</div>
 
 
 
@@ -33,3 +33,56 @@
 {%endif%}
 
 {%endblock %}
+
+{%block javascripts %}
+<script type="text/javascript">
+    $(function(){
+        
+
+     $('input[type=checkbox]').click(function(){
+      var cochee = $(this).is(':checked'); // je regarde si la case est cochée ou non 
+      value=$(this).attr("value"); //je recupere la valeur value dans le checkbox
+      var DATA= 'id=' + value;
+ if (cochee == true) {
+$(this).attr('checked','checked');
+                $(function(){ 
+             
+                        $.ajax({
+                            url: "{{path('Inra2013Bundle_SearchCategorieAnalyse')}}", // j'utilise le lien pour aller cherche les contenus à rajouter
+                            cache: false,
+                            dataType: "json",
+                            method: "POST",
+                            data: DATA,
+                            success: function (data) {
+                       
+                                $.map(data, function (item,i) {  
+var div_data =
+    "<div> <table> <tr><td><input type='checkbox'/></td><td><h6>"+item.Nom+"</h6></td></tr></table></div>";
+$(div_data).appendTo("#weather-temp");
+                     
+                            })
+           
+               
+                        }
+                        
+                    })
+          
+              }); 
+                  
+                 
+                    return false;
+}else{
+var div_data ="";
+$(div_data).appendTo("#weather-temp");
+}
+            
+    
+            }); 
+        });
+ 
+
+    </script>
+
+
+
+{%endblock%}
