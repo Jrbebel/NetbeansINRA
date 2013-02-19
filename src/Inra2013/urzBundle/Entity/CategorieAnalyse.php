@@ -36,12 +36,15 @@ class CategorieAnalyse {
      */
     private $Nom;
 
+  
+
     /**
      * Get id
      *
      * @return integer 
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
@@ -51,9 +54,10 @@ class CategorieAnalyse {
      * @param string $nom
      * @return CategorieAnalyse
      */
-    public function setNom($nom) {
+    public function setNom($nom)
+    {
         $this->Nom = $nom;
-
+    
         return $this;
     }
 
@@ -62,10 +66,10 @@ class CategorieAnalyse {
      *
      * @return string 
      */
-    public function getNom() {
+    public function getNom()
+    {
         return $this->Nom;
     }
-
 
     /**
      * Set TypeCategorie

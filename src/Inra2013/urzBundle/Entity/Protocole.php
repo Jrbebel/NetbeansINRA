@@ -10,8 +10,16 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Inra2013\urzBundle\Entity\ProtocoleRepository")
  */
-class Protocole
-{
+class Protocole {
+
+    /**
+     * 
+     * @ORM\ManyToOne(targetEntity ="Inra2013\urzBundle\Entity\ProtocoleAnalyse")
+     * 
+     * 
+     */
+    private $Analyse;
+
     /**
      * @var integer
      *
@@ -20,17 +28,6 @@ class Protocole
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
-    
-    /**
-     *
-     * @ORM\OneToOne(targetEntity = "Inra2013\urzBundle\Entity\ProtocoleAnalyse",mappedBy="Protocole")
-     * 
-     * 
-     */
-    
-    private $Analyse;
-
 
     /**
      * @var string
@@ -51,46 +48,39 @@ class Protocole
      * @ORM\ManyToOne(targetEntity="Inra2013\urzBundle\Entity\User")
      */
     private $Responsable;
-    
-        /**
+
+    /**
      * @var boolean
      *
      * @ORM\Column(name="Validation", type="boolean")
      */
     private $Validation;
-    
-          /**
+
+    /**
      * @var text
      *
      * @ORM\Column(name="Description", type="text")
      */
     private $Description;
 
-
     /**
      * Get id
      *
      * @return integer 
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
-    public function __toString() {
-        
-        return $this->getNomProtocole();
-    }
     /**
      * Set NomProtocole
      *
      * @param string $nomProtocole
      * @return Protocole
      */
-    public function setNomProtocole($nomProtocole)
-    {
+    public function setNomProtocole($nomProtocole) {
         $this->NomProtocole = $nomProtocole;
-    
+
         return $this;
     }
 
@@ -99,8 +89,7 @@ class Protocole
      *
      * @return string 
      */
-    public function getNomProtocole()
-    {
+    public function getNomProtocole() {
         return $this->NomProtocole;
     }
 
@@ -110,10 +99,9 @@ class Protocole
      * @param \DateTime $dateValidation
      * @return Protocole
      */
-    public function setDateValidation($dateValidation)
-    {
+    public function setDateValidation($dateValidation) {
         $this->DateValidation = $dateValidation;
-    
+
         return $this;
     }
 
@@ -122,32 +110,8 @@ class Protocole
      *
      * @return \DateTime 
      */
-    public function getDateValidation()
-    {
+    public function getDateValidation() {
         return $this->DateValidation;
-    }
-
-    /**
-     * Set Responsable
-     *
-     * @param integer $responsable
-     * @return Protocole
-     */
-    public function setResponsable($responsable)
-    {
-        $this->Responsable = $responsable;
-    
-        return $this;
-    }
-
-    /**
-     * Get Responsable
-     *
-     * @return integer 
-     */
-    public function getResponsable()
-    {
-        return $this->Responsable;
     }
 
     /**
@@ -156,10 +120,9 @@ class Protocole
      * @param boolean $validation
      * @return Protocole
      */
-    public function setValidation($validation)
-    {
+    public function setValidation($validation) {
         $this->Validation = $validation;
-    
+
         return $this;
     }
 
@@ -168,8 +131,7 @@ class Protocole
      *
      * @return boolean 
      */
-    public function getValidation()
-    {
+    public function getValidation() {
         return $this->Validation;
     }
 
@@ -179,10 +141,9 @@ class Protocole
      * @param string $description
      * @return Protocole
      */
-    public function setDescription($description)
-    {
+    public function setDescription($description) {
         $this->Description = $description;
-    
+
         return $this;
     }
 
@@ -191,49 +152,29 @@ class Protocole
      *
      * @return string 
      */
-    public function getDescription()
-    {
+    public function getDescription() {
         return $this->Description;
     }
+
     /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->Analyse = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-    
-    /**
-     * Add Analyse
+     * Set Responsable
      *
-     * @param \Inra2013\urzBundle\Entity\ProtocoleAnalyse $analyse
+     * @param \Inra2013\urzBundle\Entity\User $responsable
      * @return Protocole
      */
-    public function addAnalyse(\Inra2013\urzBundle\Entity\ProtocoleAnalyse $analyse)
-    {
-        $this->Analyse[] = $analyse;
-    
+    public function setResponsable(\Inra2013\urzBundle\Entity\User $responsable = null) {
+        $this->Responsable = $responsable;
+
         return $this;
     }
 
     /**
-     * Remove Analyse
+     * Get Responsable
      *
-     * @param \Inra2013\urzBundle\Entity\ProtocoleAnalyse $analyse
+     * @return \Inra2013\urzBundle\Entity\User 
      */
-    public function removeAnalyse(\Inra2013\urzBundle\Entity\ProtocoleAnalyse $analyse)
-    {
-        $this->Analyse->removeElement($analyse);
-    }
-
-    /**
-     * Get Analyse
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getAnalyse()
-    {
-        return $this->Analyse;
+    public function getResponsable() {
+        return $this->Responsable;
     }
 
     /**
@@ -242,10 +183,19 @@ class Protocole
      * @param \Inra2013\urzBundle\Entity\ProtocoleAnalyse $analyse
      * @return Protocole
      */
-    public function setAnalyse(\Inra2013\urzBundle\Entity\ProtocoleAnalyse $analyse = null)
-    {
+    public function setAnalyse(\Inra2013\urzBundle\Entity\ProtocoleAnalyse $analyse = null) {
         $this->Analyse = $analyse;
-    
+
         return $this;
     }
+
+    /**
+     * Get Analyse
+     *
+     * @return \Inra2013\urzBundle\Entity\ProtocoleAnalyse 
+     */
+    public function getAnalyse() {
+        return $this->Analyse;
+    }
+
 }

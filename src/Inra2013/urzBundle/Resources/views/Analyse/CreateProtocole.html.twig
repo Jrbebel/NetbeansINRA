@@ -8,26 +8,37 @@
 
 </div>
 
-{% else %}
-<div class="well">
-    <h4>Création du protocole</h4></br>
+{% else %} <div class="well">
     <form method="POST" action="{{form_enctype(form)}}">
 
-     {{form_rest(form)}}  
+        <h4>Création du protocole</h4></br>
 
 
-        </br> 
-        <h4>Analyse à effectué</h4>  </br> 
+     {{form_rest(form)}} 
 
-        <div id="weather-temp"></div>
+
+
+        </br>
+{#Pour le premier type de catégorie#}
+        <div id="style1"></div>
+        <table id="analyse1"></table>
+        </br>
+
+{#Pour la deuxième type de catégorie#}
+        <div id="style2"></div>
+        <table id="analyse2"></table>
+
+
         <input type="submit" value="Annuler" class="btn btn-danger" />
         <input type="submit" class="btn btn-primary" />
 
+
+
+
+
+
     </form> 
-
 </div>
-
-
 
 
 {%endif%}
@@ -43,8 +54,10 @@
       var cochee = $(this).is(':checked'); // je regarde si la case est cochée ou non 
       value=$(this).attr("value"); //je recupere la valeur value dans le checkbox
       var DATA= 'id=' + value;
+      var div_style_titre1="<fieldset><legend>Analyses Chimiques et Biochimiques</legend></fieldset>"; 
+      var div_style_titre2="<fieldset><legend>Analyses Biologiques</legend></fieldset>"; 
  if (cochee == true) {
-$(this).attr('checked','checked');
+
                 $(function(){ 
              
                         $.ajax({
@@ -55,10 +68,28 @@ $(this).attr('checked','checked');
                             data: DATA,
                             success: function (data) {
                        
-                                $.map(data, function (item,i) {  
-var div_data =
-    "<div> <table> <tr><td><input type='checkbox'/></td><td><h6>"+item.Nom+"</h6></td></tr></table></div>";
-$(div_data).appendTo("#weather-temp");
+                                $.map(data, function (item,i) {
+                                    
+                                  if(value == 1){  // si c le premier type de categorie
+
+ var div_data ="<tr><td><input type='checkbox' name='choix_analyse[]' value="+item.id +" /></td><td><h6>"+item.Nom+"</h6></td></tr>";
+
+$(div_data).appendTo("#analyse1");
+if(i == 0){ // on affiche le titre qu'une seul fois 
+   $(div_style_titre1).appendTo("#style1"); 
+    }
+
+}else if(value == 2){  //si c le deuxieme,on l'affiche dans une autre div 
+
+var div_data = 
+      "<tr><td><input type='checkbox' name='choix_analyse[]'value="+item.id +" /></td><td><h6>"+item.Nom+"</h6></td></tr>";
+$(div_data).appendTo("#analyse2");
+
+if(i == 0){ 
+    // on affiche le titre qu'une seul fois 
+   $(div_style_titre2).appendTo("#style2"); 
+    }
+    }
                      
                             })
            
@@ -70,10 +101,18 @@ $(div_data).appendTo("#weather-temp");
               }); 
                   
                  
-                    return false;
-}else{
-var div_data ="";
-$(div_data).appendTo("#weather-temp");
+                  
+}else { //si on decoche le checkbox
+
+   if(value == 1){
+                 $("#style1").empty();
+                 $("#analyse1").empty();
+                
+        }else if(value == 2){
+                $("#style2").empty()
+                $("#analyse2").empty();
+                
+}
 }
             
     

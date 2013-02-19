@@ -20,61 +20,12 @@ class ProtocoleAnalyse {
 
     /**
      * @ORM\Id
-     * @ORM\ManyToOne(targetEntity="Inra2013\urzBundle\Entity\TypeAnalyse")
+     * 
+     * @ORM\ManyToOne(targetEntity="Inra2013\urzBundle\Entity\CategorieAnalyse")
      */
     private $TypeAnalyse;
 
 
-
-public function __toString() {
-    return $this->getTypeAnalyse();
-}
-
-/**
-     * Set TypeAnalyse
-     *
-     * @param \Inra2013\urzBundle\Entity\TypeAnalyse $typeAnalyse
-     * @return ProtocoleAnalyse
-     */
-    public function setTypeAnalyse(\Inra2013\urzBundle\Entity\TypeAnalyse $typeAnalyse)
-    {
-        $this->TypeAnalyse = $typeAnalyse;
-    
-        return $this;
-    }
-
-    /**
-     * Get TypeAnalyse
-     *
-     * @return \Inra2013\urzBundle\Entity\TypeAnalyse 
-     */
-    public function getTypeAnalyse()
-    {
-        return $this->TypeAnalyse;
-    }
-
-    /**
-     * Set AnalyseUser
-     *
-     * @param \Inra2013\urzBundle\Entity\User $analyseUser
-     * @return ProtocoleAnalyse
-     */
-    public function setAnalyseUser(\Inra2013\urzBundle\Entity\User $analyseUser = null)
-    {
-        $this->AnalyseUser = $analyseUser;
-    
-        return $this;
-    }
-
-    /**
-     * Get AnalyseUser
-     *
-     * @return \Inra2013\urzBundle\Entity\User 
-     */
-    public function getAnalyseUser()
-    {
-        return $this->AnalyseUser;
-    }
 
     /**
      * Set Protocole
@@ -82,7 +33,7 @@ public function __toString() {
      * @param \Inra2013\urzBundle\Entity\Protocole $protocole
      * @return ProtocoleAnalyse
      */
-    public function setProtocole(\Inra2013\urzBundle\Entity\Protocole $protocole)
+    public function setProtocole(\Inra2013\urzBundle\Entity\Protocole $protocole = null)
     {
         $this->Protocole = $protocole;
     
@@ -97,5 +48,28 @@ public function __toString() {
     public function getProtocole()
     {
         return $this->Protocole;
+    }
+
+    /**
+     * Set TypeAnalyse
+     *
+     * @param \Inra2013\urzBundle\Entity\CategorieAnalyse $typeAnalyse
+     * @return ProtocoleAnalyse
+     */
+    public function setTypeAnalyse(\Inra2013\urzBundle\Entity\CategorieAnalyse $typeAnalyse)
+    {
+        $this->TypeAnalyse = $typeAnalyse;
+    
+        return $this;
+    }
+
+    /**
+     * Get TypeAnalyse
+     *
+     * @return \Inra2013\urzBundle\Entity\CategorieAnalyse 
+     */
+    public function getTypeAnalyse()
+    {
+        return $this->TypeAnalyse;
     }
 }

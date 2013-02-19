@@ -62,42 +62,6 @@ class TypeAnalyse {
         return $this->Nom;
     }
 
-    /**
-     * Constructor
-     */
-    public function __construct() {
-        $this->Protocole = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
-     * Add Protocole
-     *
-     * @param \Inra2013\urzBundle\Entity\Protocole $protocole
-     * @return TypeAnalyse
-     */
-    public function addProtocole(\Inra2013\urzBundle\Entity\Protocole $protocole) {
-        $this->Protocole[] = $protocole;
-
-        return $this;
-    }
-
-    /**
-     * Remove Protocole
-     *
-     * @param \Inra2013\urzBundle\Entity\Protocole $protocole
-     */
-    public function removeProtocole(\Inra2013\urzBundle\Entity\Protocole $protocole) {
-        $this->Protocole->removeElement($protocole);
-    }
-
-    /**
-     * Get Protocole
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getProtocole() {
-        return $this->Protocole;
-    }
 
 
 
