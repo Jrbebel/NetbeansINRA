@@ -11,21 +11,62 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  */
 class ProtocoleAnalyse {
+    
+       /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * 
+     */
+    private $id;
+    
+     /**
+     *
+     * 
+     * @ORM\ManyToOne(targetEntity="Inra2013\urzBundle\Entity\CategorieAnalyse")
+     * 
+     */
+    private $CategorieAnalyse ;
+    
+    
+    
     /**
      * 
+     *
      * @ORM\ManyToOne(targetEntity = "Inra2013\urzBundle\Entity\Protocole")
      * 
      */
     private $Protocole;
+ 
+public function __construct() { 
+    
+        $this->CategorieAnalyse= new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
-     * @ORM\Id
-     * 
-     * @ORM\ManyToOne(targetEntity="Inra2013\urzBundle\Entity\CategorieAnalyse")
+     * Set CategorieAnalyse
+     *
+     * @param \Inra2013\urzBundle\Entity\CategorieAnalyse $categorieAnalyse
+     * @return ProtocoleAnalyse
      */
-    private $TypeAnalyse;
+    public function setCategorieAnalyse(\Inra2013\urzBundle\Entity\CategorieAnalyse $categorieAnalyse)
+    {
+        $this->CategorieAnalyse = $categorieAnalyse;
+    
+        return $this;
+    }
 
-
+    /**
+     * Get CategorieAnalyse
+     *
+     * @return \Inra2013\urzBundle\Entity\CategorieAnalyse 
+     */
+    public function getCategorieAnalyse()
+    {
+        return $this->CategorieAnalyse;
+    }
 
     /**
      * Set Protocole
@@ -51,25 +92,12 @@ class ProtocoleAnalyse {
     }
 
     /**
-     * Set TypeAnalyse
+     * Get id
      *
-     * @param \Inra2013\urzBundle\Entity\CategorieAnalyse $typeAnalyse
-     * @return ProtocoleAnalyse
+     * @return integer 
      */
-    public function setTypeAnalyse(\Inra2013\urzBundle\Entity\CategorieAnalyse $typeAnalyse)
+    public function getId()
     {
-        $this->TypeAnalyse = $typeAnalyse;
-    
-        return $this;
-    }
-
-    /**
-     * Get TypeAnalyse
-     *
-     * @return \Inra2013\urzBundle\Entity\CategorieAnalyse 
-     */
-    public function getTypeAnalyse()
-    {
-        return $this->TypeAnalyse;
+        return $this->id;
     }
 }

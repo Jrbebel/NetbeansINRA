@@ -72,7 +72,7 @@
                                     
                                   if(value == 1){  // si c le premier type de categorie
 
- var div_data ="<tr><td><input type='checkbox' name='choix_analyse[]' value="+item.id +" /></td><td><h6>"+item.Nom+"</h6></td></tr>";
+ var div_data ="<tr><td><input type='checkbox' name='choix_analyse[]' value="+item.id +" /> </td><td><h6>" +  item.Nom+"</h6></td></tr>";
 
 $(div_data).appendTo("#analyse1");
 if(i == 0){ // on affiche le titre qu'une seul fois 
@@ -82,7 +82,7 @@ if(i == 0){ // on affiche le titre qu'une seul fois
 }else if(value == 2){  //si c le deuxieme,on l'affiche dans une autre div 
 
 var div_data = 
-      "<tr><td><input type='checkbox' name='choix_analyse[]'value="+item.id +" /></td><td><h6>"+item.Nom+"</h6></td></tr>";
+      "<tr><td><input type='checkbox' name='choix_analyse[]'value="+item.id +" /> </td><td><h6>" +  item.Nom+"</h6></td></tr>";
 $(div_data).appendTo("#analyse2");
 
 if(i == 0){ 

@@ -13,21 +13,15 @@ use Doctrine\ORM\Mapping as ORM;
 class Protocole {
 
     /**
-     * 
-     * @ORM\ManyToOne(targetEntity ="Inra2013\urzBundle\Entity\ProtocoleAnalyse")
-     * 
-     * 
-     */
-    private $Analyse;
-
-    /**
      * @var integer
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * 
      */
     private $id;
+
 
     /**
      * @var string
@@ -70,6 +64,11 @@ class Protocole {
      */
     public function getId() {
         return $this->id;
+    }
+
+    public function __construct() {
+
+        $this->Analyse = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
