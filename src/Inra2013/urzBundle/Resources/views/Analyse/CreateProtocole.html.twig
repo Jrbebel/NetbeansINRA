@@ -21,12 +21,15 @@
         </br>
 {#Pour le premier type de catégorie#}
         <div id="style1"></div>
-        <table id="analyse1"></table>
+        <select id="analyse1" class="select"><option>Sélectionner catégorie</option></select>
         </br>
 
 {#Pour la deuxième type de catégorie#}
         <div id="style2"></div>
-        <table id="analyse2"></table>
+        <select id="analyse2" class="select"><option>Sélectionner catégorie</option></select>
+        </br>
+        </br>
+        
 
 
         <input type="submit" value="Annuler" class="btn btn-danger" />
@@ -46,9 +49,12 @@
 {%endblock %}
 
 {%block javascripts %}
+
 <script type="text/javascript">
     $(function(){
         
+    $("#analyse1").hide();
+    $("#analyse2").hide();
 
      $('input[type=checkbox]').click(function(){
       var cochee = $(this).is(':checked'); // je regarde si la case est cochée ou non 
@@ -57,7 +63,6 @@
       var div_style_titre1="<fieldset><legend>Analyses Chimiques et Biochimiques</legend></fieldset>"; 
       var div_style_titre2="<fieldset><legend>Analyses Biologiques</legend></fieldset>"; 
  if (cochee == true) {
-
                 $(function(){ 
              
                         $.ajax({
@@ -69,20 +74,20 @@
                             success: function (data) {
                        
                                 $.map(data, function (item,i) {
-                                    
+   
+                         
+
                                   if(value == 1){  // si c le premier type de categorie
-
- var div_data ="<tr><td><input type='checkbox' name='choix_analyse[]' value="+item.id +" /> </td><td><h6>" +  item.Nom+"</h6></td></tr>";
-
+ $("#analyse1").show(); 
+var div_data ="<option value="+item.id+">"+item.Nom+"</option>";
 $(div_data).appendTo("#analyse1");
 if(i == 0){ // on affiche le titre qu'une seul fois 
    $(div_style_titre1).appendTo("#style1"); 
     }
 
 }else if(value == 2){  //si c le deuxieme,on l'affiche dans une autre div 
-
-var div_data = 
-      "<tr><td><input type='checkbox' name='choix_analyse[]'value="+item.id +" /> </td><td><h6>" +  item.Nom+"</h6></td></tr>";
+$("#analyse2").show(); 
+var div_data ="<option value="+item.id+">"+item.Nom+"</option>";
 $(div_data).appendTo("#analyse2");
 
 if(i == 0){ 
@@ -105,18 +110,82 @@ if(i == 0){
 }else { //si on decoche le checkbox
 
    if(value == 1){
+   
                  $("#style1").empty();
                  $("#analyse1").empty();
+                 $("#analyse1").hide();
                 
         }else if(value == 2){
+        
                 $("#style2").empty()
                 $("#analyse2").empty();
+                $("#analyse2").hide();
                 
 }
 }
             
     
             }); 
+            
+            
+            /***************************************************************************************************************************************/
+            
+            $("select#analyse1 ").click(function(){
+
+
+ $("select#analyse1 option:selected").each(function () {
+     
+            value=$(this).attr("value"); //je recupere la valeur value dans le selectionnée
+            var DATA= 'id=' + value;
+                           $(function(){ 
+             
+                        $.ajax({
+                            url: "{{path('Inra2013Bundle_SearchTypeAnalyse')}}", // j'utilise le lien pour aller cherche les contenus à rajouter
+                            cache: false,
+                            dataType: "json",
+                            method: "POST",
+                            data: DATA,
+                            success: function (data) {
+                       
+                                $.map(data, function (item,i) {
+   
+                         
+
+                          console.log(item);    
+
+var div_data ="<option value="+item.id+">"+item.Nom+"</option>";
+$(div_data).appendTo("#analyse1");
+
+
+                     
+                            })
+           
+               
+                        }
+                        
+                    })
+          
+              });
+           
+           
+           
+      });
+
+             
+
+            }); 
+            
+              $("select#analyse2 ").click(function(){
+
+
+ $("select#analyse2 option:selected").each(function () {
+           alert("selectionné 2 :"+$(this).attr("value"));
+      });
+
+             
+
+            }); 
+                      
         });
  
 

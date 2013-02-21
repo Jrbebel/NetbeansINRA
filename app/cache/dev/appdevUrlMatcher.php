@@ -139,6 +139,46 @@ class appdevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
             return array_merge($this->mergeDefaults($matches, array (  '_controller' => 'Inra2013\\urzBundle\\Controller\\AgentController::ActivateAgentAction',)), array('_route' => 'Inra2013Bundle_ActiveAgent'));
         }
 
+        // Inra2013Bundle_UploadFile
+        if ($pathinfo === '/User/UploadFile') {
+            return array (  '_controller' => 'Inra2013\\urzBundle\\Controller\\GestionFichierController::UploadAction',  '_route' => 'Inra2013Bundle_UploadFile',);
+        }
+
+        // Inra2013Bundle_SaveFile
+        if ($pathinfo === '/User/SaveFile') {
+            return array (  '_controller' => 'Inra2013\\urzBundle\\Controller\\GestionFichierController::SaveExcelAction',  '_route' => 'Inra2013Bundle_SaveFile',);
+        }
+
+        // Inra2103Bundle_CreateExcel
+        if ($pathinfo === '/User/CreateExcel') {
+            return array (  '_controller' => 'Inra2013\\urzBundle\\Controller\\GestionFichierController::CreateExcelAction',  '_route' => 'Inra2103Bundle_CreateExcel',);
+        }
+
+        // Inra2013Bundle_SearchProtocole
+        if ($pathinfo === '/Search/Protocole') {
+            return array (  '_controller' => 'Inra2013\\urzBundle\\Controller\\AnalyseController::SearchProtocoleAction',  '_route' => 'Inra2013Bundle_SearchProtocole',);
+        }
+
+        // Inra2013Bundle_CreateAnalyse
+        if ($pathinfo === '/CreateAnalyse') {
+            return array (  '_controller' => 'Inra2013\\urzBundle\\Controller\\AnalyseController::CreateAnalyseAction',  '_route' => 'Inra2013Bundle_CreateAnalyse',);
+        }
+
+        // Inra2013Bundle_CreateProtocole
+        if ($pathinfo === '/CreateProtocole') {
+            return array (  '_controller' => 'Inra2013\\urzBundle\\Controller\\AnalyseController::CreateProtocoleAction',  '_route' => 'Inra2013Bundle_CreateProtocole',);
+        }
+
+        // Inra2013Bundle_SearchCategorieAnalyse
+        if ($pathinfo === '/Search/CategorieAnalyse') {
+            return array (  '_controller' => 'Inra2013\\urzBundle\\Controller\\AnalyseController::SearchAnalyseCategorieAction',  '_route' => 'Inra2013Bundle_SearchCategorieAnalyse',);
+        }
+
+        // Inra2013Bundle_SearchTypeAnalyse
+        if ($pathinfo === '/Search/TypeAnalyse') {
+            return array (  '_controller' => 'Inra2013\\urzBundle\\Controller\\AnalyseController::SearchTypeAnalyseAction',  '_route' => 'Inra2013Bundle_SearchTypeAnalyse',);
+        }
+
         // fos_user_security_login
         if ($pathinfo === '/login') {
             return array (  '_controller' => 'FOS\\UserBundle\\Controller\\SecurityController::loginAction',  '_route' => 'fos_user_security_login',);

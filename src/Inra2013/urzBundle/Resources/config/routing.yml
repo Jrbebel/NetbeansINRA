@@ -86,3 +86,10 @@ Inra2013Bundle_CreateProtocole:
 Inra2013Bundle_SearchCategorieAnalyse:
    pattern: /Search/CategorieAnalyse
    defaults: { _controller : Inra2013urzBundle:Analyse:SearchAnalyseCategorie }
+   
+   
+   #Chemin pour la recherche des types d analyse a partir de la categorie(requete json et ajax)
+   
+Inra2013Bundle_SearchTypeAnalyse :
+   pattern: /Search/TypeAnalyse
+   defaults: { _controller : Inra2013urzBundle:Analyse:SearchTypeAnalyse }

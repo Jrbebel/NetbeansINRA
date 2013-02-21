@@ -68,6 +68,29 @@ class AnalyseController extends Controller {
             return $reponse;
         }
     }
+    
+    
+    
+       /**
+     * Description of SearchTypeAnalyse
+     * Permet de recherche à partir du type d'analyse qui est associe a une catégorie 
+     * renvoie un json.
+     * page utilisé:Creer un protocole
+     * @author BEBEL Jean Raynal
+     */
+    public function SearchTypeAnalyseAction() {
+
+        $request = $this->get('request');
+
+        if ($request->isXmlHttpRequest()) {
+
+            $id = $request->request->get('id');
+            $array = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:TypeAnalyse')->SearchTypeAnalyse($id);
+            $reponse = new Response(json_encode($array));
+            $reponse->headers->set('content-Type', 'application/json');
+            return $reponse;
+        }
+    }
 
     function ValidAnalyseAction() {
         

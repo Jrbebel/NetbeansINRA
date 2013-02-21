@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * TypeAnalyse
  *
  * @ORM\Table()
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Inra2013\urzBundle\Entity\TypeAnalyseRepository")
  */
 class TypeAnalyse {
 
@@ -20,6 +20,14 @@ class TypeAnalyse {
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
+    /**
+     *
+     * @ORM\ManyToOne(targetEntity = "Inra2013\urzBundle\Entity\CategorieAnalyse")
+     * 
+     * 
+     */
+    private $TypeCategorie;
 
     /**
      * @var string
@@ -63,6 +71,26 @@ class TypeAnalyse {
     }
 
 
+    /**
+     * Set TypeAnalyse
+     *
+     * @param \Inra2013\urzBundle\Entity\TypeAnalyse $typeAnalyse
+     * @return TypeAnalyse
+     */
+    public function setTypeAnalyse(\Inra2013\urzBundle\Entity\TypeAnalyse $typeAnalyse = null)
+    {
+        $this->TypeAnalyse = $typeAnalyse;
+    
+        return $this;
+    }
 
-
+    /**
+     * Get TypeAnalyse
+     *
+     * @return \Inra2013\urzBundle\Entity\TypeAnalyse 
+     */
+    public function getTypeAnalyse()
+    {
+        return $this->TypeAnalyse;
+    }
 }
