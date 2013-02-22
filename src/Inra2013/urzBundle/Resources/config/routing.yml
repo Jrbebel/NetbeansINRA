@@ -59,11 +59,16 @@ Inra2013Bundle_SaveFile:
    
    # Chemin pour la création du fichier excel 
    
-Inra2103Bundle_CreateExcel:
+Inra2013Bundle_CreateExcel:
   pattern: /User/CreateExcel
   defaults: { _controller : Inra2013urzBundle:GestionFichier:CreateExcel }
   
-  
+  #Chemin pour l'importation du listing des codelabo
+   
+Inra2013Bundle_ImportListing:
+   pattern: /User/ImportListing
+   defaults: { _controller : Inra2013urzBundle:GestionFichier:ImportListing }
+   
   #Chemin pour la recherche du protocole dans un input(requete json et ajax)
   
 Inra2013Bundle_SearchProtocole:
@@ -93,3 +98,4 @@ Inra2013Bundle_SearchCategorieAnalyse:
 Inra2013Bundle_SearchTypeAnalyse :
    pattern: /Search/TypeAnalyse
    defaults: { _controller : Inra2013urzBundle:Analyse:SearchTypeAnalyse }
+   

@@ -23,13 +23,15 @@
         <div id="style1"></div>
         <select id="analyse1" class="select"><option>Sélectionner catégorie</option></select>
         </br>
-
+        <div id="resultat1"></div>
 {#Pour la deuxième type de catégorie#}
         <div id="style2"></div>
         <select id="analyse2" class="select"><option>Sélectionner catégorie</option></select>
         </br>
+        <div id="resultat2"></div>
+
         </br>
-        
+
 
 
         <input type="submit" value="Annuler" class="btn btn-danger" />
@@ -132,9 +134,9 @@ if(i == 0){
             
             $("select#analyse1 ").click(function(){
 
-
  $("select#analyse1 option:selected").each(function () {
-     
+  
+$("#resultat1").empty();                 
             value=$(this).attr("value"); //je recupere la valeur value dans le selectionnée
             var DATA= 'id=' + value;
                            $(function(){ 
@@ -149,12 +151,10 @@ if(i == 0){
                        
                                 $.map(data, function (item,i) {
    
-                         
+   
+var div_data ="<label class='checkbox  inline'><input type='checkbox' name='choix_analyse[]' id='inlineCheckbox'"+i+" value="+item.id+">"+item.Nom+"</label>";
 
-                          console.log(item);    
-
-var div_data ="<option value="+item.id+">"+item.Nom+"</option>";
-$(div_data).appendTo("#analyse1");
+$(div_data).appendTo("#resultat1");
 
 
                      

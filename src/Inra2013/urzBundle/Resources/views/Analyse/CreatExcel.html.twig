@@ -11,12 +11,14 @@
 
         <input type="text" id="protocole" name="protocole" />
         <input type="hidden" name="idprotocole" id="institut" />
-        <button type="submit" class="btn">Search</button>
+        <input type="hidden" name="demande" value="{{type}}"/>
+               <button type="submit" class="btn">Search</button>
     </form>
 </div>
 
 {% if protocole is defined %}
-    <form class="form-search" action="{{path('Inra2103Bundle_CreateExcel')}}" method="POST">
+
+    <form class="form-search" action="{{path(form_path)}}" method="POST">
 
 <div class="alert alert-info">
     <dl class="dl-horizontal">
@@ -42,7 +44,7 @@
     </dl>
         </br>
         <input type="hidden" name="NumProtocole" value="{{protocole[0].id}}" />
-        <input type="submit"  value="Générer Fichier Excel" class="btn btn-primary" />
+        <input type="submit"  value="{{form_value}}" class="btn btn-primary" />
 </div>
     </form>
 {% endif %}

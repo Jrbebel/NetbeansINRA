@@ -155,7 +155,8 @@ class GestionFichierController extends Controller {
     public function CreateExcelAction() {
 
         if ($this->getRequest()->getMethod() == 'GET') {  //si c est un GET alors on affiche le formulaire de recherche de protocole
-            return $this->render('Inra2013urzBundle:Analyse:CreatExcel.html.twig');
+            
+        return $this->render("Inra2013urzBundle:Analyse:CreatExcel.html.twig",array('type'=>'createxcel'));
         } else if ($this->getRequest()->getMethod() == 'POST') // si c est un POST alors on traite la demande de creation de la fiche
             $id = $this->get('request')->get('NumProtocole');
 
@@ -382,16 +383,16 @@ class GestionFichierController extends Controller {
 
         $LimiteDebut = "O";
         $LimiteFin = "U";
-        $O = "Prise d'essai KK(g)"; 
-        $P = "Oeufs lu";          
-        $Q = "volume lu";    
-        $R="OPG";
-        $S = "Coccidies";       
-        $T = "Monezia";          
-        $U = "Strongyloides";     
-       
-        
-        
+        $O = "Prise d'essai KK(g)";
+        $P = "Oeufs lu";
+        $Q = "volume lu";
+        $R = "OPG";
+        $S = "Coccidies";
+        $T = "Monezia";
+        $U = "Strongyloides";
+
+
+
         $this->getStyleCell($feuille, $LimiteDebut, $LimiteFin);
         foreach (range($LimiteDebut, $LimiteFin) as $lettre) {
 
@@ -457,6 +458,24 @@ class GestionFichierController extends Controller {
             );
 
             $feuille->getActiveSheet()->getStyle($i . '1')->getBorders()->getAllBorders()->setBorderStyle('medium');
+        }
+    }
+
+    /**
+     * Description of ImportListing
+     * Permet d'importer un listing de codelabo pour un protocole et des analyse corespondant
+     * 
+     * @author BEBEL Jean Raynal
+     */
+    public function ImportListingAction() {
+
+        if ($this->getRequest()->getMethod() == 'GET') {  //si c est un GET alors on affiche le formulaire de recherche de protocole
+            return $this->render('Inra2013urzBundle:Analyse:CreatExcel.html.twig', array('type'=>'listing'));
+        }else if($this->getRequest()->getMethod() == 'POST'){
+           $analyse = new AnalyseController();
+            
+                return $this->render("Inra2013urzBundle:Default:edit.html.twig");
+            
         }
     }
 

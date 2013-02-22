@@ -25,10 +25,10 @@ class ProtocoleAnalyse {
      /**
      *
      * 
-     * @ORM\ManyToOne(targetEntity="Inra2013\urzBundle\Entity\CategorieAnalyse")
+     * @ORM\ManyToOne(targetEntity="Inra2013\urzBundle\Entity\TypeAnalyse")
      * 
      */
-    private $CategorieAnalyse ;
+    private $TypeAnalyse ;
     
     
     
@@ -42,30 +42,42 @@ class ProtocoleAnalyse {
  
 public function __construct() { 
     
-        $this->CategorieAnalyse= new \Doctrine\Common\Collections\ArrayCollection();
+        $this->TypeAnalyse= new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
     }
 
     /**
-     * Set CategorieAnalyse
+     * Set TypeAnalyse
      *
-     * @param \Inra2013\urzBundle\Entity\CategorieAnalyse $categorieAnalyse
+     * @param \Inra2013\urzBundle\Entity\TypeAnalyse $typeAnalyse
      * @return ProtocoleAnalyse
      */
-    public function setCategorieAnalyse(\Inra2013\urzBundle\Entity\CategorieAnalyse $categorieAnalyse)
+    public function setTypeAnalyse(\Inra2013\urzBundle\Entity\TypeAnalyse $typeAnalyse = null)
     {
-        $this->CategorieAnalyse = $categorieAnalyse;
+        $this->TypeAnalyse = $typeAnalyse;
     
         return $this;
     }
 
     /**
-     * Get CategorieAnalyse
+     * Get TypeAnalyse
      *
-     * @return \Inra2013\urzBundle\Entity\CategorieAnalyse 
+     * @return \Inra2013\urzBundle\Entity\TypeAnalyse 
      */
-    public function getCategorieAnalyse()
+    public function getTypeAnalyse()
     {
-        return $this->CategorieAnalyse;
+        return $this->TypeAnalyse;
     }
 
     /**
@@ -89,15 +101,5 @@ public function __construct() {
     public function getProtocole()
     {
         return $this->Protocole;
-    }
-
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
     }
 }

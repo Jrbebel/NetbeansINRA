@@ -26,6 +26,8 @@ class AnalyseController extends Controller {
         if ($request->isXmlHttpRequest()) {
 
             $id = $request->request->get('id');
+
+
             $array = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Protocole')->SearchProtocole($id);
             $reponse = new Response(json_encode($array));
             $reponse->headers->set('content-Type', 'application/json');
@@ -33,14 +35,18 @@ class AnalyseController extends Controller {
         } elseif ($this->getRequest()->getMethod() == "POST") {
 
             $id = $request->request->get("idprotocole");
+            $type = $request->request->get('demande');
 
             $Protocole = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Protocole')->findBy(array("id" => $id));
 
 
             $Analyse = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Protocole')->AnalyseProtocole($id);
 
-
-            return $this->render("Inra2013urzBundle:Analyse:CreatExcel.html.twig", array("protocole" => $Protocole, "Analyse" => $Analyse));
+            if ($type == "listing") {
+                return $this->render("Inra2013urzBundle:Analyse:CreatExcel.html.twig", array("protocole" => $Protocole, "Analyse" => $Analyse, 'form_path' => 'Inra2013Bundle_ImportListing', 'form_value' => 'Importer listing', 'type' => $type));
+            } elseif ($type == "createxcel") {
+                return $this->render("Inra2013urzBundle:Analyse:CreatExcel.html.twig", array("protocole" => $Protocole, "Analyse" => $Analyse, 'form_path' => 'Inra2013Bundle_CreateExcel', 'form_value' => 'Générer Fichier Excel', 'type' => $type));
+            }
         }
     }
 
@@ -68,10 +74,8 @@ class AnalyseController extends Controller {
             return $reponse;
         }
     }
-    
-    
-    
-       /**
+
+    /**
      * Description of SearchTypeAnalyse
      * Permet de recherche à partir du type d'analyse qui est associe a une catégorie 
      * renvoie un json.
@@ -128,19 +132,19 @@ class AnalyseController extends Controller {
                 $choix_analyse = $this->get('request')->get('choix_analyse');
 
 
-                foreach ($choix_analyse as $i=>$choix) {
+                foreach ($choix_analyse as $i => $choix) {
 
                     $ProtocoleAnalyse[$i] = new \Inra2013\urzBundle\Entity\ProtocoleAnalyse;
                     $ProtocoleAnalyse[$i]->setProtocole($typeProtocole);
-                    $CategorieAnalyse = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:CategorieAnalyse')->findBy(array("id" => $choix));
+                    $TypeAnalyse = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:TypeAnalyse')->findBy(array("id" => $choix));
                     $ProtocoleAnalyse[$i]->setProtocole($typeProtocole);
-                 
-                    $ProtocoleAnalyse[$i]->setCategorieAnalyse($CategorieAnalyse[0]);
+
+                    $ProtocoleAnalyse[$i]->setTypeAnalyse($TypeAnalyse[0]);
                     $em->persist($ProtocoleAnalyse[$i]);
                 }
 
 
-                             $em->persist($typeProtocole);
+                $em->persist($typeProtocole);
 
                 $em->flush(); //on sauvegarde le tous 
 
@@ -157,7 +161,7 @@ class AnalyseController extends Controller {
      */
     function CreateAnalyseAction() {
 
-        return $this->render("Inra2013urzBundle:Analyse:CreateAnalyse.html.twig");
+        return $this->render("Inra2013urzBundle:Analyse:CreateAnalyse.html.twig", array('type' => 'listing'));
     }
 
 }
