@@ -28,7 +28,7 @@ class Analyse {
     /**
      *  *@ORM\ManyToOne(targetEntity="Inra2013\urzBundle\Entity\Animal")
      *  @ORM\JoinColumn(name="Animal", referencedColumnName="id") 
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $Animal;
 

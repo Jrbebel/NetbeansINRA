@@ -20,19 +20,17 @@ class ProtocoleRepository extends EntityRepository {
 
         $from = "Inra2013urzBundle:Protocole";
         $alias = "a";
- $from1 = "Inra2013urzBundle:User";
+        $from1 = "Inra2013urzBundle:User";
         $alias1 = "u";
-    
+
         $qb = $this->_em->createQueryBuilder();
         $qb->select('a,u')
                 ->from($from, $alias)
-                
                 ->where('a.NomProtocole LIKE :id')
-                 ->join($from1, $alias1)
-                ->setParameter('id', $id."%");
-      
-            return $qb->getQuery()->getArrayResult();
-        
+                ->join($from1, $alias1)
+                ->setParameter('id', $id . "%");
+
+        return $qb->getQuery()->getArrayResult();
     }
 
     /**
@@ -68,11 +66,12 @@ class ProtocoleRepository extends EntityRepository {
         $alias1 = "c";
 
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('a')
+        $qb->select('a,c')
                 ->from($from, $alias)
                 ->join($from1, $alias1)
                 ->where('c.Protocole =:id')
                 ->andWhere('a.CodeLabo = c.CodeLabo')
+            
                 ->setParameter('id', $id);
         return $qb->getQuery()->getResult();
     }

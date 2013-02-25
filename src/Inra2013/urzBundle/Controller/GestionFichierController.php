@@ -31,7 +31,7 @@ class GestionFichierController extends Controller {
 
 
         if ($this->getRequest()->getMethod() == 'POST') {
-
+            $protocole = $this->get('Request')->get('protocole'); // on recupère le protocole courant
             /** Recupération des informations du fichier avec les differents type d'erreur   * */
             if ($_FILES['files']['error']) {
 
@@ -60,14 +60,9 @@ class GestionFichierController extends Controller {
 
                 move_uploaded_file($tmp_name, $this->path . "/" . $_FILES['files']['name']); /*                 * On bouge le fichier dans la section Resources/Upload pour pourvoir l utilisé pour l'enregistrement* */
 
-                return $this->render("Inra2013urzBundle:Default:edit.html.twig", array('xls' => $sheet, 'file' => $_FILES['files']['name']));
+                return $this->render("Inra2013urzBundle:Default:edit.html.twig", array('xls' => $sheet, 'file' => $_FILES['files']['name'], "protocole" => $protocole));
             }
         }
-
-
-
-
-
 
 
         return $this->render("Inra2013urzBundle:Default:edit.html.twig");
@@ -97,7 +92,10 @@ class GestionFichierController extends Controller {
 
         $files['files']["tmp_name"] = $this->path . "/" . $_POST['files'];
         $sheet = $this->ReadExcelAction($files); //On lit le fichier excel
-
+        $entityName = "Inra2013urzBundle:Protocole";
+        $numProtocole = $this->get('request')->get('NumProtocole');
+        /*         * On recupere l entité protocole correspondant au numero de protocole* */
+        $Protocole = $this->getDoctrine()->getEntityManager()->getRepository($entityName)->findBy(array('id' => $numProtocole));
 
         $em = $this->getDoctrine()->getManager();  // On récupére l'EntityManager
         $i = 0;
@@ -105,9 +103,12 @@ class GestionFichierController extends Controller {
         foreach ($sheet->getRowIterator() as $row) {
             $Analyse[$i] = new Analyse();
 
-            // On prend pas la première ligne du tableau,c'est les titre du tableau
+// On prend pas la première ligne du tableau,c'est les titre du tableau
 
             foreach ($row->getCellIterator() as $cell) {
+
+                $Analyse[$i]->setProtocole($Protocole[0]);
+
 
                 if ($row->getRowIndex() != 1) {
                     if ($cell->getColumn() == 'A') {
@@ -134,29 +135,46 @@ class GestionFichierController extends Controller {
                         }
                     }
 
+                    /*                     * On enregistre les codelabo dans les différents type d'analyse* */
+                    $ResultTypeAnalyse = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Protocole')->AnalyseProtocole($numProtocole);
+                    foreach ($ResultTypeAnalyse as $Resultat => $Key) {
+
+                        $analyse = "\Inra2013\urzBundle\Entity\Ana" . $Key['Nom'];
+
+                        $TypeAnalyse[$Resultat] = new $analyse();
+                        \Doctrine\Common\Util\Debug::dump($Resultat);
+
+                        $TypeAnalyse[$Resultat]->setCodeLabo($Analyse[$i]);
+                        $em->persist($TypeAnalyse[$Resultat]); //on persist l'objet analyse
+                   
+                    }
+   
+
                     $em->persist($Analyse[$i]); //on persist l'objet analyse
-                }
+                }  $em->flush();
             }
+
+
+
 
             $i++;
             $em->flush(); //on sauvegarde dans la base
             /* faut que je supprime le fichier uploader qui est enregistrer sur le serveur* */
         }
 
-        return $this->render('Inra2013urzBundle:Default:edit.html.twig', array("Status" => "Enregistrement"));
+        return $this->render('Inra2013urzBundle:Default:edit.html.twig', array("Status" => "Enregistrement", "protocole" => $numProtocole));
     }
 
     /**
      * Description of CreateExcelAction
-     * Permet de creer un fichier excel pour l'importation 
+     * Permet de creer un fichier excel avec un protocole donnée
      * @param $file : fichier upload 
      * @author BEBEL Jean Raynal
      */
     public function CreateExcelAction() {
 
         if ($this->getRequest()->getMethod() == 'GET') {  //si c est un GET alors on affiche le formulaire de recherche de protocole
-            
-        return $this->render("Inra2013urzBundle:Analyse:CreatExcel.html.twig",array('type'=>'createxcel'));
+            return $this->render("Inra2013urzBundle:Analyse:CreatExcel.html.twig", array('type' => 'createxcel'));
         } else if ($this->getRequest()->getMethod() == 'POST') // si c est un POST alors on traite la demande de creation de la fiche
             $id = $this->get('request')->get('NumProtocole');
 
@@ -200,18 +218,21 @@ class GestionFichierController extends Controller {
         $NameFile = "Essai";
         /*         * Propriété pour la hauteur de la cellule,par default c'est la première ligne.pour modification des celle ci mettre argument dans la fct getRowDimension() */
         $pts = 24; //hauteur de la cellule exprimé en point
-        //
+//
         // create the object see http://phpexcel.codeplex.com documentation
         $excelService->excelObj->getProperties()->setCreator($Auteur)
                 ->setLastModifiedBy($Auteur)
                 ->setTitle($Title)
                 ->setSubject($Subject)
                 ->setDescription($Description);
-        // ->setKeywords("office 2005 openxml php")
-        //->setCategory("Test result file");
+// ->setKeywords("office 2005 openxml php")
+//->setCategory("Test result file");
         $Protocole = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Protocole')->AnalyseProtocole($id);
+// $IdProtocole = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Protocole')->findBy(array('id' => $id));
+
 
         foreach ($Protocole as $Resultat => $Key) {
+
 
             $objWorkSheet[$Resultat] = $excelService->excelObj->createSheet();
             $excelService->excelObj->setActiveSheetIndex($Resultat)
@@ -242,25 +263,25 @@ class GestionFichierController extends Controller {
             /*             * Les valeurs recuperer,on les mets dans les champs prévu* */
             foreach ($AnalyseProto as $i => $analyse) {
 
-                //    \Doctrine\Common\Util\Debug::dump( $analyse->getCodeLabo()->getProtocole());
+
                 $resultatA = $analyse->getCodeLabo()->getCodeLabo();
-                $resultatB = $analyse->getCodeLabo()->getProtocole()->getId();
-                $resultatC = "Null";
-                $resultatD = "Null";
-                $resultatE = "Null";
-                $resultatF = "Null";
-                $resultatG = "null";
-                $resultatH = "Null";
+                $resultatB = NULL;
+                $resultatC = NULL;
+                $resultatD = NULL;
+                $resultatE = NULL;
+                $resultatF = NULL;
+                $resultatG = NULL;
+                $resultatH = NULL;
                 $resultatI = $analyse->getCodeLabo()->getDatePrelev()->format('d-m-Y');
                 $resultatJ = $analyse->getCodeLabo()->getDateAnalyse()->format('d-m-Y');
-                $resultatK = "Null";
-                $resultatL = "Null";
-                $resultatM = "Null";
-                $resultatN = "Null";
+                $resultatK = NULL;
+                $resultatL = NULL;
+                $resultatM = NULL;
+                $resultatN = NULL;
 
 
 
-                /*                 * On commence a partir de la ligne 2,la première sont les titres* */
+                /*                 * On commence a partir de la ligne 2,la première ligne sont les titres* */
 
                 $excelService->excelObj->setActiveSheetIndex($Resultat)
                         /*                         * Valeur pour les champs obligatoires* */
@@ -300,7 +321,7 @@ class GestionFichierController extends Controller {
 
             /*             * Pour les champs obligatoires* */
             foreach (range($LimiteDebutObli, $LimiteFinObli) as $i) { //Boucle jusqu'a J pour applique le style
-                //
+//
                 //  $excelService->excelObj->getActiveSheet()->getStyle($i.'1' )->getProtection()->setLocked('PROTECTION_PROTECTED');
                 $excelService->excelObj->getActiveSheet()->getColumnDimension($i)->setAutoSize(true); //autosize pour les colonnes
                 $excelService->excelObj->getActiveSheet()->getStyle($i . '1')->applyFromArray(
@@ -332,13 +353,13 @@ class GestionFichierController extends Controller {
 
 
 
-        //create the response
+//create the response
 
         $response = $excelService->getResponse();
         $response->headers->set('Content-Type', 'text/vnd.ms-excel; charset=utf-8');
         $response->headers->set('Content-Disposition', 'attachment;filename=' . $NameFile . '.xls');
 
-        // If you are using a https connection, you have to set those two headers for compatibility with IE <9
+// If you are using a https connection, you have to set those two headers for compatibility with IE <9
         $response->headers->set('Pragma', 'public');
         $response->headers->set('Cache-Control', 'maxage=1');
         return $response;
@@ -446,8 +467,8 @@ class GestionFichierController extends Controller {
         $feuille->getActiveSheet()->getRowDimension()->setRowHeight($pts);
         /*         * Pour les champs obligatoires* */
         foreach (range($LimiteDebut, $LimiteFin) as $i) { //Boucle jusqu'a J pour applique le style
-            //
-                //  $excelService->excelObj->getActiveSheet()->getStyle($i.'1' )->getProtection()->setLocked('PROTECTION_PROTECTED');
+//
+            //  $excelService->excelObj->getActiveSheet()->getStyle($i.'1' )->getProtection()->setLocked('PROTECTION_PROTECTED');
             $feuille->getActiveSheet()->getColumnDimension($i)->setAutoSize(true); //autosize pour les colonnes
             $feuille->getActiveSheet()->getStyle($i . '1')->applyFromArray(
                     array('fill' =>
@@ -469,13 +490,13 @@ class GestionFichierController extends Controller {
      */
     public function ImportListingAction() {
 
+
         if ($this->getRequest()->getMethod() == 'GET') {  //si c est un GET alors on affiche le formulaire de recherche de protocole
-            return $this->render('Inra2013urzBundle:Analyse:CreatExcel.html.twig', array('type'=>'listing'));
-        }else if($this->getRequest()->getMethod() == 'POST'){
-           $analyse = new AnalyseController();
-            
-                return $this->render("Inra2013urzBundle:Default:edit.html.twig");
-            
+            return $this->render('Inra2013urzBundle:Analyse:CreatExcel.html.twig', array('type' => 'listing'));
+        } else if ($this->getRequest()->getMethod() == 'POST') {
+            $analyse = new AnalyseController();
+            $protocole = $this->get('request')->get('NumProtocole');
+            return $this->render("Inra2013urzBundle:Default:edit.html.twig", array("protocole" => $protocole));
         }
     }
 

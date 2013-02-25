@@ -14,7 +14,7 @@ class AnaOPG
 {
     /**
      * @ORM\Id
-     *  *@ORM\ManyToOne(targetEntity="Inra2013\urzBundle\Entity\Analyse")
+     *  *@ORM\ManyToOne(targetEntity="Inra2013\urzBundle\Entity\Analyse", cascade={"persist", "remove"})
      * @ORM\JoinColumn(name="CodeLabo", referencedColumnName="CodeLabo")
      */
     private $CodeLabo;
@@ -27,14 +27,14 @@ class AnaOPG
         /**
      * @var integer
      *
-     * @ORM\Column(name="PrisEssai", type="integer")
+     * @ORM\Column(name="PrisEssai", type="integer", nullable=true)
      */
     private $PrisEssai;
     
     /**
      * @var integer
      *
-     * @ORM\Column(name="OeufLu", type="integer")
+     * @ORM\Column(name="OeufLu", type="integer", nullable=true)
      */
     private $OeufLu;
     
@@ -42,35 +42,35 @@ class AnaOPG
     /**
      * @var integer
      *
-     * @ORM\Column(name="VolLu", type="integer")
+     * @ORM\Column(name="VolLu", type="integer", nullable=true)
      */
     private $VolLu;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="Opg", type="integer")
+     * @ORM\Column(name="Opg", type="integer", nullable=true)
      */
     private $Opg;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="Conccidies", type="integer")
+     * @ORM\Column(name="Conccidies", type="integer", nullable=true)
      */
     private $Conccidies;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="Monezia", type="integer")
+     * @ORM\Column(name="Monezia", type="integer",nullable=true)
      */
     private $Monezia;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="Strongeledia", type="integer")
+     * @ORM\Column(name="Strongeledia", type="integer", nullable=true)
      */
     private $Strongeledia;
 
