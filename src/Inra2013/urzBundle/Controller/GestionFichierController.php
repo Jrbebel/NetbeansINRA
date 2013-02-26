@@ -96,11 +96,13 @@ class GestionFichierController extends Controller {
         $numProtocole = $this->get('request')->get('NumProtocole');
         /*         * On recupere l entité protocole correspondant au numero de protocole* */
         $Protocole = $this->getDoctrine()->getEntityManager()->getRepository($entityName)->findBy(array('id' => $numProtocole));
+        $ResultTypeAnalyse = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Protocole')->AnalyseProtocole($numProtocole);
 
         $em = $this->getDoctrine()->getManager();  // On récupére l'EntityManager
         $i = 0;
-
+        $a = 0;
         foreach ($sheet->getRowIterator() as $row) {
+
             $Analyse[$i] = new Analyse();
 
 // On prend pas la première ligne du tableau,c'est les titre du tableau
@@ -111,10 +113,19 @@ class GestionFichierController extends Controller {
 
 
                 if ($row->getRowIndex() != 1) {
+
                     if ($cell->getColumn() == 'A') {
 
-                        $rest = substr($cell->getValue(), -4);
+                        $rest = substr($cell->getValue(), -4); //on recupere le code labo sans le provenance
+
                         $Analyse[$i]->setCodeLabo($rest);
+
+                        foreach ($ResultTypeAnalyse as $Resultat => $Key) {
+
+                            $analyse = "\Inra2013\urzBundle\Entity\Ana" . $Key['Nom'];
+                            $TypeAnalyse[$Resultat] = new $analyse();
+                            $TypeAnalyse[$Resultat]->setCodeLabo($Analyse[$i]);
+                        }
                     } elseif ($cell->getColumn() == 'B') {
 
                         $Animal = $cell->getValue();
@@ -131,34 +142,23 @@ class GestionFichierController extends Controller {
                         if ($cell->getValue() != "Date analyse") {
 
                             $dateAnalyse = $sheet->getStyle('H1')->getNumberFormat()->toFormattedString($cell->getValue(), "M/D/YYYY"); //Etant donné que le format récuperé est un float,on utilise cette fonction pour le mettre aux format date
+                            /*                             * On enregistre les codelabo dans les différents type d'analyse* */
+                            /*                             * On est arrivé a la dernière colonnne,on peut persister l'objet analyse et typeAnalyse * */
                             $Analyse[$i]->setDateAnalyse(new \DateTime($dateAnalyse));
+                            $em->persist($Analyse[$i]); //on persist l'objet analyse
+                            foreach ($ResultTypeAnalyse as $Resultat => $Key) {
+                                $em->persist($TypeAnalyse[$Resultat]); //on persist l'objet Typeanalyse
+                            }
                         }
                     }
-
-                    /*                     * On enregistre les codelabo dans les différents type d'analyse* */
-                    $ResultTypeAnalyse = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Protocole')->AnalyseProtocole($numProtocole);
-                    foreach ($ResultTypeAnalyse as $Resultat => $Key) {
-
-                        $analyse = "\Inra2013\urzBundle\Entity\Ana" . $Key['Nom'];
-
-                        $TypeAnalyse[$Resultat] = new $analyse();
-                        \Doctrine\Common\Util\Debug::dump($Resultat);
-
-                        $TypeAnalyse[$Resultat]->setCodeLabo($Analyse[$i]);
-                        $em->persist($TypeAnalyse[$Resultat]); //on persist l'objet analyse
-                   
-                    }
-   
-
-                    $em->persist($Analyse[$i]); //on persist l'objet analyse
-                }  $em->flush();
+                }
             }
 
 
-
-
+            $em->flush(); //on sauvegarde dans la base   
             $i++;
-            $em->flush(); //on sauvegarde dans la base
+
+
             /* faut que je supprime le fichier uploader qui est enregistrer sur le serveur* */
         }
 
@@ -494,8 +494,8 @@ class GestionFichierController extends Controller {
         if ($this->getRequest()->getMethod() == 'GET') {  //si c est un GET alors on affiche le formulaire de recherche de protocole
             return $this->render('Inra2013urzBundle:Analyse:CreatExcel.html.twig', array('type' => 'listing'));
         } else if ($this->getRequest()->getMethod() == 'POST') {
-            $analyse = new AnalyseController();
-            $protocole = $this->get('request')->get('NumProtocole');
+            $numProtocole = $this->get('request')->get('NumProtocole');
+    
             return $this->render("Inra2013urzBundle:Default:edit.html.twig", array("protocole" => $protocole));
         }
     }

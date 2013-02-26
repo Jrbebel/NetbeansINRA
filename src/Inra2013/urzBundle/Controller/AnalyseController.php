@@ -43,9 +43,12 @@ class AnalyseController extends Controller {
             $Analyse = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Protocole')->AnalyseProtocole($id);
 
             if ($type == "listing") {
-                return $this->render("Inra2013urzBundle:Analyse:CreatExcel.html.twig", array("protocole" => $Protocole, "Analyse" => $Analyse, 'form_path' => 'Inra2013Bundle_ImportListing', 'form_value' => 'Importer listing', 'type' => $type,'protocole'=>$Protocole));
+                return $this->render("Inra2013urzBundle:Analyse:CreatExcel.html.twig", array("protocole" => $Protocole, "Analyse" => $Analyse, 'form_path' => 'Inra2013Bundle_ImportListing', 'form_value' => 'Importer listing', 'type' => $type, 'protocole' => $Protocole));
             } elseif ($type == "createxcel") {
-                return $this->render("Inra2013urzBundle:Analyse:CreatExcel.html.twig", array("protocole" => $Protocole, "Analyse" => $Analyse, 'form_path' => 'Inra2013Bundle_CreateExcel', 'form_value' => 'Générer Fichier Excel', 'type' => $type,'protocole'=>$Protocole));
+                return $this->render("Inra2013urzBundle:Analyse:CreatExcel.html.twig", array("protocole" => $Protocole, "Analyse" => $Analyse, 'form_path' => 'Inra2013Bundle_CreateExcel', 'form_value' => 'Générer Fichier Excel', 'type' => $type, 'protocole' => $Protocole));
+            } elseif ($type == "createanalyse") {
+
+                return $this->render("Inra2013urzBundle:Analyse:CreatExcel.html.twig", array("protocole" => $Protocole, "Analyse" => $Analyse, 'form_path' => 'Inra2013Bundle_CreateAnalyse', 'form_value' => 'Créer analyse', 'type' => $type, 'protocole' => $Protocole));
             }
         }
     }
@@ -161,7 +164,18 @@ class AnalyseController extends Controller {
      */
     function CreateAnalyseAction() {
 
-        return $this->render("Inra2013urzBundle:Analyse:CreateAnalyse.html.twig", array('type' => 'listing'));
+        if ($this->getRequest()->getMethod() == 'GET') {  //si c est un GET alors on affiche le formulaire de recherche de protocole
+            return $this->render('Inra2013urzBundle:Analyse:CreatExcel.html.twig', array('type' => 'createanalyse'));
+        } else if ($this->getRequest()->getMethod() == 'POST') {
+            $numProtocole = $this->get('request')->get('NumProtocole');
+            $ResultTypeAnalyse = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Protocole')->AnalyseProtocole($numProtocole);
+
+            /*             * On crée les formulaires pour les différents type d'analyse* */
+            /*             * Une boucle pour créer les formulaires des types analyses * */
+
+
+            return $this->render("Inra2013urzBundle:Analyse:CreateAnalyse.html.twig", array('TypeAnalyse' => $ResultTypeAnalyse));
+        }
     }
 
 }

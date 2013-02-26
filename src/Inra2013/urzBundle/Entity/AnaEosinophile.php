@@ -29,14 +29,14 @@ class AnaEosinophile {
     /**
      * @var integer
      *
-     * @ORM\Column(name="Eosino_lu", type="integer")
+     * @ORM\Column(name="Eosino_lu", type="integer", nullable=true)
      */
     private $Eosino_lu;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="Eosino_val", type="integer")
+     * @ORM\Column(name="Eosino_val", type="integer", nullable=true)
      */
     private $Eosino_val;
 

@@ -1,6 +1,36 @@
 {% extends "Inra2013urzBundle:Default:IndexUser.html.twig" %}
 {% block title %}Create Analyse{% endblock %}
 {%block body%}
-Ici on vas faire la saisie des données pour les analyses
+{#Ici on vas faire la saisie des données pour les analyses#}
 
+<ul class="nav nav-tabs" id="myTab">
+
+    {%for typeanalyse in TypeAnalyse %}
+    {%if loop.index == 1%}
+     <li class="active"><a href="#{{typeanalyse.Nom}}">{{typeanalyse.Nom}}</a></li>
+     {%else%}
+          <li ><a href="#{{typeanalyse.Nom}}">{{typeanalyse.Nom}}</a></li>
+    {%endif%}
+    {%endfor%}
+
+
+
+   
+  
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane active" id="home">e</div>
+    <div class="tab-pane" id="profile">a</div>
+    <div class="tab-pane" id="messages">b</div>
+    <div class="tab-pane" id="settings">c</div>
+</div>
+{%endblock %}
+{%block javascripts%}
+<script> 
+$('#myTab a').click(function (e) {
+  e.preventDefault();
+  $(this).tab('show');
+})
+    </script>
 {%endblock %}

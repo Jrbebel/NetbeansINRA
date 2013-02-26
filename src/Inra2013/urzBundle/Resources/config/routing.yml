@@ -78,7 +78,7 @@ Inra2013Bundle_SearchProtocole:
  #Chemin Pour la creation des analyses
  
 Inra2013Bundle_CreateAnalyse:
-   pattern: /CreateAnalyse
+   pattern: /User/CreateAnalyse
    defaults: { _controller : Inra2013urzBundle:Analyse:CreateAnalyse }
  
  #Chemin pour la creation d'un protocole
