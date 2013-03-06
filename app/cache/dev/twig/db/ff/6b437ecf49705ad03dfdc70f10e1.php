@@ -84,10 +84,10 @@ class __TwigTemplate_dbff6b437ecf49705ad03dfdc70f10e1 extends Twig_Template
                     <input type=\"file\" id=\"fileElem\" name=\"files\" onchange=\"handleFiles(this.files)\" >  
 ";
             // line 32
-            if ((!(null === $this->getContext($context, "protocole")))) {
+            if ((!(null === (isset($context["protocole"]) ? $context["protocole"] : $this->getContext($context, "protocole"))))) {
                 // line 33
                 echo "                    <input type=\"hidden\" name=\"protocole\" value=\"";
-                echo twig_escape_filter($this->env, $this->getContext($context, "protocole"), "html", null, true);
+                echo twig_escape_filter($this->env, (isset($context["protocole"]) ? $context["protocole"] : $this->getContext($context, "protocole")), "html", null, true);
                 echo "\" />
                     ";
             }
@@ -136,13 +136,13 @@ class __TwigTemplate_dbff6b437ecf49705ad03dfdc70f10e1 extends Twig_Template
         ";
             // line 71
             $context['_parent'] = (array) $context;
-            $context['_seq'] = twig_ensure_traversable($this->getAttribute($this->getContext($context, "xls"), "getRowIterator", array(), "method"));
+            $context['_seq'] = twig_ensure_traversable($this->getAttribute((isset($context["xls"]) ? $context["xls"] : $this->getContext($context, "xls")), "getRowIterator", array(), "method"));
             foreach ($context['_seq'] as $context["_key"] => $context["cell"]) {
                 echo " 
 
 ";
                 // line 73
-                if (($this->getAttribute($this->getContext($context, "cell"), "getRowIndex", array(), "method") == 1)) {
+                if (($this->getAttribute((isset($context["cell"]) ? $context["cell"] : $this->getContext($context, "cell")), "getRowIndex", array(), "method") == 1)) {
                     // line 74
                     echo "        
         <thead> <tr>  
@@ -150,13 +150,13 @@ class __TwigTemplate_dbff6b437ecf49705ad03dfdc70f10e1 extends Twig_Template
          ";
                     // line 77
                     $context['_parent'] = (array) $context;
-                    $context['_seq'] = twig_ensure_traversable($this->getAttribute($this->getContext($context, "cell"), "getCellIterator", array(), "method"));
+                    $context['_seq'] = twig_ensure_traversable($this->getAttribute((isset($context["cell"]) ? $context["cell"] : $this->getContext($context, "cell")), "getCellIterator", array(), "method"));
                     foreach ($context['_seq'] as $context["_key"] => $context["liste"]) {
                         echo "   
                 
        <th>";
                         // line 79
-                        echo twig_escape_filter($this->env, $this->getAttribute($this->getContext($context, "liste"), "getValue", array(), "method"), "html", null, true);
+                        echo twig_escape_filter($this->env, $this->getAttribute((isset($context["liste"]) ? $context["liste"] : $this->getContext($context, "liste")), "getValue", array(), "method"), "html", null, true);
                         echo "</th>
 
         ";
@@ -183,7 +183,7 @@ class __TwigTemplate_dbff6b437ecf49705ad03dfdc70f10e1 extends Twig_Template
 ";
             // line 90
             $context['_parent'] = (array) $context;
-            $context['_seq'] = twig_ensure_traversable($this->getAttribute($this->getContext($context, "xls"), "getRowIterator", array(), "method"));
+            $context['_seq'] = twig_ensure_traversable($this->getAttribute((isset($context["xls"]) ? $context["xls"] : $this->getContext($context, "xls")), "getRowIterator", array(), "method"));
             $context['loop'] = array(
               'parent' => $context['_parent'],
               'index0' => 0,
@@ -204,36 +204,36 @@ class __TwigTemplate_dbff6b437ecf49705ad03dfdc70f10e1 extends Twig_Template
 
     ";
                 // line 94
-                if (($this->getAttribute($this->getContext($context, "loop"), "index") < 15)) {
+                if (($this->getAttribute((isset($context["loop"]) ? $context["loop"] : $this->getContext($context, "loop")), "index") < 15)) {
                     echo " ";
                     echo "  
 
 ";
                     // line 96
                     $context['_parent'] = (array) $context;
-                    $context['_seq'] = twig_ensure_traversable($this->getAttribute($this->getContext($context, "liste"), "getCellIterator", array(), "method"));
+                    $context['_seq'] = twig_ensure_traversable($this->getAttribute((isset($context["liste"]) ? $context["liste"] : $this->getContext($context, "liste")), "getCellIterator", array(), "method"));
                     foreach ($context['_seq'] as $context["_key"] => $context["cell"]) {
                         // line 97
                         echo "
 ";
                         // line 98
-                        if (($this->getAttribute($this->getContext($context, "liste"), "getRowIndex", array(), "method") != 1)) {
+                        if (($this->getAttribute((isset($context["liste"]) ? $context["liste"] : $this->getContext($context, "liste")), "getRowIndex", array(), "method") != 1)) {
                             echo " 
         ";
                             // line 99
-                            if ((($this->getAttribute($this->getContext($context, "cell"), "getColumn", array(), "method") == "I") || ($this->getAttribute($this->getContext($context, "cell"), "getColumn", array(), "method") == "J"))) {
+                            if ((($this->getAttribute((isset($context["cell"]) ? $context["cell"] : $this->getContext($context, "cell")), "getColumn", array(), "method") == "I") || ($this->getAttribute((isset($context["cell"]) ? $context["cell"] : $this->getContext($context, "cell")), "getColumn", array(), "method") == "J"))) {
                                 // line 100
                                 echo "                    <td>";
-                                echo twig_escape_filter($this->env, $this->getAttribute($this->getContext($context, "cell"), "getCalculatedValue", array(), "method"), "html", null, true);
+                                echo twig_escape_filter($this->env, $this->getAttribute((isset($context["cell"]) ? $context["cell"] : $this->getContext($context, "cell")), "getCalculatedValue", array(), "method"), "html", null, true);
                                 echo "</td> ";
                                 // line 101
                                 echo "                ";
-                            } elseif ((($this->getAttribute($this->getContext($context, "cell"), "getColumn", array(), "method") == "G") || ($this->getAttribute($this->getContext($context, "cell"), "getColumn", array(), "method") == "H"))) {
+                            } elseif ((($this->getAttribute((isset($context["cell"]) ? $context["cell"] : $this->getContext($context, "cell")), "getColumn", array(), "method") == "G") || ($this->getAttribute((isset($context["cell"]) ? $context["cell"] : $this->getContext($context, "cell")), "getColumn", array(), "method") == "H"))) {
                                 // line 102
                                 echo "
                     <td>";
                                 // line 103
-                                echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute($this->getAttribute($this->getContext($context, "xls"), "getStyle", array(0 => "G1"), "method"), "getNumberFormat", array(), "method"), "toFormattedString", array(0 => $this->getAttribute($this->getContext($context, "cell"), "getValue", array(), "method"), 1 => "M/D/YYYY"), "method"), "html", null, true);
+                                echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute($this->getAttribute((isset($context["xls"]) ? $context["xls"] : $this->getContext($context, "xls")), "getStyle", array(0 => "G1"), "method"), "getNumberFormat", array(), "method"), "toFormattedString", array(0 => $this->getAttribute((isset($context["cell"]) ? $context["cell"] : $this->getContext($context, "cell")), "getValue", array(), "method"), 1 => "M/D/YYYY"), "method"), "html", null, true);
                                 echo "</td> ";
                                 // line 104
                                 echo "
@@ -241,7 +241,7 @@ class __TwigTemplate_dbff6b437ecf49705ad03dfdc70f10e1 extends Twig_Template
                             } else {
                                 // line 106
                                 echo "                    <td>";
-                                echo twig_escape_filter($this->env, $this->getAttribute($this->getContext($context, "cell"), "getValue", array(), "method"), "html", null, true);
+                                echo twig_escape_filter($this->env, $this->getAttribute((isset($context["cell"]) ? $context["cell"] : $this->getContext($context, "cell")), "getValue", array(), "method"), "html", null, true);
                                 echo "</td>
                 ";
                             }
@@ -281,11 +281,11 @@ class __TwigTemplate_dbff6b437ecf49705ad03dfdc70f10e1 extends Twig_Template
 
             <input type=\"hidden\" name=\"files\" value=\"";
             // line 121
-            echo twig_escape_filter($this->env, $this->getContext($context, "file"), "html", null, true);
+            echo twig_escape_filter($this->env, (isset($context["file"]) ? $context["file"] : $this->getContext($context, "file")), "html", null, true);
             echo "\"/>
             <input type=\"hidden\" name=\"NumProtocole\" value=\"";
             // line 122
-            echo twig_escape_filter($this->env, $this->getContext($context, "protocole"), "html", null, true);
+            echo twig_escape_filter($this->env, (isset($context["protocole"]) ? $context["protocole"] : $this->getContext($context, "protocole")), "html", null, true);
             echo "\"/>
 
             <input type=\"submit\" class=\"btn btn-danger\" value=\"Cancel\" />
@@ -343,6 +343,6 @@ var texte =\"<table class='table table-striped'><tbody><tr><td><img height='40' 
 
     public function getDebugInfo()
     {
-        return array (  315 => 140,  308 => 135,  305 => 134,  299 => 130,  288 => 122,  284 => 121,  261 => 113,  257 => 111,  243 => 106,  239 => 104,  236 => 103,  233 => 102,  226 => 100,  224 => 99,  217 => 97,  213 => 96,  207 => 94,  202 => 91,  175 => 87,  69 => 19,  166 => 72,  150 => 67,  146 => 65,  129 => 61,  87 => 32,  188 => 77,  167 => 59,  137 => 47,  62 => 14,  53 => 9,  40 => 4,  128 => 71,  77 => 28,  23 => 3,  49 => 10,  210 => 72,  199 => 61,  193 => 60,  182 => 89,  179 => 53,  174 => 8,  168 => 82,  110 => 43,  56 => 16,  20 => 1,  301 => 100,  295 => 96,  292 => 95,  289 => 94,  287 => 93,  282 => 90,  276 => 115,  273 => 85,  270 => 84,  268 => 83,  263 => 80,  249 => 108,  245 => 77,  230 => 101,  222 => 73,  220 => 98,  215 => 80,  211 => 69,  204 => 66,  198 => 63,  185 => 90,  183 => 60,  177 => 58,  160 => 80,  112 => 42,  82 => 30,  65 => 16,  38 => 4,  144 => 51,  141 => 66,  135 => 47,  126 => 45,  109 => 47,  103 => 43,  67 => 18,  61 => 9,  47 => 7,  91 => 38,  84 => 28,  28 => 3,  225 => 96,  216 => 90,  212 => 88,  205 => 145,  201 => 83,  196 => 80,  194 => 62,  191 => 78,  189 => 59,  186 => 76,  180 => 72,  172 => 76,  159 => 79,  154 => 68,  147 => 74,  132 => 48,  127 => 65,  121 => 55,  118 => 39,  114 => 30,  104 => 36,  100 => 32,  78 => 25,  75 => 21,  71 => 23,  34 => 5,  44 => 8,  94 => 15,  88 => 28,  59 => 22,  105 => 34,  93 => 30,  79 => 23,  76 => 33,  72 => 32,  68 => 12,  58 => 13,  24 => 6,  27 => 4,  25 => 3,  21 => 2,  31 => 2,  26 => 2,  19 => 1,  70 => 19,  63 => 16,  46 => 12,  22 => 2,  163 => 58,  155 => 56,  152 => 77,  149 => 54,  145 => 73,  139 => 53,  131 => 67,  123 => 47,  120 => 46,  115 => 51,  106 => 53,  101 => 42,  96 => 21,  83 => 26,  80 => 14,  74 => 16,  66 => 21,  55 => 10,  52 => 11,  50 => 8,  43 => 8,  41 => 9,  37 => 3,  35 => 3,  32 => 7,  29 => 2,  184 => 70,  178 => 71,  171 => 62,  165 => 58,  162 => 81,  157 => 56,  153 => 54,  151 => 73,  143 => 54,  138 => 71,  136 => 52,  133 => 46,  130 => 47,  122 => 48,  119 => 36,  116 => 35,  111 => 29,  108 => 42,  102 => 30,  98 => 22,  95 => 35,  92 => 28,  89 => 33,  85 => 27,  81 => 36,  73 => 21,  64 => 23,  60 => 17,  57 => 17,  54 => 12,  51 => 14,  48 => 11,  45 => 9,  42 => 5,  39 => 5,  36 => 3,  33 => 6,  30 => 2,);
+        return array (  315 => 140,  308 => 135,  305 => 134,  299 => 130,  288 => 122,  284 => 121,  261 => 113,  257 => 111,  243 => 106,  239 => 104,  236 => 103,  226 => 100,  224 => 99,  213 => 96,  207 => 94,  202 => 91,  175 => 87,  69 => 19,  167 => 59,  137 => 47,  40 => 4,  128 => 71,  77 => 28,  456 => 151,  453 => 150,  435 => 136,  418 => 132,  408 => 125,  392 => 122,  385 => 120,  381 => 118,  377 => 117,  374 => 116,  367 => 114,  361 => 111,  358 => 110,  350 => 107,  347 => 106,  345 => 105,  338 => 103,  334 => 102,  330 => 101,  326 => 99,  309 => 98,  300 => 91,  291 => 90,  265 => 74,  248 => 70,  241 => 68,  237 => 66,  233 => 102,  223 => 62,  217 => 97,  214 => 58,  206 => 55,  203 => 54,  188 => 77,  140 => 34,  125 => 25,  99 => 20,  62 => 14,  166 => 72,  150 => 67,  146 => 65,  129 => 61,  90 => 29,  87 => 32,  53 => 9,  49 => 10,  23 => 3,  210 => 72,  199 => 61,  193 => 60,  182 => 89,  179 => 44,  174 => 8,  168 => 82,  110 => 43,  56 => 18,  20 => 1,  301 => 100,  295 => 96,  292 => 95,  289 => 94,  287 => 89,  282 => 90,  276 => 115,  273 => 80,  270 => 84,  268 => 83,  263 => 80,  249 => 108,  245 => 77,  230 => 101,  222 => 73,  220 => 98,  215 => 80,  211 => 69,  204 => 66,  198 => 63,  185 => 90,  183 => 46,  177 => 58,  160 => 80,  112 => 42,  82 => 30,  65 => 13,  38 => 6,  144 => 51,  141 => 66,  135 => 47,  126 => 45,  109 => 54,  103 => 43,  67 => 18,  61 => 16,  47 => 7,  28 => 6,  105 => 34,  93 => 30,  76 => 33,  72 => 20,  68 => 12,  94 => 39,  88 => 28,  79 => 23,  59 => 22,  225 => 96,  216 => 90,  212 => 88,  205 => 145,  201 => 53,  196 => 80,  194 => 51,  191 => 78,  189 => 59,  186 => 76,  180 => 72,  172 => 76,  159 => 79,  154 => 68,  147 => 74,  132 => 48,  127 => 65,  121 => 55,  118 => 39,  114 => 45,  104 => 35,  100 => 32,  78 => 24,  75 => 21,  71 => 23,  58 => 15,  34 => 5,  91 => 38,  84 => 28,  26 => 2,  27 => 4,  24 => 4,  21 => 1,  44 => 8,  31 => 2,  25 => 3,  19 => 2,  70 => 19,  63 => 16,  46 => 7,  22 => 3,  163 => 58,  155 => 56,  152 => 77,  149 => 54,  145 => 73,  139 => 53,  131 => 67,  123 => 47,  120 => 43,  115 => 38,  106 => 53,  101 => 50,  96 => 21,  83 => 26,  80 => 26,  74 => 24,  66 => 21,  55 => 10,  52 => 11,  50 => 8,  43 => 7,  41 => 6,  37 => 3,  35 => 5,  32 => 7,  29 => 2,  184 => 70,  178 => 71,  171 => 62,  165 => 58,  162 => 43,  157 => 56,  153 => 36,  151 => 73,  143 => 54,  138 => 71,  136 => 52,  133 => 46,  130 => 27,  122 => 24,  119 => 36,  116 => 35,  111 => 37,  108 => 42,  102 => 30,  98 => 22,  95 => 35,  92 => 30,  89 => 33,  85 => 31,  81 => 17,  73 => 21,  64 => 23,  60 => 19,  57 => 12,  54 => 12,  51 => 13,  48 => 9,  45 => 11,  42 => 5,  39 => 5,  36 => 4,  33 => 8,  30 => 3,);
     }
 }

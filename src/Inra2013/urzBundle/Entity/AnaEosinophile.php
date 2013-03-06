@@ -29,71 +29,73 @@ class AnaEosinophile {
     /**
      * @var integer
      *
-     * @ORM\Column(name="Eosino_lu", type="integer", nullable=true)
+     * @ORM\Column(name="EosinoLu", type="integer", nullable=true)
      */
-    private $Eosino_lu;
+    private $EosinoLu;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="Eosino_val", type="integer", nullable=true)
+     * @ORM\Column(name="EosinoVal", type="integer", nullable=true)
      */
-    private $Eosino_val;
+    private $EosinoVal;
 
    
 
 
+   
+
     /**
-     * Set Eosino_lu
+     * Set EosinoLu
      *
      * @param integer $eosinoLu
-     * @return AnaEosino
+     * @return AnaEosinophile
      */
     public function setEosinoLu($eosinoLu)
     {
-        $this->Eosino_lu = $eosinoLu;
+        $this->EosinoLu = $eosinoLu;
     
         return $this;
     }
 
     /**
-     * Get Eosino_lu
+     * Get EosinoLu
      *
      * @return integer 
      */
     public function getEosinoLu()
     {
-        return $this->Eosino_lu;
+        return $this->EosinoLu;
     }
 
     /**
-     * Set Eosino_val
+     * Set EosinoVal
      *
      * @param integer $eosinoVal
-     * @return AnaEosino
+     * @return AnaEosinophile
      */
     public function setEosinoVal($eosinoVal)
     {
-        $this->Eosino_val = $eosinoVal;
+        $this->EosinoVal = $eosinoVal;
     
         return $this;
     }
 
     /**
-     * Get Eosino_val
+     * Get EosinoVal
      *
      * @return integer 
      */
     public function getEosinoVal()
     {
-        return $this->Eosino_val;
+        return $this->EosinoVal;
     }
 
     /**
      * Set CodeLabo
      *
      * @param \Inra2013\urzBundle\Entity\Analyse $codeLabo
-     * @return AnaEosino
+     * @return AnaEosinophile
      */
     public function setCodeLabo(\Inra2013\urzBundle\Entity\Analyse $codeLabo)
     {
@@ -116,7 +118,7 @@ class AnaEosinophile {
      * Set User
      *
      * @param \Inra2013\urzBundle\Entity\User $user
-     * @return AnaEosino
+     * @return AnaEosinophile
      */
     public function setUser(\Inra2013\urzBundle\Entity\User $user = null)
     {

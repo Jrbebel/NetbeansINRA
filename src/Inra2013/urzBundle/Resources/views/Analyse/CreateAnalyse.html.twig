@@ -1,36 +1,157 @@
 {% extends "Inra2013urzBundle:Default:IndexUser.html.twig" %}
 {% block title %}Create Analyse{% endblock %}
+
+
 {%block body%}
 {#Ici on vas faire la saisie des données pour les analyses#}
+
 
 <ul class="nav nav-tabs" id="myTab">
 
     {%for typeanalyse in TypeAnalyse %}
     {%if loop.index == 1%}
-     <li class="active"><a href="#{{typeanalyse.Nom}}">{{typeanalyse.Nom}}</a></li>
+    <li class="active"><a href="#{{typeanalyse.Nom}}">{{typeanalyse.Nom}}</a></li>
      {%else%}
-          <li ><a href="#{{typeanalyse.Nom}}">{{typeanalyse.Nom}}</a></li>
+        <li ><a href="#{{typeanalyse.Nom}}">{{typeanalyse.Nom}}</a></li>
     {%endif%}
     {%endfor%}
 
+        </ul>
+        <form action="{{path('Inra2013Bundle_CreateAnalyse')}}" method="POST" >
+            <div class="tab-content">
+
+  {%for typeanalyse in TypeAnalyse %}
+
+    {%if loop.index == 1%}
+
+                <div class="tab-pane active" id="{{typeanalyse.Nom}}" >
+                    <table class="table table-striped" >
+                        <thead>
+                            <tr>
+                        <th>Id</th>
+                        <th>CodeLabo</th>
+
+                     {%for Champ in Champs[typeanalyse.Nom] %}
+                        <th>{{Champ.Champ}}</th>
+                     {% endfor %} 
+                        <th>Fait par</th>
+                        
+                           </tr>
+                        </thead>
+                        <tbody>
+
+        {% for typecodelabo in  ResultatCodeLabo[typeanalyse.Nom] %}
+
+                            <tr>  
+                                <td>{{loop.index}}</td>    
+
+                                <td> {{typecodelabo.CodeLabo.CodeLabo}} </td>
 
 
-   
-  
-</ul>
+                               {%for Champ in Champs[typeanalyse.Nom] %}    
 
-<div class="tab-content">
-    <div class="tab-pane active" id="home">e</div>
-    <div class="tab-pane" id="profile">a</div>
-    <div class="tab-pane" id="messages">b</div>
-    <div class="tab-pane" id="settings">c</div>
-</div>
+                                    {% if typecodelabo.User is empty%}
+
+                                <td><input type="text" name="{{Champ.Champ}}[{{typecodelabo.CodeLabo.CodeLabo}}]" class="span7"  /></td>
+
+                                    {%else%}
+
+                                <td>{{attribute(typecodelabo, Champ.Champ)}}</td>
+
+                                    {%endif%}
+
+                               {% endfor %}
+                                         {% if typecodelabo.User is empty%}
+
+                                         {%else%} 
+                          
+                                <td> {{typecodelabo.User.Nom}} {{typecodelabo.User.Prenom}}</td>
+                                         {%endif%}
+
+                            </tr> 
+
+        {% endfor %}
+                        </tbody>
+                    </table>
+
+                </div>
+
+        {% else %}
+
+                <div class="tab-pane" id="{{typeanalyse.Nom}}" >
+
+                    <table class="table table-striped" >
+  <thead>
+                            <tr>
+                        <th>Id</th>
+                        <th>CodeLabo</th>
+
+                     {%for Champ in Champs[typeanalyse.Nom] %}
+                        <th>{{Champ.Champ}}</th>
+                     {% endfor %} 
+                        <th>Fait par</th>
+                
+                           </tr>
+                        </thead>
+                        <tbody>
+
+        {% for typecodelabo in  ResultatCodeLabo[typeanalyse.Nom] %}
+
+                            <tr>  
+                                <td>{{loop.index}}</td>    
+                                <td> {{typecodelabo.CodeLabo.CodeLabo}} </td>
+                                    {%for Champ in Champs[typeanalyse.Nom] %}    
+
+                                    {% if typecodelabo.User is empty%}
+
+                                <td><input type="text" name="{{Champ.Champ}}[{{typecodelabo.CodeLabo.CodeLabo}}]" class="span7" /></td>
+
+                                    {%else%}
+
+                                <td>{{attribute(typecodelabo, Champ.Champ)}}</td>
+
+                                    {%endif%}
+
+                               {% endfor %}
+                                  {% if typecodelabo.User is empty%}
+                                <td></td>
+                                         {%else%} 
+                          
+                                <td>{{typecodelabo.User.Nom}} {{typecodelabo.User.Prenom}}</td>
+                                         {%endif%}
+                            </tr> 
+
+        {% endfor %}
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+
+{%endif%}  
+
+
+     {%endfor%}
+                <input type="hidden" name="NumProtocole" value="{{NumProtocole}}" />
+                <input type="hidden" name="Status" value="Enregistrer" />
+
+                <input type="submit" value="Cancel" class="btn btn-danger" /> 
+
+                <input type="submit" value="Enregistrer" class="btn btn-primary" /> 
+
+
+
+            </div>  
+
+        </form> 
 {%endblock %}
+
 {%block javascripts%}
-<script> 
-$('#myTab a').click(function (e) {
-  e.preventDefault();
-  $(this).tab('show');
-})
-    </script>
+        <script>
+            $('#myTab a').click(function(e) {
+                e.preventDefault();
+                $(this).tab('show');
+            })
+            </script>
 {%endblock %}

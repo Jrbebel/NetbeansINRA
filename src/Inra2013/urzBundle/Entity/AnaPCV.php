@@ -22,7 +22,7 @@ class AnaPCV
     /**
      * @var integer
      *
-     * @ORM\Column(name="Pcv", type="integer")
+     * @ORM\Column(name="Pcv", type="integer", nullable=true)
      */
     private $Pcv;
     

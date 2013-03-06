@@ -28,6 +28,15 @@ class TypeAnalyse {
      * 
      */
     private $TypeCategorie;
+    
+    /**
+     *
+     * @ORM\OneToMany(targetEntity = "Inra2013\urzBundle\Entity\Champ",mappedBy="Analyse")
+     * 
+     * 
+     */
+    private $Champs;
+
 
     /**
      * @var string
@@ -92,5 +101,69 @@ class TypeAnalyse {
     public function getTypeAnalyse()
     {
         return $this->TypeAnalyse;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->Champs = new \Doctrine\Common\Collections\ArrayCollection();
+       
+    }
+    
+    /**
+     * Set TypeCategorie
+     *
+     * @param \Inra2013\urzBundle\Entity\CategorieAnalyse $typeCategorie
+     * @return TypeAnalyse
+     */
+    public function setTypeCategorie(\Inra2013\urzBundle\Entity\CategorieAnalyse $typeCategorie = null)
+    {
+        $this->TypeCategorie = $typeCategorie;
+    
+        return $this;
+    }
+
+    /**
+     * Get TypeCategorie
+     *
+     * @return \Inra2013\urzBundle\Entity\CategorieAnalyse 
+     */
+    public function getTypeCategorie()
+    {
+        return $this->TypeCategorie;
+    }
+
+    /**
+     * Add Champs
+     *
+     * @param \Inra2013\urzBundle\Entity\CategorieAnalyse $champs
+     * @return TypeAnalyse
+     */
+    public function addChamp(\Inra2013\urzBundle\Entity\CategorieAnalyse $champs)
+    {
+        $this->Champs[] = $champs;
+    
+        return $this;
+    }
+
+    /**
+     * Remove Champs
+     *
+     * @param \Inra2013\urzBundle\Entity\CategorieAnalyse $champs
+     */
+    public function removeChamp(\Inra2013\urzBundle\Entity\CategorieAnalyse $champs)
+    {
+        $this->Champs->removeElement($champs);
+    }
+
+    /**
+     * Get Champs
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getChamps()
+    {
+        return $this->Champs;
     }
 }

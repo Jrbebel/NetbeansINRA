@@ -449,7 +449,7 @@ class GestionFichierController extends Controller {
             $feuille->setActiveSheetIndex($Resultat)
                     ->setCellValue($lettre . '1', $$lettre);
 
-            ;
+            
         }
     }
 
@@ -494,9 +494,9 @@ class GestionFichierController extends Controller {
         if ($this->getRequest()->getMethod() == 'GET') {  //si c est un GET alors on affiche le formulaire de recherche de protocole
             return $this->render('Inra2013urzBundle:Analyse:CreatExcel.html.twig', array('type' => 'listing'));
         } else if ($this->getRequest()->getMethod() == 'POST') {
-            $numProtocole = $this->get('request')->get('NumProtocole');
+            $NumProtocole = $this->get('request')->get('NumProtocole');
     
-            return $this->render("Inra2013urzBundle:Default:edit.html.twig", array("protocole" => $protocole));
+            return $this->render("Inra2013urzBundle:Default:edit.html.twig", array("protocole" => $NumProtocole));
         }
     }
 
