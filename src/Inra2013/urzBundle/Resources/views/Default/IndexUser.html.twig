@@ -15,4 +15,63 @@
     </ul>
 </div>
 {%endblock%}
-{% block body %} <h5>Vous etes dans la partie des utilisateurs courant</h5>{%endblock%}
+{% block body %} 
+
+<table class="table table-striped" >
+
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Protocole</th>
+            <th>Responsable</th>
+            <th>Valider le</th>
+            <th>Status</th>
+            <th>Message</th>
+        </tr>
+
+    </thead>
+
+    <tbody>
+ {% for Encours in response %}
+            <tr class="{{attribute(Valide.class,Encours.Validation)}}">
+
+                <td>{{loop.index}}</td>
+                <td>{{Encours.NomProtocole}} </td>
+                <td>{{Encours.Responsable.Nom}} {{Encours.Responsable.Prenom}}</td>
+                <td>{{Encours.DateValidation|date("d-m-Y")}}</td>
+                <td>{{attribute(Valide.info,Encours.Validation)}}</td>
+                <td><a href="#myModal" role="button"  data-toggle="modal">launch</a></td>
+
+
+            </tr> 
+{% endfor %}  
+        </tbody>
+
+    </table>
+<div class="modal hide" id="myModal"><!-- note the use of "hide" class -->
+  <div class="modal-header">
+    <button class="close" data-dismiss="modal">×</button>
+    <h3>Modal header</h3>
+  </div>
+  <div class="modal-body">
+    <p>One fine body…</p>
+  </div>
+  <div class="modal-footer">
+    <a href="#" class="btn" data-dismiss="modal">Close</a><!-- note the use of "data-dismiss" -->
+    <a href="#" class="btn btn-primary">Save changes</a>
+  </div>
+</div>​
+
+{%endblock%}
+
+
+ {% block javascripts %}
+    <script>
+        $(function ()    
+{ $('#myModal').modal({backdrop:false});    
+});  
+        
+
+    
+        </script>
+{% endblock %}

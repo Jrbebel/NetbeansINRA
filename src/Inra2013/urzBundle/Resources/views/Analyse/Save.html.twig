@@ -3,10 +3,15 @@
 
 
 {%block body%}
-
+{% if Status == "SaveAnalyse" %}
 <div class="alert alert-success"><a href="#" class="close" data-dismiss="alert">&times;</a>
     <p>Vos résultat d'analyse à bien été enregistrer</p>
 </div>
+{% elseif Status == "Encours" %}
+<div class="alert alert-success"><a href="#" class="close" data-dismiss="alert">&times;</a>
+    <p>Vos résultat d'analyse sont en cours de validation</p>
+</div>
+{%endif%}
 
 {%endblock body%}
 

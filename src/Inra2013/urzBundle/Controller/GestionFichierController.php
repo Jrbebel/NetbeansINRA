@@ -371,7 +371,7 @@ class GestionFichierController extends Controller {
      * @param $file : Feuille,Resultat
      * @author BEBEL Jean Raynal
      */
-    public function CellEosino($feuille, $Resultat, $AnalyseProto) {
+    public function CellEosinophile($feuille, $Resultat, $AnalyseProto) {
 
         $LimiteDebut = "O";
         $LimiteFin = "P";

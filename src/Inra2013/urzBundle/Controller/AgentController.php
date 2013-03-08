@@ -126,28 +126,29 @@ class AgentController extends Controller {
     public function RedirectionagentAction() {
 
         $user = $this->container->get('security.context')->getToken()->getUser()->getFonction(); // on récupere la fonction de l'utilisateur connecté
+        $StatusProto = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Protocole')->StatusEncours();
 
         if ($this->get('security.context')->isGranted('ROLE_ADMINISTRATEUR')) {
 
-          
+
             return $this->render("Inra2013urzBundle:Default:IndexAdmin.html.twig");
-            
         } elseif ($this->get('security.context')->isGranted('ROLE_RESPONSABLE')) {
 
             if ($user == "Laborantin(e)") {
 
                 return $this->render("Inra2013urzBundle:Default:IndexResponsable.html.twig");
-                
             } else if ($user == "Chercheur") {
 
                 return new Response('je suis chercheur');
             }
         } elseif ($this->get('security.context')->isGranted('ROLE_UTILISATEUR')) {
-            
+
             if ($user == "Laborantin(e)") {
 
-                return $this->render("Inra2013urzBundle:Default:IndexUser.html.twig");
-                
+              
+             
+               
+                return $this->render("Inra2013urzBundle:Default:IndexUser.html.twig",array('response'=>$StatusProto));
             } else if ($user == "Chercheur") {
 
                 return $this->render("Inra2013urzBundle:Default:IndexChercheur.html.twig");

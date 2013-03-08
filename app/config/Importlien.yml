@@ -47,3 +47,20 @@ twig:
             ItemPremier : 
             DeuxiemeLien:
             ItemDeuxieme:
+              
+              
+#Valide le protocole(Code erreur)
+
+      Valide:
+        
+        class:
+            
+            1 : info
+            2 : success
+            3 : error
+            
+        info:
+            
+            1 : En cours 
+            2 : Validé
+            3 : Refusé

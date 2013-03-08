@@ -44,9 +44,9 @@ class Protocole {
     private $Responsable;
 
     /**
-     * @var boolean
+     * @var integer
      *
-     * @ORM\Column(name="Validation", type="boolean")
+     * @ORM\Column(name="Validation", type="integer")
      */
     private $Validation;
 
@@ -56,6 +56,13 @@ class Protocole {
      * @ORM\Column(name="Description", type="text")
      */
     private $Description;
+    
+      /**
+     * @var text
+     *
+     * @ORM\Column(name="Commentaire", type="text")
+     */
+    private $Commentaire;
 
     /**
      * Get id
@@ -197,4 +204,27 @@ class Protocole {
         return $this->Analyse;
     }
 
+
+    /**
+     * Set Commentaire
+     *
+     * @param string $commentaire
+     * @return Protocole
+     */
+    public function setCommentaire($commentaire)
+    {
+        $this->Commentaire = $commentaire;
+    
+        return $this;
+    }
+
+    /**
+     * Get Commentaire
+     *
+     * @return string 
+     */
+    public function getCommentaire()
+    {
+        return $this->Commentaire;
+    }
 }

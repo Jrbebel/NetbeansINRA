@@ -28,35 +28,35 @@
                     <table class="table table-striped" >
                         <thead>
                             <tr>
-                        <th>Id</th>
-                        <th>CodeLabo</th>
+                                <th>Id</th>
+                                <th>CodeLabo</th>
 
                      {%for Champ in Champs[typeanalyse.Nom] %}
-                        <th>{{Champ.Champ}}</th>
+                                <th>{{Champ.Champ}}</th>
                      {% endfor %} 
-                        <th>Fait par</th>
-                        
-                           </tr>
-                        </thead>
-                        <tbody>
+                                    <th>Fait par</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
 
         {% for typecodelabo in  ResultatCodeLabo[typeanalyse.Nom] %}
 
-                            <tr>  
-                                <td>{{loop.index}}</td>    
+                                <tr>  
+                                    <td>{{loop.index}}</td>    
 
-                                <td> {{typecodelabo.CodeLabo.CodeLabo}} </td>
+                                    <td> {{typecodelabo.CodeLabo.CodeLabo}} </td>
 
 
                                {%for Champ in Champs[typeanalyse.Nom] %}    
 
                                     {% if typecodelabo.User is empty%}
 
-                                <td><input type="text" name="{{Champ.Champ}}[{{typecodelabo.CodeLabo.CodeLabo}}]" class="span7"  /></td>
+                                    <td><input type="text" name="{{Champ.Champ}}[{{typecodelabo.CodeLabo.CodeLabo}}]" class="span7"  /></td>
 
                                     {%else%}
 
-                                <td>{{attribute(typecodelabo, Champ.Champ)}}</td>
+                                    <td>{{attribute(typecodelabo, Champ.Champ)}}</td>
 
                                     {%endif%}
 
@@ -64,94 +64,95 @@
                                          {% if typecodelabo.User is empty%}
 
                                          {%else%} 
-                          
-                                <td> {{typecodelabo.User.Nom}} {{typecodelabo.User.Prenom}}</td>
+
+                                    <td> {{typecodelabo.User.Nom}} {{typecodelabo.User.Prenom}}</td>
                                          {%endif%}
 
-                            </tr> 
+                                </tr> 
 
         {% endfor %}
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
 
-                </div>
+                    </div>
 
         {% else %}
 
-                <div class="tab-pane" id="{{typeanalyse.Nom}}" >
+                    <div class="tab-pane" id="{{typeanalyse.Nom}}" >
 
-                    <table class="table table-striped" >
-  <thead>
-                            <tr>
-                        <th>Id</th>
-                        <th>CodeLabo</th>
+                        <table class="table table-striped" >
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>CodeLabo</th>
 
                      {%for Champ in Champs[typeanalyse.Nom] %}
-                        <th>{{Champ.Champ}}</th>
+                                    <th>{{Champ.Champ}}</th>
                      {% endfor %} 
-                        <th>Fait par</th>
-                
-                           </tr>
-                        </thead>
-                        <tbody>
+                                        <th>Fait par</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
 
         {% for typecodelabo in  ResultatCodeLabo[typeanalyse.Nom] %}
 
-                            <tr>  
-                                <td>{{loop.index}}</td>    
-                                <td> {{typecodelabo.CodeLabo.CodeLabo}} </td>
+                                    <tr>  
+                                        <td>{{loop.index}}</td>    
+                                        <td> {{typecodelabo.CodeLabo.CodeLabo}} </td>
                                     {%for Champ in Champs[typeanalyse.Nom] %}    
 
                                     {% if typecodelabo.User is empty%}
 
-                                <td><input type="text" name="{{Champ.Champ}}[{{typecodelabo.CodeLabo.CodeLabo}}]" class="span7" /></td>
+                                        <td><input type="text" name="{{Champ.Champ}}[{{typecodelabo.CodeLabo.CodeLabo}}]" class="span7" /></td>
 
                                     {%else%}
 
-                                <td>{{attribute(typecodelabo, Champ.Champ)}}</td>
+                                        <td>{{attribute(typecodelabo, Champ.Champ)}}</td>
 
                                     {%endif%}
 
                                {% endfor %}
                                   {% if typecodelabo.User is empty%}
-                                <td></td>
+                                        <td></td>
                                          {%else%} 
-                          
-                                <td>{{typecodelabo.User.Nom}} {{typecodelabo.User.Prenom}}</td>
+
+                                        <td>{{typecodelabo.User.Nom}} {{typecodelabo.User.Prenom}}</td>
                                          {%endif%}
-                            </tr> 
+                                    </tr> 
 
         {% endfor %}
-                        </tbody>
+                                </tbody>
 
-                    </table>
+                            </table>
 
-                </div>
+                        </div>
 
 
 {%endif%}  
 
 
      {%endfor%}
-                <input type="hidden" name="NumProtocole" value="{{NumProtocole}}" />
-                <input type="hidden" name="Status" value="Enregistrer" />
-
-                <input type="submit" value="Cancel" class="btn btn-danger" /> 
-
-                <input type="submit" value="Enregistrer" class="btn btn-primary" /> 
+                        <input type="hidden" name="NumProtocole" value="{{NumProtocole}}" />
+                        <input type="hidden" name="Status" value="Enregistrer" />
+                        <div class="span4"><input type="submit" value="Enregistrer" class="btn btn-primary" />   <input type="submit" value="Cancel" class="btn btn-danger" /></div>
+                        <div class="span1 offset6"> <a href="{{ path("Inra2013Bundle_ValidAnalyse",{'id':NumProtocole}) }}" class="btn btn-success" >Valider <a/> </div>    
 
 
 
-            </div>  
 
-        </form> 
+
+
+                    </div>  
+
+                </form> 
 {%endblock %}
 
 {%block javascripts%}
-        <script>
-            $('#myTab a').click(function(e) {
-                e.preventDefault();
-                $(this).tab('show');
-            })
-            </script>
+                <script>
+                    $('#myTab a').click(function(e) {
+                        e.preventDefault();
+                        $(this).tab('show');
+                    })
+                    </script>
 {%endblock %}

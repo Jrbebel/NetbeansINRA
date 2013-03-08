@@ -99,8 +99,25 @@ class AnalyseController extends Controller {
         }
     }
 
-    function ValidAnalyseAction() {
-        
+    /**
+     * Description of ValidAnalyse
+     * Permet de valider un protocole par un laboratin
+     * @author BEBEL Jean Raynal
+     */
+    function ValidAnalyseAction($id) {
+
+        /**
+         * 3 etats:1 pour validation,2 pour en cours,3 pour refusée
+         * 
+         * * */
+        $em = $this->getDoctrine()->getManager();  // On récupére l'EntityManager
+        /*         * On cherche le protocole avec son Id* */
+        $criteria = array('id' => $id);
+        $Protocole = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Protocole')->findBy($criteria);
+        $Protocole[0]->setValidation(2);
+        $em->persist($Protocole[0]);
+        $em->flush();
+        return $this->render('Inra2013urzBundle:Analyse:Save.html.twig', array('Status' => 'Encours'));
     }
 
     /**
@@ -122,8 +139,6 @@ class AnalyseController extends Controller {
         $form = $this->createForm(
                 new \Inra2013\urzBundle\Form\ProtocoleType(), $typeProtocole);
         /*         * On crée le formulaire pour les analyse a faire dans le protocole* */
-        // $typeAnalyse = new \Inra2013\urzBundle\Entity\ProtocoleAnalyse;
-        // $form2 = $this->createForm(new \Inra2013\urzBundle\Form\ProtocoleAnalyseType(), $typeAnalyse);
         $request = $this->get('request');
         if ($request->getMethod() == 'POST') {
 
@@ -163,6 +178,7 @@ class AnalyseController extends Controller {
      * @author BEBEL Jean Raynal
      */
     function CreateAnalyseAction() {
+
         $Status = $this->get('request')->get('Status');
         $user = $this->container->get('security.context')->getToken()->getUser(); // on récupere la fonction de l'utilisateur connecté
 
@@ -195,8 +211,7 @@ class AnalyseController extends Controller {
                     $ChampsAnalyse = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:TypeAnalyse')->findBy(array("Nom" => $value['Nom']));
 
                     /*                     * On a les valeurs des champs de chaque analyse* */
-
-
+                    //    \Doctrine\Common\Util\Debug::dump($ChampsAnalyse);
                     foreach ($CodeLabo as $result) {
 
                         /*                         * ***if la valeur du $POST[Codelabo] est vide,c'est que la valeur n'a pas été rentrer** */
@@ -205,40 +220,44 @@ class AnalyseController extends Controller {
                         $Analyse = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Ana' . $value['Nom'])->findBy(array("CodeLabo" => $result->getCodeLabo()));
 
 
-                        /*                         * Ce sont les champs qui sont recurent dans les analyses* */
-                        $Analyse[0]->setCodeLabo($result->getCodeLabo());
-                        $Analyse[0]->setUser($user);
+
                         /*                         * *A partir des valeurs recu, on recupere par rapport au champs(Ex:$_POST[EsoinoVal]* */
                         /*                         * Ce sont les champs spécifiques à chaque analyse* */
-                        foreach ($ChampsAnalyse[0]->getChamps() as $po) {
-               //    $ValeurChamps = $_POST[$po->getChamp()]; //récupere le tableau de valeur pour le champ s en question 
-     
-                         //  print_r($po->getChamp());
-                           // var_dump(isset($_POST[$po->getChamp()] ));   
-                           //  print_r("je suis passé par la");
 
-                            if (isset($_POST[$po->getChamp()])) {
-                            
+                        foreach ($ChampsAnalyse[0]->getChamps() as $po) {
+
+
+                            if (isset($_POST[$po->getChamp()])) { // on persist pas si le tableau de donnée est vide(pas de valeur rentré dans le formulaire)
+
+                                /*                                 * Il faut regardé si le champ qui contient les valeurs n"est pas vide* */
+
 
                                 $ValeurChamps = $_POST[$po->getChamp()]; //récupere le tableau de valeur pour le champ s en question 
 
 
-                                    if (!empty($ValeurChamps[$result->getCodeLabo()->getCodeLabo()])) {
 
-                                        $champs = "set" . $po->getChamp(); //set du champs
-                                        $Analyse[0]->$champs($ValeurChamps[$result->getCodeLabo()->getCodeLabo()]);
-                                       
-                                    }
-                               
+
+
+                                if (!empty($ValeurChamps[$result->getCodeLabo()->getCodeLabo()])) {
+                                    /*
+                                     *           * Ce sont les champs qui sont recurent dans les analyses* */
+                                    $Analyse[0]->setCodeLabo($result->getCodeLabo());
+                                    $Analyse[0]->setUser($user);
+
+                                    $champs = "set" . $po->getChamp(); //set du champs
+                                    $Analyse[0]->$champs($ValeurChamps[$result->getCodeLabo()->getCodeLabo()]);
+                                }
                             }
                         }
-                        print_r("je sauvegarde");
-                        /*                         * *On persit l'objet et on sauvegarde le tout ** */
-                        $em->persist($Analyse[0]);
-                        $em->flush();
-                        return $this->render("Inra2013urzBundle:Analyse:Save.html.twig");
                     }
                 }
+                /*                 * *On persit l'objet et on sauvegarde le tout ** */
+                $em->persist($Analyse[0]);
+                $em->flush();
+
+                return $this->render("Inra2013urzBundle:Analyse:Save.html.twig");
+
+
 
                 /*                 * *********************************************** */
             }
@@ -258,6 +277,11 @@ class AnalyseController extends Controller {
 
             return $this->render("Inra2013urzBundle:Analyse:CreateAnalyse.html.twig", array('TypeAnalyse' => $ResultTypeAnalyse, 'ResultatCodeLabo' => $CodeLabo, 'Champs' => $Champs, 'NumProtocole' => $numProtocole));
         }
+    }
+
+    public function StatusProtocoleAction() {
+
+        return $StatusProto;
     }
 
 }

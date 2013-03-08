@@ -71,10 +71,32 @@ class ProtocoleRepository extends EntityRepository {
                 ->join($from1, $alias1)
                 ->where('c.Protocole =:id')
                 ->andWhere('a.CodeLabo = c.CodeLabo')
-            
                 ->setParameter('id', $id);
         return $qb->getQuery()->getResult();
     }
+
+    public function StatusEncours() {
+        $from = "Inra2013urzBundle:Protocole";
+        $alias = "a";
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('a')
+                ->from($from, $alias);
+                
+        return $qb->getQuery()->getResult();
+    }
+
+    public function StatusTermine() {
+        $from = "Inra2013urzBundle:Protocole";
+        $alias = "a";
+        $id = 2;
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('a')
+                ->from($from, $alias)
+                ->where('c.Validation =:id')
+                ->setParameter('id', $id);
+        return $qb->getQuery()->getResult();
+    }
+
 
 }
 
