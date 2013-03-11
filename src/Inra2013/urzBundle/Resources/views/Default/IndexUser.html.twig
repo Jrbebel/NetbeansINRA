@@ -3,75 +3,92 @@
 {% block title %}Bienvenue{% endblock %}
 {%block menu %}
 <div class="well" >
-    <ul class="nav nav-list">
-        <li class="active"><a href={{ path("Inra2013urzBundle_Homepage")}}><i class="icon-home icon-white"></i> Home</a></li>
-        <li><a href={{ path("Inra2013Bundle_CreateAnalyse")}}><i class=" icon-plus"></i> Créer analyse </a></li>
-        <li><a href=><i class="icon-pencil"></i> Modifier analyse</a></li>
-        <li><a href=><i class=" icon-folder-open"></i> Importer Resultat </a></li>
-        <li><a href={{path("Inra2013Bundle_ImportListing")}}><i class=" icon-folder-open"></i> Importer listing échantillon </a></li>
-        <li><a href={{path("Inra2013Bundle_CreateExcel")}}><i class=" icon-download-alt"></i> Exporter fichier excel protocole </a></li>
 
+    <ul class="nav nav-pills nav-stacked" >
+        <li class="active" ><a  href={{ path("Inra2013urzBundle_Homepage")}}><i class="icon-home icon-white"></i> Home</a></li>
+        <li><a  href="{{ path("Inra2013Bundle_CreateAnalyse")}}"  ><i class=" icon-plus"></i> Créer analyse </a></li>
+        <li><a  href="#"><i class="icon-pencil"></i> Modifier analyse</a></li>
+        <li><a  href="#"   ><i class=" icon-folder-open"></i> Importer Resultat </a></li>
+        <li><a  href="{{path("Inra2013Bundle_ImportListing")}}"><i class=" icon-folder-open"></i> Importer listing échantillon </a></li>
+        <li><a  href="{{path("Inra2013Bundle_CreateExcel")}}" ><i class=" icon-download-alt"></i> Exporter fichier excel protocole </a></li>
+{% if is_granted('ROLE_RESPONSABLE') %}
+            <li><a  href="#" ><i class=" icon-download-alt"></i> Créer Analyse</a></li>
 
-    </ul>
-</div>
+{%endif%}
+        </ul>
+
+    </div>
+
 {%endblock%}
+
 {% block body %} 
 
-<table class="table table-striped" >
+    <table class="table table-striped" >
 
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Protocole</th>
-            <th>Responsable</th>
-            <th>Valider le</th>
-            <th>Status</th>
-            <th>Message</th>
-        </tr>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Protocole</th>
+                <th>Responsable</th>
+                <th>Valider le</th>
+                <th>Status</th>
+                <th>Message</th>
+            </tr>
 
-    </thead>
+        </thead>
 
-    <tbody>
+        <tbody>
  {% for Encours in response %}
-            <tr class="{{attribute(Valide.class,Encours.Validation)}}">
 
-                <td>{{loop.index}}</td>
-                <td>{{Encours.NomProtocole}} </td>
-                <td>{{Encours.Responsable.Nom}} {{Encours.Responsable.Prenom}}</td>
-                <td>{{Encours.DateValidation|date("d-m-Y")}}</td>
-                <td>{{attribute(Valide.info,Encours.Validation)}}</td>
-                <td><a href="#myModal" role="button"  data-toggle="modal">launch</a></td>
+                <tr class="{{attribute(Valide.class,Encours.Validation)}}">
 
+                    <td>{{loop.index}}</td>
+                    <td><a href="{{path("Inra2013urzBunle_VoirAnalyse",{'numProtocole':Encours.id})}}" >{{Encours.NomProtocole}}</a></td>
+                    <td>{{Encours.Responsable.Nom}} {{Encours.Responsable.Prenom}}</td>
+                    <td>{{Encours.DateValidation|date("d-m-Y")}}</td>
+                    <td>{{attribute(Valide.info,Encours.Validation)}}</td>
+                {% if Encours.Commentaire is empty %}
+                    <td><img src="{{asset('img/lettre_ferme.png')}}" height=25 width=30 alt="icone-message" /></td>
+                {%else%}
+                        <td><a href="#myModal{{loop.index}}" role="button"  data-toggle="modal"><img src="{{asset('img/lettre_ouverte.png')}}" height=25 width=30 alt="icone-message" /></a></td>
 
-            </tr> 
+                 {%endif%}       
+
+                    </tr>       
+
 {% endfor %}  
-        </tbody>
+                </tbody>
 
-    </table>
-<div class="modal hide" id="myModal"><!-- note the use of "hide" class -->
-  <div class="modal-header">
-    <button class="close" data-dismiss="modal">×</button>
-    <h3>Modal header</h3>
-  </div>
-  <div class="modal-body">
-    <p>One fine body…</p>
-  </div>
-  <div class="modal-footer">
-    <a href="#" class="btn" data-dismiss="modal">Close</a><!-- note the use of "data-dismiss" -->
-    <a href="#" class="btn btn-primary">Save changes</a>
-  </div>
-</div>​
+            </table>
+ {% for Encours in response %} 
+ {% if Encours.Commentaire is not empty %}
+            <div class="modal hide" id="myModal{{loop.index}}"><!-- note the use of "hide" class -->
+                <div class="modal-header">
+                    <button class="close" data-dismiss="modal">×</button>
+                    <h3>Message</h3>
+                </div>
+                <div class="modal-body">
 
+                {{Encours.Commentaire|raw}}
+
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn btn-danger" data-dismiss="modal">Close</a><!-- note the use of "data-dismiss" -->
+
+                </div>
+            </div>​
+   {% endif %}          
+ {% endfor %}
 {%endblock%}
 
 
  {% block javascripts %}
-    <script>
-        $(function ()    
-{ $('#myModal').modal({backdrop:false});    
-});  
-        
+            <script>
 
-    
-        </script>
+                $('#myModal').on('click', function() {
+
+                    $('#myModal').modal('loading');
+                });
+
+                </script>
 {% endblock %}

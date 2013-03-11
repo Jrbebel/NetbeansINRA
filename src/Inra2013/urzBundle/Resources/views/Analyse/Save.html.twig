@@ -5,11 +5,15 @@
 {%block body%}
 {% if Status == "SaveAnalyse" %}
 <div class="alert alert-success"><a href="#" class="close" data-dismiss="alert">&times;</a>
-    <p>Vos résultat d'analyse à bien été enregistrer</p>
+    <p>Vos résultat d'analyse à bien été enregistrer.</p>
 </div>
-{% elseif Status == "Encours" %}
+{% elseif Status == 1 %}
 <div class="alert alert-success"><a href="#" class="close" data-dismiss="alert">&times;</a>
-    <p>Vos résultat d'analyse sont en cours de validation</p>
+    <p>Vos résultat d'analyse sont en cours de validation.</p>
+</div>
+{% elseif Status == 2 %}
+<div class="alert alert-success"><a href="#" class="close" data-dismiss="alert">&times;</a>
+    <p>Vos résultat d'analyse ont été validé.</p>
 </div>
 {%endif%}
 

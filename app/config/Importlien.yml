@@ -55,12 +55,14 @@ twig:
         
         class:
             
+            0 : warning
             1 : info
             2 : success
             3 : error
             
         info:
             
-            1 : En cours 
-            2 : Validé
-            3 : Refusé
+            0 : Analyse en cours
+            1 : En cours de validation
+            2 : Validé par responsable
+            3 : Refusé par responsable

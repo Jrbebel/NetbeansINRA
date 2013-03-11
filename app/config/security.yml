@@ -25,3 +25,8 @@ security:
         - { path: ^/Admin/, role: ROLE_ADMINISTRATEUR }
         - { path: ^/User/*, role: ROLE_UTILISATEUR } 
         
+    role_hierarchy:    
+      
+        ROLE_RESPONSABLE: ROLE_UTILISATEUR
+        ROLE_SUPER_ADMIN: [ROLE_RESPONSABLE, ROLE_ALLOWED_TO_SWITCH]
+        

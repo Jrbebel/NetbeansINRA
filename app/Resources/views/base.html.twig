@@ -9,9 +9,10 @@
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
         <link rel="stylesheet" href="{{asset ('bootstrap/css/bootstrap.css')}}" /> 
         <script type="text/javascript" src="{{asset ('js/jquery.js')}}" ></script>
-        <script type="text/javascript" src="{{asset ('bootstrap/js/bootstrap.js')}}" ></script>
-        <script type="text/javascript"  src="{{asset ('bootstrap/js/bootstrap.min.js')}}" ></script>
-      
+        <script type="text/javascript"  src="{{asset ('bootstrap/js/bootstrap.js')}}" ></script>
+        <script type="text/javascript"  src="{{asset ('js/downdrop.js')}}" ></script>
+
+
     </head>
     <body>
 
@@ -63,8 +64,8 @@
                                 </ul>
                             </div>
                     {% endblock%}
-
-
+{%block menu2 %}
+ {% endblock%}
                         </div>
                         <div class="span9" style="height: 300px">
 
@@ -78,5 +79,21 @@
 
 
         {% block javascripts %}{% endblock %}
-            </body>
-        </html>
+
+
+                    <script>
+                        $(document).ready(function() {
+
+                            $("ul.nav li").click(
+                                    function() {
+                                        $("ul.nav li").addClass("actif");
+                                        $("ul.nav li").prevAll(".actif").removeClass("actif");
+                                        $("ul.nav li").nextAll(".actif").removeClass("actif");
+
+                                    });
+
+                        });
+                        </script>     
+
+                </body>
+            </html>

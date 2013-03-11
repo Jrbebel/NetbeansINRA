@@ -136,7 +136,8 @@ class AgentController extends Controller {
 
             if ($user == "Laborantin(e)") {
 
-                return $this->render("Inra2013urzBundle:Default:IndexResponsable.html.twig");
+                return $this->render("Inra2013urzBundle:Default:IndexUser.html.twig", array('response' => $StatusProto));
+                
             } else if ($user == "Chercheur") {
 
                 return new Response('je suis chercheur');
@@ -145,10 +146,7 @@ class AgentController extends Controller {
 
             if ($user == "Laborantin(e)") {
 
-              
-             
-               
-                return $this->render("Inra2013urzBundle:Default:IndexUser.html.twig",array('response'=>$StatusProto));
+                return $this->render("Inra2013urzBundle:Default:IndexUser.html.twig", array('response' => $StatusProto));
             } else if ($user == "Chercheur") {
 
                 return $this->render("Inra2013urzBundle:Default:IndexChercheur.html.twig");

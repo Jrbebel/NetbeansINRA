@@ -303,8 +303,11 @@ class GestionFichierController extends Controller {
 
 
 
-                $Type = "Cell" . $Key['Nom']; //ON AJOUTE LES CHAMPS PAR RAPPORT AU TYPE D ANALYSE TROUVÉ
-                $this->$Type($excelService->excelObj, $Resultat, $AnalyseProto);
+                // $Type = "Cell" . $Key['Nom']; //ON AJOUTE LES CHAMPS PAR RAPPORT AU TYPE D ANALYSE TROUVÉ
+
+                $this->Champs($Key['Nom'], $excelService->excelObj, $Resultat, $AnalyseProto);
+
+                // $this->$Type($excelService->excelObj, $Resultat, $AnalyseProto);
             }
 
 
@@ -362,7 +365,39 @@ class GestionFichierController extends Controller {
 // If you are using a https connection, you have to set those two headers for compatibility with IE <9
         $response->headers->set('Pragma', 'public');
         $response->headers->set('Cache-Control', 'maxage=1');
-        return $response;
+         return $response;
+    }
+
+    public function Champs($Nom, $feuille, $Resultat, $AnalyseProto) {
+
+        $LimiteDebut = "O";
+        $LimiteFin = "O";
+
+
+        /*         * Faut recherché les champs pour les différentes analyses */
+
+        $ChampsAnalyse = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:TypeAnalyse')->findBy(array("Nom" => $Nom));
+   
+         foreach ($ChampsAnalyse[0]->getChamps() as $po) {
+            
+                  foreach ($AnalyseProto as $i => $analyse) { 
+                        $LimiteFin = "O";
+                      $getChamp="get".$po->getChamp(); 
+                      for ($n = 0; $n < count($ChampsAnalyse[0]->getChamps()) + 1; $n++) {
+                       $feuille->setActiveSheetIndex($Resultat)
+                        ->setCellValue(++$LimiteFin.($i + 2), $analyse->$getChamp());
+                         // print_r(++$LimiteFin." : ". $analyse->$getChamp()."<br>");
+                          }
+
+                  }
+         }
+        
+       
+          
+            //print_r("<br>".++$LimiteFin . "<br>");
+        
+        ///  \Doctrine\Common\Util\Debug::dump(count($ChampsAnalyse[0]->getChamps()));
+        // $this->getStyleCell($feuille, $LimiteDebut, $LimiteFin);
     }
 
     /**
@@ -448,8 +483,6 @@ class GestionFichierController extends Controller {
         foreach (range($LimiteDebut, $LimiteFin) as $lettre) {
             $feuille->setActiveSheetIndex($Resultat)
                     ->setCellValue($lettre . '1', $$lettre);
-
-            
         }
     }
 
@@ -495,7 +528,7 @@ class GestionFichierController extends Controller {
             return $this->render('Inra2013urzBundle:Analyse:CreatExcel.html.twig', array('type' => 'listing'));
         } else if ($this->getRequest()->getMethod() == 'POST') {
             $NumProtocole = $this->get('request')->get('NumProtocole');
-    
+
             return $this->render("Inra2013urzBundle:Default:edit.html.twig", array("protocole" => $NumProtocole));
         }
     }

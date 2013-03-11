@@ -1,6 +1,14 @@
 {% extends "Inra2013urzBundle:Default:IndexUser.html.twig" %}
 {% block title %}Create Analyse{% endblock %}
 
+{%block menu2 %}
+{% if is_granted('ROLE_RESPONSABLE') %}
+<div class="well" >
+    <a href="{{path('Inra2013Bundle_ValidAnalyse',{'status':'2','id':NumProtocole})}}" class="btn btn-primary"><i class="icon-ok">    </i>   Valider les resultats</a>
+</div>{% endif %}
+{%endblock%}
+
+
 
 {%block body%}
 {#Ici on vas faire la saisie des données pour les analyses#}
@@ -133,12 +141,15 @@
 
 
      {%endfor%}
+
+                {% if validation[0].Validation == 0 %}
                         <input type="hidden" name="NumProtocole" value="{{NumProtocole}}" />
                         <input type="hidden" name="Status" value="Enregistrer" />
                         <div class="span4"><input type="submit" value="Enregistrer" class="btn btn-primary" />   <input type="submit" value="Cancel" class="btn btn-danger" /></div>
-                        <div class="span1 offset6"> <a href="{{ path("Inra2013Bundle_ValidAnalyse",{'id':NumProtocole}) }}" class="btn btn-success" >Valider <a/> </div>    
+                        <div class="span1 offset6"> 
+                            <a href="#validation" role="button" class="btn btn-success" data-toggle="modal">Valider </a></div>   
 
-
+                        {% endif %}
 
 
 
@@ -146,13 +157,45 @@
                     </div>  
 
                 </form> 
-{%endblock %}
 
-{%block javascripts%}
+{# modal pour la validation des resultats #}
+                <form method="POST" action={{path('Inra2013Bundle_ValidAnalyse')}} >
+                    <div id="validation" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h3 id="myModalLabel">ENVOIE POUR VALIDATION</h3>
+                        </div>
+                        <div class="modal-body">
+                            <p>Êtes-vous sur de vouloir envoyer les resultats pour validation?</p></br>
+                            <p>Commentaire :</p>
+                            <textarea name="Commentaire" id="input" class="offset1 span7" rows="3"> </textarea>
+                        </div>
+
+
+                        <div class="modal-footer">
+                            <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true">Annuler</button>
+                            <button class="btn btn-primary" type="submit" >Validation</button></a>
+                        </div>
+                    </div>
+                    <input type="hidden" name="NumProtocole" value="{{NumProtocole}}" />
+                    <input type="hidden" name="Status" value=1 />  
+                </form>
+{%endblock %}
+    {% block stylesheets %}
+  <link rel="stylesheet" type="text/css" href="{{asset('js/CLEditor1_3_0/jquery.cleditor.css')}}" />
+{% endblock %}
+{%block javascripts%} 
+                <script type="text/javascript" src="{{asset('js/CLEditor1_3_0/jquery.cleditor.min.js')}}"></script>
                 <script>
                     $('#myTab a').click(function(e) {
                         e.preventDefault();
                         $(this).tab('show');
-                    })
+                    });
                     </script>
+
+                    <script type="text/javascript">
+                        $(document).ready(function() {
+                            $("#input").cleditor();
+                        });
+                        </script>
 {%endblock %}
