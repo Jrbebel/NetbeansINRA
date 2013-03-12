@@ -69,6 +69,13 @@ Inra2013Bundle_ImportListing:
    pattern: /User/ImportListing
    defaults: { _controller : Inra2013urzBundle:GestionFichier:ImportListing }
    
+   
+  #Chemin pour l'importation des resultats dans un fichier excel
+  
+Inra2013Bundle_ImportResultat:
+   pattern: /User/ImportResultat
+   defaults: { _controller : Inra2013urzBundle:GestionFichier:ImportResultat } 
+
   #Chemin pour la recherche du protocole dans un input(requete json et ajax)
   
 Inra2013Bundle_SearchProtocole:

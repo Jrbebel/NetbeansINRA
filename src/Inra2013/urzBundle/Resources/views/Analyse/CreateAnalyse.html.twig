@@ -4,7 +4,16 @@
 {%block menu2 %}
 {% if is_granted('ROLE_RESPONSABLE') %}
 <div class="well" >
-    <a href="{{path('Inra2013Bundle_ValidAnalyse',{'status':'2','id':NumProtocole})}}" class="btn btn-primary"><i class="icon-ok">    </i>   Valider les resultats</a>
+
+    <form method="POST" action={{path('Inra2013Bundle_ValidAnalyse')}} >
+
+        <button class="btn btn-primary" type="submit" >Valider les résultats</button>
+        <input type="hidden" name="NumProtocole" value="{{NumProtocole}}" />
+        <input type="hidden" name="Status" value=2 />  
+    </form>
+
+
+
 </div>{% endif %}
 {%endblock%}
 
@@ -182,7 +191,7 @@
                 </form>
 {%endblock %}
     {% block stylesheets %}
-  <link rel="stylesheet" type="text/css" href="{{asset('js/CLEditor1_3_0/jquery.cleditor.css')}}" />
+                <link rel="stylesheet" type="text/css" href="{{asset('js/CLEditor1_3_0/jquery.cleditor.css')}}" />
 {% endblock %}
 {%block javascripts%} 
                 <script type="text/javascript" src="{{asset('js/CLEditor1_3_0/jquery.cleditor.min.js')}}"></script>

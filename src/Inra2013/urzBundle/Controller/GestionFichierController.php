@@ -32,6 +32,7 @@ class GestionFichierController extends Controller {
 
         if ($this->getRequest()->getMethod() == 'POST') {
             $protocole = $this->get('Request')->get('protocole'); // on recupère le protocole courant
+            $type = $this->get('Request')->get('type'); // on recupere le type pour savoir sur quel methode envoyé le fichier
             /** Recupération des informations du fichier avec les differents type d'erreur   * */
             if ($_FILES['files']['error']) {
 
@@ -55,12 +56,15 @@ class GestionFichierController extends Controller {
             /*             * On regarde si le fichier est aux bon format qui est le csv(text/csv)* */ else {
 
                 $sheet = $this->ReadExcelAction($_FILES);
-
+                $sheet->getSheet(0);
                 $tmp_name = $_FILES['files']["tmp_name"];
 
                 move_uploaded_file($tmp_name, $this->path . "/" . $_FILES['files']['name']); /*                 * On bouge le fichier dans la section Resources/Upload pour pourvoir l utilisé pour l'enregistrement* */
-
-                return $this->render("Inra2013urzBundle:Default:edit.html.twig", array('xls' => $sheet, 'file' => $_FILES['files']['name'], "protocole" => $protocole));
+                if ($type = "ImportResult") {
+                    return $this->render("Inra2013urzBundle:Default:edit.html.twig", array('xls' => $sheet, 'file' => $_FILES['files']['name'], "protocole" => $protocole, 'form_path' => 'Inra2013Bundle_ImportResultat'));
+                } else if ($type = "") {
+                    return $this->render("Inra2013urzBundle:Default:edit.html.twig", array('xls' => $sheet, 'file' => $_FILES['files']['name'], "protocole" => $protocole, 'form_path' => 'Inra2013Bundle_SaveFile'));
+                }
             }
         }
 
@@ -78,8 +82,10 @@ class GestionFichierController extends Controller {
 
         $excelObj = $this->get('xls.load_xls5')->load($files['files']["tmp_name"]);
         $page = 0;
-        $sheet = $excelObj->getSheet($page);
-        return $sheet;
+       // $sheet = $excelObj->getSheet($page);
+      //  return $sheet;
+    return $excelObj;
+        
     }
 
     /**
@@ -116,7 +122,7 @@ class GestionFichierController extends Controller {
 
                     if ($cell->getColumn() == 'A') {
 
-                        $rest = substr($cell->getValue(), -4); //on recupere le code labo sans le provenance
+                        $rest = substr($cell->getValue(), -4); //on recupere le code labo sans la provenance
 
                         $Analyse[$i]->setCodeLabo($rest);
 
@@ -126,6 +132,7 @@ class GestionFichierController extends Controller {
                             $TypeAnalyse[$Resultat] = new $analyse();
                             $TypeAnalyse[$Resultat]->setCodeLabo($Analyse[$i]);
                         }
+                        
                     } elseif ($cell->getColumn() == 'B') {
 
                         $Animal = $cell->getValue();
@@ -143,7 +150,7 @@ class GestionFichierController extends Controller {
 
                             $dateAnalyse = $sheet->getStyle('H1')->getNumberFormat()->toFormattedString($cell->getValue(), "M/D/YYYY"); //Etant donné que le format récuperé est un float,on utilise cette fonction pour le mettre aux format date
                             /*                             * On enregistre les codelabo dans les différents type d'analyse* */
-                            /*                             * On est arrivé a la dernière colonnne,on peut persister l'objet analyse et typeAnalyse * */
+                            /*                             * On est arrivé à la dernière colonnne,on peut persister l'objet analyse et typeAnalyse * */
                             $Analyse[$i]->setDateAnalyse(new \DateTime($dateAnalyse));
                             $em->persist($Analyse[$i]); //on persist l'objet analyse
                             foreach ($ResultTypeAnalyse as $Resultat => $Key) {
@@ -215,7 +222,7 @@ class GestionFichierController extends Controller {
         $Title = "Un titre quelconque";
         $Subject = "Teste document";
         $Description = "Description test";
-        $NameFile = "Essai";
+
         /*         * Propriété pour la hauteur de la cellule,par default c'est la première ligne.pour modification des celle ci mettre argument dans la fct getRowDimension() */
         $pts = 24; //hauteur de la cellule exprimé en point
 //
@@ -230,6 +237,7 @@ class GestionFichierController extends Controller {
         $Protocole = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Protocole')->AnalyseProtocole($id);
 // $IdProtocole = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Protocole')->findBy(array('id' => $id));
 
+        $NameFile = "ProtocoleResultat"; // Nom du fichier
 
         foreach ($Protocole as $Resultat => $Key) {
 
@@ -365,124 +373,44 @@ class GestionFichierController extends Controller {
 // If you are using a https connection, you have to set those two headers for compatibility with IE <9
         $response->headers->set('Pragma', 'public');
         $response->headers->set('Cache-Control', 'maxage=1');
-         return $response;
+        return $response;
     }
 
+    /**
+     * Description of Champs
+     * Permet de creer les champs dans la feuille excel pour ce type d'analyse 
+     * @param $file : Feuille,Resultat,Nom
+     * @author BEBEL Jean Raynal
+     */
     public function Champs($Nom, $feuille, $Resultat, $AnalyseProto) {
 
         $LimiteDebut = "O";
         $LimiteFin = "O";
 
 
+
         /*         * Faut recherché les champs pour les différentes analyses */
 
         $ChampsAnalyse = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:TypeAnalyse')->findBy(array("Nom" => $Nom));
-   
-         foreach ($ChampsAnalyse[0]->getChamps() as $po) {
-            
-                  foreach ($AnalyseProto as $i => $analyse) { 
-                        $LimiteFin = "O";
-                      $getChamp="get".$po->getChamp(); 
-                      for ($n = 0; $n < count($ChampsAnalyse[0]->getChamps()) + 1; $n++) {
-                       $feuille->setActiveSheetIndex($Resultat)
-                        ->setCellValue(++$LimiteFin.($i + 2), $analyse->$getChamp());
-                         // print_r(++$LimiteFin." : ". $analyse->$getChamp()."<br>");
-                          }
-
-                  }
-         }
-        
-       
-          
-            //print_r("<br>".++$LimiteFin . "<br>");
-        
-        ///  \Doctrine\Common\Util\Debug::dump(count($ChampsAnalyse[0]->getChamps()));
-        // $this->getStyleCell($feuille, $LimiteDebut, $LimiteFin);
-    }
-
-    /**
-     * Description of CellEosino
-     * Permet de creer les champs dans la feuille excel pour ce type d'analyse 
-     * @param $file : Feuille,Resultat
-     * @author BEBEL Jean Raynal
-     */
-    public function CellEosinophile($feuille, $Resultat, $AnalyseProto) {
-
-        $LimiteDebut = "O";
-        $LimiteFin = "P";
-        $O = "Eosino lu";
-        $P = "Eosino val";
-
-        $this->getStyleCell($feuille, $LimiteDebut, $LimiteFin);
-
-        foreach (range($LimiteDebut, $LimiteFin) as $lettre) {
+        /*         * On applique le style pour les différents champs qui viennent d'etre génerer** */
+        foreach ($ChampsAnalyse[0]->getChamps() as $po) {
 
             $feuille->setActiveSheetIndex($Resultat)
-                    ->setCellValue($lettre . '1', $$lettre);
-
-            foreach ($AnalyseProto as $i => $analyse) {
-                $feuille->setActiveSheetIndex($Resultat)
-                        /*                         * Valeur pour les champs obligatoires* */
-                        ->setCellValue("O" . ($i + 2), $analyse->getEosinoLu())
-                        ->setCellValue("P" . ($i + 2), $analyse->getEosinoVal());
-            }
+                    ->setCellValue($LimiteFin . '1', $po->getChamp());
+            $this->getStyleCell($feuille, $LimiteDebut, $LimiteFin);
+            ++$LimiteFin;
         }
-    }
 
-    /**
-     * Description of CellOPG
-     * Permet de creer les champs dans la feuille excel pour ce type d'analyse 
-     * @param $file : Feuille,Resultat
-     * @author BEBEL Jean Raynal
-     */
-    public function CellOPG($feuille, $Resultat, $AnalyseProto) {
-
-        $LimiteDebut = "O";
-        $LimiteFin = "U";
-        $O = "Prise d'essai KK(g)";
-        $P = "Oeufs lu";
-        $Q = "volume lu";
-        $R = "OPG";
-        $S = "Coccidies";
-        $T = "Monezia";
-        $U = "Strongyloides";
-
-
-
-        $this->getStyleCell($feuille, $LimiteDebut, $LimiteFin);
-        foreach (range($LimiteDebut, $LimiteFin) as $lettre) {
-
-            $feuille->setActiveSheetIndex($Resultat)
-                    ->setCellValue($lettre . '1', $$lettre);
-        }
+        /*         * *On rempli les champs avec les valeurs de la BDD***** */
         foreach ($AnalyseProto as $i => $analyse) {
-            $feuille->setActiveSheetIndex($Resultat)
-                    /*                     * Valeur pour les champs obligatoires* */
-                    ->setCellValue("O" . ($i + 2), $analyse->getPrisEssai())
-                    ->setCellValue("P" . ($i + 2), $analyse->getOeufLu())
-                    ->setCellValue("Q" . ($i + 2), $analyse->getVolLu())
-                    ->setCellValue("R" . ($i + 2), $analyse->getOpg())
-                    ->setCellValue("S" . ($i + 2), $analyse->getConccidies())
-                    ->setCellValue("T" . ($i + 2), $analyse->getMonezia())
-                    ->setCellValue("U" . ($i + 2), $analyse->getStrongeledia());
-        }
-    }
 
-    /**
-     * Description of CellPVC
-     * Permet de creer les champs dans la feuille excel pour ce type d'analyse 
-     * @param $file : Feuille,Resultat
-     * @author BEBEL Jean Raynal
-     */
-    public function CellPCV($feuille, $Resultat) {
-
-        $LimiteDebut = "O";
-        $LimiteFin = "O";
-        $O = "PVC";
-        $this->getStyleCell($feuille, $LimiteDebut, $LimiteFin);
-        foreach (range($LimiteDebut, $LimiteFin) as $lettre) {
-            $feuille->setActiveSheetIndex($Resultat)
-                    ->setCellValue($lettre . '1', $$lettre);
+            $LimiteFin = "O"; //on commence par la derniere colonne des champs obligatoires
+            foreach ($ChampsAnalyse[0]->getChamps() as $value) {
+                $getChamp = "get" . $value->getChamp();
+                $feuille->setActiveSheetIndex($Resultat)
+                        ->setCellValue($LimiteFin . ($i + 2), $analyse->$getChamp());
+                ++$LimiteFin; //on incremente l'alphabetF
+            }
         }
     }
 
@@ -529,7 +457,48 @@ class GestionFichierController extends Controller {
         } else if ($this->getRequest()->getMethod() == 'POST') {
             $NumProtocole = $this->get('request')->get('NumProtocole');
 
-            return $this->render("Inra2013urzBundle:Default:edit.html.twig", array("protocole" => $NumProtocole));
+            return $this->render("Inra2013urzBundle:Default:edit.html.twig", array("protocole" => $NumProtocole, "form" => 'Inra2013Bundle_SaveFile'));
+        }
+    }
+
+    /**
+     * Description of ImpprtResultat
+     * Permet d'importer un listing de codelabo pour un protocole et des analyse corespondant
+     * 
+     * @author BEBEL Jean Raynal
+     */
+    public function ImportResultatAction() {
+
+        if ($this->getRequest()->getMethod() == 'GET') {  //si c est un GET alors on affiche le formulaire de recherche de protocole
+            return $this->render('Inra2013urzBundle:Analyse:CreatExcel.html.twig', array('type' => 'ImportResultat'));
+        } elseif ($this->getRequest()->getMethod() == 'POST') {
+    $LimiteDebut = "O";
+            $NumProtocole = $this->get('request')->get('NumProtocole');
+            $Status = $this->get('request')->get('Status');
+            $entityName = "Inra2013urzBundle:Protocole";
+            if ($Status == "Enregistrement") {
+                $Protocole = $this->getDoctrine()->getEntityManager()->getRepository($entityName)->findBy(array('id' => $NumProtocole));
+                $ResultTypeAnalyse = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Protocole')->AnalyseProtocole($NumProtocole);
+                $files['files']["tmp_name"] = $this->path . "/" . $_POST['files'];
+                $sheet = $this->ReadExcelAction($files); //On lit le fichier excel
+               
+                foreach($ResultTypeAnalyse as $Value){
+                       $feuille= $sheet->getSheetByName($Value['Nom']);
+                         foreach ($feuille->getRowIterator() as $row) {
+                    foreach ($row->getCellIterator() as $cell) {
+                        if ($row->getRowIndex() != 1) {
+                           // \Doctrine\Common\Util\Debug::dump($cell->getValue());
+                        }
+                    }
+                    print_r('********************************');
+                }
+                }
+           
+            
+              
+                return new Response('je suis dans parti pour l enregistrement du fichier resultat');
+            }
+            return $this->render("Inra2013urzBundle:Default:edit.html.twig", array("protocole" => $NumProtocole, "form_path" => 'Inra2013Bundle_ImportResultat', 'type' => 'ImportResult'));
         }
     }
 
