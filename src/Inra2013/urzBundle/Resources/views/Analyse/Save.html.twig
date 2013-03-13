@@ -15,6 +15,10 @@
 <div class="alert alert-success"><a href="#" class="close" data-dismiss="alert">&times;</a>
     <p>Vos résultat d'analyse ont été validé.</p>
 </div>
+{% elseif Status == 3 %}
+<div class="alert alert-success"><a href="#" class="close" data-dismiss="alert">&times;</a>
+    <p>Vos résultats ont bien été importé dans la base de données.</p>
+</div>
 {%endif%}
 
 {%endblock body%}
