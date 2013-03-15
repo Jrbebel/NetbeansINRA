@@ -6,7 +6,7 @@
 {% block body %}
 <div class="well">
     <form class="form-search" action="{{path('Inra2013Bundle_SearchProtocole')}}" method="POST">
-        <label>Entrez votre protocole ?</label>
+        <label>Quel est votre protocole ?</label>
         </br>
 
         <input type="text" id="protocole" name="protocole" />
@@ -71,7 +71,7 @@
                 source: function (request, response) {
                     
                     var id = $('#protocole').val();
-                   
+                 
                     var DATA = 'id=' + id;
                     $.ajax({
                         url: "{{ path('Inra2013Bundle_SearchProtocole') }}", 
@@ -91,7 +91,7 @@
                     })
                 },
                 select: function (event, ui) {
-                   console.log(ui.item)
+                
                     $('#institut').val( ui.item.id);
                 
                 },

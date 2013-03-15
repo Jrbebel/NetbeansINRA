@@ -17,18 +17,17 @@ class ProtocoleRepository extends EntityRepository {
      * @author BEBEL Jean Raynal
      */
     public function SearchProtocole($id) {
-
+  
         $from = "Inra2013urzBundle:Protocole";
         $alias = "a";
         $from1 = "Inra2013urzBundle:User";
         $alias1 = "u";
 
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('a,u')
+        $qb->select('a')
                 ->from($from, $alias)
                 ->where('a.NomProtocole LIKE :id')
-                ->join($from1, $alias1)
-                ->setParameter('id', $id . "%");
+                ->setParameter('id', $id . '%');
 
         return $qb->getQuery()->getArrayResult();
     }

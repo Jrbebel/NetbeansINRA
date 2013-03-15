@@ -27,3 +27,8 @@ services:
         class: Twig_Extensions_Extension_Debug
         tags:
             - { name: 'twig.extension' } 
+            
+swiftmailer:
+    transport: gmail
+    username: jeanraynal.bebel
+    password: cheminer
