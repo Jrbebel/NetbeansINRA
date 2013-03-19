@@ -10,15 +10,24 @@ class ProtocoleType extends AbstractType {
 
     public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
-                ->add('NomProtocole')
-                ->add('DateValidation')
-                ->add('Description')
+                ->add('NomProtocole','text',array('label'=>'Réference protocole :'))
+                ->add('DateValidation','date',array("label"=>'Date de validation :',
+
+            'widget' => 'single_text',
+
+            'format' => 'dd-MM-yyyy',
+
+            'attr' => array('class' => 'date')))
+
+                ->add('Description','textarea',array('label'=>'Description conscise :','attr'=>array('class'=>'ckeditor')))
                 ->add('Analyse', 'entity', array(
-                    'label' => 'Type analyse à faire ',
+                  
+                    'label' => 'Analyse à faire ',
                     'class' => 'Inra2013\urzBundle\Entity\TypeCategorie',
                     'property' => 'Nom',
                     'multiple' => true,
-                    'expanded'=>true
+                    'expanded'=>true,
+                   
                         )
                 )
 

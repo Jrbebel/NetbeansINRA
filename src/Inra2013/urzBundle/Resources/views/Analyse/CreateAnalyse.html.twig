@@ -24,7 +24,6 @@
 {%block body%}
 {#Ici on vas faire la saisie des données pour les analyses#}
 
-
 <ul class="nav nav-tabs" id="myTab">
 
     {%for typeanalyse in TypeAnalyse %}
@@ -41,9 +40,14 @@
 
   {%for typeanalyse in TypeAnalyse %}
 
+
+
     {%if loop.index == 1%}
 
                 <div class="tab-pane active" id="{{typeanalyse.Nom}}" >
+
+               {% if Resultat | length > 0 %}  
+
                     <table class="table table-striped" >
                         <thead>
                             <tr>
@@ -91,33 +95,38 @@
 
         {% endfor %}
                             </tbody>
-                        </table>
+                        </table>        
+        {% else %}          
+                    <h3><p class="text-center text-error ">En attente du listing de Code Labo</p> </h3>
 
+        {% endif%}
                     </div>
 
         {% else %}
 
                     <div class="tab-pane" id="{{typeanalyse.Nom}}" >
+               {% if Resultat | length > 0 %}  
 
-                        <table class="table table-striped" >
-                            <thead>
-                                <tr>
-                                    <th>Id</th>
-                                    <th>CodeLabo</th>
+                            <table class="table table-striped" >
+                                <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>CodeLabo</th>
 
                                   {%for Champ in Champs[typeanalyse.Nom] %}
 
-                                    <th>{{Champ.Champ}}</th>
+                                        <th>{{Champ.Champ}}</th>
 
                                   {% endfor %} 
 
-                                    <th>Fait par</th>
+                                        <th>Fait par</th>
 
-                                </tr>
-                            </thead>
-                            <tbody>
+                                    </tr>
+                                </thead>
+                                <tbody>
 
         {% for typecodelabo in  ResultatCodeLabo[typeanalyse.Nom] %}
+                                <td>{{loop.index}}</td>    
 
                                 <tr>  
                                     <td>{{loop.index}}</td>    
@@ -144,11 +153,14 @@
                                 </tr> 
 
         {% endfor %}
-                            </tbody>
+                                </tbody>
 
-                        </table>
+                            </table>
+{% else %}
+                                 <h3><p class="text-center text-error ">En attente du listing de Code Labo</p> </h3>
 
-                    </div>
+{% endif%}
+                        </div>
 
 
 {%endif%}  
@@ -156,86 +168,91 @@
 
      {%endfor%}
 
-                {% if validation[0].Validation == 0 %}
-                    <input type="hidden" name="NumProtocole" value="{{NumProtocole}}" />
-                    <input type="hidden" name="Status" value="Enregistrer" />
-                    <div class="span4"><input type="submit" value="Enregistrer" class="btn btn-primary" />   <input type="submit" value="Cancel" class="btn btn-danger" /></div>
-                    <div class="span1 offset6"> 
-                        <a href="#validation" role="button" class="btn btn-success" data-toggle="modal">Valider </a></div>   
+                {% if validation[0].Validation == 0 and Resultat|length > 0 %}
+                        <input type="hidden" name="NumProtocole" value="{{NumProtocole}}" />
+                        <input type="hidden" name="Status" value="Enregistrer" />
+                        <div class="span4"><input type="submit" value="Enregistrer" class="btn btn-primary" />   <input type="submit" value="Cancel" class="btn btn-danger" /></div>
+                        <div class="span1 offset6"> 
+                            <a href="#validation" role="button" class="btn btn-success" data-toggle="modal">Valider </a></div>   
 
-                        {% endif %}
-
-
+                        {% endif %}     
 
 
-                </div>  
 
-            </form> 
+
+
+                    </div>  
+
+                </form> 
 
 {# modal pour la validation des resultats #}
 
-            <form method="POST" action={{path('Inra2013Bundle_ValidAnalyse')}} >
-                <div id="validation" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                        <h3 id="myModalLabel">ENVOIE POUR VALIDATION</h3>
-                    </div>
-                    <div class="modal-body">
-                        <p>Êtes-vous sur de vouloir envoyer les resultats pour validation?</p></br>
-                        <p>Commentaire :</p>
-                        <textarea name="Commentaire" id="input" class="offset1 span7" rows="3"> </textarea>
-                    </div>
+                <form method="POST" action={{path('Inra2013Bundle_ValidAnalyse')}} >
+                    <div id="validation" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h3 id="myModalLabel">ENVOIE POUR VALIDATION</h3>
+                        </div>
+                        <div class="modal-body">
+                            <p>Êtes-vous sur de vouloir envoyer les resultats pour validation?</p></br>
+                            <p>Commentaire :</p>
+                            <textarea name="Commentaire" id="input" class="offset1 span7" rows="3"> </textarea>
+                        </div>
 
 
-                    <div class="modal-footer">
-                        <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true">Annuler</button>
-                        <button class="btn btn-primary" type="submit" >Validation</button></a>
+                        <div class="modal-footer">
+                            <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true">Annuler</button>
+                            <button class="btn btn-primary" type="submit" >Validation</button></a>
+                        </div>
                     </div>
-                </div>
-                <input type="hidden" name="NumProtocole" value="{{NumProtocole}}" />
-                <input type="hidden" name="Status" value=1 />  
-            </form>
+                    <input type="hidden" name="NumProtocole" value="{{NumProtocole}}" />
+                    <input type="hidden" name="Status" value=1 />  
+                </form>
 
 {# modal pour le refus des résultats #}
 
-            <form method="POST" action={{path('Inra2013Bundle_ValidAnalyse')}} >
-                <div id="refus" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                        <h3 id="myModalLabel">REFUS D'ANALYSE</h3>
-                    </div>
-                    <div class="modal-body">
-                        <p></p></br>
-                        <p>Raison pour refus d'analyse :</p>
-                        <textarea name="Commentaire" id="input" class="offset1 span7" rows="3"> </textarea>
-                    </div>
+                <form method="POST" action={{path('Inra2013Bundle_ValidAnalyse')}} >
+                    <div id="refus" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h3 id="myModalLabel">REFUS D'ANALYSE</h3>
+                        </div>
+                        <div class="modal-body">
+                            <p></p></br>
+                            <p>Raison pour refus d'analyse :</p>
+                            <textarea name="Commentaire" id="input" class="offset1 span7" rows="3"> </textarea>
+                        </div>
 
 
-                    <div class="modal-footer">
-                        <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true">Annuler</button>
-                        <button class="btn btn-primary" type="submit" >Validation</button></a>
+                        <div class="modal-footer">
+                            <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true">Annuler</button>
+                            <button class="btn btn-primary" type="submit" >Validation</button></a>
+                        </div>
                     </div>
-                </div>
-                <input type="hidden" name="NumProtocole" value="{{NumProtocole}}" />
-                <input type="hidden" name="Status" value=3 />  
-            </form>
+                    <input type="hidden" name="NumProtocole" value="{{NumProtocole}}" />
+                    <input type="hidden" name="Status" value=3 />  
+                </form>
 
 {%endblock %}
     {% block stylesheets %}
-            <link rel="stylesheet" type="text/css" href="{{asset('js/CLEditor1_3_0/jquery.cleditor.css')}}" />
+                <link rel="stylesheet" type="text/css" href="{{asset('js/CLEditor1_3_0/jquery.cleditor.css')}}" />
 {% endblock %}
 {%block javascripts%} 
-            <script type="text/javascript" src="{{asset('js/CLEditor1_3_0/jquery.cleditor.min.js')}}"></script>
-            <script>
-                $('#myTab a').click(function(e) {
-                    e.preventDefault();
-                    $(this).tab('show');
-                });
-                </script>
-
-                <script type="text/javascript">
-                    $(document).ready(function() {
-                        $("#input").cleditor();
+                <script type="text/javascript" src="{{asset('js/CLEditor1_3_0/jquery.cleditor.min.js')}}"></script>
+                <script>
+                    $('#myTab a').click(function(e) {
+                        e.preventDefault();
+                        $(this).tab('show');
                     });
                     </script>
+
+                    <script type="text/javascript">
+                        $(document).ready(function() {
+                            $("#input").cleditor();
+                            config.toolbar_Basic =
+                                    [
+                                        ['Bold', 'Italic', '-', 'NumberedList', 'BulletedList', '-', 'Link', 'Unlink', '-', 'About']
+                                    ];
+                        });
+                        </script>
 {%endblock %}

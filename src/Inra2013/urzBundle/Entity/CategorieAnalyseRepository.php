@@ -34,7 +34,7 @@ class CategorieAnalyseRepository extends EntityRepository {
         return $qb->getQuery()->getArrayResult();
     }
 
-    //put your code here
+
 }
 
 ?>

@@ -60,10 +60,12 @@ class GestionFichierController extends Controller {
                 $tmp_name = $_FILES['files']["tmp_name"];
 
                 move_uploaded_file($tmp_name, $this->path . "/" . $_FILES['files']['name']); /*                 * On bouge le fichier dans la section Resources/Upload pour pourvoir l utilisé pour l'enregistrement* */
-                if ($type = "ImportResult") {
-                    return $this->render("Inra2013urzBundle:Default:edit.html.twig", array('xls' => $sheet, 'file' => $_FILES['files']['name'], "protocole" => $protocole, 'form_path' => 'Inra2013Bundle_ImportResultat'));
-                } else if ($type = "") {
-                    return $this->render("Inra2013urzBundle:Default:edit.html.twig", array('xls' => $sheet, 'file' => $_FILES['files']['name'], "protocole" => $protocole, 'form_path' => 'Inra2013Bundle_SaveFile'));
+                print_r("je suis dans la fonction gestionfichier et dans upload" . $type);
+                if ($type == "ImportResult") {
+                    print_r("je suis dansl");
+                    return $this->render("Inra2013urzBundle:Default:edit.html.twig", array('xls' => $sheet, 'file' => $_FILES['files']['name'], "protocole" => $protocole, 'form_path' => 'Inra2013Bundle_ImportResultat', 'type' => "ImportResult"));
+                } else if ($type == "listing") {
+                    return $this->render("Inra2013urzBundle:Default:edit.html.twig", array('xls' => $sheet, 'file' => $_FILES['files']['name'], "protocole" => $protocole, 'form_path' => 'Inra2013Bundle_SaveFile', 'type' => "listing"));
                 }
             }
         }
@@ -104,69 +106,74 @@ class GestionFichierController extends Controller {
         $ResultTypeAnalyse = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Protocole')->AnalyseProtocole($numProtocole);
 
         $em = $this->getDoctrine()->getManager();  // On récupére l'EntityManager
-        $i = 0;
+    
         $a = 0;
-        foreach ($sheet->getRowIterator() as $row) {
 
-            $Analyse[$i] = new Analyse();
+        foreach ($ResultTypeAnalyse as $Resultat) {
+print_r("<h3>".$Resultat['Nom']."</h3><br>");   
+            $feuille = $sheet->getSheetByName($Resultat['Nom']);
+        
+     $i = 0;        foreach ($feuille->getRowIterator() as $row) {
+        print_r("j ai cree un objet analyse avec l indice : " .$i."<br>");
+                $Analyse[$i] = new Analyse();
 
 // On prend pas la première ligne du tableau,c'est les titre du tableau
 
-            foreach ($row->getCellIterator() as $cell) {
+                foreach ($row->getCellIterator() as $cell) {
 
-                $Analyse[$i]->setProtocole($Protocole[0]);
+                    $Analyse[$i]->setProtocole($Protocole[0]);
 
+                    if ($row->getRowIndex() != 1) {
 
-                if ($row->getRowIndex() != 1) {
+                        if ($cell->getColumn() == 'A') {
+                          
+                            $rest = substr($cell->getValue(), -4); // On recupere le code labo sans la provenance
+                         //   print_r($cell->getValue()."<br>");
+                            $Analyse[$i]->setCodeLabo($rest);
+                            
+                        } elseif ($cell->getColumn() == 'B') {
 
-                    if ($cell->getColumn() == 'A') {
+                            $Animal = $cell->getValue();
+                            $Analyse[$i]->setAnimal($Animal);
+                            
+                        } elseif ($cell->getColumn() == 'G') {
 
-                        $rest = substr($cell->getValue(), -4); //on recupere le code labo sans la provenance
+                            if ($cell->getValue() != "Date prvt") {
 
-                        $Analyse[$i]->setCodeLabo($rest);
+                                $date = $feuille->getStyle('G1')->getNumberFormat()->toFormattedString($cell->getValue(), "M/D/YYYY"); //Etant donné que le format récuperé est un float,on utilise cette fonction pour le mettre aux format date
+                                $Analyse[$i]->setDatePrelev(new \DateTime($date));
+                            }
+                        } elseif ($cell->getColumn() == 'H') {
 
-                        foreach ($ResultTypeAnalyse as $Resultat => $Key) {
+                            if ($cell->getValue() != "Date analyse") {
 
-
-                            $TypeAnalyse[$Resultat]->setCodeLabo($Analyse[$i]);
-                        }
-                    } elseif ($cell->getColumn() == 'B') {
-
-                        $Animal = $cell->getValue();
-                        $Analyse[$i]->setAnimal($Animal);
-                    } elseif ($cell->getColumn() == 'G') {
-
-                        if ($cell->getValue() != "Date prvt") {
-
-                            $date = $sheet->getStyle('G1')->getNumberFormat()->toFormattedString($cell->getValue(), "M/D/YYYY"); //Etant donné que le format récuperé est un float,on utilise cette fonction pour le mettre aux format date
-                            $Analyse[$i]->setDatePrelev(new \DateTime($date));
-                        }
-                    } elseif ($cell->getColumn() == 'H') {
-
-                        if ($cell->getValue() != "Date analyse") {
-
-                            $dateAnalyse = $sheet->getStyle('H1')->getNumberFormat()->toFormattedString($cell->getValue(), "M/D/YYYY"); //Etant donné que le format récuperé est un float,on utilise cette fonction pour le mettre aux format date
-                            /*                             * On enregistre les codelabo dans les différents type d'analyse* */
-                            /*                             * On est arrivé à la dernière colonnne,on peut persister l'objet analyse et typeAnalyse * */
-                            $Analyse[$i]->setDateAnalyse(new \DateTime($dateAnalyse));
-                            $em->persist($Analyse[$i]); //on persist l'objet analyse
-                            foreach ($ResultTypeAnalyse as $Resultat => $Key) {
-                                $em->persist($TypeAnalyse[$Resultat]); //on persist l'objet Typeanalyse
+                                $dateAnalyse = $feuille->getStyle('H1')->getNumberFormat()->toFormattedString($cell->getValue(), "M/D/YYYY"); //Etant donné que le format récuperé est un float,on utilise cette fonction pour le mettre aux format date
+                                /*                                 * On enregistre les codelabo dans les différents type d'analyse* */
+                                /*                                 * On est arrivé à la dernière colonnne,on peut persister l'objet analyse et typeAnalyse * */
+                                $Analyse[$i]->setDateAnalyse(new \DateTime($dateAnalyse));
+                                print_r("<br>on persist l objet analyse<br>");
+                                $em->persist($Analyse[$i]); //on persist l'objet analyse 
+                                
                             }
                         }
                     }
+                   
                 }
-            }
+ print_r("I :".$i."<br>");
+$i++;
+           
+  }
+  
 
 
-            $em->flush(); //on sauvegarde dans la base   
-            $i++;
+   
+      
 
 
-            /* faut que je supprime le fichier uploader qui est enregistrer sur le serveur* */
-        }
-
-        return $this->render('Inra2013urzBundle:Default:edit.html.twig', array("Status" => "Enregistrement", "protocole" => $numProtocole));
+                /* faut que je supprime le fichier uploader qui est enregistrer sur le serveur* */
+            } print_r('flush');
+      $em->flush(); //on sauvegarde dans la bas         
+        return $this->render('Inra2013urzBundle:Default:edit.html.twig', array("Status" => "Enregistrement", "protocole" => $numProtocole, 'type' => 'rien'));
     }
 
     /**
@@ -453,8 +460,8 @@ class GestionFichierController extends Controller {
             return $this->render('Inra2013urzBundle:Analyse:CreatExcel.html.twig', array('type' => 'listing'));
         } else if ($this->getRequest()->getMethod() == 'POST') {
             $NumProtocole = $this->get('request')->get('NumProtocole');
-
-            return $this->render("Inra2013urzBundle:Default:edit.html.twig", array("protocole" => $NumProtocole, "form" => 'Inra2013Bundle_SaveFile'));
+            print_r("<br>je suis dans la fonction importlisting daans gestionfichier");
+            return $this->render("Inra2013urzBundle:Default:edit.html.twig", array("protocole" => $NumProtocole, "form_path" => 'Inra2013Bundle_SaveFile', "type" => 'listing'));
         }
     }
 
@@ -496,7 +503,6 @@ class GestionFichierController extends Controller {
                         $analyse = "\Inra2013\urzBundle\Entity\Ana" . $Value['Nom'];
                         if ($key != 1) {
                             $Analyse[$key] = new $analyse();
-                           
                         }
 
 
@@ -505,15 +511,12 @@ class GestionFichierController extends Controller {
                         $Champs = 0;
                         foreach ($row->getCellIterator() as $cell) {
 
-
-
                             if ($row->getRowIndex() != 1) { //on regarde pas la premiere ligne du tableur ,c'est les titres des colonnes
                                 $value = $ChampsAnalyse[0]->getChamps();
 
                                 if ($cell->getColumn() == "A") {
+
                                     $Analyse = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Ana' . $Value['Nom'])->findBy(array("CodeLabo" => $cell->getValue()));
-
-
                                     $Analyse[0]->setCodeLabo($Analyse[0]->getCodeLabo());
                                 }
 
@@ -527,7 +530,7 @@ class GestionFichierController extends Controller {
                                 }
                             }
                         }
-                     
+
                         if ($key != 1) {
                             $em->persist($Analyse[0]);
                         }
@@ -538,7 +541,7 @@ class GestionFichierController extends Controller {
 
                 return $this->render("Inra2013urzBundle:Analyse:Save.html.twig", array('Status' => 3));
             }
-            return $this->render("Inra2013urzBundle:Default:edit.html.twig", array("protocole" => $NumProtocole, "form_path" => 'Inra2013Bundle_ImportResultat', 'type' => 'ImportResult'));
+            return $this->render("Inra2013urzBundle:Default:edit.html.twig", array("protocole" => $NumProtocole, "form_path" => 'Inra2013Bundle_ImportResultat', "type" => 'ImportResult'));
         }
     }
 

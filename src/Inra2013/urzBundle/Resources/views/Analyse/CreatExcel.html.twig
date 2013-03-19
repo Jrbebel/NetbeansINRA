@@ -20,7 +20,7 @@
 
     <form class="form-search" action="{{path(form_path)}}" method="POST">
 
-<div class="alert alert-info">
+<div class="alert alert-info"> <button type="button" class="close" data-dismiss="alert">&times;</button>
     <dl class="dl-horizontal">
         <dt>Num Protocole : </dt>
         <dd>{{protocole[0].id}}</dd>
@@ -31,7 +31,7 @@
         <dt>Date validation: </dt>
         <dd>{{protocole[0].DateValidation | date("d M Y")}}</dd>
         <dt>Description:</dt>
-        <dd>{{protocole[0].Description}}</dd>
+        <dd>{{ protocole[0].Description | raw  }}</dd>
         <dt>Analyse faite : </dt>
         <dd>
     {% for analyse in Analyse %}

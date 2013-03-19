@@ -41,7 +41,7 @@ class __TwigTemplate_56594994f1b41e524e18e3c534a0322f extends Twig_Template
         echo "\" />
         <link rel=\"stylesheet\" href=\"";
         // line 10
-        echo twig_escape_filter($this->env, $this->env->getExtension('assets')->getAssetUrl("bootstrap/css/bootstrap.css"), "html", null, true);
+        echo twig_escape_filter($this->env, $this->env->getExtension('assets')->getAssetUrl("bootstrap_final/css/bootstrap.css"), "html", null, true);
         echo "\" /> 
         <script type=\"text/javascript\" src=\"";
         // line 11
@@ -49,7 +49,7 @@ class __TwigTemplate_56594994f1b41e524e18e3c534a0322f extends Twig_Template
         echo "\" ></script>
         <script type=\"text/javascript\"  src=\"";
         // line 12
-        echo twig_escape_filter($this->env, $this->env->getExtension('assets')->getAssetUrl("bootstrap/js/bootstrap.js"), "html", null, true);
+        echo twig_escape_filter($this->env, $this->env->getExtension('assets')->getAssetUrl("bootstrap_final/js/bootstrap.js"), "html", null, true);
         echo "\" ></script>
         <script type=\"text/javascript\"  src=\"";
         // line 13

@@ -60,7 +60,7 @@ class Protocole {
       /**
      * @var text
      *
-     * @ORM\Column(name="Commentaire", type="text")
+     * @ORM\Column(name="Commentaire", type="text",nullable=true)
      */
     private $Commentaire;
 

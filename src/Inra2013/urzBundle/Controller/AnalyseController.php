@@ -47,6 +47,7 @@ class AnalyseController extends Controller {
             $Analyse = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Protocole')->AnalyseProtocole($id);
 
             if ($type == "listing") {
+                print_r("dans la fonction searchprocotocole dans analyse Controller ".$type);
                 return $this->render("Inra2013urzBundle:Analyse:CreatExcel.html.twig", array("protocole" => $Protocole, "Analyse" => $Analyse, 'form_path' => 'Inra2013Bundle_ImportListing', 'form_value' => 'Importer listing', 'type' => $type, 'protocole' => $Protocole));
             } elseif ($type == "createxcel") {
                 return $this->render("Inra2013urzBundle:Analyse:CreatExcel.html.twig", array("protocole" => $Protocole, "Analyse" => $Analyse, 'form_path' => 'Inra2013Bundle_CreateExcel', 'form_value' => 'Générer Fichier Excel', 'type' => $type, 'protocole' => $Protocole));
@@ -71,8 +72,8 @@ class AnalyseController extends Controller {
 
         if ($request->isXmlHttpRequest()) {
 
-            $id = $request->request->get('id');
-
+           // $id = $request->request->get('id');
+$id=$_REQUEST['id'];
             $array = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:CategorieAnalyse')->SearchCategorieAnalyse($id);
 
 
@@ -95,8 +96,8 @@ class AnalyseController extends Controller {
         $request = $this->get('request');
 
         if ($request->isXmlHttpRequest()) {
-
-            $id = $request->request->get('id');
+ $id = $_REQUEST['id'];
+          // $id = $request->request->get('id');
             $array = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:TypeAnalyse')->SearchTypeAnalyse($id);
             $reponse = new Response(json_encode($array));
             $reponse->headers->set('content-Type', 'application/json');
@@ -161,6 +162,8 @@ class AnalyseController extends Controller {
 
             $form->bind($request);
             if ($form->isValid()) {
+                $Protocole = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Protocole')->find($typeProtocole->getNomProtocole());
+             
                 $em = $this->getDoctrine()->getEntityManager();
                 $choix_analyse = $this->get('request')->get('choix_analyse');
 
@@ -181,7 +184,7 @@ class AnalyseController extends Controller {
 
                 $em->flush(); //on sauvegarde le tous 
 
-                return $this->render("Inra2013urzBundle:Analyse:CreateProtocole.html.twig", array('Status' => 'Save'));
+                return $this->render("Inra2013urzBundle:Analyse:CreateProtocole.html.twig", array('Status' => 'Save','Num'=>$typeProtocole->getNomProtocole()));
             }
         }
         return $this->render("Inra2013urzBundle:Analyse:CreateProtocole.html.twig", array('form' => $form->createView()));
@@ -205,10 +208,8 @@ class AnalyseController extends Controller {
         } else if ($this->getRequest()->getMethod() == 'POST') {
 
 
-
-
-
             /*             * On fait l'enregistrement des valeurs saisie pour les resultats(stade final du formulaire)* */
+            
             if ($Status == "Enregistrer") {
 
                 $numProtocole = $this->get('request')->get('NumProtocole');
@@ -275,9 +276,7 @@ class AnalyseController extends Controller {
 
                 return $this->render("Inra2013urzBundle:Analyse:Save.html.twig");
 
-
-
-                /*                 * *********************************************** */
+               
             }
 
             return $this->VoirAnalyseAction($numProtocole, $ResultTypeAnalyse);
@@ -292,7 +291,7 @@ class AnalyseController extends Controller {
 
         $ResultTypeAnalyse = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Protocole')->AnalyseProtocole($numProtocole);
         $validation = $this->getDoctrine()->getEntityManager()->getRepository("Inra2013urzBundle:Protocole")->findBy(array('id' => $numProtocole));
-
+    
         /*         * On crée les formulaires pour les différents type d'analyse* */
         /*         * Une boucle pour créer les formulaires des types analyses * */
         $CodeLabo = array();
@@ -305,8 +304,8 @@ class AnalyseController extends Controller {
             $CodeLabo[$value['Nom']] = $ResultCodeLabo;
             $Champs[$value['Nom']] = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Champ')->FindChampAnalyse($value['id']);
         }
-
-        return $this->render("Inra2013urzBundle:Analyse:CreateAnalyse.html.twig", array('TypeAnalyse' => $ResultTypeAnalyse, 'ResultatCodeLabo' => $CodeLabo, 'Champs' => $Champs, 'NumProtocole' => $numProtocole, 'validation' => $validation));
+        \Doctrine\Common\Util\Debug::dump($ResultCodeLabo);
+        return $this->render("Inra2013urzBundle:Analyse:CreateAnalyse.html.twig", array('Resultat'=>$ResultCodeLabo,'TypeAnalyse' => $ResultTypeAnalyse, 'ResultatCodeLabo' => $CodeLabo, 'Champs' => $Champs, 'NumProtocole' => $numProtocole, 'validation' => $validation));
     }
 
     public function MailerAction($Protocole) {
