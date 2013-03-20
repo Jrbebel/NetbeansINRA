@@ -82,12 +82,12 @@
         <thead> <tr>  
 
          {% for liste in cell.getCellIterator()  %}   
-
+          {%if loop.index != 2 and loop.index != 5 and loop.index != 8  and loop.index != 13  and loop.index != 14 %} {# on retire les champs qu on veut pas afficher#}
                 <th>{{liste.getValue()}}</th>
-
+          {%endif%}     
         {%endfor%}
 
-            </tr></thead>
+                </tr></thead>
 
 
 {% endif %}
@@ -96,7 +96,7 @@
 
 {% for liste in xls1.getRowIterator()  %}
 
-        <tr>
+            <tr>
 
     {% if loop.index < 15 %} {#On limite l'affichage a 10 resultat,ceci n'est qu'une previsualisation des données de la base#}  
 
@@ -104,13 +104,13 @@
 
 {% if liste.getRowIndex() != 1  %} 
         {% if  cell.getColumn() == 'I' or cell.getColumn() == 'J' %}
-            <td>{{cell.getCalculatedValue() }}</td> {# Permet de calculer les fonctions mathématique de la feuille excel et permet ainsi d'avoir un affichage numérique #}
+                <td>{{cell.getCalculatedValue() }}</td> {# Permet de calculer les fonctions mathématique de la feuille excel et permet ainsi d'avoir un affichage numérique #}
                 {% elseif  cell.getColumn() == "G" or cell.getColumn() == "H"   %}
 
-            <td>{{xls1.getStyle('G1').getNumberFormat().toFormattedString(cell.getValue(), "M/D/YYYY") }}</td> {# Permet d'avoir les valeur des lignes #}
+                <td>{{xls1.getStyle('G1').getNumberFormat().toFormattedString(cell.getValue(), "M/D/YYYY") }}</td> {# Permet d'avoir les valeur des lignes #}
 
                 {% else %}
-            <td>{{cell.getValue()}}</td>
+                <td>{{cell.getValue()}}</td>
                 {% endif%}
 
                 {% endif %}
@@ -122,17 +122,17 @@
 
 
 
-        </tr>
-    </table> 
+            </tr>
+        </table> 
 
-    <input type="hidden" name="files" value="{{file}}"/>
-    <input type="hidden" name="NumProtocole" value="{{protocole}}"/>
-    <input type="hidden" name="Status" value="Enregistrement" /> {#Permet de savoir qu'on envoie pour l"enregistrement#}
-    <input type="submit" class="btn btn-danger" value="Cancel" />
+        <input type="hidden" name="files" value="{{file}}"/>
+        <input type="hidden" name="NumProtocole" value="{{protocole}}"/>
+        <input type="hidden" name="Status" value="Enregistrement" /> {#Permet de savoir qu'on envoie pour l"enregistrement#}
+        <input type="submit" class="btn btn-danger" value="Cancel" />
 
-    <input type="submit" class="btn btn-primary" value="Enregistrer"  />
+        <input type="submit" class="btn btn-primary" value="Enregistrer"  />
 
-</form> 
+    </form> 
   {% endif%}
 
 
@@ -140,7 +140,7 @@
 
    {% block javascripts %}
 
-<script type="text/javascript">
+    <script type="text/javascript">
 
                         function handleFiles(files) {
 
@@ -152,7 +152,7 @@
 
                         }
 
-    </script>
+        </script>
 
 
 

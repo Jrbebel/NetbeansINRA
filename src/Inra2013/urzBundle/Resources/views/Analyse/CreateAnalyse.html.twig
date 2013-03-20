@@ -3,11 +3,11 @@
 
 {%block menu2 %}
 {% if is_granted('ROLE_RESPONSABLE') %}
-    {% if  validation[0].Validation == 0 %}
+    {% if  validation[0].Validation != 0 %}
 <div class="well" >
 
     <form method="POST" action={{path('Inra2013Bundle_ValidAnalyse')}} >
-        <h4>Conformité des résultats ?</h4>
+        <h5>Conformité des résultats ?</h5>
         <button class="btn btn-primary" type="submit" >Valider</button>
         <a  role="button" class="btn btn-danger" data-toggle="modal" href="#refus" >Réfuser </a>
         <input type="hidden" name="NumProtocole" value="{{NumProtocole}}" />
@@ -15,8 +15,14 @@
     </form>
 
 </div>
+{% endif %} {% endif %}
+
+{% if is_granted('ROLE_UTILISATEUR') %}
+<div class="well" >
+ <a  role="button" class="btn btn-primary" data-toggle="modal" href="#refus" >Demamde de validation</a>
+</div>
 {% endif %}
-    {% endif %}
+
 {%endblock%}
 
 
@@ -97,7 +103,7 @@
                             </tbody>
                         </table>        
         {% else %}          
-                    <h3><p class="text-center text-error ">En attente du listing de Code Labo</p> </h3>
+                        <h3><p class="text-center text-error ">En attente du listing de Code Labo</p> </h3>
 
         {% endif%}
                     </div>
@@ -126,38 +132,38 @@
                                 <tbody>
 
         {% for typecodelabo in  ResultatCodeLabo[typeanalyse.Nom] %}
-                                <td>{{loop.index}}</td>    
 
-                                <tr>  
-                                    <td>{{loop.index}}</td>    
-                                    <td> {{typecodelabo.CodeLabo.CodeLabo}} </td>
+
+                                    <tr>  
+                                        <td>{{loop.index}}</td>    
+                                        <td> {{typecodelabo.CodeLabo.CodeLabo}} </td>
                                     {%for Champ in Champs[typeanalyse.Nom] %}    
 
                                     {% if typecodelabo.User is empty%}
 
-                                    <td><input type="text" name="{{Champ.Champ}}[{{typecodelabo.CodeLabo.CodeLabo}}]" class="span7" /></td>
+                                        <td><input type="text" name="{{Champ.Champ}}[{{typecodelabo.CodeLabo.CodeLabo}}]" class="span7" /></td>
 
                                     {%else%}
 
-                                    <td>{{attribute(typecodelabo, Champ.Champ)}}</td>
+                                        <td>{{attribute(typecodelabo, Champ.Champ)}}</td>
 
                                     {%endif%}
 
                                {% endfor %}
                                   {% if typecodelabo.User is empty%}
-                                    <td></td>
+                                        <td></td>
                                          {%else%} 
 
-                                    <td>{{typecodelabo.User.Nom}} {{typecodelabo.User.Prenom}}</td>
+                                        <td>{{typecodelabo.User.Nom}} {{typecodelabo.User.Prenom}}</td>
                                          {%endif%}
-                                </tr> 
+                                    </tr> 
 
         {% endfor %}
                                 </tbody>
 
                             </table>
 {% else %}
-                                 <h3><p class="text-center text-error ">En attente du listing de Code Labo</p> </h3>
+                            <h3><p class="text-center text-error ">En attente du listing de Code Labo</p> </h3>
 
 {% endif%}
                         </div>
@@ -171,9 +177,8 @@
                 {% if validation[0].Validation == 0 and Resultat|length > 0 %}
                         <input type="hidden" name="NumProtocole" value="{{NumProtocole}}" />
                         <input type="hidden" name="Status" value="Enregistrer" />
-                        <div class="span4"><input type="submit" value="Enregistrer" class="btn btn-primary" />   <input type="submit" value="Cancel" class="btn btn-danger" /></div>
-                        <div class="span1 offset6"> 
-                            <a href="#validation" role="button" class="btn btn-success" data-toggle="modal">Valider </a></div>   
+                        <div class="span4"> <input type="submit" value="Cancel" class="btn btn-danger" />  <input type="submit" value="Enregistrer" class="btn btn-primary" />  </div>
+                      
 
                         {% endif %}     
 
@@ -219,7 +224,7 @@
                         </div>
                         <div class="modal-body">
                             <p></p></br>
-                            <p>Raison pour refus d'analyse :</p>
+                            <p>Motif de refus de l'analyse :</p>
                             <textarea name="Commentaire" id="input" class="offset1 span7" rows="3"> </textarea>
                         </div>
 
@@ -249,10 +254,6 @@
                     <script type="text/javascript">
                         $(document).ready(function() {
                             $("#input").cleditor();
-                            config.toolbar_Basic =
-                                    [
-                                        ['Bold', 'Italic', '-', 'NumberedList', 'BulletedList', '-', 'Link', 'Unlink', '-', 'About']
-                                    ];
                         });
                         </script>
 {%endblock %}

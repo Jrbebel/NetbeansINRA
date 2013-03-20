@@ -60,9 +60,9 @@ class GestionFichierController extends Controller {
                 $tmp_name = $_FILES['files']["tmp_name"];
 
                 move_uploaded_file($tmp_name, $this->path . "/" . $_FILES['files']['name']); /*                 * On bouge le fichier dans la section Resources/Upload pour pourvoir l utilisé pour l'enregistrement* */
-                print_r("je suis dans la fonction gestionfichier et dans upload" . $type);
+              
                 if ($type == "ImportResult") {
-                    print_r("je suis dansl");
+                  
                     return $this->render("Inra2013urzBundle:Default:edit.html.twig", array('xls' => $sheet, 'file' => $_FILES['files']['name'], "protocole" => $protocole, 'form_path' => 'Inra2013Bundle_ImportResultat', 'type' => "ImportResult"));
                 } else if ($type == "listing") {
                     return $this->render("Inra2013urzBundle:Default:edit.html.twig", array('xls' => $sheet, 'file' => $_FILES['files']['name'], "protocole" => $protocole, 'form_path' => 'Inra2013Bundle_SaveFile', 'type' => "listing"));
@@ -106,16 +106,19 @@ class GestionFichierController extends Controller {
         $ResultTypeAnalyse = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Protocole')->AnalyseProtocole($numProtocole);
 
         $em = $this->getDoctrine()->getManager();  // On récupére l'EntityManager
-    
-        $a = 0;
 
+        $a = 0;
+        $i = 0;
         foreach ($ResultTypeAnalyse as $Resultat) {
-print_r("<h3>".$Resultat['Nom']."</h3><br>");   
+            $TabCodeLabo = array();
             $feuille = $sheet->getSheetByName($Resultat['Nom']);
-        
-     $i = 0;        foreach ($feuille->getRowIterator() as $row) {
-        print_r("j ai cree un objet analyse avec l indice : " .$i."<br>");
+
+            foreach ($feuille->getRowIterator() as $row) {
+
                 $Analyse[$i] = new Analyse();
+                $analyse = "\Inra2013\urzBundle\Entity\Ana" . $Resultat['Nom'];
+
+                $AnalyseAna[$i] = new $analyse();
 
 // On prend pas la première ligne du tableau,c'est les titre du tableau
 
@@ -126,16 +129,16 @@ print_r("<h3>".$Resultat['Nom']."</h3><br>");
                     if ($row->getRowIndex() != 1) {
 
                         if ($cell->getColumn() == 'A') {
-                          
                             $rest = substr($cell->getValue(), -4); // On recupere le code labo sans la provenance
-                         //   print_r($cell->getValue()."<br>");
+                            /*                             * On verifie le codelabo est deja dans la base de donnée,si oui on set le codelabo* */
+
+
+                            $TabCodeLabo[$i] = $rest;
                             $Analyse[$i]->setCodeLabo($rest);
-                            
                         } elseif ($cell->getColumn() == 'B') {
 
                             $Animal = $cell->getValue();
                             $Analyse[$i]->setAnimal($Animal);
-                            
                         } elseif ($cell->getColumn() == 'G') {
 
                             if ($cell->getValue() != "Date prvt") {
@@ -151,28 +154,33 @@ print_r("<h3>".$Resultat['Nom']."</h3><br>");
                                 /*                                 * On enregistre les codelabo dans les différents type d'analyse* */
                                 /*                                 * On est arrivé à la dernière colonnne,on peut persister l'objet analyse et typeAnalyse * */
                                 $Analyse[$i]->setDateAnalyse(new \DateTime($dateAnalyse));
-                                print_r("<br>on persist l objet analyse<br>");
-                                $em->persist($Analyse[$i]); //on persist l'objet analyse 
-                                
+                                /*                                 * On persist si il y a un code labo** */
+                            }
+                            $CodeLabo = $Analyse[$i]->getCodeLabo();
+                            $SearchCodeLabo = $this->getDoctrine()->getEntityManager()->getRepository("Inra2013urzBundle:Analyse")->find($CodeLabo);
+
+                            if (!$SearchCodeLabo) {
+
+                                $em->persist($Analyse[$i]); //on persist l'objet analyse  
                             }
                         }
                     }
-                   
                 }
- print_r("I :".$i."<br>");
-$i++;
-           
-  }
-  
 
+                $i++;
+            }
 
-   
-      
+            $em->flush(); //on sauvegarde dans la base
+                    /**On enregistrer les codelabo correspondant aux type d analyse que l'on veut ***/
+            foreach ($TabCodeLabo as $i => $value) {
 
+                $SearchCodeLabo = $this->getDoctrine()->getEntityManager()->getRepository("Inra2013urzBundle:Analyse")->find($value); // on recupere les code labo dans table analyse
+                $AnalyseAna[$i]->setCodeLabo($SearchCodeLabo);
+                $em->persist($AnalyseAna[$i]);
+            }
+            $em->flush(); //on sauvegarde dans la base
+        }
 
-                /* faut que je supprime le fichier uploader qui est enregistrer sur le serveur* */
-            } print_r('flush');
-      $em->flush(); //on sauvegarde dans la bas         
         return $this->render('Inra2013urzBundle:Default:edit.html.twig', array("Status" => "Enregistrement", "protocole" => $numProtocole, 'type' => 'rien'));
     }
 
@@ -460,7 +468,7 @@ $i++;
             return $this->render('Inra2013urzBundle:Analyse:CreatExcel.html.twig', array('type' => 'listing'));
         } else if ($this->getRequest()->getMethod() == 'POST') {
             $NumProtocole = $this->get('request')->get('NumProtocole');
-            print_r("<br>je suis dans la fonction importlisting daans gestionfichier");
+           
             return $this->render("Inra2013urzBundle:Default:edit.html.twig", array("protocole" => $NumProtocole, "form_path" => 'Inra2013Bundle_SaveFile', "type" => 'listing'));
         }
     }

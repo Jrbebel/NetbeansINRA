@@ -47,7 +47,7 @@ class AnalyseController extends Controller {
             $Analyse = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Protocole')->AnalyseProtocole($id);
 
             if ($type == "listing") {
-                print_r("dans la fonction searchprocotocole dans analyse Controller ".$type);
+              
                 return $this->render("Inra2013urzBundle:Analyse:CreatExcel.html.twig", array("protocole" => $Protocole, "Analyse" => $Analyse, 'form_path' => 'Inra2013Bundle_ImportListing', 'form_value' => 'Importer listing', 'type' => $type, 'protocole' => $Protocole));
             } elseif ($type == "createxcel") {
                 return $this->render("Inra2013urzBundle:Analyse:CreatExcel.html.twig", array("protocole" => $Protocole, "Analyse" => $Analyse, 'form_path' => 'Inra2013Bundle_CreateExcel', 'form_value' => 'Générer Fichier Excel', 'type' => $type, 'protocole' => $Protocole));
@@ -274,7 +274,7 @@ $id=$_REQUEST['id'];
                 $em->persist($Analyse[0]);
                 $em->flush();
 
-                return $this->render("Inra2013urzBundle:Analyse:Save.html.twig");
+                return $this->render("Inra2013urzBundle:Analyse:Save.html.twig",array("Status"=>"SaveAnalyse"));
 
                
             }
@@ -304,19 +304,22 @@ $id=$_REQUEST['id'];
             $CodeLabo[$value['Nom']] = $ResultCodeLabo;
             $Champs[$value['Nom']] = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Champ')->FindChampAnalyse($value['id']);
         }
-        \Doctrine\Common\Util\Debug::dump($ResultCodeLabo);
+       
         return $this->render("Inra2013urzBundle:Analyse:CreateAnalyse.html.twig", array('Resultat'=>$ResultCodeLabo,'TypeAnalyse' => $ResultTypeAnalyse, 'ResultatCodeLabo' => $CodeLabo, 'Champs' => $Champs, 'NumProtocole' => $numProtocole, 'validation' => $validation));
     }
 
     public function MailerAction($Protocole) {
+        
         $user = $this->container->get('security.context')->getToken()->getUser(); // on récupere la fonction de l'utilisateur connecté
-        print_r($Protocole[0]->getValidation( ));
-        if ($Protocole[0]->getValidation( ) == 2) {
+  
+        if ($Protocole[0]->getValidation( ) == 1) {
             $Subject = "Demande de validation pour le protocole ".$Protocole[0]->getNomProtocole()." dirigé par".$Protocole[0]->getResponsable()->getNom()."  ".$Protocole[0]->getResponsable()->getPrenom();
-        }elseif($Protocole[0]->getValidation( ) == 3){
+           
+            }elseif($Protocole[0]->getValidation( ) == 3){
                         $Subject = "Demande de Refus pour le protocole ".$Protocole[0]->getNomProtocole()." dirigé par".$Protocole[0]->getResponsable()->getNom()."  ".$Protocole[0]->getResponsable()->getPrenom();
 
         }
+        
         $From = $user->getemail();
         $To = "jeanraynal.bebel@gmail.com";
         $body = "essai";
@@ -324,7 +327,7 @@ $id=$_REQUEST['id'];
                 ->setSubject($Subject)
                 ->setFrom($From)
                 ->setTo($To)
-                ->setBody($this->renderView("Inra2013urzBundle:Analyse:Email.html.twig",array("Status"=>$Protocole[0]->getValidation(),)));
+                ->setBody($this->renderView("Inra2013urzBundle:Analyse:Email.html.twig",array("Protocole"=>$Protocole)));
         $this->get('mailer')->send($message);
         //return new Response('message a ete envoyé ');
     }
