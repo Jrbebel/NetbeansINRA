@@ -29,7 +29,7 @@ class GestionFichierController extends Controller {
 
     public function UploadAction() {
 
-
+print_r($_POST);
         if ($this->getRequest()->getMethod() == 'POST') {
             $protocole = $this->get('Request')->get('protocole'); // on recupère le protocole courant
             $type = $this->get('Request')->get('type'); // on recupere le type pour savoir sur quel methode envoyé le fichier
@@ -525,14 +525,14 @@ class GestionFichierController extends Controller {
                                 if ($cell->getColumn() == "A") {
 
                                     $Analyse = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Ana' . $Value['Nom'])->findBy(array("CodeLabo" => $cell->getValue()));
-                                    $Analyse[0]->setCodeLabo($Analyse[0]->getCodeLabo());
+                                   // $Analyse[$key]->setCodeLabo($Analyse[$key]->getCodeLabo());
                                 }
 
                                 /*                                 * *On lit le tableau et pour chaque codelabo on va rentrer les valeurs voulu* */ elseif ($cell->getColumn() == $LimiteDebut) {
 
                                     $Champ = "set" . $value[$Champs]->getChamp();
 
-                                    $Analyse[0]->$Champ($cell->getValue());
+                                    $Analyse[$key]->$Champ($cell->getValue());
                                     ++$LimiteDebut;
                                     $Champs++;
                                 }
@@ -540,18 +540,22 @@ class GestionFichierController extends Controller {
                         }
 
                         if ($key != 1) {
-                            $em->persist($Analyse[0]);
+                            $em->persist($Analyse[$key]);
                         }
                     }
                 }
                 $em->flush();
 
 
-                return $this->render("Inra2013urzBundle:Analyse:Save.html.twig", array('Status' => 3));
+                return $this->render("Inra2013urzBundle:Analyse:Save.html.twig", array('Status' => "SaveAnalyse"));
             }
             return $this->render("Inra2013urzBundle:Default:edit.html.twig", array("protocole" => $NumProtocole, "form_path" => 'Inra2013Bundle_ImportResultat', "type" => 'ImportResult'));
         }
     }
 
+    Public function CreateAnalyseAction(){
+        
+    }
+    
 }
 

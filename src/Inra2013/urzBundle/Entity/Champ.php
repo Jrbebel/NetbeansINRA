@@ -29,10 +29,14 @@ class Champ
     private $Champ;
 
     /**
-     *  *@ORM\ManyToOne(targetEntity="Inra2013\urzBundle\Entity\TypeAnalyse",inversedBy="Champs")
+     *  *@ORM\ManyToOne(targetEntity="Inra2013\urzBundle\Entity\TypeAnalyse",inversedBy="Analyse")
      * 
      */
     private $Analyse;
+
+
+  
+
     /**
      * Get id
      *

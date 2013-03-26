@@ -88,7 +88,12 @@ Inra2013Bundle_CreateAnalyse:
    pattern: /User/CreateAnalyse
    defaults: { _controller : Inra2013urzBundle:Analyse:CreateAnalyse }
  
+  #Chemin Pour la creation des analyses
  
+Inra2013Bundle_UpdateAnalyse:
+   pattern: /User/UpdateAnalyse
+   defaults: { _controller : Inra2013urzBundle:Analyse:UpdateAnalyse }
+   
  #Chemin pour voir les analyse d'un protocole qui est encours de validation
  
 Inra2013urzBunle_VoirAnalyse:
@@ -119,3 +124,10 @@ Inra2013Bundle_SearchTypeAnalyse :
 Inra2013Bundle_ValidAnalyse :
    pattern: /User/Validation
    defaults: { _controller : Inra2013urzBundle:Analyse:ValidAnalyse }
+   
+   
+   #Chemin pour la création d'une analyse dans une base de données
+ 
+Inra2013Bundle_CreateAnalyseBdd :
+   pattern: /User/AnalyseCreate
+   defaults: { _controller : Inra2013urzBundle:Analyse:CreateAnalyseBdd }

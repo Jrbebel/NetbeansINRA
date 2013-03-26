@@ -66,3 +66,21 @@ twig:
             1 : En cours de validation
             2 : Validé par responsable
             3 : Refusé par responsable
+            
+#Valide le protocole(Code erreur pour chercheur)
+
+      ValideChercheur:
+        
+        class:
+            
+            0 : info
+            1 : info
+            2 : success
+            3 : info
+            
+        info:
+            
+            0 : En cours de traitement
+            1 : En cours de traitement
+            2 : Résultat disponible
+            3 : En cours de traitement            

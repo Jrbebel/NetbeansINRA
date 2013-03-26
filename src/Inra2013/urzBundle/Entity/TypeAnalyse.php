@@ -28,10 +28,10 @@ class TypeAnalyse {
      * 
      */
     private $TypeCategorie;
-    
+
     /**
      *
-     * @ORM\OneToMany(targetEntity = "Inra2013\urzBundle\Entity\Champ",mappedBy="Analyse")
+     * @ORM\OneToMany(targetEntity = "Inra2013\urzBundle\Entity\Champ",mappedBy="Champ",cascade={"persist"})
      * 
      * 
      */
@@ -46,15 +46,31 @@ class TypeAnalyse {
     private $Nom;
 
     public function __toString() {
+
         return $this->getNom();
     }
+
+    /**
+     * Constructor
+     */
+    public function __construct() {
+
+        $this->Champs = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->Analyse = new \Doctrine\Common\Collections\ArrayCollection();
+     
+    }
+
+
+
+   
 
     /**
      * Get id
      *
      * @return integer 
      */
-    public function getId() {
+    public function getId()
+    {
         return $this->id;
     }
 
@@ -64,9 +80,10 @@ class TypeAnalyse {
      * @param string $nom
      * @return TypeAnalyse
      */
-    public function setNom($nom) {
+    public function setNom($nom)
+    {
         $this->Nom = $nom;
-
+    
         return $this;
     }
 
@@ -75,42 +92,11 @@ class TypeAnalyse {
      *
      * @return string 
      */
-    public function getNom() {
+    public function getNom()
+    {
         return $this->Nom;
     }
 
-
-    /**
-     * Set TypeAnalyse
-     *
-     * @param \Inra2013\urzBundle\Entity\TypeAnalyse $typeAnalyse
-     * @return TypeAnalyse
-     */
-    public function setTypeAnalyse(\Inra2013\urzBundle\Entity\TypeAnalyse $typeAnalyse = null)
-    {
-        $this->TypeAnalyse = $typeAnalyse;
-    
-        return $this;
-    }
-
-    /**
-     * Get TypeAnalyse
-     *
-     * @return \Inra2013\urzBundle\Entity\TypeAnalyse 
-     */
-    public function getTypeAnalyse()
-    {
-        return $this->TypeAnalyse;
-    }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->Champs = new \Doctrine\Common\Collections\ArrayCollection();
-       
-    }
-    
     /**
      * Set TypeCategorie
      *
@@ -137,10 +123,10 @@ class TypeAnalyse {
     /**
      * Add Champs
      *
-     * @param \Inra2013\urzBundle\Entity\CategorieAnalyse $champs
+     * @param \Inra2013\urzBundle\Entity\Champ $champs
      * @return TypeAnalyse
      */
-    public function addChamp(\Inra2013\urzBundle\Entity\CategorieAnalyse $champs)
+    public function addChamp(\Inra2013\urzBundle\Entity\Champ $champs)
     {
         $this->Champs[] = $champs;
     
@@ -150,9 +136,9 @@ class TypeAnalyse {
     /**
      * Remove Champs
      *
-     * @param \Inra2013\urzBundle\Entity\CategorieAnalyse $champs
+     * @param \Inra2013\urzBundle\Entity\Champ $champs
      */
-    public function removeChamp(\Inra2013\urzBundle\Entity\CategorieAnalyse $champs)
+    public function removeChamp(\Inra2013\urzBundle\Entity\Champ $champs)
     {
         $this->Champs->removeElement($champs);
     }
@@ -165,5 +151,28 @@ class TypeAnalyse {
     public function getChamps()
     {
         return $this->Champs;
+    }
+
+    /**
+     * Set Analyse
+     *
+     * @param \Inra2013\urzBundle\Entity\TypeAnalyse $analyse
+     * @return TypeAnalyse
+     */
+    public function setAnalyse(\Inra2013\urzBundle\Entity\TypeAnalyse $analyse = null)
+    {
+        $this->Analyse = $analyse;
+    
+        return $this;
+    }
+
+    /**
+     * Get Analyse
+     *
+     * @return \Inra2013\urzBundle\Entity\TypeAnalyse 
+     */
+    public function getAnalyse()
+    {
+        return $this->Analyse;
     }
 }

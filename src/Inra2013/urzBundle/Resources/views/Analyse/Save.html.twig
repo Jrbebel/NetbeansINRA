@@ -19,7 +19,40 @@
 <div class="alert alert-success"><a href="#" class="close" data-dismiss="alert">&times;</a>
     <p>Envoie d'alerte mail pour refus de resultat</p>
 </div>
+{% elseif Status == "TypeCategorie" %}
+<div class="alert alert-success"><a href="#" class="close" data-dismiss="alert">&times;</a>
+    <p>Catégorie d'analyse crée avec succes.</p>
+</div>
+{% elseif Status == "TypeCategorieError" %}
+<div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert">&times;</a>
+    <p>Enregistrement de la catégorie d'analyse échoué,recommencez ou contactez l'adminiistrateur.</p>
+</div>
+{% elseif Status == "CategorieAnalyse" %}
+<div class="alert alert-success"><a href="#" class="close" data-dismiss="alert">&times;</a>
+    <p>Analyse crée avec succes.</p>
+</div>
+{% elseif Status == "CategorieAnalyseError" %}
+<div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert">&times;</a>
+    <p>Enregistrement de l'analyse échoué,recommencez ou contactez l'adminiistrateur.</p>
+</div>
+{% elseif Status == "Analyse" %}
+<div class="alert alert-success"><a href="#" class="close" data-dismiss="alert">&times;</a>
+    <p>Analyse crée avec succes.</p>
+</div>
+{% elseif Status == "AnalyseError" %}
+<div class="alert alert-success"><a href="#" class="close" data-dismiss="alert">&times;</a>
+    <p>Analyse crée avec succes.</p>
+</div>
+{% elseif Status == "Champs" %}
+<div class="alert alert-success"><a href="#" class="close" data-dismiss="alert">&times;</a>
+    <p>Champs pour analyse crée avec succes.</p>
+</div>
+{% elseif Status == "ChampsError" %}
+<div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert">&times;</a>
+    <p>Enregistrement des champs pour l'analyse a échoué,recommencez ou contactez l'adminiistrateur</p>
+</div>
 {%endif%}
+
 
 {%endblock body%}
 

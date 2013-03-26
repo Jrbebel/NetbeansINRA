@@ -37,7 +37,9 @@ class CategorieAnalyse {
     private $Nom;
 
   
-
+public function __toString() {
+    return $this->getNom();
+}
     /**
      * Get id
      *

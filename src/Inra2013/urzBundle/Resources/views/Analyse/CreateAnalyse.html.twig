@@ -2,27 +2,31 @@
 {% block title %}Create Analyse{% endblock %}
 
 {%block menu2 %}
-{% if is_granted('ROLE_RESPONSABLE') %}
-    {% if  validation[0].Validation != 0 %}
+{% if Role == 'ROLE_RESPONSABLE' %}
+    {% if  Protocole[0].Validation == 1 or  Protocole[0].Validation == 3 %}
 <div class="well" >
 
     <form method="POST" action={{path('Inra2013Bundle_ValidAnalyse')}} >
         <h5>Conformité des résultats ?</h5>
         <button class="btn btn-primary" type="submit" >Valider</button>
+
         <a  role="button" class="btn btn-danger" data-toggle="modal" href="#refus" >Réfuser </a>
         <input type="hidden" name="NumProtocole" value="{{NumProtocole}}" />
         <input type="hidden" name="Status" value=2 />  
     </form>
 
 </div>
-{% endif %} {% endif %}
+    {% endif %}
 
-{% if is_granted('ROLE_UTILISATEUR') %}
+ {% endif %}
+
+{% if Role == 'ROLE_UTILISATEUR' %}
+    {% if   Protocole[0].Validation != 2 %}
 <div class="well" >
- <a  role="button" class="btn btn-primary" data-toggle="modal" href="#refus" >Demamde de validation</a>
+    <a  role="button" class="btn btn-primary" data-toggle="modal" href="#validation" >Demande de validation</a>
 </div>
 {% endif %}
-
+    {% endif %}
 {%endblock%}
 
 
@@ -81,11 +85,16 @@
 
                                     {% if typecodelabo.User is empty%}
 
-                                    <td><input type="text" name="{{Champ.Champ}}[{{typecodelabo.CodeLabo.CodeLabo}}]" class="span7"  /></td>
+                                    <td><input type="text" name="[{{Champ.Champ}}][{{typecodelabo.CodeLabo.CodeLabo}}]" class="span7"  /></td>
 
                                     {%else%}
 
-                                    <td>{{attribute(typecodelabo, Champ.Champ)}}</td>
+                                  {% if type == "UpdateAnalyse" %}
+                                        <td><a href="#" data-name='{{typeanalyse.Nom}};{{Champ.Champ}};{{typecodelabo.CodeLabo.CodeLabo}}' data-type="text" class="username">{{attribute(typecodelabo, Champ.Champ)}}</a></td>
+            {%else%}
+                                        <td>{{attribute(typecodelabo, Champ.Champ)}}</td>
+                      
+            {%endif%}                
 
                                     {%endif%}
 
@@ -144,9 +153,13 @@
                                         <td><input type="text" name="{{Champ.Champ}}[{{typecodelabo.CodeLabo.CodeLabo}}]" class="span7" /></td>
 
                                     {%else%}
-
+                                        
+            {% if type == "UpdateAnalyse" %}
+                                        <td><a href="#" data-name='{{typeanalyse.Nom}};{{Champ.Champ}};{{typecodelabo.CodeLabo.CodeLabo}}' data-type="text" class="username">{{attribute(typecodelabo, Champ.Champ)}}</a></td>
+            {%else%}
                                         <td>{{attribute(typecodelabo, Champ.Champ)}}</td>
-
+                      
+            {%endif%}                                         
                                     {%endif%}
 
                                {% endfor %}
@@ -174,11 +187,11 @@
 
      {%endfor%}
 
-                {% if validation[0].Validation == 0 and Resultat|length > 0 %}
+                {% if  Protocole[0].Validation == 0 and Resultat|length > 0 %}
                         <input type="hidden" name="NumProtocole" value="{{NumProtocole}}" />
                         <input type="hidden" name="Status" value="Enregistrer" />
                         <div class="span4"> <input type="submit" value="Cancel" class="btn btn-danger" />  <input type="submit" value="Enregistrer" class="btn btn-primary" />  </div>
-                      
+
 
                         {% endif %}     
 
@@ -201,59 +214,89 @@
                         <div class="modal-body">
                             <p>Êtes-vous sur de vouloir envoyer les resultats pour validation?</p></br>
                             <p>Commentaire :</p>
-                            <textarea name="Commentaire" id="input" class="offset1 span7" rows="3"> </textarea>
-                        </div>
+                            <textarea name="Commentaire" id="input" class="offset1 span7" rows="3">     
+                                {% if Protocole[0].Commentaire is not empty %}
+                                            </br>
+                                            {{ Protocole[0].Commentaire}} </br></br>  *****************************************************
+                                          {%endif%}
+                                              
+                                </textarea>
+                            </div>
 
 
-                        <div class="modal-footer">
-                            <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true">Annuler</button>
-                            <button class="btn btn-primary" type="submit" >Validation</button></a>
+                            <div class="modal-footer">
+                                <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true">Annuler</button>
+                                <button class="btn btn-primary" type="submit" >Validation</button></a>
+                            </div>
                         </div>
-                    </div>
-                    <input type="hidden" name="NumProtocole" value="{{NumProtocole}}" />
-                    <input type="hidden" name="Status" value=1 />  
-                </form>
+                        <input type="hidden" name="NumProtocole" value="{{NumProtocole}}" />
+                        <input type="hidden" name="Status" value=1 />  
+                    </form>
 
 {# modal pour le refus des résultats #}
 
-                <form method="POST" action={{path('Inra2013Bundle_ValidAnalyse')}} >
-                    <div id="refus" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                            <h3 id="myModalLabel">REFUS D'ANALYSE</h3>
-                        </div>
-                        <div class="modal-body">
-                            <p></p></br>
-                            <p>Motif de refus de l'analyse :</p>
-                            <textarea name="Commentaire" id="input" class="offset1 span7" rows="3"> </textarea>
-                        </div>
+                    <form method="POST" action={{path('Inra2013Bundle_ValidAnalyse')}} >
+                        <div id="refus" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h3 id="myModalLabel">REFUS DE LA VALIDATION </h3>
+                            </div>
+                            <div class="modal-body">
+                                <p>Êtes-vous sur de vouloir envoyer les resultats pour validation?</p></br>
+                                <p>Commentaire :</p>
+                                <textarea name="Commentaire" id="input1" class="offset1 span7" rows="3">     
+                                {% if Protocole[0].Commentaire is not empty %}
+                                            </br>
+                                            {{ Protocole[0].Commentaire}} </br></br>  *****************************************************
+                                          {%endif%}
+                                              
+                                    </textarea>
+                                </div>
 
 
-                        <div class="modal-footer">
-                            <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true">Annuler</button>
-                            <button class="btn btn-primary" type="submit" >Validation</button></a>
-                        </div>
-                    </div>
-                    <input type="hidden" name="NumProtocole" value="{{NumProtocole}}" />
-                    <input type="hidden" name="Status" value=3 />  
-                </form>
+                                <div class="modal-footer">
+                                    <button class="btn btn-danger" data-dismiss="modal" aria-hidden="true">Annuler</button>
+                                    <button class="btn btn-primary" type="submit" >Validation</button></a>
+                                </div>
+                            </div>
+                            <input type="hidden" name="NumProtocole" value="{{NumProtocole}}" />
+                            <input type="hidden" name="Status" value=1 />  
+                        </form>
 
 {%endblock %}
     {% block stylesheets %}
-                <link rel="stylesheet" type="text/css" href="{{asset('js/CLEditor1_3_0/jquery.cleditor.css')}}" />
+                        <link rel="stylesheet" type="text/css" href="{{asset('js/CLEditor1_3_0/jquery.cleditor.css')}}" />
+                        <link rel="stylesheet" type="text/css" href="{{asset('bootstrap-editable/css/bootstrap-editable.css')}}" />
+
+
 {% endblock %}
 {%block javascripts%} 
-                <script type="text/javascript" src="{{asset('js/CLEditor1_3_0/jquery.cleditor.min.js')}}"></script>
-                <script>
-                    $('#myTab a').click(function(e) {
-                        e.preventDefault();
-                        $(this).tab('show');
-                    });
-                    </script>
+                        <script type="text/javascript" src="{{asset('js/CLEditor1_3_0/jquery.cleditor.min.js')}}"></script>
+                        <script type="text/javascript" src="{{asset('bootstrap-editable/js/bootstrap-editable.js')}}"></script>
+                        <script>
+                            $('#myTab a').click(function(e) {
+                                e.preventDefault();
+                                $(this).tab('show');
+                            });
+                            </script>
 
-                    <script type="text/javascript">
-                        $(document).ready(function() {
-                            $("#input").cleditor();
-                        });
-                        </script>
+                            <script type="text/javascript">
+                                $(document).ready(function() {
+                                    $("#input").cleditor();
+                                });
+                                $(document).ready(function() {
+                                    $("#input1").cleditor();
+                                });
+                                </script>
+                    {% if type == "UpdateAnalyse" %}
+                                <script type="text/javascript">
+                                   {# $.fn.editable.defaults.mode = 'inline'; #}
+                                       $('.username').editable({
+                                           type: 'text',
+                                           pk: 1,
+                                           url: "{{path('Inra2013Bundle_UpdateAnalyse')}}",
+                                           title: 'Modification des resultats'
+                                       });
+                                    </script>
+                    {% endif %}
 {%endblock %}

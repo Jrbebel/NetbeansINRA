@@ -126,8 +126,9 @@ class AgentController extends Controller {
     public function RedirectionagentAction() {
 
         $user = $this->container->get('security.context')->getToken()->getUser()->getFonction(); // on récupere la fonction de l'utilisateur connecté
+        $userId = $this->container->get('security.context')->getToken()->getUser()->getId(); // on récupere la fonction de l'utilisateur connecté
         $StatusProto = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Protocole')->StatusEncours();
-
+        $StatusProtoId = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Protocole')->StatusEncoursId($userId);
         if ($this->get('security.context')->isGranted('ROLE_ADMINISTRATEUR')) {
 
 
@@ -137,10 +138,9 @@ class AgentController extends Controller {
             if ($user == "Laborantin(e)") {
 
                 return $this->render("Inra2013urzBundle:Default:IndexUser.html.twig", array('response' => $StatusProto));
-                
             } else if ($user == "Chercheur") {
 
-                return new Response('je suis chercheur');
+                return $this->render("Inra2013urzBundle:Default:IndexChercheur.html.twig", array('response' => $StatusProtoId));
             }
         } elseif ($this->get('security.context')->isGranted('ROLE_UTILISATEUR')) {
 
@@ -149,7 +149,7 @@ class AgentController extends Controller {
                 return $this->render("Inra2013urzBundle:Default:IndexUser.html.twig", array('response' => $StatusProto));
             } else if ($user == "Chercheur") {
 
-                return $this->render("Inra2013urzBundle:Default:IndexChercheur.html.twig");
+   return $this->render("Inra2013urzBundle:Default:IndexChercheur.html.twig", array('response' => $StatusProtoId));
             }
         }
     }

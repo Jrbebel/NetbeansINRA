@@ -27,6 +27,7 @@ security:
         
     role_hierarchy:    
       
+        ROLE_USER : ROLE_USER
         ROLE_RESPONSABLE: ROLE_UTILISATEUR
         ROLE_SUPER_ADMIN: [ROLE_RESPONSABLE, ROLE_ALLOWED_TO_SWITCH]
         

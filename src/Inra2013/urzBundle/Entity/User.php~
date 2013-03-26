@@ -130,4 +130,27 @@ class User extends BaseUser
     {
         return $this->Telephone;
     }
+
+    /**
+     * Set Fonction
+     *
+     * @param string $fonction
+     * @return User
+     */
+    public function setFonction($fonction)
+    {
+        $this->Fonction = $fonction;
+    
+        return $this;
+    }
+
+    /**
+     * Get Fonction
+     *
+     * @return string 
+     */
+    public function getFonction()
+    {
+        return $this->Fonction;
+    }
 }

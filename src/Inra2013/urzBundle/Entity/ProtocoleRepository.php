@@ -17,7 +17,7 @@ class ProtocoleRepository extends EntityRepository {
      * @author BEBEL Jean Raynal
      */
     public function SearchProtocole($id) {
-  
+
         $from = "Inra2013urzBundle:Protocole";
         $alias = "a";
         $from1 = "Inra2013urzBundle:User";
@@ -80,7 +80,22 @@ class ProtocoleRepository extends EntityRepository {
         $qb = $this->_em->createQueryBuilder();
         $qb->select('a')
                 ->from($from, $alias);
-                
+
+        return $qb->getQuery()->getResult();
+    }  
+    
+    
+    public function StatusEncoursId($id) {
+        
+          $from = "Inra2013urzBundle:Protocole";
+        $alias = "a";
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('a')
+                ->from($from, $alias)
+               ->where("a.Responsable =:id")
+                ->setParameter('id', $id)
+                ;
+
         return $qb->getQuery()->getResult();
     }
 
@@ -96,6 +111,7 @@ class ProtocoleRepository extends EntityRepository {
         return $qb->getQuery()->getResult();
     }
 
+  
 
 }
 

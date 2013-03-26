@@ -5,14 +5,14 @@
 <div class="well" >
 
     <ul class="nav nav-list bs-docs-sidenav"  >
-        <li class="active" ><a  href={{ path("Inra2013urzBundle_Homepage")}}><i class="icon-home icon-white"></i> Home</a></li>
+        <li class="active" ><a  href={{ path("Inra2013urzBundle_Redirectionagent")}}><i class="icon-home icon-white"></i> Home</a></li>
         <li><a  href="{{ path("Inra2013Bundle_CreateAnalyse")}}"  ><i class=" icon-plus"></i> Créer analyse </a></li>
-        <li><a  ><i class="icon-pencil"></i> Modifier analyse</a></li>
+        <li><a  href="{{path('Inra2013Bundle_UpdateAnalyse')}}" ><i class="icon-pencil"></i> Modifier analyse</a></li>
         <li><a  href="{{path('Inra2013Bundle_ImportResultat')}}"   ><i class=" icon-folder-open"></i> Importer Resultat </a></li>
         <li><a  href="{{path("Inra2013Bundle_ImportListing")}}"><i class=" icon-folder-open"></i> Importer listing échantillon </a></li>
-        <li><a  href="{{path("Inra2013Bundle_CreateExcel")}}" ><i class=" icon-download-alt"></i> Exporter fichier excel protocole </a></li>
+        <li><a  href="{{path("Inra2013Bundle_CreateExcel")}}" ><i class=" icon-download-alt"></i> Exporter fichier excel </a></li>
 {% if is_granted('ROLE_RESPONSABLE') %}
-            <li><a  href="#" ><i class=" icon-plus"></i> Créer type analyse</a></li>
+            <li><a  href="{{path('Inra2013Bundle_CreateAnalyseBdd')}}" ><i class=" icon-plus"></i> Créer type analyse</a></li>
 
 {%endif%}
         </ul>

@@ -6,7 +6,8 @@ Bonjour,
 Vous venez de recevoir une alerte pour une demande de validation de résultat du protocole {{ Protocole[0].NomProtocole }} dirigé par {{Protocole[0].Responsable().Nom }}  {{ Protocole[0].Responsable.Prenom }} .
 {% elseif Protocole[0].Validation == 3 %}
 Vous venez de recevoir une alerte pour un refus de validation de résultat du protocole {{ Protocole[0].NomProtocole }} dirigé par {{Protocole[0].Responsable().Nom }}  {{ Protocole[0].Responsable.Prenom }} .
-
+{% elseif Protocole[0].Validation == 2 %}
+Vous venez de recevoir une alerte pour validation de résultat du protocole {{ Protocole[0].NomProtocole }} dirigé par {{Protocole[0].Responsable().Nom }}  {{ Protocole[0].Responsable.Prenom }} .
 
 {%endif%}
 Veuillez vous rediriger vers le site :http://localhost/NetbeansINRA/web/app.php/Home

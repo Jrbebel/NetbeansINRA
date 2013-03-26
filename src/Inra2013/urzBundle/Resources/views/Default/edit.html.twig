@@ -22,7 +22,7 @@
     <!-- Redirect browsers with JavaScript disabled to the origin page -->
     <div class="well">
         <!-- The fileupload-buttonbar contains buttons to add/delete files and start/cancel the upload -->
-        <div class="row fileupload-buttonbar">
+        <div id="output" class="row fileupload-buttonbar">
             <div class="span4 offset1">
                 <!-- The fileinput-button span is used to style the file input field as button -->
                 <span style="margin-left: 10px" class="btn btn-success fileinput-button">
@@ -36,7 +36,7 @@
                 </span>
 
             </div>  
-            <div class="span5 offset1">
+            <div id="output" class="span5 offset1">
                 <h3>Ou déposer le fichier ici</h3>     
             </div>
 
@@ -101,7 +101,7 @@
     {% if loop.index < 15 %} {#On limite l'affichage a 10 resultat,ceci n'est qu'une previsualisation des données de la base#}  
 
 {% for cell in liste.getCellIterator()  %}
-
+  {%if loop.index != 2 and loop.index != 5 and loop.index != 8  and loop.index != 13  and loop.index != 14 %}
 {% if liste.getRowIndex() != 1  %} 
         {% if  cell.getColumn() == 'I' or cell.getColumn() == 'J' %}
                 <td>{{cell.getCalculatedValue() }}</td> {# Permet de calculer les fonctions mathématique de la feuille excel et permet ainsi d'avoir un affichage numérique #}
@@ -113,7 +113,7 @@
                 <td>{{cell.getValue()}}</td>
                 {% endif%}
 
-                {% endif %}
+                {% endif %}         {%endif%} 
 {%endfor%}
 
        {% endif%}
@@ -147,8 +147,36 @@
                             var texte = "<table class='table table-striped'><tbody><tr><td><img height='40' width='40' src='{{asset(('img/icone_excel.jpg'))}}'</td><td>" + files[0].name + "</td><td>" + files[0].size + "</td><td><button type='submit' class='btn btn-primary start'><i class='icon-upload icon-white'></i><span>Start upload</span></button></td><td><button type='reset' class='btn btn-warning cancel'><i class='icon-ban-circle icon-white'></i><span>Cancel upload</span> </button></td></tr></tbody></table>";
 
                             $('#mon_element').html(texte);
+var selected_file = $('#fileElem').get(0).files[0].name;
+console.log("informzyion" + selected_file);
 
 
+                        }
+
+                        $(document).ready(function() {
+                            $.event.props.push("dataTransfer");
+                            // On pose les évènements nécessaires au drag'n'drop
+                            $('#output').bind({
+                                "dragenter dragexit dragover": do_nothing,
+                                drop: drop
+                            });
+
+                        });
+
+// Fonction stoppant toute évènement natif et leur propagation
+                        function do_nothing(evt) {
+                            evt.stopPropagation();
+                            evt.preventDefault();
+                        }
+
+                        function drop(evt) {
+                            do_nothing(evt);
+                            var files = evt.dataTransfer.files;
+                          
+                       handleFiles(files);
+
+                            //   console.log(files[0].size);
+                            //  handleFiles(files);
 
                         }
 

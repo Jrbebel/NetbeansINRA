@@ -13,6 +13,14 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AnalyseController extends Controller {
 
+    //private $em;
+
+
+    public function __construct() {
+
+        // $this->em=  $this->getDoctrine()->getEntityManager();
+    }
+
     /**
      * Description of SearchProtocole
      * Permet de recherche le protocole a partir de son id 
@@ -47,7 +55,7 @@ class AnalyseController extends Controller {
             $Analyse = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Protocole')->AnalyseProtocole($id);
 
             if ($type == "listing") {
-              
+
                 return $this->render("Inra2013urzBundle:Analyse:CreatExcel.html.twig", array("protocole" => $Protocole, "Analyse" => $Analyse, 'form_path' => 'Inra2013Bundle_ImportListing', 'form_value' => 'Importer listing', 'type' => $type, 'protocole' => $Protocole));
             } elseif ($type == "createxcel") {
                 return $this->render("Inra2013urzBundle:Analyse:CreatExcel.html.twig", array("protocole" => $Protocole, "Analyse" => $Analyse, 'form_path' => 'Inra2013Bundle_CreateExcel', 'form_value' => 'Générer Fichier Excel', 'type' => $type, 'protocole' => $Protocole));
@@ -55,6 +63,8 @@ class AnalyseController extends Controller {
                 return $this->render("Inra2013urzBundle:Analyse:CreatExcel.html.twig", array("protocole" => $Protocole, "Analyse" => $Analyse, 'form_path' => 'Inra2013Bundle_CreateAnalyse', 'form_value' => 'Créer analyse', 'type' => $type, 'protocole' => $Protocole));
             } elseif ($type == "ImportResultat") {
                 return $this->render("Inra2013urzBundle:Analyse:CreatExcel.html.twig", array("protocole" => $Protocole, "Analyse" => $Analyse, 'form_path' => 'Inra2013Bundle_ImportResultat', 'form_value' => 'Importer Resultat', 'type' => $type, 'protocole' => $Protocole));
+            } elseif ($type == "UpdateAnalyse") {
+                return $this->render("Inra2013urzBundle:Analyse:CreatExcel.html.twig", array("protocole" => $Protocole, "Analyse" => $Analyse, 'form_path' => 'Inra2013Bundle_UpdateAnalyse', 'form_value' => 'Modification Resultat', 'type' => $type, 'protocole' => $Protocole));
             }
         }
     }
@@ -72,8 +82,8 @@ class AnalyseController extends Controller {
 
         if ($request->isXmlHttpRequest()) {
 
-           // $id = $request->request->get('id');
-$id=$_REQUEST['id'];
+            // $id = $request->request->get('id');
+            $id = $_REQUEST['id'];
             $array = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:CategorieAnalyse')->SearchCategorieAnalyse($id);
 
 
@@ -96,8 +106,8 @@ $id=$_REQUEST['id'];
         $request = $this->get('request');
 
         if ($request->isXmlHttpRequest()) {
- $id = $_REQUEST['id'];
-          // $id = $request->request->get('id');
+            $id = $_REQUEST['id'];
+            // $id = $request->request->get('id');
             $array = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:TypeAnalyse')->SearchTypeAnalyse($id);
             $reponse = new Response(json_encode($array));
             $reponse->headers->set('content-Type', 'application/json');
@@ -115,7 +125,7 @@ $id=$_REQUEST['id'];
         $NumProtocole = $this->get('request')->get('NumProtocole');
         $Status = $this->get('request')->get('Status');
         $Commentaire = $this->get('request')->get('Commentaire');
-
+        $responsable = $this->container->get('security.context')->getToken()->getUser();
         /**
          * 3 etats:1 pour validation,2 pour en cours,3 pour refusée
          * 
@@ -125,10 +135,10 @@ $id=$_REQUEST['id'];
         $criteria = array('id' => $NumProtocole);
         $Protocole = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Protocole')->findBy($criteria);
         $Protocole[0]->setValidation($Status);
-        if (is_null($Protocole[0])) {
-            $Protocole[0]->setCommentaire('none'); // si le commentaire est null
+        if ($Status == 2) {
+            $Protocole[0]->setCommentaire($Protocole[0]->getCommentaire()); // si le commentaire est null
         } else {
-            $Protocole[0]->setCommentaire($Commentaire);
+            $Protocole[0]->setCommentaire($Commentaire . " Editer par " . $responsable->getPrenom() . " " . $responsable->getNom());
         }
         $em->persist($Protocole[0]);
         $em->flush();
@@ -163,7 +173,7 @@ $id=$_REQUEST['id'];
             $form->bind($request);
             if ($form->isValid()) {
                 $Protocole = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Protocole')->find($typeProtocole->getNomProtocole());
-             
+
                 $em = $this->getDoctrine()->getEntityManager();
                 $choix_analyse = $this->get('request')->get('choix_analyse');
 
@@ -184,7 +194,7 @@ $id=$_REQUEST['id'];
 
                 $em->flush(); //on sauvegarde le tous 
 
-                return $this->render("Inra2013urzBundle:Analyse:CreateProtocole.html.twig", array('Status' => 'Save','Num'=>$typeProtocole->getNomProtocole()));
+                return $this->render("Inra2013urzBundle:Analyse:CreateProtocole.html.twig", array('Status' => 'Save', 'Num' => $typeProtocole->getNomProtocole()));
             }
         }
         return $this->render("Inra2013urzBundle:Analyse:CreateProtocole.html.twig", array('form' => $form->createView()));
@@ -209,7 +219,7 @@ $id=$_REQUEST['id'];
 
 
             /*             * On fait l'enregistrement des valeurs saisie pour les resultats(stade final du formulaire)* */
-            
+
             if ($Status == "Enregistrer") {
 
                 $numProtocole = $this->get('request')->get('NumProtocole');
@@ -230,7 +240,7 @@ $id=$_REQUEST['id'];
                     $ChampsAnalyse = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:TypeAnalyse')->findBy(array("Nom" => $value['Nom']));
 
                     /*                     * On a les valeurs des champs de chaque analyse* */
-//    \Doctrine\Common\Util\Debug::dump($ChampsAnalyse);
+
                     foreach ($CodeLabo as $result) {
 
                         /*                         * ***if la valeur du $POST[Codelabo] est vide,c'est que la valeur n'a pas été rentrer** */
@@ -274,24 +284,47 @@ $id=$_REQUEST['id'];
                 $em->persist($Analyse[0]);
                 $em->flush();
 
-                return $this->render("Inra2013urzBundle:Analyse:Save.html.twig",array("Status"=>"SaveAnalyse"));
-
-               
+                return $this->render("Inra2013urzBundle:Analyse:Save.html.twig", array("Status" => "SaveAnalyse"));
             }
 
             return $this->VoirAnalyseAction($numProtocole, $ResultTypeAnalyse);
         }
     }
 
-    public function ModifierAnalyseAction() {
-        
+    public function UpdateAnalyseAction() {
+
+
+        if ($this->getRequest()->getMethod() == "POST") {
+
+            if (isset($_POST['pk'])) {
+                $Analyse = $_REQUEST['name'];
+                $value = $_REQUEST['value'];
+                $em = $this->getDoctrine()->getManager();
+                $analyseDecompose = explode(';', $Analyse);
+                $set = "set" . $analyseDecompose[1];
+                $ModifAnalyse = $this->getDoctrine()->getEntityManager()->getRepository("Inra2013urzBundle:Ana" . $analyseDecompose[0])->find($analyseDecompose[2]);
+                $ModifAnalyse->$set($value);
+                $em->persist($ModifAnalyse);
+                $em->flush();
+                return new Response("OK");
+            } else {
+                $type = "UpdateAnalyse";
+                $numProtocole = $this->get('request')->get('NumProtocole', $type);
+                return $this->VoirAnalyseAction($numProtocole, $type);
+            }
+        } elseif ($this->getRequest()->getMethod() == 'GET') {
+
+            return $this->render('Inra2013urzBundle:Analyse:CreatExcel.html.twig', array('type' => 'UpdateAnalyse'));
+        }
     }
 
-    public function VoirAnalyseAction($numProtocole) {
+    public function VoirAnalyseAction($numProtocole, $type = null) {
 
         $ResultTypeAnalyse = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Protocole')->AnalyseProtocole($numProtocole);
-        $validation = $this->getDoctrine()->getEntityManager()->getRepository("Inra2013urzBundle:Protocole")->findBy(array('id' => $numProtocole));
-    
+        $User = $this->container->get('security.context')->getToken()->getUser()->getRoles();
+
+        $Protocole = $this->getDoctrine()->getEntityManager()->getRepository("Inra2013urzBundle:Protocole")->findBy(array('id' => $numProtocole));
+
         /*         * On crée les formulaires pour les différents type d'analyse* */
         /*         * Une boucle pour créer les formulaires des types analyses * */
         $CodeLabo = array();
@@ -304,22 +337,25 @@ $id=$_REQUEST['id'];
             $CodeLabo[$value['Nom']] = $ResultCodeLabo;
             $Champs[$value['Nom']] = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Champ')->FindChampAnalyse($value['id']);
         }
-       
-        return $this->render("Inra2013urzBundle:Analyse:CreateAnalyse.html.twig", array('Resultat'=>$ResultCodeLabo,'TypeAnalyse' => $ResultTypeAnalyse, 'ResultatCodeLabo' => $CodeLabo, 'Champs' => $Champs, 'NumProtocole' => $numProtocole, 'validation' => $validation));
+
+        return $this->render("Inra2013urzBundle:Analyse:CreateAnalyse.html.twig", array('Resultat' => $ResultCodeLabo, 'TypeAnalyse' => $ResultTypeAnalyse, 'ResultatCodeLabo' => $CodeLabo, 'Champs' => $Champs, 'NumProtocole' => $numProtocole, 'Protocole' => $Protocole, 'Role' => $User[0], 'type' => $type));
     }
 
     public function MailerAction($Protocole) {
-        
-        $user = $this->container->get('security.context')->getToken()->getUser(); // on récupere la fonction de l'utilisateur connecté
-  
-        if ($Protocole[0]->getValidation( ) == 1) {
-            $Subject = "Demande de validation pour le protocole ".$Protocole[0]->getNomProtocole()." dirigé par".$Protocole[0]->getResponsable()->getNom()."  ".$Protocole[0]->getResponsable()->getPrenom();
-           
-            }elseif($Protocole[0]->getValidation( ) == 3){
-                        $Subject = "Demande de Refus pour le protocole ".$Protocole[0]->getNomProtocole()." dirigé par".$Protocole[0]->getResponsable()->getNom()."  ".$Protocole[0]->getResponsable()->getPrenom();
 
+        $user = $this->container->get('security.context')->getToken()->getUser(); // on récupere la fonction de l'utilisateur connecté
+
+        if ($Protocole[0]->getValidation() == 1) {
+
+            $Subject = "Demande de validation pour le protocole " . $Protocole[0]->getNomProtocole() . " dirigé par" . $Protocole[0]->getResponsable()->getNom() . "  " . $Protocole[0]->getResponsable()->getPrenom();
+        } elseif ($Protocole[0]->getValidation() == 3) {
+
+            $Subject = "Demande de Refus pour le protocole " . $Protocole[0]->getNomProtocole() . " dirigé par" . $Protocole[0]->getResponsable()->getNom() . "  " . $Protocole[0]->getResponsable()->getPrenom();
+        } elseif ($Protocole[0]->getValidation() == 2) {
+
+            $Subject = "Validation du protocole " . $Protocole[0]->getNomProtocole() . " dirigé par" . $Protocole[0]->getResponsable()->getNom() . "  " . $Protocole[0]->getResponsable()->getPrenom();
         }
-        
+
         $From = $user->getemail();
         $To = "jeanraynal.bebel@gmail.com";
         $body = "essai";
@@ -327,9 +363,147 @@ $id=$_REQUEST['id'];
                 ->setSubject($Subject)
                 ->setFrom($From)
                 ->setTo($To)
-                ->setBody($this->renderView("Inra2013urzBundle:Analyse:Email.html.twig",array("Protocole"=>$Protocole)));
+                ->setBody($this->renderView("Inra2013urzBundle:Analyse:Email.html.twig", array("Protocole" => $Protocole)));
         $this->get('mailer')->send($message);
         //return new Response('message a ete envoyé ');
+    }
+
+    public function CreateAnalyseBddAction() {
+
+        $typeCategorie = new \Inra2013\urzBundle\Entity\TypeCategorie();
+        $formtypeCategorie = $this->createForm(
+                new \Inra2013\urzBundle\Form\TypeCategorieType(), $typeCategorie);
+        $CategorieAnalyse = new \Inra2013\urzBundle\Entity\CategorieAnalyse();
+        $formCategorieAnalyse = $this->createForm(
+                new \Inra2013\urzBundle\Form\CategorieAnalyseType(), $CategorieAnalyse);
+        $typeAnalyse = new \Inra2013\urzBundle\Entity\TypeAnalyse();
+        $formtypeAnalyse = $this->createForm(
+                new \Inra2013\urzBundle\Form\TypeAnalyseType(), $typeAnalyse);
+        $Champ = new \Inra2013\urzBundle\Entity\Champ();
+        $formChamp = $this->createForm(
+                new \Inra2013\urzBundle\Form\ChampType(), $Champ);
+
+
+        if ($this->get('request')->getMethod() == 'GET') {
+
+            return $this->render("Inra2013urzBundle:Analyse:CreateTypeAnalyse.html.twig", array('form_Categorie' => $formtypeCategorie->createView(),
+                        'form_CategorieAnalyse' => $formCategorieAnalyse->createView(), 'form_Champ' => $formChamp->createView(), 'form_Analyse' => $formtypeAnalyse->createView()));
+        } elseif ($this->get('request')->getMethod() == 'POST') {
+            $request = $this->get('request');
+            $typeForm = $request->get('typeForm');
+            $em = $this->getDoctrine()->getEntityManager();
+
+            if ($typeForm == "Categorie") {
+                $formtypeCategorie->bind($request);
+                if ($formtypeCategorie->isValid()) {
+
+                    $em->persist($typeCategorie);
+                    $em->flush();
+                    return $this->render("Inra2013urzBundle:Analyse:Save.html.twig", array("Status" => "TypeCategorie"));
+                } else {
+                    return $this->render("Inra2013urzBundle:Analyse:Save.html.twig", array("Status" => "TypeCategorieError"));
+                }
+            } elseif ($typeForm == "CategorieAnalyse") {
+                $formCategorieAnalyse->bind($request);
+                if ($formCategorieAnalyse->isValid()) {
+
+                    $em->persist($CategorieAnalyse);
+                    $em->flush();
+                    return $this->render("Inra2013urzBundle:Analyse:Save.html.twig", array("Status" => "CategorieAnalyse"));
+                } else {
+                    return $this->render("Inra2013urzBundle:Analyse:Save.html.twig", array("Status" => "CategorieAnalyseError"));
+                }
+            } elseif ($typeForm == "Analyse") {  
+                $formtypeAnalyse->bind($request);
+                if ($formtypeAnalyse->isValid()) {
+                    
+                    // $typeAnalyse->getNom() Nom du fichier
+                    //
+                    foreach ($typeAnalyse->getChamps() as $value) {
+                        $value->setAnalyse($typeAnalyse); 
+                        
+                     //   \Doctrine\Common\Util\Debug::dump($value->getChamp()); //les champs
+                    }
+                    
+                   
+                    $em->persist($typeAnalyse);
+                    $em->flush();
+                    $this->GenerationAnalyse($typeAnalyse);
+                    return $this->render("Inra2013urzBundle:Analyse:Save.html.twig", array("Status" => "Analyse"));
+                    
+                } else {
+                    
+                    return $this->render("Inra2013urzBundle:Analyse:Save.html.twig", array("Status" => "AnalyseError"));
+                }
+            } 
+        }
+
+
+    }
+    
+    public function GenerationAnalyse($Entity){
+      
+        /*         * ******On crée un fichier dans le dossier entity******* */
+        $path = dirname(__FILE__) . "/../Entity";
+        $fichier = fopen($path . "/Ana".$Entity->getNom().".php", "a");
+        /*         * *On rentre les information voulue comme les champs etc ** */
+        fputs($fichier, '<?php 
+   
+namespace Inra2013\urzBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * AnaEssai
+ *
+ * @ORM\Table()
+ * @ORM\Entity
+ */
+class Ana'.$Entity->getNom().'
+{
+      /**
+     * @ORM\Id
+     * @ORM\ManyToOne(targetEntity="Inra2013\urzBundle\Entity\Analyse")
+     * @ORM\JoinColumn(name="CodeLabo", referencedColumnName="CodeLabo")
+     */
+    private $CodeLabo;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="Essai", type="integer", nullable=true)
+     */
+    private $Essai;
+    
+  /**
+     *  *@ORM\ManyToOne(targetEntity="Inra2013\urzBundle\Entity\User")
+     * 
+     */
+    private $User;
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    
+     }');
+
+
+        /*         * *On genere les setters et les getters avec la commande de symfony php console generate:doctrine:entities Inra2013urzBundle:Entity:AnaEssai** */
+
+        $path_console = dirname(__FILE__) . "/../../../../app/";
+        $commandeEntities = "console generate:doctrine:entities Inra2013urzBundle:AnaEssai";
+        $resultatEntities = exec("php " . $path_console . $commandeEntities);
+
+        /*         * **On la cree dans la base de données** */
+
+        $commandeCreate = "console doctrine:schema:update --force";
+        $resultatCreate = exec("php " . $path_console . $commandeCreate);
+        //print_r("php " . $path_console . $commande);
+
+        return new Response("je si dans ");  
+        
     }
 
 }

@@ -5,13 +5,44 @@
 {%block menu %}
 <div class="well" >
     <ul class="nav nav-list">
-        <li class="active"><a href="Inra2013urzBundle:Default:IndexAdmin.html.twig"><i class="icon-home icon-white"></i> Home</a></li>
+        <li class="active"><a href={{ path("Inra2013urzBundle_Redirectionagent")}}><i class="icon-home icon-white"></i> Home</a></li>
         <li><a href={{path("Inra2013Bundle_CreateProtocole")}}><i class="icon-file"></i> Crée un protocole</a></li>
-        <li><a href=><i class="icon-eye-open"></i> Voir les protocoles </a></li>
+        <li><a href=><i class="icon-eye-open"></i> Voir le protocole </a></li>
         <li><a href="#"><i class="icon-pencil"></i> </a></li>
         <li><a href="#"><i class="i"></i></a></li>
     </ul>
 </div>
 {%endblock%}
 
-{% block body %} <h5>Vous êtes dans la partie chercheur</h5>{%endblock %}
+{% block body %}
+
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Protocole</th>
+
+            <th>Valider le</th>
+            <th>Status</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        {% for Encours in response %}
+  <tr class="{{attribute(ValideChercheur.class,Encours.Validation)}}">
+    <td>{{loop.index}}</td>
+    <td><a href="{{path("Inra2013urzBunle_VoirAnalyse",{'numProtocole':Encours.id})}}" >{{Encours.NomProtocole}}</a></td>
+     <td>{{Encours.DateValidation|date("d-m-Y")}}</td>  
+     <td>{{attribute(ValideChercheur.info,Encours.Validation)}}</td>
+  </tr> 
+
+
+{% endfor %} 
+    </tbody>
+</table>
+
+
+
+{%endblock %}
