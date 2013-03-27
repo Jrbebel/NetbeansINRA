@@ -4,7 +4,7 @@
     <parameter key="kernel.root_dir">/var/www/NetbeansINRA/app</parameter>
     <parameter key="kernel.environment">dev</parameter>
     <parameter key="kernel.debug">true</parameter>
-    <parameter key="kernel.name">app</parameter>
+    <parameter key="kernel.name">ap_</parameter>
     <parameter key="kernel.cache_dir">/var/www/NetbeansINRA/app/cache/dev</parameter>
     <parameter key="kernel.logs_dir">/var/www/NetbeansINRA/app/logs</parameter>
     <parameter key="kernel.bundles" type="collection">
@@ -150,12 +150,13 @@
     <parameter key="router.options.matcher_base_class">Symfony\Bundle\FrameworkBundle\Routing\RedirectableUrlMatcher</parameter>
     <parameter key="router.options.matcher_dumper_class">Symfony\Component\Routing\Matcher\Dumper\PhpMatcherDumper</parameter>
     <parameter key="router.cache_warmer.class">Symfony\Bundle\FrameworkBundle\CacheWarmer\RouterCacheWarmer</parameter>
-    <parameter key="router.options.matcher.cache_class">appdevUrlMatcher</parameter>
-    <parameter key="router.options.generator.cache_class">appdevUrlGenerator</parameter>
+    <parameter key="router.options.matcher.cache_class">appDevUrlMatcher</parameter>
+    <parameter key="router.options.generator.cache_class">appDevUrlGenerator</parameter>
     <parameter key="router_listener.class">Symfony\Component\HttpKernel\EventListener\RouterListener</parameter>
     <parameter key="router.request_context.host">localhost</parameter>
     <parameter key="router.request_context.scheme">http</parameter>
     <parameter key="router.resource">/var/www/NetbeansINRA/app/cache/dev/assetic/routing.yml</parameter>
+    <parameter key="router.cache_class_prefix">appDev</parameter>
     <parameter key="request_listener.http_port">80</parameter>
     <parameter key="request_listener.https_port">443</parameter>
     <parameter key="templating.engine.delegating.class">Symfony\Bundle\FrameworkBundle\Templating\DelegatingEngine</parameter>
@@ -470,8 +471,8 @@
     <parameter key="jms_di_extra.directories" type="collection"/>
     <parameter key="jms_di_extra.cache_dir">/var/www/NetbeansINRA/app/cache/dev/jms_diextra</parameter>
     <parameter key="jms_di_extra.doctrine_integration">true</parameter>
-    <parameter key="jms_di_extra.doctrine_integration.entity_manager.file">/var/www/NetbeansINRA/app/cache/dev/jms_diextra/doctrine/EntityManager_5151ef2b3ffc0.php</parameter>
-    <parameter key="jms_di_extra.doctrine_integration.entity_manager.class">EntityManager5151ef2b3ffc0_546a8d27f194334ee012bfe64f629947b07e4919\__CG__\Doctrine\ORM\EntityManager</parameter>
+    <parameter key="jms_di_extra.doctrine_integration.entity_manager.file">/var/www/NetbeansINRA/app/cache/dev/jms_diextra/doctrine/EntityManager_51533da4c1fbe.php</parameter>
+    <parameter key="jms_di_extra.doctrine_integration.entity_manager.class">EntityManager51533da4c1fbe_546a8d27f194334ee012bfe64f629947b07e4919\__CG__\Doctrine\ORM\EntityManager</parameter>
     <parameter key="security.secured_services" type="collection"/>
     <parameter key="security.access.method_interceptor.class">JMS\SecurityExtraBundle\Security\Authorization\Interception\MethodSecurityInterceptor</parameter>
     <parameter key="security.access.method_access_control" type="collection"/>
@@ -2409,7 +2410,7 @@
         </argument>
         <argument type="service">
           <service class="Symfony\Component\Security\Core\Authentication\Provider\AnonymousAuthenticationProvider" public="false">
-            <argument>5151ef2b2aee3</argument>
+            <argument>51533da2da930</argument>
           </service>
         </argument>
       </argument>
@@ -2656,7 +2657,7 @@
         <argument type="service">
           <service class="Symfony\Component\Security\Http\Firewall\AnonymousAuthenticationListener" public="false">
             <argument type="service" id="security.context"/>
-            <argument>5151ef2b2aee3</argument>
+            <argument>51533da2da930</argument>
             <argument type="service" id="monolog.logger.security"/>
           </service>
         </argument>
@@ -3156,8 +3157,8 @@
     <service id="doctrine.orm.default_manager_configurator" class="Doctrine\Bundle\DoctrineBundle\ManagerConfigurator">
       <argument type="collection"/>
     </service>
-    <service id="doctrine.orm.default_entity_manager" class="EntityManager5151ef2b3ffc0_546a8d27f194334ee012bfe64f629947b07e4919\__CG__\Doctrine\ORM\EntityManager">
-      <file>/var/www/NetbeansINRA/app/cache/dev/jms_diextra/doctrine/EntityManager_5151ef2b3ffc0.php</file>
+    <service id="doctrine.orm.default_entity_manager" class="EntityManager51533da4c1fbe_546a8d27f194334ee012bfe64f629947b07e4919\__CG__\Doctrine\ORM\EntityManager">
+      <file>/var/www/NetbeansINRA/app/cache/dev/jms_diextra/doctrine/EntityManager_51533da4c1fbe.php</file>
       <argument type="service">
         <service class="Doctrine\ORM\EntityManager" factory-method="create" public="false">
           <argument type="service" id="doctrine.dbal.default_connection"/>
@@ -3641,11 +3642,11 @@
         <argument key="generator_class">Symfony\Component\Routing\Generator\UrlGenerator</argument>
         <argument key="generator_base_class">Symfony\Component\Routing\Generator\UrlGenerator</argument>
         <argument key="generator_dumper_class">Symfony\Component\Routing\Generator\Dumper\PhpGeneratorDumper</argument>
-        <argument key="generator_cache_class">appdevUrlGenerator</argument>
+        <argument key="generator_cache_class">appDevUrlGenerator</argument>
         <argument key="matcher_class">Symfony\Bundle\FrameworkBundle\Routing\RedirectableUrlMatcher</argument>
         <argument key="matcher_base_class">Symfony\Bundle\FrameworkBundle\Routing\RedirectableUrlMatcher</argument>
         <argument key="matcher_dumper_class">Symfony\Component\Routing\Matcher\Dumper\PhpMatcherDumper</argument>
-        <argument key="matcher_cache_class">appdevUrlMatcher</argument>
+        <argument key="matcher_cache_class">appDevUrlMatcher</argument>
         <argument key="strict_requirements">true</argument>
       </argument>
       <argument type="service" id="router.request_context"/>

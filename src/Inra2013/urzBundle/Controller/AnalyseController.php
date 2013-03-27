@@ -447,6 +447,17 @@ class AnalyseController extends Controller {
         $path = dirname(__FILE__) . "/../Entity";
         $fichier = fopen($path . "/Ana".$Entity->getNom().".php", "a");
         /*         * *On rentre les information voulue comme les champs etc ** */
+      $Champs= ""; 
+     foreach ($Entity->getChamps() as $value) {
+         $Champs .=  ' /**
+     * @var integer
+     * 
+     * @ORM\Column(name="' . $value->getChamp() . '", type="integer", nullable=true)
+     */
+    private $' . $value->getChamp() . '; ';
+
+        }  
+;     
         fputs($fichier, '<?php 
    
 namespace Inra2013\urzBundle\Entity;
@@ -468,12 +479,7 @@ class Ana'.$Entity->getNom().'
      */
     private $CodeLabo;
 
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="Essai", type="integer", nullable=true)
-     */
-    private $Essai;
+' . $Champs . '
     
   /**
      *  *@ORM\ManyToOne(targetEntity="Inra2013\urzBundle\Entity\User")
@@ -493,7 +499,8 @@ class Ana'.$Entity->getNom().'
         /*         * *On genere les setters et les getters avec la commande de symfony php console generate:doctrine:entities Inra2013urzBundle:Entity:AnaEssai** */
 
         $path_console = dirname(__FILE__) . "/../../../../app/";
-        $commandeEntities = "console generate:doctrine:entities Inra2013urzBundle:AnaEssai";
+        $commandeEntities = "console generate:doctrine:entities Inra2013urzBundle:Ana".$Entity->getNom();
+        
         $resultatEntities = exec("php " . $path_console . $commandeEntities);
 
         /*         * **On la cree dans la base de données** */
