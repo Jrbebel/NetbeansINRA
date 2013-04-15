@@ -7,7 +7,9 @@
     <ul class="nav nav-list bs-docs-sidenav"  >
         <li class="active" ><a  href={{ path("Inra2013urzBundle_Redirectionagent")}}><i class="icon-home icon-white"></i> Home</a></li>
         <li><a  href="{{ path("Inra2013Bundle_CreateAnalyse")}}"  ><i class=" icon-plus"></i> Créer analyse </a></li>
-        <li><a  href="{{path('Inra2013Bundle_UpdateAnalyse')}}" ><i class="icon-pencil"></i> Modifier analyse</a></li>
+        <li><a  href="{{path('Inra2013Bundle_CudAnalyse')}}" ><i class="icon-pencil"></i> Modifier analyse</a></li>
+        <li><a  href="{{path('Inra2013Bundle_VoirAnalyse')}}" ><i class="icon-eye-open"></i> Voir analyse</a></li>
+
         <li><a  href="{{path('Inra2013Bundle_ImportResultat')}}"   ><i class=" icon-folder-open"></i> Importer Resultat </a></li>
         <li><a  href="{{path("Inra2013Bundle_ImportListing")}}"><i class=" icon-folder-open"></i> Importer listing échantillon </a></li>
         <li><a  href="{{path("Inra2013Bundle_CreateExcel")}}" ><i class=" icon-download-alt"></i> Exporter fichier excel </a></li>
@@ -22,6 +24,12 @@
 {%endblock%}
 
 {% block body %} 
+
+{%if response is empty%}
+    <div class="alert alert-info">
+        <h4>AUCUN PROTOCOLE EN COURS</h4>
+    </div>
+{%else%}
 
     <table class="table table-striped" >
 
@@ -43,7 +51,7 @@
                 <tr class="{{attribute(Valide.class,Encours.Validation)}}">
 
                     <td>{{loop.index}}</td>
-                    <td><a href="{{path("Inra2013urzBunle_VoirAnalyse",{'numProtocole':Encours.id})}}" >{{Encours.NomProtocole}}</a></td>
+                    <td><a href="{{path("Inra2013Bundle_CudAnalyse",{'NumProtocole':Encours.id})}}" >{{Encours.NomProtocole}}</a></td>
                     <td>{{Encours.Responsable.Nom}} {{Encours.Responsable.Prenom}}</td>
                     <td>{{Encours.DateValidation|date("d-m-Y")}}</td>
                     <td>{{attribute(Valide.info,Encours.Validation)}}</td>
@@ -77,8 +85,10 @@
 
                 </div>
             </div>​
-   {% endif %}          
- {% endfor %}
+   {% endif %}         
+ {% endfor %} 
+       {% endif %}         
+
 {%endblock%}
 
 

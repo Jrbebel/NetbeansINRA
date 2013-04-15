@@ -16,22 +16,20 @@
 
      {{form_rest(form)}} 
 
-
+{% for Resultat  in TypeCategorie %}
         </br>
-{#Pour le premier type de catégorie#}
+        <div id="style{{loop.index}}"></div>
+        <select id="analyse{{loop.index}}" class="select"><option>Sélectionner catégorie</option></select>
+        </br>
+        <div id="resultat{{loop.index}}"></div>     
+  {% endfor %}   
+        </br>
+{#Pour le premier type de catégorie
         <div id="style1"></div>
         <select id="analyse1" class="select"><option>Sélectionner catégorie</option></select>
         </br>
         <div id="resultat1"></div>
-{#Pour la deuxième type de catégorie#}
-        <div id="style2"></div>
-        <select id="analyse2" class="select"><option>Sélectionner catégorie</option></select>
-        </br>
-        <div id="resultat2"></div>
-
-        </br>
-
-
+#}
 
         <input type="submit" value="Annuler" class="btn btn-danger" />
         <input type="submit" class="btn btn-primary" />
@@ -64,7 +62,7 @@
 <script type="text/javascript" src="{{asset('js/CLEditor1_3_0/plugin.js')}}"></script> {# pour le js de cleditor #}
 
 <script type="text/javascript">
-    $(document).ready(function() {        
+    $(document).ready(function() {
 
         $(".ckeditor").cleditor();
 
@@ -77,17 +75,22 @@
 
         $(function() {
 
-            $("#analyse1").hide();
-            $("#analyse2").hide();
+{% for Resultat  in TypeCategorie%}
+          $("#analyse{{loop.index}}").hide();
+ {% endfor %} 
+          
+           
 
             $('input[type=checkbox]').click(function() {
                 var cochee = $(this).is(':checked'); // je regarde si la case est cochée ou non 
 
                 var value = $(this).attr("value"); //je recupere la valeur value dans le checkbox
                 var DATA = 'id=' + value;
+{% for Resultat  in TypeCategorie%}
+         var div_style_titre{{loop.index}} = "<fieldset><legend>{{Resultat}}</fieldset>";
+ {% endfor %} 
 
-                var div_style_titre1 = "<fieldset><legend>Analyses Chimiques et Biochimiques</legend></fieldset>";
-                var div_style_titre2 = "<fieldset><legend>Analyses Biologiques</legend></fieldset>";
+              
                 if (cochee == true) {
                     $(function() {
 
@@ -101,26 +104,21 @@
 
                                 $.map(data, function(item, i) {
 
+{% for Resultat  in TypeCategorie%}
 
 
-                                    if (value == 1) {  // si c le premier type de categorie
-                                        $("#analyse1").show();
+                                 if (value == "{{loop.index}}" ) {  // si c le premier type de categorie
+                                        $("#analyse{{loop.index}}").show();
                                         var div_data = "<option value=" + item.id + ">" + item.Nom + "</option>";
-                                        $(div_data).appendTo("#analyse1");
+                                        $(div_data).appendTo("#analyse{{loop.index}}");
                                         if (i == 0) { // on affiche le titre qu'une seul fois 
-                                            $(div_style_titre1).appendTo("#style1");
+                                            $(div_style_titre{{loop.index}}).appendTo("#style{{loop.index}}");
                                         }
 
-                                    } else if (value == 2) {  //si c le deuxieme,on l'affiche dans une autre div 
-                                        $("#analyse2").show();
-                                        var div_data = "<option value=" + item.id + ">" + item.Nom + "</option>";
-                                        $(div_data).appendTo("#analyse2");
-
-                                        if (i == 0) {
-                                            // on affiche le titre qu'une seul fois 
-                                            $(div_style_titre2).appendTo("#style2");
-                                        }
                                     }
+                            
+   {% endfor %}                                   
+                                    
 
                                 })
 
@@ -134,20 +132,18 @@
 
 
                 } else { //si on decoche le checkbox
+{% for Resultat  in TypeCategorie%}
 
-                    if (value == 1) {
+     if (value == "{{loop.index}}") {
 
-                        $("#style1").empty();
-                        $("#analyse1").empty();
-                        $("#analyse1").hide();
-
-                    } else if (value == 2) {
-
-                        $("#style2").empty()
-                        $("#analyse2").empty();
-                        $("#analyse2").hide();
-
+                        $("#style{{loop.index}}").empty();
+                        $("#analyse{{loop.index}}").empty();
+                        $("#analyse{{loop.index}}").hide();
+                        $("#resultat{{loop.index}}").hide();
                     }
+   {% endfor %}                                   
+                    
+          
                 }
 
 
@@ -155,12 +151,12 @@
 
 
             /***************************************************************************************************************************************/
+{% for Resultat  in TypeCategorie%}
+            $("select#analyse{{loop.index}} ").click(function() {
 
-            $("select#analyse1 ").click(function() {
+                $("select#analyse{{loop.index}} option:selected").each(function() {
 
-                $("select#analyse1 option:selected").each(function() {
-
-                    $("#resultat1").empty();
+                    $("#resultat{{loop.index}}").empty();
                     value = $(this).attr("value"); //je recupere la valeur value dans le selectionnée
 
                     var DATA = 'id=' + value;
@@ -179,7 +175,7 @@
 
                                     var div_data = "<label class='checkbox  inline'><input type='checkbox' name='choix_analyse[]' id='inlineCheckbox'" + i + " value=" + item.id + ">" + item.Nom + "</label>";
 
-                                    $(div_data).appendTo("#resultat1");
+                                    $(div_data).appendTo("#resultat{{loop.index}}");
 
 
 
@@ -200,16 +196,7 @@
 
             });
 
-            $("select#analyse2 ").click(function() {
-
-
-                $("select#analyse2 option:selected").each(function() {
-
-                });
-
-
-
-            });
+         {% endfor %}  
 
         });
 

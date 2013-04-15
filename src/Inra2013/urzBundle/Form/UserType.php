@@ -21,7 +21,7 @@ class UserType extends BaseType {
                 ->add('Nom',"text")
                 ->add('Prenom',"text")
                 ->add('Telephone',"text")
-                ->add('Fonction',"text")
+                ->add('Fonction','choice', array('choices' => array('Administrateur ' => 'Administrateur', 'Laborantin(e)' => 'Laborantin(e)', 'Chercheur' => 'Chercheur')))
                 ->add('Roles', 'choice', array('choices' => array('ROLE_ADMINISTRATEUR' => 'Administrateur', 'ROLE_RESPONSABLE' => 'Responsable', 'ROLE_UTILISATEUR' => 'Utilisateur'), 'multiple' => true))
         ;
     }

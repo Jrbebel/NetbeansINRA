@@ -1,0 +1,77 @@
+
+{% extends "Inra2013urzBundle:Default:IndexUser.html.twig" %}
+{% block title %}Create Analyse{% endblock %}
+
+{% block body%}
+
+<form action="{{path('Inra2013urzBunle_VoirAnalyse')}}" method="post"  {{ form_enctype(forms) }}>
+{#
+{%for item in forms|slice(0,forms|length) %}
+ {{ form_row(item.OPG1) }}
+     {{ form_row(item.OPG2) }}
+ {{ form_row(item.OPG3) }}
+
+
+{%endfor%}
+{{ form_rest(forms[0]) }}
+
+
+#} 
+        
+<ul class="nav nav-tabs" id="myTab">
+
+    {% for typeanalyse in TypeAnalyse %}
+    {%if loop.index == 1%}
+    <li class="active"><a href="#{{typeanalyse.Nom}}">{{typeanalyse.Nom}}</a></li>
+     {%else%}
+        <li ><a href="#{{typeanalyse.Nom}}">{{typeanalyse.Nom}}</a></li>
+    {%endif%}
+    {%endfor%}
+
+        </ul>
+        
+        
+        
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>CodeLabo</th>
+                    <th>OPG1</th>
+                    <th>OPG2</th>
+                    <th>OPG3</th>
+                    <th>Fait par</th>
+                </tr>
+            </thead>
+            <tbody>
+
+{% for tag in forms.ChampsOPG %}
+                <tr>
+                    <td>1</td> 
+                    <td>1</td>
+                    <td>{{ form_row(tag.OPG1) }}</td>
+                    <td>{{ form_row(tag.OPG2) }}</td>
+                    <td>{{ form_row(tag.OPG3) }}</td>
+                    <td>user</td>
+
+                </tr>
+{% endfor %}
+            </tbody>
+
+
+            <li></li>
+
+        </table>
+
+{{ form_row(forms)}} 
+{{ form_rest(forms) }}
+
+
+
+
+
+        <input type="hidden" name="Status" value="Sauvegarde" /> 
+        <input type="submit" class="btn btn-primary" />
+    </form>
+
+{% endblock %}

@@ -24,6 +24,8 @@ class ChampRepository extends EntityRepository {
 
         return $qb->getQuery()->getArrayResult();
     }
+    
+  
 
 }
 

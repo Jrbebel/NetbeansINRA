@@ -94,7 +94,7 @@ class AgentController extends Controller {
         if ($this->getRequest()->getMethod() == 'POST') {
 
             $capture = $this->getRequest()->get('Inra2013_user_registration');
-
+    
             $user->setUsername($capture['username']);
             $user->setNom($capture['Nom']);
             $user->setPrenom($capture['Prenom']);
@@ -129,10 +129,12 @@ class AgentController extends Controller {
         $userId = $this->container->get('security.context')->getToken()->getUser()->getId(); // on récupere la fonction de l'utilisateur connecté
         $StatusProto = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Protocole')->StatusEncours();
         $StatusProtoId = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Protocole')->StatusEncoursId($userId);
+   
         if ($this->get('security.context')->isGranted('ROLE_ADMINISTRATEUR')) {
 
 
             return $this->render("Inra2013urzBundle:Default:IndexAdmin.html.twig");
+            
         } elseif ($this->get('security.context')->isGranted('ROLE_RESPONSABLE')) {
 
             if ($user == "Laborantin(e)") {

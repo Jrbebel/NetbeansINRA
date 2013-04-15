@@ -4,12 +4,24 @@
 <link rel="stylesheet" href="{{asset('css/C.css')}}" />
 {% endblock %}
 {% block body %}
+{%if type == "createanalyse" %}
+<legend>Créer des analyses pour protocole</legend>
+{%elseif type == "voiranalyse"%}
+<legend>Visualisation des résultats d'un protocole</legend>
+{%elseif type == "createxcel"%}
+<legend>Génération du fichier protocole</legend>
+{%elseif type == "ImportResultat"%}
+<legend>Importation des resultats par feuille excel</legend>
+{%else%}
+<legend>Modification des analyses pour protocole</legend>
+
+{%endif%}
 <div class="well">
     <form class="form-search" action="{{path('Inra2013Bundle_SearchProtocole')}}" method="POST">
         <label>Quel est votre protocole ?</label>
         </br>
 
-        <input type="text" id="protocole" name="protocole" />
+        <input type="text" id="protocole" name="protocole" required="required" />
         <input type="hidden" name="idprotocole" id="institut" />
         <input type="hidden" name="demande" value="{{type}}"/>
                <button type="submit" class="btn">Search</button>
@@ -44,6 +56,7 @@
     </dl>
         </br>
         <input type="hidden" name="NumProtocole" value="{{protocole[0].id}}" />
+        <input type="hidden" name="demande" value="{{type}}" />
         <input type="submit"  value="{{form_value}}" class="btn btn-primary" />
 </div>
     </form>

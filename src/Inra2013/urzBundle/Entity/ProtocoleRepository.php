@@ -65,7 +65,7 @@ class ProtocoleRepository extends EntityRepository {
         $alias1 = "c";
 
         $qb = $this->_em->createQueryBuilder();
-        $qb->select('a')
+        $qb->select('c')
                 ->from($from, $alias)
                 ->join($from1, $alias1)
                 ->where('c.Protocole =:id')

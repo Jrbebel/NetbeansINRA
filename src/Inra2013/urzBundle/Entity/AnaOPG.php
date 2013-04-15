@@ -2,216 +2,127 @@
 
 namespace Inra2013\urzBundle\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * AnaOPG
  *
- * @ORM\Table()
+ * @ORM\Table(name="AnaOPG")
  * @ORM\Entity
  */
-class AnaOPG
-{
+class AnaOPG {
+
     /**
      * @ORM\Id
-     *  *@ORM\ManyToOne(targetEntity="Inra2013\urzBundle\Entity\Analyse", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="Inra2013\urzBundle\Entity\Analyse")
      * @ORM\JoinColumn(name="CodeLabo", referencedColumnName="CodeLabo")
      */
     private $CodeLabo;
-     /**
-     *  *@ORM\ManyToOne(targetEntity="Inra2013\urzBundle\Entity\User")
+
+    /**
+     *  
+     * @ORM\Column(name="OPG1",type="integer",  nullable=true)
+     * 
+     * 
+     */
+    private $OPG1;
+
+    /**
+     *
+     * 
+     * @ORM\Column(name="OPG2",type="integer",  nullable=true)
+     */
+    private $OPG2;
+
+    /**
+     * 
+     * @ORM\Column(name="OPG3",type="integer",  nullable=true)
+     */
+    private $OPG3;
+
+    /**
+     *  
+     *  @ORM\ManyToOne(targetEntity="Inra2013\urzBundle\Entity\User")
+     * 
      * 
      */
     private $User;
 
-        /**
-     * @var integer
-     *
-     * @ORM\Column(name="PrisEssai", type="integer", nullable=true)
-     */
-    private $PrisEssai;
     
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="OeufLu", type="integer", nullable=true)
-     */
-    private $OeufLu;
-    
+    public function __construct() {
+        //$user=$this->container->get('security.context')->getToken()->getUser();
+        //$this->setUser($user);
+      
+    }
 
     /**
-     * @var integer
+     * Set OPG1
      *
-     * @ORM\Column(name="VolLu", type="integer", nullable=true)
-     */
-    private $VolLu;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="Opg", type="integer", nullable=true)
-     */
-    private $Opg;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="Conccidies", type="integer", nullable=true)
-     */
-    private $Conccidies;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="Monezia", type="integer",nullable=true)
-     */
-    private $Monezia;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="Strongeledia", type="integer", nullable=true)
-     */
-    private $Strongeledia;
-
-
-
-    /**
-     * Set OeufLu
-     *
-     * @param integer $oeufLu
+     * @param integer $oPG1
      * @return AnaOPG
      */
-    public function setOeufLu($oeufLu)
+    public function setOPG1($oPG1)
     {
-        $this->OeufLu = $oeufLu;
+        $this->OPG1 = $oPG1;
     
         return $this;
     }
 
     /**
-     * Get OeufLu
+     * Get OPG1
      *
      * @return integer 
      */
-    public function getOeufLu()
+    public function getOPG1()
     {
-        return $this->OeufLu;
+        return $this->OPG1;
     }
 
     /**
-     * Set VolLu
+     * Set OPG2
      *
-     * @param integer $volLu
+     * @param integer $oPG2
      * @return AnaOPG
      */
-    public function setVolLu($volLu)
+    public function setOPG2($oPG2)
     {
-        $this->VolLu = $volLu;
+        $this->OPG2 = $oPG2;
     
         return $this;
     }
 
     /**
-     * Get VolLu
+     * Get OPG2
      *
      * @return integer 
      */
-    public function getVolLu()
+    public function getOPG2()
     {
-        return $this->VolLu;
+        return $this->OPG2;
     }
 
     /**
-     * Set Opg
+     * Set OPG3
      *
-     * @param integer $opg
+     * @param integer $oPG3
      * @return AnaOPG
      */
-    public function setOpg($opg)
+    public function setOPG3($oPG3)
     {
-        $this->Opg = $opg;
+        $this->OPG3 = $oPG3;
     
         return $this;
     }
 
     /**
-     * Get Opg
+     * Get OPG3
      *
      * @return integer 
      */
-    public function getOpg()
+    public function getOPG3()
     {
-        return $this->Opg;
-    }
-
-    /**
-     * Set Conccidies
-     *
-     * @param integer $conccidies
-     * @return AnaOPG
-     */
-    public function setConccidies($conccidies)
-    {
-        $this->Conccidies = $conccidies;
-    
-        return $this;
-    }
-
-    /**
-     * Get Conccidies
-     *
-     * @return integer 
-     */
-    public function getConccidies()
-    {
-        return $this->Conccidies;
-    }
-
-    /**
-     * Set Monezia
-     *
-     * @param integer $monezia
-     * @return AnaOPG
-     */
-    public function setMonezia($monezia)
-    {
-        $this->Monezia = $monezia;
-    
-        return $this;
-    }
-
-    /**
-     * Get Monezia
-     *
-     * @return integer 
-     */
-    public function getMonezia()
-    {
-        return $this->Monezia;
-    }
-
-    /**
-     * Set Strongeledia
-     *
-     * @param integer $strongeledia
-     * @return AnaOPG
-     */
-    public function setStrongeledia($strongeledia)
-    {
-        $this->Strongeledia = $strongeledia;
-    
-        return $this;
-    }
-
-    /**
-     * Get Strongeledia
-     *
-     * @return integer 
-     */
-    public function getStrongeledia()
-    {
-        return $this->Strongeledia;
+        return $this->OPG3;
     }
 
     /**
@@ -258,28 +169,5 @@ class AnaOPG
     public function getUser()
     {
         return $this->User;
-    }
-
-    /**
-     * Set PrisEssai
-     *
-     * @param integer $prisEssai
-     * @return AnaOPG
-     */
-    public function setPrisEssai($prisEssai)
-    {
-        $this->PrisEssai = $prisEssai;
-    
-        return $this;
-    }
-
-    /**
-     * Get PrisEssai
-     *
-     * @return integer 
-     */
-    public function getPrisEssai()
-    {
-        return $this->PrisEssai;
     }
 }

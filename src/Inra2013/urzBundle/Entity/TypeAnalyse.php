@@ -2,6 +2,7 @@
 
 namespace Inra2013\urzBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -31,12 +32,10 @@ class TypeAnalyse {
 
     /**
      *
-     * @ORM\OneToMany(targetEntity = "Inra2013\urzBundle\Entity\Champ",mappedBy="Champ",cascade={"persist"})
-     * 
+     * @ORM\OneToMany(targetEntity = "Inra2013\urzBundle\Entity\Champ",mappedBy="Analyse")
      * 
      */
     private $Champs;
-
 
     /**
      * @var string
@@ -55,14 +54,13 @@ class TypeAnalyse {
      */
     public function __construct() {
 
-        $this->Champs = new \Doctrine\Common\Collections\ArrayCollection();
+
         $this->Analyse = new \Doctrine\Common\Collections\ArrayCollection();
-     
+        $this->Champs = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
 
 
-   
 
     /**
      * Get id
@@ -121,6 +119,29 @@ class TypeAnalyse {
     }
 
     /**
+     * Set Champs
+     *
+     * @param \Inra2013\urzBundle\Entity\Champ $champs
+     * @return TypeAnalyse
+     */
+    public function setChamps(\Inra2013\urzBundle\Entity\Champ $champs = null)
+    {
+        $this->Champs = $champs;
+    
+        return $this;
+    }
+
+    /**
+     * Get Champs
+     *
+     * @return \Inra2013\urzBundle\Entity\Champ 
+     */
+    public function getChamps()
+    {
+        return $this->Champs;
+    }
+
+    /**
      * Add Champs
      *
      * @param \Inra2013\urzBundle\Entity\Champ $champs
@@ -141,38 +162,5 @@ class TypeAnalyse {
     public function removeChamp(\Inra2013\urzBundle\Entity\Champ $champs)
     {
         $this->Champs->removeElement($champs);
-    }
-
-    /**
-     * Get Champs
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getChamps()
-    {
-        return $this->Champs;
-    }
-
-    /**
-     * Set Analyse
-     *
-     * @param \Inra2013\urzBundle\Entity\TypeAnalyse $analyse
-     * @return TypeAnalyse
-     */
-    public function setAnalyse(\Inra2013\urzBundle\Entity\TypeAnalyse $analyse = null)
-    {
-        $this->Analyse = $analyse;
-    
-        return $this;
-    }
-
-    /**
-     * Get Analyse
-     *
-     * @return \Inra2013\urzBundle\Entity\TypeAnalyse 
-     */
-    public function getAnalyse()
-    {
-        return $this->Analyse;
     }
 }

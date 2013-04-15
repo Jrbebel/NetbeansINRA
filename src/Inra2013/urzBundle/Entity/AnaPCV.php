@@ -1,11 +1,11 @@
-<?php
-
+<?php 
+   
 namespace Inra2013\urzBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * AnaPCV
+ * AnaEssai
  *
  * @ORM\Table()
  * @ORM\Entity
@@ -14,17 +14,25 @@ class AnaPCV
 {
       /**
      * @ORM\Id
-     *  *@ORM\ManyToOne(targetEntity="Inra2013\urzBundle\Entity\Analyse")
+     * @ORM\ManyToOne(targetEntity="Inra2013\urzBundle\Entity\Analyse")
      * @ORM\JoinColumn(name="CodeLabo", referencedColumnName="CodeLabo")
      */
     private $CodeLabo;
 
+ /**
+     * @var integer
+     * 
+     * @ORM\Column(name="PCV1", type="integer", nullable=true)
+     */
+    private $PCV1; 
+    
     /**
      * @var integer
-     *
-     * @ORM\Column(name="Pcv", type="integer", nullable=true)
+     * 
+     * @ORM\Column(name="PCV2", type="integer", nullable=true)
      */
-    private $Pcv;
+    
+    private $PCV2; 
     
   /**
      *  *@ORM\ManyToOne(targetEntity="Inra2013\urzBundle\Entity\User")
@@ -37,35 +45,53 @@ class AnaPCV
      *
      * @return integer 
      */
-    public function getId()
-    {
-        return $this->id;
-    }
-
+    
+     
     /**
-     * Set Pcv
+     * Set PCV1
      *
-     * @param integer $pcv
+     * @param integer $pCV1
      * @return AnaPCV
      */
-    public function setPcv($pcv)
+    public function setPCV1($pCV1)
     {
-        $this->Pcv = $pcv;
+        $this->PCV1 = $pCV1;
     
         return $this;
     }
 
     /**
-     * Get Pcv
+     * Get PCV1
      *
      * @return integer 
      */
-    public function getPcv()
+    public function getPCV1()
     {
-        return $this->Pcv;
+        return $this->PCV1;
     }
 
-  
+    /**
+     * Set PCV2
+     *
+     * @param integer $pCV2
+     * @return AnaPCV
+     */
+    public function setPCV2($pCV2)
+    {
+        $this->PCV2 = $pCV2;
+    
+        return $this;
+    }
+
+    /**
+     * Get PCV2
+     *
+     * @return integer 
+     */
+    public function getPCV2()
+    {
+        return $this->PCV2;
+    }
 
     /**
      * Set CodeLabo

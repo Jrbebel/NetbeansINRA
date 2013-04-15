@@ -2,14 +2,26 @@
 {% block title %}Create Analyse{% endblock %}
 
 {%block menu2 %}
-
-{% if Role[0] == 'ROLE_UTILISATEUR' and type != "UpdateAnalyse" %}
-    {% if   Protocole[0].Validation != 2 %}
+{% if Role[0] == 'ROLE_RESPONSABLE' %}
+    {% if  Protocole[0].Validation == 1 or  Protocole[0].Validation == 3 %}
 <div class="well" >
-    <a  role="button" class="btn btn-primary" data-toggle="modal" href="#validation" >Demande de validation</a>
+
+    <form method="POST" action={{path('Inra2013Bundle_ValidAnalyse')}} >
+        <h5>Conformité des résultats ?</h5>
+        <button class="btn btn-primary" type="submit" >Valider</button>
+
+        <a  role="button" class="btn btn-danger" data-toggle="modal" href="#refus" >Réfuser </a>
+        <input type="hidden" name="NumProtocole" value="{{NumProtocole}}" />
+        <input type="hidden" name="Status" value=2 />  
+    </form>
+
 </div>
-{% endif %}
     {% endif %}
+
+ {% endif %}
+
+
+
 {%endblock%}
 
 
@@ -28,193 +40,136 @@
     {%endfor%}
 
         </ul>
-        <form action="{{ path('Inra2013Bundle_CudAnalyse')}}" method="POST" >
 
-            <div class="tab-content">
+
+        <div class="tab-content">
 
   {%for typeanalyse in TypeAnalyse %}
 
- {% set size = ResultatCodeLabo[typeanalyse.Nom]  | length %}    
-
-
-
     {% if loop.index == 1 %}
 
-                <div class="tab-pane active" id="{{typeanalyse.Nom}}" >
+            <div class="tab-pane active" id="{{typeanalyse.Nom}}" >
+
+                <table class="table table-striped table-hover" >
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>CodeLabo</th>
+
+                     {%for Champ in Champs[typeanalyse.Nom] %}
+                            <th>{{Champ.Champ}}</th>
+                     {% endfor %} 
+
+
+                            </tr>
+                        </thead>
+                        <tbody>
 
 
 
+                  {%for keys,Resultats in attribute(ResultatCodeLabo,typeanalyse.Nom) %}
 
-               {% if Resultat | length != 0 %}  
+                             {% for Result in attribute(Resultats,'Champs' ~ typeanalyse.Nom)  %}
+                            <tr>     
+                                <td> {{keys}} </td>
+                                <td>{{Resultats.CodeLabo}}</td>
 
-{% if ResultatCodeLabo[typeanalyse.Nom]  | length != 0  %}  
+                                {% for Champ in Champs[typeanalyse.Nom] %}
+
+                                               {% if attribute(Result,Champ.Champ) is null %}
+
+                                <td style="color:red">NULL</td>
 
 
-                    <table class="table table-striped" >
+                                {% else %}
+                                <td>{{attribute(Result,Champ.Champ)}}</td>
+
+                                {% endif %}
+
+
+                                {%endfor%}
+
+                            </tr>
+                 {%endfor%}        
+                                    {%endfor%}
+
+                        </tbody>
+                    </table>   
+
+                </div>
+
+        {% else %}
+
+                <div class="tab-pane " id="{{typeanalyse.Nom}}" >
+
+
+                    <table class="table table-striped table-hover" >
                         <thead>
                             <tr>
                                 <th>Id</th>
                                 <th>CodeLabo</th>
 
                      {%for Champ in Champs[typeanalyse.Nom] %}
+
                                 <th>{{Champ.Champ}}</th>
-                     {% endfor %} 
-
-
-                                </tr>
-                            </thead>
-                            <tbody>
-
-                                  {#    {%for Champ in Champs[typeanalyse.Nom] %}         OPG ,Eosinophile,PVC  #}
-
-
-
-
-                                          {% for keys,formulaire in attribute(form,'Champs' ~ typeanalyse.Nom) %}  
-
- {# 
-                        {#   {% for typecodelabo in  ResultatCodeLabo[typeanalyse.Nom]|keys %}   #}
-
-
-
-                                <tr>  
-                                    <td>{{loop.index}}</td>    
-
-
-                                    <td> {{ResultatCodeLabo[typeanalyse.Nom][keys] }} </td>  
-
-
-                                         {% for Champ in Champs[typeanalyse.Nom] %}
-
-
-                                    <td>{{ form_widget(attribute(formulaire,Champ.Champ)) }}</td>  
-       {{ form_errors(attribute(formulaire,Champ.Champ)) }}
-                                       {% endfor %} 
-
-
-                                </tr>
- {% endfor %}     
-
-                            </tbody>
-                        </table>   
-
-                     {% if Resultat|length > 0 %}
-                        <input type="hidden" name="NumProtocole" value="{{NumProtocole}}" />
-                        <input type="hidden" name="demande" value="{{type}}" />
-                        <input type="hidden" name="Save" value="Save" />
-                        <div class="span4"> <input type="submit" value="Cancel" class="btn btn-danger" />  <input type="submit" value="Enregistrer" class="btn btn-primary" />  </div>
-
-
-               {% endif %}  
-
-        {% else %}
-                        <h3><p class="text-center text-error ">Toute les analyses ont été faite</p> </h3>         
-        {% endif%}
-
-        {%  elseif Resultat | length == 0 %}       
-
-
-
-
-                        <h3><p class="text-center text-error ">En attente du listing de Code Labo</p> </h3>
-
-
-
-
-        {% endif%}
-
-                    </div>
-
-        {% else %}
-
-                    <div class="tab-pane " id="{{typeanalyse.Nom}}" >
-
-
-               {% if Resultat | length > 0 %}  
-
-{% if ResultatCodeLabo[typeanalyse.Nom]  | length != 0  %} 
-                        <table class="table table-striped" >
-                            <thead>
-                                <tr>
-                                    <th>Id</th>
-                                    <th>CodeLabo</th>
-
-                     {%for Champ in Champs[typeanalyse.Nom] %}
-
-                                    <th>{{Champ.Champ}}</th>
 
                      {% endfor %} 
 
 
-                                </tr>
-                            </thead>
-                            <tbody>
+                            </tr>
+                        </thead>
+
+                        <tbody>
 
 
+                  {%for keys,Resultats in attribute(ResultatCodeLabo,typeanalyse.Nom) %}
+
+                             {% for Result in attribute(Resultats,'Champs' ~ typeanalyse.Nom)  %}
+                            <tr>     
+                                <td> {{keys}} </td>
+                                <td>{{Resultats.CodeLabo}}</td>
+
+                                {% for Champ in Champs[typeanalyse.Nom] %}
+
+                                {% if attribute(Result,Champ.Champ) is null %}
+
+                                <td style="color:red">NULL</td>
+
+                                {% else %}
+
+                                <td>{{attribute(Result,Champ.Champ)}}</td>
+
+                                {% endif %}
 
 
+                                {%endfor%}
 
-                                          {% for keys,formulaire in attribute(form,'Champs' ~ typeanalyse.Nom) %}   
-                                <tr>  
-                                    <td>{{loop.index}}</td>
-                                    <td> {{ResultatCodeLabo[typeanalyse.Nom][keys] }} </td>  
+                            </tr>
+                 {%endfor%}        
+                                    {%endfor%}
+                        </tbody>
 
+                    </table> 
 
-
-                                         {% for Champ in Champs[typeanalyse.Nom] %}
-                                             {{ form_errors(attribute(formulaire,Champ.Champ )) }}
-
-                                    <td>{{ form_widget(attribute(formulaire,Champ.Champ )) }}</td>  
-
-
-                                        {% endfor %} 
-
-
-                                </tr>
-                                        {% endfor %}     
-
-                            </tbody>
-                        </table> 
-
-                         {% if Resultat|length > 0 %}
-                        <input type="hidden" name="numProtocole" value="{{NumProtocole}}" />
-                        <input type="hidden" name="demande" value="{{type}}" />
-                        <input type="hidden" name="Save" value="Save" />
-
-                        <div class="span4"> <input type="submit" value="Cancel" class="btn btn-danger" />  <input type="submit" value="Enregistrer" class="btn btn-primary" />  </div>
-
-
-               {% endif %}  
-
-                         {% else %}
-                        <h3><p class="text-center text-error ">Toute les analyses ont été faite</p> </h3>         
-        {% endif %}
-       {%  elseif Resultat | length == 0 %}         
-                        <h3><p class="text-center text-error ">En attente du listing de Code Labo</p> </h3>
-                    </div>
-        {% endif%}
 
 
 
                 </div>
-
 
 {%endif%}  
 
 
      {%endfor%}
 
+            </div>
 
 
 
 
 
 
-{{ form_widget(form._token) }}
 
 
-
-            </form> 
 
 {# modal pour la validation des resultats #}
 
@@ -273,7 +228,7 @@
                             </div>
                         </div>
                         <input type="hidden" name="NumProtocole" value="{{NumProtocole}}" />
-                        <input type="hidden" name="Status" value=1 />  
+                        <input type="hidden" name="Status" value=3 />  
                     </form>
 
 {%endblock %}

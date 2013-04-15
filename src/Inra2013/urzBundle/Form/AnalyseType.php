@@ -6,27 +6,31 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class AnaOPGType extends AbstractType
+class AnalyseType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('OPG1')
-            ->add('OPG2')
-            ->add('OPG3')
-          
+            ->add('CodeLabo')
+            ->add('Animal')
+            ->add('DatePrelev')
+            ->add('DateAnalyse')
+            ->add('Observation')
+            ->add('Lot_Groupe')
+            ->add('NaturEchant')
+            ->add('Protocole')
         ;
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Inra2013\urzBundle\Entity\AnaOPG'
+            'data_class' => 'Inra2013\urzBundle\Entity\Analyse'
         ));
     }
 
     public function getName()
     {
-        return 'inra2013_urzbundle_anaopgtype';
+        return 'inra2013_urzbundle_analysetype';
     }
 }

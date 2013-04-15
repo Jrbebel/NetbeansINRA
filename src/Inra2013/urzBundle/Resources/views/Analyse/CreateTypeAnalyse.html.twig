@@ -1,5 +1,7 @@
-{% extends "::base.html.twig" %}
-
+{% extends "Inra2013urzBundle:Default:IndexUser.html.twig" %}
+{% block stylesheets %}
+<link rel="stylesheet" href="{{asset('css/C.css')}}" />
+{% endblock %}
 {%block body%}
 <div class="accordion" id="accordion2">
     <div class="accordion-group">
@@ -48,7 +50,7 @@
                     <form action="{{ path('Inra2013Bundle_CreateAnalyseBdd') }}" method="post" {{ form_enctype(form_Analyse) }}>
 
                         {{ form_widget(form_Analyse) }}
-                      
+
 
                         <input type="submit" class="btn btn-primary" />
                         <input type="hidden" name="typeForm" value="Analyse" /> {# Permet de savoir quel est le formulaire qui est envoyé #}
@@ -56,7 +58,25 @@
                     </form>
                 </div>
             </div>
+            <div class="accordion-group">
+                <div class="accordion-heading">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseFive">
+                        Formule pour champ d'analyse
+                    </a>
+                </div>
+                <div id="collapseFive" class="accordion-body collapse">
+                    <form action="{{ path('Inra2013Bundle_FormuleChamp') }}" method="post" {{ form_enctype(form_Analyse) }}>
 
+                        Champs :</br>
+                        <input type="text" id="champ" name="Champs" /> </br>
+                        <input type="hidden" name="typeAnalyse" id="institut" />
+
+                        <input type="submit" class="btn btn-primary" />
+                        <input type="hidden" name="typeForm" value="Analyse" /> {# Permet de savoir quel est le formulaire qui est envoyé #}
+
+                    </form>
+                </div>
+            </div>
 
         </div>
 
@@ -66,74 +86,120 @@
 {%block javascripts%} 
 
 
-       
-    
-        <script type="text/javascript">        
-            
-      $(document).ready(function() {
-  // On récupère la balise <div> en question qui contient l'attribut « data-prototype » qui nous intéresse.
-  var $container = $('div#inra2013_urzbundle_typeanalysetype_Champs');
- 
-  // On ajoute un lien pour ajouter une nouvelle catégorie
-  var $lienAjout = $('<a href="#" id="ajout_categorie" class="btn btn-primary">Ajouter un champ</a></br></br>');
-  $container.append($lienAjout);
- 
-  // On ajoute un nouveau champ à chaque clic sur le lien d'ajout.
-  $lienAjout.click(function(e) {
-    ajouterCategorie($container);
-    e.preventDefault(); // évite qu'un # apparaisse dans l'URL
-    return false;
-  });
- 
-  // On définit un compteur unique pour nommer les champs qu'on va ajouter dynamiquement
-  var index = $container.find(':input').length;
- 
-  // On ajoute un premier champ directement s'il n'en existe pas déjà un (cas d'un nouvel article par exemple).
-  if (index == 0) {
-    ajouterCategorie($container);
-  } else {
-    // Pour chaque catégorie déjà existante, on ajoute un lien de suppression
-    $container.children('div').each(function() {
-      ajouterLienSuppression($(this));
-    });
-  }
- 
-  // La fonction qui ajoute un formulaire Categorie
-  function ajouterCategorie($container) {
-    // Dans le contenu de l'attribut « data-prototype », on remplace :
-    // - le texte "__name__label__" qu'il contient par le label du champ
-    // - le texte "__name__" qu'il contient par le numéro du champ
-    var $prototype = $($container.attr('data-prototype').replace(/__name__label__/g, 'Champ n°' + (index+1))
-                                                        .replace(/__name__/g, index));
- 
-    // On ajoute au prototype un lien pour pouvoir supprimer la catégorie
-    ajouterLienSuppression($prototype);
- 
-    // On ajoute le prototype modifié à la fin de la balise <div>
-    $container.append($prototype);
- 
-    // Enfin, on incrémente le compteur pour que le prochain ajout se fasse avec un autre numéro
-    index++;
-  }
- 
-  // La fonction qui ajoute un lien de suppression d'une catégorie
-  function ajouterLienSuppression($prototype) {
-    // Création du lien
-    $lienSuppression = $('<a href="#" class="btn btn-danger">Supprimer</a></br></br>');
- 
-    // Ajout du lien
-    $prototype.append($lienSuppression);
- 
-    // Ajout du listener sur le clic du lien
-    $lienSuppression.click(function(e) {
-      $prototype.remove();
-      e.preventDefault(); // évite qu'un # apparaisse dans l'URL
-      return false;
-    });
-  }
-});      
-            
-         </script>
-          
+        <script type="text/javascript" src="{{asset('js/jquery.ui.autocomplete.js')}}"></script>
+        <script type="text/javascript" src="{{asset('js/jquery-ui-1.10.0.custom.js')}}"></script>
+        <script type="text/javascript" src="{{asset('js/jquery.ui.core.min.js')}}"></script>
+        <script type="text/javascript" src="{{asset('js/jquery.ui.position.min.js')}}"></script>
+
+        <script type="text/javascript">
+
+            $(document).ready(function() {
+                // On récupère la balise <div> en question qui contient l'attribut « data-prototype » qui nous intéresse.
+                var $container = $('div#inra2013_urzbundle_typeanalysetype_Champs');
+
+                // On ajoute un lien pour ajouter une nouvelle catégorie
+                var $lienAjout = $('<a href="#" id="ajout_categorie" class="btn btn-primary">Ajouter un champ</a></br></br>');
+                $container.append($lienAjout);
+
+                // On ajoute un nouveau champ à chaque clic sur le lien d'ajout.
+                $lienAjout.click(function(e) {
+                    ajouterCategorie($container);
+                    e.preventDefault(); // évite qu'un # apparaisse dans l'URL
+                    return false;
+                });
+
+                // On définit un compteur unique pour nommer les champs qu'on va ajouter dynamiquement
+                var index = $container.find(':input').length;
+
+                // On ajoute un premier champ directement s'il n'en existe pas déjà un (cas d'un nouvel article par exemple).
+                if (index == 0) {
+                    ajouterCategorie($container);
+                } else {
+                    // Pour chaque catégorie déjà existante, on ajoute un lien de suppression
+                    $container.children('div').each(function() {
+                        ajouterLienSuppression($(this));
+                    });
+                }
+
+                // La fonction qui ajoute un formulaire Categorie
+                function ajouterCategorie($container) {
+                    // Dans le contenu de l'attribut « data-prototype », on remplace :
+                    // - le texte "__name__label__" qu'il contient par le label du champ
+                    // - le texte "__name__" qu'il contient par le numéro du champ
+                    var $prototype = $($container.attr('data-prototype').replace(/__name__label__/g, 'Champ n°' + (index + 1))
+                            .replace(/__name__/g, index));
+
+                    // On ajoute au prototype un lien pour pouvoir supprimer la catégorie
+                    ajouterLienSuppression($prototype);
+
+                    // On ajoute le prototype modifié à la fin de la balise <div>
+                    $container.append($prototype);
+
+                    // Enfin, on incrémente le compteur pour que le prochain ajout se fasse avec un autre numéro
+                    index++;
+                }
+
+                // La fonction qui ajoute un lien de suppression d'une catégorie
+                function ajouterLienSuppression($prototype) {
+                    // Création du lien
+                    $lienSuppression = $('<a href="#" class="btn btn-danger">Supprimer</a></br></br>');
+
+                    // Ajout du lien
+                    $prototype.append($lienSuppression);
+
+                    // Ajout du listener sur le clic du lien
+                    $lienSuppression.click(function(e) {
+                        $prototype.remove();
+                        e.preventDefault(); // évite qu'un # apparaisse dans l'URL
+                        return false;
+                    });
+                }
+            });
+
+
+            $(document).ready(function() {
+
+
+                $("#champ").autocomplete({
+                    source: function(request, response) {
+
+                        var id = $('#champ').val();
+
+                        var DATA = 'id=' + id;
+                        $.ajax({
+                            url: "{{ path('Inra2013Bundle_SearchChamp') }}",
+                            method: "POST",
+                            dataType: "json",
+                            data: DATA,
+                            success: function(data) {
+                                response($.map(data, function(item, i) {
+
+                                    return {
+                                        value: item.Nom,
+                                        id: item.id,
+                                    }
+                                }))
+                            }
+                        })
+                    },
+                    select: function(event, ui) {
+
+                        $('#institut').val(ui.item.id);
+
+                    },
+                    change: function(event, ui) {
+
+                        $('#institut').val(ui.item.id);
+
+
+
+                    }
+                });
+
+            });
+
+
+            </script>
+
 
  {%endblock %}   

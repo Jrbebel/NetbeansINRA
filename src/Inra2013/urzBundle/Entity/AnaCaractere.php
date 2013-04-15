@@ -5,12 +5,12 @@ namespace Inra2013\urzBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * AnaEosinophile
+ * AnaEssai
  *
  * @ORM\Table()
  * @ORM\Entity
  */
-class AnaEosinophile
+class AnaCaractere
 {
       /**
      * @ORM\Id
@@ -19,19 +19,7 @@ class AnaEosinophile
      */
     private $CodeLabo;
 
- /**
-     * @var integer
-     * 
-     * @ORM\Column(name="Eosinophile1", type="integer", nullable=true)
-     */
-    private $Eosinophile1; 
-    
-    /**
-     * @var integer
-     * 
-     * @ORM\Column(name="Eosinophile2", type="integer", nullable=true)
-     */
-    private $Eosinophile2; 
+
     
   /**
      *  *@ORM\ManyToOne(targetEntity="Inra2013\urzBundle\Entity\User")
@@ -39,59 +27,18 @@ class AnaEosinophile
      */
     private $User;
 
-  
-
     /**
-     * Set Eosinophile1
-     *
-     * @param integer $eosinophile1
-     * @return AnaEosinophile
-     */
-    public function setEosinophile1($eosinophile1)
-    {
-        $this->Eosinophile1 = $eosinophile1;
-    
-        return $this;
-    }
-
-    /**
-     * Get Eosinophile1
+     * Get id
      *
      * @return integer 
      */
-    public function getEosinophile1()
-    {
-        return $this->Eosinophile1;
-    }
-
-    /**
-     * Set Eosinophile2
-     *
-     * @param integer $eosinophile2
-     * @return AnaEosinophile
-     */
-    public function setEosinophile2($eosinophile2)
-    {
-        $this->Eosinophile2 = $eosinophile2;
     
-        return $this;
-    }
-
-    /**
-     * Get Eosinophile2
-     *
-     * @return integer 
-     */
-    public function getEosinophile2()
-    {
-        return $this->Eosinophile2;
-    }
-
+     
     /**
      * Set CodeLabo
      *
      * @param \Inra2013\urzBundle\Entity\Analyse $codeLabo
-     * @return AnaEosinophile
+     * @return AnaCaractere
      */
     public function setCodeLabo(\Inra2013\urzBundle\Entity\Analyse $codeLabo)
     {
@@ -114,7 +61,7 @@ class AnaEosinophile
      * Set User
      *
      * @param \Inra2013\urzBundle\Entity\User $user
-     * @return AnaEosinophile
+     * @return AnaCaractere
      */
     public function setUser(\Inra2013\urzBundle\Entity\User $user = null)
     {

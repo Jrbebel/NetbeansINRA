@@ -1,0 +1,40 @@
+{% extends "Inra2013urzBundle:Default:IndexUser.html.twig" %}
+{% block stylesheets %}
+<link rel="stylesheet" href="{{asset('css/C.css')}}" />
+{% endblock %}
+{%block body%}
+
+
+<table class="table table-striped">
+    <thead>
+
+
+        <th>A</th>
+        <th>B</th>
+
+
+    </thead>
+    <tbody>
+        <tr>
+        {% for Resultat in RequeteChamp %}
+            <td>{{Resultat.Champ}}</td>
+        {% endfor %} 
+        </tr>
+    
+    </tbody>
+</table>
+
+
+  <form action="{{ path('Inra2013Bundle_CreateAnalyseBdd') }}" method="post" {{ form_enctype(form_formule) }}>
+                        {{ form_widget(form_formule) }}
+
+                        <input type="submit" class="btn btn-primary" />
+                     
+
+                    </form>
+
+
+
+
+
+{% endblock %}

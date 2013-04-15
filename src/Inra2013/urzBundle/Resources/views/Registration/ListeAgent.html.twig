@@ -18,7 +18,7 @@
 
             <th>Nom</th>
             <th>Prenom</th>
-            <th>Email</th>
+              {#  <th>Email</th> #}
             <th>Fonction</th>
               <th>Roles</th>
             <th>Activé</th>
@@ -35,19 +35,19 @@
 
         <td><a href="{{path('Inra2013Bundle_UpdateAgent',{'id':liste.id })}}"> {{liste.Nom}}</a></td>
         <td>{{liste.Prenom}}</td>
-        <td>{{liste.email}}</td>
+        {#   <td>{{liste.email}}</td> #}
         <td>{{liste.Fonction}}</td>
         <td>
 
-{% if liste.roles[0] == "ROLE_USER" %}
+{% if liste.roles[0] == "ROLE_UTILISATEUR" %}
 
 Utilisateur
 
-{% elseif liste.roles[0] == "ROLE_ADMIN" %}
+{% elseif liste.roles[0] == "ROLE_RESPONSABLE" %}
 
 Responsable
 
-{% elseif liste.roles[0] == "ROLE_SUPER_ADMIN" %}
+{% elseif liste.roles[0] == "ROLE_ADMINISTRATEUR" %}
 
 Administrateur
 

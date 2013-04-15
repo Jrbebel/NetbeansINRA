@@ -2,6 +2,7 @@
 
 namespace Inra2013\urzBundle\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -18,8 +19,8 @@ class Analyse {
      * @ORM\Column(name="CodeLabo", type="integer", length=255)
      */
     private $CodeLabo;
-    
-     /**
+
+    /**
      *  *@ORM\ManyToOne(targetEntity="Inra2013\urzBundle\Entity\Protocole")
      * 
      */
@@ -67,25 +68,139 @@ class Analyse {
     private $NaturEchant;
 
     /**
-     * Set Animal
+    * @Assert\Collection(
+     *     fields = {
+     *       
+     *         "OPG1" = {
+     *             
+     *             @Assert\Type(
+     *                 type = "integer",message="I pa bon"
+     *                 
+     *             ),
+     *             @Assert\Max(limit = "5", message = "The max value for the note is 5")
+     *         },
+     *         
+     *         "OPG2" = {
+     *             
+     *             @Assert\Type(
+     * 
+     *                 type = "integer",message="I pa bon"
+     *                
+     *             ),
+     *             @Assert\Max(limit = "5", message = "The max value for the note is 5")
+     *         },
+     * 
+     *         "OPG3" = {
+     *             
+     *             @Assert\Type(
+     *                 type = "integer",message="I pa bon"
+     *                
+     *             ),
+     *             
+     *             @Assert\Max(limit ="5", message = "The max value for the note is 5")
+     *         }
+     *              
+     *     },
+     *     allowMissingFields = true,
+     *     allowExtraFields = true
+     * )
      *
-     * @param integer $animal
-     * @return Analyse
+     * @ORM\OneToMany(targetEntity ="Inra2013\urzBundle\Entity\AnaOPG",mappedBy="CodeLabo",cascade={"persist"})
+     * 
      */
-    public function setAnimal($animal) {
-        $this->Animal = $animal;
+    private $ChampsOPG ;
+    
+    
+    
+        /**
+    * @Assert\Collection(
+     *     fields = {
+     *       
+     *         "PCV1" = {
+     *             
+     *             @Assert\Type(
+     *                 type = "integer",message="I pa bon"
+     *                 
+     *             ),
+     *             @Assert\Max(limit = "5", message = "The max value for the note is 5")
+     *         },
+     *         
+     *         "PCV2" = {
+     *             
+     *             @Assert\Type(
+     * 
+     *                 type = "integer",message="I pa bon"
+     *                
+     *             ),
+     *             @Assert\Max(limit = "5", message = "The max value for the note is 5")
+     *         }
+     * 
+,            },
+     *     allowMissingFields = true,
+     *     allowExtraFields = true
+     * )
+     *
+     * @ORM\OneToMany(targetEntity ="Inra2013\urzBundle\Entity\AnaPCV",mappedBy="CodeLabo",cascade={"persist"})
+     * 
+     */
+    private $ChampsPCV;
+    
+    
+    
+            /**
+    * @Assert\Collection(
+     *     fields = {
+     *       
+     *         "Eosinophile1" = {
+     *             
+     *             @Assert\Type(
+     *                 type = "integer",message="I pa bon"
+     *                 
+     *             ),
+     *             @Assert\Max(limit = "5", message = "The max value for the note is 5")
+     *         },
+     *         
+     *         "Eosinophile2" = {
+     *             
+     *             @Assert\Type(
+     * 
+     *                 type = "integer",message="I pa bon"
+     *                
+     *             ),
+     *             @Assert\Max(limit = "5", message = "The max value for the note is 5")
+     *         }
+     * 
+,            },
+     *     allowMissingFields = true,
+     *     allowExtraFields = true
+     * )
+     *
+     * @ORM\OneToMany(targetEntity ="Inra2013\urzBundle\Entity\AnaEosinophile",mappedBy="CodeLabo",cascade={"persist"})
+     * 
+     */
+    private $ChampsEosinophile;
+    
+    
+    
+    public function __toString() {
 
-        return $this;
+        return NULL;
+        
+        
+        
     }
 
     /**
-     * Get Animal
-     *
-     * @return integer 
+     * Constructor
      */
-    public function getAnimal() {
-        return $this->Animal;
+    public function __construct()
+    {
+        $this->ChampsOPG = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->ChampsPCV = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->ChampsEosinophile = new \Doctrine\Common\Collections\ArrayCollection();
     }
+    
+    
 
     /**
      * Set CodeLabo
@@ -93,9 +208,10 @@ class Analyse {
      * @param integer $codeLabo
      * @return Analyse
      */
-    public function setCodeLabo($codeLabo) {
+    public function setCodeLabo($codeLabo)
+    {
         $this->CodeLabo = $codeLabo;
-
+    
         return $this;
     }
 
@@ -104,8 +220,32 @@ class Analyse {
      *
      * @return integer 
      */
-    public function getCodeLabo() {
+    public function getCodeLabo()
+    {
         return $this->CodeLabo;
+    }
+
+    /**
+     * Set Animal
+     *
+     * @param integer $animal
+     * @return Analyse
+     */
+    public function setAnimal($animal)
+    {
+        $this->Animal = $animal;
+    
+        return $this;
+    }
+
+    /**
+     * Get Animal
+     *
+     * @return integer 
+     */
+    public function getAnimal()
+    {
+        return $this->Animal;
     }
 
     /**
@@ -114,9 +254,10 @@ class Analyse {
      * @param \DateTime $datePrelev
      * @return Analyse
      */
-    public function setDatePrelev($datePrelev) {
+    public function setDatePrelev($datePrelev)
+    {
         $this->DatePrelev = $datePrelev;
-
+    
         return $this;
     }
 
@@ -125,7 +266,8 @@ class Analyse {
      *
      * @return \DateTime 
      */
-    public function getDatePrelev() {
+    public function getDatePrelev()
+    {
         return $this->DatePrelev;
     }
 
@@ -135,9 +277,10 @@ class Analyse {
      * @param \DateTime $dateAnalyse
      * @return Analyse
      */
-    public function setDateAnalyse($dateAnalyse) {
+    public function setDateAnalyse($dateAnalyse)
+    {
         $this->DateAnalyse = $dateAnalyse;
-
+    
         return $this;
     }
 
@@ -146,7 +289,8 @@ class Analyse {
      *
      * @return \DateTime 
      */
-    public function getDateAnalyse() {
+    public function getDateAnalyse()
+    {
         return $this->DateAnalyse;
     }
 
@@ -156,9 +300,10 @@ class Analyse {
      * @param string $observation
      * @return Analyse
      */
-    public function setObservation($observation) {
+    public function setObservation($observation)
+    {
         $this->Observation = $observation;
-
+    
         return $this;
     }
 
@@ -167,7 +312,8 @@ class Analyse {
      *
      * @return string 
      */
-    public function getObservation() {
+    public function getObservation()
+    {
         return $this->Observation;
     }
 
@@ -177,9 +323,10 @@ class Analyse {
      * @param string $lotGroupe
      * @return Analyse
      */
-    public function setLotGroupe($lotGroupe) {
+    public function setLotGroupe($lotGroupe)
+    {
         $this->Lot_Groupe = $lotGroupe;
-
+    
         return $this;
     }
 
@@ -188,7 +335,8 @@ class Analyse {
      *
      * @return string 
      */
-    public function getLotGroupe() {
+    public function getLotGroupe()
+    {
         return $this->Lot_Groupe;
     }
 
@@ -198,9 +346,10 @@ class Analyse {
      * @param string $naturEchant
      * @return Analyse
      */
-    public function setNaturEchant($naturEchant) {
+    public function setNaturEchant($naturEchant)
+    {
         $this->NaturEchant = $naturEchant;
-
+    
         return $this;
     }
 
@@ -209,53 +358,9 @@ class Analyse {
      *
      * @return string 
      */
-    public function getNaturEchant() {
+    public function getNaturEchant()
+    {
         return $this->NaturEchant;
-    }
-
-    /**
-     * Set User
-     *
-     * @param \Inra2013\urzBundle\Entity\User $user
-     * @return Analyse
-     */
-    public function setUser(\Inra2013\urzBundle\Entity\User $user = null) {
-        $this->User = $user;
-
-        return $this;
-    }
-
-    /**
-     * Get User
-     *
-     * @return \Inra2013\urzBundle\Entity\User 
-     */
-    public function getUser() {
-        return $this->User;
-    }
-
-
-    /**
-     * Set id
-     *
-     * @param integer $id
-     * @return Analyse
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-    
-        return $this;
-    }
-
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
     }
 
     /**
@@ -279,5 +384,104 @@ class Analyse {
     public function getProtocole()
     {
         return $this->Protocole;
+    }
+
+    /**
+     * Add ChampsOPG
+     *
+     * @param \Inra2013\urzBundle\Entity\AnaOPG $champsOPG
+     * @return Analyse
+     */
+    public function addChampsOPG(\Inra2013\urzBundle\Entity\AnaOPG $champsOPG)
+    {
+        $this->ChampsOPG[] = $champsOPG;
+    
+        return $this;
+    }
+
+    /**
+     * Remove ChampsOPG
+     *
+     * @param \Inra2013\urzBundle\Entity\AnaOPG $champsOPG
+     */
+    public function removeChampsOPG(\Inra2013\urzBundle\Entity\AnaOPG $champsOPG)
+    {
+        $this->ChampsOPG->removeElement($champsOPG);
+    }
+
+    /**
+     * Get ChampsOPG
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getChampsOPG()
+    {
+        return $this->ChampsOPG;
+    }
+
+    /**
+     * Add ChampsPCV
+     *
+     * @param \Inra2013\urzBundle\Entity\AnaPCV $champsPCV
+     * @return Analyse
+     */
+    public function addChampsPCV(\Inra2013\urzBundle\Entity\AnaPCV $champsPCV)
+    {
+        $this->ChampsPCV[] = $champsPCV;
+    
+        return $this;
+    }
+
+    /**
+     * Remove ChampsPCV
+     *
+     * @param \Inra2013\urzBundle\Entity\AnaPCV $champsPCV
+     */
+    public function removeChampsPCV(\Inra2013\urzBundle\Entity\AnaPCV $champsPCV)
+    {
+        $this->ChampsPCV->removeElement($champsPCV);
+    }
+
+    /**
+     * Get ChampsPCV
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getChampsPCV()
+    {
+        return $this->ChampsPCV;
+    }
+
+    /**
+     * Add ChampsEosinophile
+     *
+     * @param \Inra2013\urzBundle\Entity\AnaEosinophile $champsEosinophile
+     * @return Analyse
+     */
+    public function addChampsEosinophile(\Inra2013\urzBundle\Entity\AnaEosinophile $champsEosinophile)
+    {
+        $this->ChampsEosinophile[] = $champsEosinophile;
+    
+        return $this;
+    }
+
+    /**
+     * Remove ChampsEosinophile
+     *
+     * @param \Inra2013\urzBundle\Entity\AnaEosinophile $champsEosinophile
+     */
+    public function removeChampsEosinophile(\Inra2013\urzBundle\Entity\AnaEosinophile $champsEosinophile)
+    {
+        $this->ChampsEosinophile->removeElement($champsEosinophile);
+    }
+
+    /**
+     * Get ChampsEosinophile
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getChampsEosinophile()
+    {
+        return $this->ChampsEosinophile;
     }
 }
