@@ -10,7 +10,6 @@ namespace Inra2013\urzBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Form\FormBuilderInterface;
 
 class AnalyseController extends Controller {
 
@@ -31,6 +30,7 @@ class AnalyseController extends Controller {
     public function SearchProtocoleAction() {
 
         $request = $this->getRequest();
+        $user = $this->container->get('security.context')->getToken()->getUser()->getFonction(); // on récupere la fonction de l'utilisateur connecté
 
         if ($request->isXmlHttpRequest()) {
 
@@ -68,6 +68,8 @@ class AnalyseController extends Controller {
                 return $this->render("Inra2013urzBundle:Analyse:CreatExcel.html.twig", array("protocole" => $Protocole, "Analyse" => $Analyse, 'form_path' => 'Inra2013Bundle_CudAnalyse', 'form_value' => 'Modification Resultat', 'type' => $type, 'protocole' => $Protocole));
             } elseif ($type == "voiranalyse") {
                 return $this->render("Inra2013urzBundle:Analyse:CreatExcel.html.twig", array("protocole" => $Protocole, "Analyse" => $Analyse, 'form_path' => 'Inra2013Bundle_VoirAnalyse', 'form_value' => 'Voir Resultat', 'type' => $type, 'protocole' => $Protocole));
+            } elseif ($type == "voiranalyseChercheur") {
+                return $this->render("Inra2013urzBundle:Analyse:CreatExcel.html.twig", array("User" => $user, "protocole" => $Protocole, "Analyse" => $Analyse, 'form_path' => 'Inra2013Bundle_VoirAnalyseChercheur', 'form_value' => 'Voir Resultat', 'type' => $type, 'protocole' => $Protocole));
             }
         }
     }
@@ -318,54 +320,74 @@ class AnalyseController extends Controller {
 
         if ($this->getRequest()->getMethod() == 'GET') {  //si c est un GET alors on affiche le formulaire de recherche de protocole
             return $this->render("Inra2013urzBundle:Analyse:CreatExcel.html.twig", array('type' => 'voiranalyse'));
-        }elseif ($this->getRequest()->getMethod() == 'POST') {
-             $numProtocole = $this->getRequest()->request->get('NumProtocole');
-        $Status = $this->get('request')->get('demande');
+        } elseif ($this->getRequest()->getMethod() == 'POST') {
+            $numProtocole = $this->getRequest()->request->get('NumProtocole');
+            $Status = $this->get('request')->get('demande');
 
-        $ResultTypeAnalyse = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Protocole')->AnalyseProtocole($numProtocole);
-        $User = $this->container->get('security.context')->getToken()->getUser();
-
-
-        $Protocole = $this->getDoctrine()->getEntityManager()->getRepository("Inra2013urzBundle:Protocole")->findBy(array('id' => $numProtocole));
-
-        /*         * On crée les formulaires pour les différents type d'analyse* */
-        /*         * Une boucle pour créer les formulaires des types analyses * */
+            $ResultTypeAnalyse = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Protocole')->AnalyseProtocole($numProtocole);
+            $User = $this->container->get('security.context')->getToken()->getUser();
 
 
+            $Protocole = $this->getDoctrine()->getEntityManager()->getRepository("Inra2013urzBundle:Protocole")->findBy(array('id' => $numProtocole));
+
+            /*             * On crée les formulaires pour les différents type d'analyse* */
+            /*             * Une boucle pour créer les formulaires des types analyses * */
+
+
+            foreach ($ResultTypeAnalyse as $Champs) {
+
+                $CodeLabo[$Champs['Nom']] = array();
+                $ResultCodeLabo = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Protocole')->CodeLaboProtocole($Champs['Nom'], $numProtocole);
+                // \Doctrine\Common\Util\Debug::dump($ResultTypeAnalyse);
+                $CodeLabo[$Champs['Nom']] = $ResultCodeLabo;
+
+
+
+                //$formtype = $this->createForm(
+                //       new \Inra2013\urzBundle\Form\AnaOPGType(), $form);
+                //  $CodeLabo[$value['Nom']] = $ResultCodeLabo;
+                $ChampsId[$Champs['Nom']] = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Champ')->FindChampAnalyse($Champs['id']);
+            }
+            // \Doctrine\Common\Util\Debug::dump( $CodeLabo["OPG"]);
+            return $this->render("Inra2013urzBundle:Analyse:VoireAnalyse.html.twig", array('Resultat' => $ResultCodeLabo, 'TypeAnalyse' => $ResultTypeAnalyse, 'ResultatCodeLabo' => $CodeLabo, 'Champs' => $ChampsId, 'NumProtocole' => $numProtocole, 'Protocole' => $Protocole, 'Role' => $User->getRoles(), 'type' => $Status));
+        }
+    }
+
+    public function VoirAnalyseChercheurAction() {
+
+        $numProtocole = $this->getRequest()->get('NumProtocole');
+        if ($this->getRequest()->getMethod() == 'GET' && !isset($numProtocole)) {  //si c est un GET alors on affiche le formulaire de recherche de protocole
+            return $this->render("Inra2013urzBundle:Analyse:CreatExcel.html.twig", array('type' => 'voiranalyseChercheur', 'User' => 'Chercheur'));
+        }
+        else
+            $ResultTypeAnalyse = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Protocole')->AnalyseProtocole($numProtocole);
         foreach ($ResultTypeAnalyse as $Champs) {
 
-  $CodeLabo[$Champs['Nom']] = array();
+            $CodeLabo[$Champs['Nom']] = array();
             $ResultCodeLabo = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Protocole')->CodeLaboProtocole($Champs['Nom'], $numProtocole);
-            // \Doctrine\Common\Util\Debug::dump($ResultTypeAnalyse);
-           $CodeLabo[$Champs['Nom']] = $ResultCodeLabo;
 
-          
+            $CodeLabo[$Champs['Nom']] = $ResultCodeLabo;
 
-            //$formtype = $this->createForm(
-            //       new \Inra2013\urzBundle\Form\AnaOPGType(), $form);
-            //  $CodeLabo[$value['Nom']] = $ResultCodeLabo;
-                      $ChampsId[$Champs['Nom']] = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Champ')->FindChampAnalyse($Champs['id']);
-
+            $ChampsId[$Champs['Nom']] = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Champ')->FindChampAnalyse($Champs['id']);
         }
-        // \Doctrine\Common\Util\Debug::dump( $CodeLabo["OPG"]);
-        return $this->render("Inra2013urzBundle:Analyse:VoireAnalyse.html.twig", array('Resultat' => $ResultCodeLabo, 'TypeAnalyse' => $ResultTypeAnalyse, 'ResultatCodeLabo' => $CodeLabo, 'Champs' => $ChampsId, 'NumProtocole' => $numProtocole, 'Protocole' => $Protocole, 'Role' => $User->getRoles(), 'type' => $Status));
-
-        }
-
-    
-        
+        return $this->render('Inra2013urzBundle:Analyse:VoirAnalyseCherch.html.twig', array('Resultat' => $ResultCodeLabo, 'TypeAnalyse' => $ResultTypeAnalyse, 'ResultatCodeLabo' => $CodeLabo, 'Champs' => $ChampsId, 'NumProtocole' => $numProtocole));
     }
 
     public function CudAnalyseAction() {
 
-        
-          if ($this->getRequest()->getMethod() == 'GET') {  //si c est un GET alors on affiche le formulaire de recherche du protocole
+        $numProtocole = $this->getRequest()->get('NumProtocole');
+
+
+        if ($this->getRequest()->getMethod() == "GET" && !isset($numProtocole)) {
+
+            //si c est un GET alors on affiche le formulaire de recherche du protocole
+
             return $this->render('Inra2013urzBundle:Analyse:CreatExcel.html.twig', array('type' => 'UpdateAnalyse'));
         }
 
-        $numProtocole = $this->getRequest()->get('NumProtocole');
+
         $Status = $this->getRequest()->get('demande');
-        $Save=$this->getRequest()->get('Save');
+        $Save = $this->getRequest()->get('Save');
         $ResultTypeAnalyse = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Protocole')->AnalyseProtocole($numProtocole);
         $User = $this->container->get('security.context')->getToken()->getUser();
 
@@ -455,37 +477,45 @@ class AnalyseController extends Controller {
 
 
                 foreach ($ResultTypeAnalyse as $Champs) {
+                    
                     $getChamps = "getChamps" . $Champs['Nom'];
-                    $ChampsId = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Champ')->FindChampAnalyse($Champs['id']);
-//\Doctrine\Common\Util\Debug::dump($ChampsId);
-//print_r("LA taille de champsId est de ".count($ChampsId)."<br>");
+                    $ChampsAll=$this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Champ')->FindChampAnalyse($Champs['id']);
+                    $ChampsId = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Champ')->FindChampAnalyseNot($Champs['id']);
+                    $ChampsIdCalcule = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Champ')->FindChampsCalcule($Champs['id']);
 
                     foreach ($type->$getChamps() as $value) {  //recupere les champs 
                         $countChampsnull = 0;
                         foreach ($ChampsId as $ChampsAnalyse) {
-                            //  print_r($ChampsAnalyse['Champ'] . "<br>");
+                            /*                             * **********On enregistre un utilisateur si et seulment si tout les champs de l analyse soit rempli,Compteur de valeur avec compteur de champs vide ou pas ************** */
                             $champsanalyse = "get" . $ChampsAnalyse['Champ'];
                             if (!is_null($value->$champsanalyse())) {
                                 $countChampsnull++;
                             }
+
+                       //      \Doctrine\Common\Util\Debug::dump($value->$champsanalyse());
                             //  print_r("Le champsId est de " . count($ChampsId) . "alors que le countChampsnull est de" . $countChampsnull . "<br>");
                             if (count($ChampsId) == $countChampsnull) {
+                                /*                                 * *****On fait le calcul pour les champs calcule car on sait cas se stade tout les champs sont renseigné ******* */
+
+                                foreach ($ChampsAll as $resultat) {
+                                    $limite
+                                  //  print_r('<br>');
+                                }
+
+
+                                //$value->setOPG3(14);
                                 $value->setUser($User);
                             }
                         }
-                        //\Doctrine\Common\Util\Debug::dump($value);
-//print_r("Le champsId est de ".count($ChampsId)."alors que le countChampsnull est de". $countChampsnull."<br>");
-//\Doctrine\Common\Util\Debug::dump($value->getOPG1());
-                        //$type->setCodeLabo($value->getCodeLabo());
-                        //   
                     }
                     //print_r("<br>");
                 }
+                //   \Doctrine\Common\Util\Debug::dump($champs);
                 $em->persist($champs);
                 $em->flush();
 
-                //  return new response('je fauis l essau  ' . $Status);
-                return $this->redirect($this->generateUrl('Inra2013Bundle_Save', array("Status" => "SaveAnalyse")));
+                return new response('je fauis l essau  ' . $Status);
+                //return $this->redirect($this->generateUrl('Inra2013Bundle_Save', array("Status" => "SaveAnalyse")));
             }
 
             return $this->render("Inra2013urzBundle:Analyse:CreateAnalyse.html.twig", array('form' => $form->getForm()->createView(), 'Resultat' => $ResultCodeLabo, 'TypeAnalyse' => $ResultTypeAnalyse, 'ResultatCodeLabo' => $CodeLabo, 'Champs' => $ChampsId, 'NumProtocole' => $numProtocole, 'Protocole' => $Protocole, 'Role' => $User->getRoles(), 'type' => $Status));
@@ -551,7 +581,9 @@ class AnalyseController extends Controller {
 
             if ($typeForm == "Categorie") {
                 $formtypeCategorie->bind($request);
-                if ($formtypeCategorie->isValid()) {
+                $TypeCategorie = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:TypeCategorie')->FindBy(array("Nom" => $typeCategorie->getNom()));
+
+                if ($formtypeCategorie->isValid() && !$TypeCategorie) {
 
                     $em->persist($typeCategorie);
                     $em->flush();
@@ -563,7 +595,9 @@ class AnalyseController extends Controller {
 
                 $formCategorieAnalyse->bind($request);
 
-                if ($formCategorieAnalyse->isValid()) {
+                $categorieAnalyse = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:CategorieAnalyse')->FindBy(array("Nom" => $CategorieAnalyse->getNom()));
+
+                if ($formCategorieAnalyse->isValid() && !$categorieAnalyse) {
 
                     $em->persist($CategorieAnalyse);
                     $em->flush();
@@ -573,9 +607,12 @@ class AnalyseController extends Controller {
                 }
             } elseif ($typeForm == "Analyse") {
 
+
                 $formtypeAnalyse->bind($request);
 
-                if ($formtypeAnalyse->isValid()) {
+                $TypeAnalyse = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:TypeAnalyse')->FindBy(array("Nom" => $typeAnalyse->getNom()));
+
+                if ($formtypeAnalyse->isValid() && !$TypeAnalyse) {
 
 
                     foreach ($typeAnalyse->getChamps() as $value) {
@@ -588,6 +625,7 @@ class AnalyseController extends Controller {
                     $this->GenerationAnalyse($typeAnalyse);
                     return $this->redirect($this->generateUrl('Inra2013Bundle_Save', array("Status" => "Analyse")));
                 } else {
+
                     return $this->redirect($this->generateUrl('Inra2013Bundle_Save', array("Status" => "AnalyseError")));
                 }
             }
@@ -598,7 +636,7 @@ class AnalyseController extends Controller {
 
         /*         * ******On crée un fichier dans le dossier entity******* */
         $path = dirname(__FILE__) . "/../Entity";
-        $fichier = fopen($path . "/Ana" . $Entity->getNom() . ".php", "a");
+        $fichier = fopen($path . "/Ana" . $Entity->getNom() . ".php", "w");
         /*         * *On rentre les information voulue comme les champs etc ** */
         $Champs = "";
         foreach ($Entity->getChamps() as $value) {
@@ -610,7 +648,7 @@ class AnalyseController extends Controller {
     private $' . $value->getChamp() . '; ';
         }
         ;
-        fputs($fichier, '<?php 
+        fwrite($fichier, '<?php 
    
 namespace Inra2013\urzBundle\Entity;
 
@@ -648,13 +686,207 @@ class Ana' . $Entity->getNom() . '
      }');
 
 
+
+        /*         * *************On crée le champs dans le fichier entity analyse******************* */
+
+        $ChampsAnalyse = "";
+        $TypeAnalyse = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:TypeAnalyse')->FindAll();
+
+        foreach ($TypeAnalyse as $valeur) {
+
+            $ChampsAnalyse.='       /**
+    * @Assert\Collection(
+     *     fields = {
+     *       ';
+
+
+
+            $ChampsTypeAnalyse = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Champ')->FindBy(array('Analyse' => $valeur->getId()));
+
+            foreach ($ChampsTypeAnalyse as $value) {
+
+
+                $ChampsAnalyse.='
+     *         "' . $value->getChamp() . '" = {
+     *             
+     *             @Assert\Type(
+     *                 type = "integer",message="I pa bon"
+     *                 
+     *             ),
+     *             @Assert\Max(limit = "5", message = "The max value for the note is 5")
+     *         },
+     *         
+  ';
+            }
+            $ChampsAnalyse.=' 
+     *            },
+     *     allowMissingFields = true,
+     *     allowExtraFields = true
+     * )
+     *
+     * @ORM\OneToMany(targetEntity ="Inra2013\urzBundle\Entity\Ana' . $valeur->getNom() . '",mappedBy="CodeLabo",cascade={"persist"})
+     * 
+     */
+    private $Champs' . $valeur->getNom() . ';
+        
+';
+        }
+
+        $ChampsAnalyse.=' /**
+     * Constructor
+     */
+    public function __construct()
+    {';
+
+        foreach ($TypeAnalyse as $resultat) {
+
+            $ChampsAnalyse.=' 
+                
+  $this->Champs' . $resultat->getNom() . ' = new \Doctrine\Common\Collections\ArrayCollection();
+';
+        }
+
+        $ChampsAnalyse.='}';
+
+
+
+
+
+        $fichier = fopen($path . "/Analyse.php", 'w');
+        $taille = filesize($path . "/Analyse.php");
+        fseek($fichier, $taille - 5);
+        fwrite($fichier, '<?php
+
+namespace Inra2013\urzBundle\Entity;
+use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Analyse
+ *
+ * @ORM\Table(name="Analyse")
+ * @ORM\Entity
+ */
+class Analyse {
+
+    /**
+     * @var integer
+     * @ORM\Id
+     * @ORM\Column(name="CodeLabo", type="integer", length=255)
+     */
+    private $CodeLabo;
+
+    /**
+     *  *@ORM\ManyToOne(targetEntity="Inra2013\urzBundle\Entity\Protocole")
+     * 
+     */
+    private $Protocole;
+
+    /**
+     *  *@ORM\ManyToOne(targetEntity="Inra2013\urzBundle\Entity\Animal")
+     *  @ORM\JoinColumn(name="Animal", referencedColumnName="id") 
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $Animal;
+
+    /**
+     * @var \Date
+     *
+     * @ORM\Column(name="DatePrelev",nullable=true)
+     */
+    private $DatePrelev;
+
+    /**
+     * @var \Date
+     * @ORM\Column(name="DateAnalyse", type="date", nullable=true)
+     */
+    private $DateAnalyse;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="Observation", type="string", length=255 , nullable=true)
+     */
+    private $Observation;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="Lot_Groupe", type="text",nullable=true)
+     */
+    private $Lot_Groupe;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="NaturEchant", type="string", length=255 ,nullable=true)
+     */
+    private $NaturEchant;
+    
+    
+' . $ChampsAnalyse . '}
+    
+
+
+');
+        fclose($fichier);
+
+
+        /*         * *******Creation du fichier typeanalyse pour le formulaire******* */
+
+        $fichierType = fopen($path . "/../Form/Ana" . $Entity->getNom() . "Type.php", "w");
+        $ChampsType = "";
+        foreach ($ChampsTypeAnalyse as $value) {
+
+            $ChampsType.='->add(' . $value->getChamp() . ')';
+        }
+        fwrite($fichierType, '
+                 
+<?php
+
+namespace Inra2013\urzBundle\Form;
+
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+
+class Ana' . $Entity->getNom() . 'Type extends AbstractType
+{
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $builder' . $ChampsType . '
+            
+        ;
+    }
+
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        $resolver->setDefaults(array(
+            \'data_class\' => \'Inra2013\urzBundle\Entity\Ana' . $Entity->getNom() . '\'
+        ));
+    }
+
+    public function getName()
+    {
+        return \'inra2013_urzbundle_ana' . $Entity->getNom() . 'type\';
+    }
+}
+
+
+
+
+');
+
+        fclose($fichierType);
+
         /*         * *On genere les setters et les getters avec la commande de symfony php console generate:doctrine:entities Inra2013urzBundle:Entity:AnaEssai** */
 
         $path_console = dirname(__FILE__) . "/../../../../app/";
         $commandeEntities = "console generate:doctrine:entities Inra2013urzBundle:Ana" . $Entity->getNom();
+        $commandeEntitiesAna = "console generate:doctrine:entities Inra2013urzBundle:Analyse";
 
         $resultatEntities = exec("php " . $path_console . $commandeEntities);
-
+        $resultatEntitiesAna = exec("php " . $path_console . $commandeEntitiesAna);
         /*         * **On la cree dans la base de données** */
 
         $commandeCreate = "console doctrine:schema:update --force";
@@ -666,17 +898,96 @@ class Ana' . $Entity->getNom() . '
 
     public function FormuleChampAction() {
 
-        print_r($_POST);
-        $typeFormulaire = new \Inra2013\urzBundle\Entity\Formule();
-        $formtypeFormulaire = $this->createForm(
-                new \Inra2013\urzBundle\Form\FormuleType(), $typeFormulaire);
-
+        //    $typeFormulaire = new \Inra2013\urzBundle\Entity\Formule();
+        //  $typeChampsEssai=
+        //  $champsFormule1 = new \Inra2013\urzBundle\Entity\Formule();
+        //  $champsFormule2 = new \Inra2013\urzBundle\Entity\Formule();
+        // $champsFormule1 = new \Inra2013\urzBundle\Entity\Formule();
+        //  $type= new \Inra2013\urzBundle\Form\ChampType();
+        // $champsFormule = array();
         $request = $this->get('request');
         $typeAnalyse = $request->get('typeAnalyse');
+        //$typeAnalyse = 1;
+        $ChampsEssai = new \Inra2013\urzBundle\Entity\Champ();
+        $formtypeFormulaire = $this->createFormBuilder($ChampsEssai);
+        // print_r($typeAnalyse);
+        $Cham = $this->getDoctrine()->getRepository('Inra2013urzBundle:Champ')->find(1);
+        $Cham1 = $this->getDoctrine()->getRepository('Inra2013urzBundle:Champ')->find(2);
 
         $RequeteCmaps = $this->getDoctrine()->getRepository('Inra2013urzBundle:Champ')->findBy(array('Analyse' => $typeAnalyse));
 
-        return $this->render('Inra2013urzBundle:Analyse:FormuChamp.html.twig', array("RequeteChamp" => $RequeteCmaps, "form_formule" => $formtypeFormulaire->createView()));
+//$champsFormule1->setChamps($RequeteCmaps[0]);
+//$champsFormule1->setChamps($RequeteCmaps[1]);
+        //  \Doctrine\Common\Util\Debug::dump($RequeteCmaps);
+
+        /*
+
+          $champsFormule = new \Inra2013\urzBundle\Entity\Formule();
+          $champsFormule2 = new \Inra2013\urzBundle\Entity\Formule();
+
+          $champsFormule->setChamps($Cham);
+          $champsFormule2->setChamps($Cham1);
+         */
+        $FindChampsCalcule = $this->getDoctrine()->getRepository('Inra2013urzBundle:Champ')->FindChampsCalcule($typeAnalyse);
+
+
+        //  \Doctrine\Common\Util\Debug::dump($ChampsEssai); 
+        //   $champsFormule = new \Inra2013\urzBundle\Entity\Formule();
+        //   $ChampsEssai->addChampsForhampsFormule);
+        //  $champsFormule1->setChamps($Cham1);
+
+
+
+        foreach ($FindChampsCalcule as $key => $value) {
+
+            $ChampsFormule = "ChampsFormule" . $key;
+            $champsFormule = new \Inra2013\urzBundle\Entity\Formule();
+            $champsFormule->setChamps($value);
+            $ChampsEssai->addChampsFormule($champsFormule);
+        }
+
+        /*
+          $ChampsEssai->addChampsFormule($champsFormule);
+          $ChampsEssai->addChampsFormule($champsFormule2);
+
+         */
+
+        //        \Doctrine\Common\Util\Debug::dump($ChampsEssai);
+        //$formtypeFormulaire = $this->createForm(
+        //             new \Inra2013\urzBundle\Form\FormuleType(), $typeFormulaire);
+        //    $formtypeFormulaire= $this->createForm($type,$ChampsEssai);
+
+        $formtypeFormulaire
+                ->add('ChampsFormule', 'collection', array(
+                    'type' => new \Inra2013\urzBundle\Form\FormuleType(),
+                    'allow_add' => true,
+                    'attr' => array('label' => ' ')
+        ));
+
+        if ($this->getRequest()->getMethod() == 'POST') {
+
+            $form = $formtypeFormulaire->getForm()->bind($request);
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getEntityManager();
+
+
+
+
+                foreach ($ChampsEssai->getChampsFormule() as $value) {
+
+                    $em->persist($value);
+                }
+                $em->flush();
+                //  $a=12;
+                //  $b=13;
+                // eval('$a = 5+6+7;');
+////var_dump($c);
+                return $this->redirect($this->generateUrl('Inra2013Bundle_Save', array("Status" => "Formule")));
+            }
+        }
+
+
+        return $this->render('Inra2013urzBundle:Analyse:FormuChamp.html.twig', array("RequeteChamp" => $RequeteCmaps, "form_formule" => $formtypeFormulaire->getForm()->createView(), "NumProtocole" => $typeAnalyse, "FindChamps" => $FindChampsCalcule));
     }
 
     public function SaveAction($Status) {
