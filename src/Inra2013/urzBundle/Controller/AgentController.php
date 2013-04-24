@@ -44,7 +44,7 @@ class AgentController extends Controller {
     
     /**
      * function description
-     * Montre la liste de tout les Agents 
+     * Montre la liste des agents du laboratoire
      */
     public function AccueilAction ($vide="vide"){
      
