@@ -4,7 +4,7 @@
 
 Inra2013urzBundle_Homepage:
     pattern : /Home
-    defaults: { _controller : Inra2013urzBundle:Agent:Index }
+    defaults: { _controller : Inra2013urzBundle:Agent:Accueil }
 
 # Chemin pour la redirection de l'Agent qui se connecte
  
