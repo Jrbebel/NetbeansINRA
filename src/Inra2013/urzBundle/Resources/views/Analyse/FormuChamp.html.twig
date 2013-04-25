@@ -9,29 +9,56 @@
     <thead>
 
 
-        <th>A</th>
-        <th>B</th>
+        {% for keys,Resultat in RequeteChamp %}
+    <td>{{keys}}</td>
+        {% endfor %} 
 
 
-    </thead>
-    <tbody>
-        <tr>
+</thead>
+<tbody>
+    <tr>
         {% for Resultat in RequeteChamp %}
             <td>{{Resultat.Champ}}</td>
         {% endfor %} 
         </tr>
-    
+
     </tbody>
 </table>
 
+<form action="{{ path('Inra2013Bundle_FormuleChamp') }}" method="post" >
+    <table class="table table-striped">
 
-  <form action="{{ path('Inra2013Bundle_CreateAnalyseBdd') }}" method="post" {{ form_enctype(form_formule) }}>
-                        {{ form_widget(form_formule) }}
+            <thead> <tr>
+ {% for keys,Resultats in FindChamps %}
 
-                        <input type="submit" class="btn btn-primary" />
+            <th>Formule appliqué pour {{Resultats.Champ}}</th>
+
+{% endfor %}       
+          </tr>      
+            </thead>
+            <tbody>
+               
+ <tr>
+
+                    {% for tag in form_formule.ChampsFormule %}
+                   
+                    <td>{{ form_widget(tag.FormuMath) }}</td>
                      
+                    {% endfor%}
+               </tr>
+            </tbody>
 
-                    </form>
+        
+
+        </table>
+        {{ form_errors(form_formule) }}       
+         {{ form_rest(form_formule) }}       
+
+        <input type="hidden" name="typeAnalyse" value={{NumProtocole}} />
+        <input type="submit" class="btn btn-primary" />
+
+
+    </form>
 
 
 

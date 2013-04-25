@@ -24,7 +24,7 @@ class TypeAnalyse {
 
     /**
      *
-     * @ORM\ManyToOne(targetEntity = "Inra2013\urzBundle\Entity\CategorieAnalyse")
+     * @ORM\ManyToOne(targetEntity = "Inra2013\urzBundle\Entity\CategorieAnalyse",cascade={"persist"})
      * 
      * 
      */
@@ -32,7 +32,7 @@ class TypeAnalyse {
 
     /**
      *
-     * @ORM\OneToMany(targetEntity = "Inra2013\urzBundle\Entity\Champ",mappedBy="Analyse")
+     * @ORM\OneToMany(targetEntity = "Inra2013\urzBundle\Entity\Champ",mappedBy="Analyse",cascade={"persist"})
      * 
      */
     private $Champs;

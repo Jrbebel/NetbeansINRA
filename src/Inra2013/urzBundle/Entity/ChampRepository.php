@@ -22,11 +22,41 @@ class ChampRepository extends EntityRepository {
                 ->where('a.Analyse = :id')
                 ->setParameter('id', $id);
 
+        return $qb->getQuery()->getResult();
+        
+        
+    }
+    
+        public function FindChampAnalyseNot($id) {
+
+
+        $from = "Inra2013urzBundle:Champ";
+        $alias = "a";
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('a')
+                ->from($from, $alias)
+                ->where('a.Analyse = :id')
+                ->andwhere('a.ChampCalcule != 1')
+                ->setParameter('id', $id);
+
         return $qb->getQuery()->getArrayResult();
     }
     
-  
+    
+   public function FindChampsCalcule($id) {
 
+        $from = "Inra2013urzBundle:Champ";
+        $alias = "a";
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('a')
+                ->from($from, $alias)
+                ->where('a.Analyse = :id')
+                ->andWhere('a.ChampCalcule = 1')
+                ->setParameter('id', $id);
+
+        return $qb->getQuery()->getResult();
+       
+   }
 }
 
 ?>

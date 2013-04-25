@@ -22,7 +22,6 @@ class Protocole {
      */
     private $id;
 
-
     /**
      * @var string
      *
@@ -36,6 +35,13 @@ class Protocole {
      * @ORM\Column(name="DateValidation", type="date")
      */
     private $DateValidation;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="DateValidationAnalyse", type="date")
+     */
+    private $DateValidationAnalyse;
 
     /**
      *
@@ -56,8 +62,8 @@ class Protocole {
      * @ORM\Column(name="Description", type="text")
      */
     private $Description;
-    
-      /**
+
+    /**
      * @var text
      *
      * @ORM\Column(name="Commentaire", type="text",nullable=true)
@@ -204,17 +210,15 @@ class Protocole {
         return $this->Analyse;
     }
 
-
     /**
      * Set Commentaire
      *
      * @param string $commentaire
      * @return Protocole
      */
-    public function setCommentaire($commentaire)
-    {
+    public function setCommentaire($commentaire) {
         $this->Commentaire = $commentaire;
-    
+
         return $this;
     }
 
@@ -223,8 +227,31 @@ class Protocole {
      *
      * @return string 
      */
-    public function getCommentaire()
-    {
+    public function getCommentaire() {
         return $this->Commentaire;
+    }
+
+
+    /**
+     * Set DateValidationAnalyse
+     *
+     * @param \DateTime $dateValidationAnalyse
+     * @return Protocole
+     */
+    public function setDateValidationAnalyse($dateValidationAnalyse)
+    {
+        $this->DateValidationAnalyse = $dateValidationAnalyse;
+    
+        return $this;
+    }
+
+    /**
+     * Get DateValidationAnalyse
+     *
+     * @return \DateTime 
+     */
+    public function getDateValidationAnalyse()
+    {
+        return $this->DateValidationAnalyse;
     }
 }

@@ -19,7 +19,7 @@ class TypeAnalyseType extends AbstractType {
                     'by_reference' => false,
                 ))
             
-                ->add('TypeCategorie');
+                ->add('TypeCategorie',"entity",array('class'=>'Inra2013urzBundle:CategorieAnalyse','property'=>'Nom','empty_value'=>"Choissisez une categorie"));
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver) {

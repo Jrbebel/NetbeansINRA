@@ -12,6 +12,12 @@ class ChampType extends AbstractType {
         $builder
                 ->add('Champ',"text",array('label'=>" "))
                 ->add('ChampCalcule')
+                 ->add('ChampsFormule', 'collection', array(
+                    'type' => new FormuleType(),
+                    'allow_add' => true,
+                    'allow_delete' => true,
+                    'by_reference' => false,
+                ))
 
         ;
     }

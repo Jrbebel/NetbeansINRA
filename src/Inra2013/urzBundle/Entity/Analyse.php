@@ -1,7 +1,6 @@
 <?php
 
 namespace Inra2013\urzBundle\Entity;
-
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -36,7 +35,7 @@ class Analyse {
     /**
      * @var \Date
      *
-     * @ORM\Column(name="DatePrelev", type="date", nullable=true)
+     * @ORM\Column(name="DatePrelev",nullable=true)
      */
     private $DatePrelev;
 
@@ -66,8 +65,9 @@ class Analyse {
      * @ORM\Column(name="NaturEchant", type="string", length=255 ,nullable=true)
      */
     private $NaturEchant;
-
-    /**
+    
+    
+       /**
     * @Assert\Collection(
      *     fields = {
      *       
@@ -80,27 +80,28 @@ class Analyse {
      *             @Assert\Max(limit = "5", message = "The max value for the note is 5")
      *         },
      *         
+  
      *         "OPG2" = {
      *             
      *             @Assert\Type(
-     * 
      *                 type = "integer",message="I pa bon"
-     *                
+     *                 
      *             ),
      *             @Assert\Max(limit = "5", message = "The max value for the note is 5")
      *         },
-     * 
+     *         
+  
      *         "OPG3" = {
      *             
      *             @Assert\Type(
      *                 type = "integer",message="I pa bon"
-     *                
+     *                 
      *             ),
-     *             
-     *             @Assert\Max(limit ="5", message = "The max value for the note is 5")
-     *         }
-     *              
-     *     },
+     *             @Assert\Max(limit = "5", message = "The max value for the note is 5")
+     *         },
+     *         
+   
+     *            },
      *     allowMissingFields = true,
      *     allowExtraFields = true
      * )
@@ -108,11 +109,9 @@ class Analyse {
      * @ORM\OneToMany(targetEntity ="Inra2013\urzBundle\Entity\AnaOPG",mappedBy="CodeLabo",cascade={"persist"})
      * 
      */
-    private $ChampsOPG ;
-    
-    
-    
-        /**
+    private $ChampsOPG;
+        
+       /**
     * @Assert\Collection(
      *     fields = {
      *       
@@ -125,17 +124,18 @@ class Analyse {
      *             @Assert\Max(limit = "5", message = "The max value for the note is 5")
      *         },
      *         
+  
      *         "PCV2" = {
      *             
      *             @Assert\Type(
-     * 
      *                 type = "integer",message="I pa bon"
-     *                
+     *                 
      *             ),
      *             @Assert\Max(limit = "5", message = "The max value for the note is 5")
-     *         }
-     * 
-,            },
+     *         },
+     *         
+   
+     *            },
      *     allowMissingFields = true,
      *     allowExtraFields = true
      * )
@@ -144,10 +144,8 @@ class Analyse {
      * 
      */
     private $ChampsPCV;
-    
-    
-    
-            /**
+        
+       /**
     * @Assert\Collection(
      *     fields = {
      *       
@@ -160,17 +158,18 @@ class Analyse {
      *             @Assert\Max(limit = "5", message = "The max value for the note is 5")
      *         },
      *         
+  
      *         "Eosinophile2" = {
      *             
      *             @Assert\Type(
-     * 
      *                 type = "integer",message="I pa bon"
-     *                
+     *                 
      *             ),
      *             @Assert\Max(limit = "5", message = "The max value for the note is 5")
-     *         }
-     * 
-,            },
+     *         },
+     *         
+   
+     *            },
      *     allowMissingFields = true,
      *     allowExtraFields = true
      * )
@@ -179,29 +178,25 @@ class Analyse {
      * 
      */
     private $ChampsEosinophile;
-    
-    
-    
-    public function __toString() {
+        
 
-        return NULL;
         
-        
-        
-    }
-
-    /**
+ /**
      * Constructor
      */
     public function __construct()
-    {
-        $this->ChampsOPG = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->ChampsPCV = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->ChampsEosinophile = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-    
-    
+    { 
+                
+  $this->ChampsOPG = new \Doctrine\Common\Collections\ArrayCollection();
+ 
+                
+  $this->ChampsPCV = new \Doctrine\Common\Collections\ArrayCollection();
+ 
+                
+  $this->ChampsEosinophile = new \Doctrine\Common\Collections\ArrayCollection();
+ 
 
+}
     /**
      * Set CodeLabo
      *
@@ -251,7 +246,7 @@ class Analyse {
     /**
      * Set DatePrelev
      *
-     * @param \DateTime $datePrelev
+     * @param string $datePrelev
      * @return Analyse
      */
     public function setDatePrelev($datePrelev)
@@ -264,7 +259,7 @@ class Analyse {
     /**
      * Get DatePrelev
      *
-     * @return \DateTime 
+     * @return string 
      */
     public function getDatePrelev()
     {
@@ -483,5 +478,38 @@ class Analyse {
     public function getChampsEosinophile()
     {
         return $this->ChampsEosinophile;
+    }
+
+    /**
+     * Add ChampsEssai
+     *
+     * @param \Inra2013\urzBundle\Entity\AnaEssai $champsEssai
+     * @return Analyse
+     */
+    public function addChampsEssai(\Inra2013\urzBundle\Entity\AnaEssai $champsEssai)
+    {
+        $this->ChampsEssai[] = $champsEssai;
+    
+        return $this;
+    }
+
+    /**
+     * Remove ChampsEssai
+     *
+     * @param \Inra2013\urzBundle\Entity\AnaEssai $champsEssai
+     */
+    public function removeChampsEssai(\Inra2013\urzBundle\Entity\AnaEssai $champsEssai)
+    {
+        $this->ChampsEssai->removeElement($champsEssai);
+    }
+
+    /**
+     * Get ChampsEssai
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getChampsEssai()
+    {
+        return $this->ChampsEssai;
     }
 }

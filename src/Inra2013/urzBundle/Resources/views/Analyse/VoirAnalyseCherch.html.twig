@@ -1,0 +1,268 @@
+
+{% extends "Inra2013urzBundle:Default:IndexChercheur.html.twig" %}
+
+{%block body%}
+
+
+<ul class="nav nav-tabs" id="myTab">
+
+    {% for typeanalyse in TypeAnalyse %}
+    {%if loop.index == 1%}
+    <li class="active"><a href="#{{typeanalyse.Nom}}">{{typeanalyse.Nom}}</a></li>
+     {%else%}
+        <li ><a href="#{{typeanalyse.Nom}}">{{typeanalyse.Nom}}</a></li>
+    {%endif%}
+    {%endfor%}
+
+        </ul>
+
+
+        <div class="tab-content">
+
+  {%for typeanalyse in TypeAnalyse %}
+
+    {% if loop.index == 1 %}
+
+            <div class="tab-pane active" id="{{typeanalyse.Nom}}" >
+
+                <table class="table table-striped table-hover" >
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>CodeLabo</th>
+
+                     {%for Champ in Champs[typeanalyse.Nom] %}
+                            {% if Champ.ChampCalcule == 1 %}
+                            <th>{{Champ.Champ}}</th>
+                            {%endif%}
+                     {% endfor %} 
+
+                                <th>Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+
+
+                  {%for keys,Resultats in attribute(ResultatCodeLabo,typeanalyse.Nom) %}
+
+                             {% for Result in attribute(Resultats,'Champs' ~ typeanalyse.Nom)  %}
+                            <tr>     
+                                <td> {{keys}} </td>
+                                <td>{{Resultats.CodeLabo}}</td>
+
+                                {% for Champ in Champs[typeanalyse.Nom] %}
+ 
+                                   {% if Champ.ChampCalcule == 1 %}
+                                <td>{{attribute(Result,Champ.Champ)}}</td>
+{% endif %}
+
+
+
+                                {%endfor%}
+                                                    {% set ChampsAnalyse %}
+                                {%for Champ in Champs[typeanalyse.Nom] %}
+                                  <th>{{Champ.Champ}}</th>  {% set ResultatAnalyse %}
+                            <tr>
+                                <td>{{attribute(Result,Champ.Champ)}}</td>
+                            
+                            </tr>                      
+  {% endset %} 
+                                {%endfor%}
+                                                    {% endset %}  
+  {% set ResultatAnalyse %}
+                            <tr>
+                               {%for Champ in Champs[typeanalyse.Nom] %}
+                                <td>{{attribute(Result,Champ.Champ)}}</td>
+                               {%endfor%}
+                            </tr>                      
+  {% endset %} 
+
+
+                                <td> <a id="element{{typeanalyse.Nom}}{{keys}}" href="#" class="btn btn-danger" rel="popover" title="Analyse detaille" data-content= "
+
+
+                                        <table class=table >
+                                        <thead>
+                                     {{ChampsAnalyse}}
+                                        </thead>
+                                        <tbody>
+                                     {{ResultatAnalyse}}
+                                        </tbody>
+                                        </table>" 
+
+                                        >
+
+                                        Details
+                                    </a></td>
+                                   
+
+                            </tr>
+                 {%endfor%}        
+
+
+                                    {%endfor%}
+
+                        </tbody>
+                    </table>   
+
+                </div>
+
+        {% else %}
+
+                <div class="tab-pane " id="{{typeanalyse.Nom}}" >
+
+
+                    <table class="table table-striped table-hover" >
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>CodeLabo</th>
+
+                     {%for Champ in Champs[typeanalyse.Nom] %}
+ {% if Champ.ChampCalcule == 1 %}
+                                <th>{{Champ.Champ}}</th>
+ {% endif %}
+                     {% endfor %} 
+
+                                    <th>Details</th>
+                                </tr>
+                            </thead>
+
+                           <tbody>
+
+
+
+                  {%for keys,Resultats in attribute(ResultatCodeLabo,typeanalyse.Nom) %}
+
+                             {% for Result in attribute(Resultats,'Champs' ~ typeanalyse.Nom)  %}
+                            <tr>     
+                                <td> {{keys}} </td>
+                                <td>{{Resultats.CodeLabo}}</td>
+
+                                {% for Champ in Champs[typeanalyse.Nom] %}
+ 
+                                   {% if Champ.ChampCalcule == 1 %}
+                                <td>{{attribute(Result,Champ.Champ)}}</td>
+{% endif %}
+
+
+
+                                {%endfor%}
+                                                    {% set ChampsAnalyse %}
+                                {%for Champ in Champs[typeanalyse.Nom] %}
+                                  <th>{{Champ.Champ}}</th>  {% set ResultatAnalyse %}
+                            <tr>
+                                <td>{{attribute(Result,Champ.Champ)}}</td>
+                            
+                            </tr>                      
+  {% endset %} 
+                                {%endfor%}
+                                                    {% endset %}  
+  {% set ResultatAnalyse %}
+                            <tr>
+                               {%for Champ in Champs[typeanalyse.Nom] %}
+                                <td>{{attribute(Result,Champ.Champ)}}</td>
+                               {%endfor%}
+                            </tr>                      
+  {% endset %} 
+
+
+                                <td> <a id="element{{typeanalyse.Nom}}{{keys}}" href="#" class="btn btn-danger" rel="popover" title="Analyse detaille" data-content= "
+
+
+                                        <table class=table >
+                                        <thead>
+                                     {{ChampsAnalyse}}
+                                        </thead>
+                                        <tbody>
+                                     {{ResultatAnalyse}}
+                                        </tbody>
+                                        </table>" 
+
+                                        >
+
+                                        Details
+                                    </a></td>
+                                   
+
+                            </tr>
+                 {%endfor%}        
+
+
+                                    {%endfor%}
+
+                        </tbody>
+
+                        </table> 
+
+
+
+
+                    </div>
+
+{%endif%}  
+
+
+     {%endfor%}
+
+                </div>
+
+
+
+{%endblock%}
+
+{%block javascripts%} 
+                <script type="text/javascript" src="{{asset('js/CLEditor1_3_0/jquery.cleditor.min.js')}}"></script>
+                <script type="text/javascript" src="{{asset('bootstrap-editable/js/bootstrap-editable.js')}}"></script>
+{% for typeanalyse in TypeAnalyse %}
+                  {%for keys,Resultats in attribute(ResultatCodeLabo,typeanalyse.Nom) %}
+                <script>
+                      
+                    $(document).ready(function() {
+                        $('#element{{typeanalyse.Nom}}{{keys}}').popover({
+                            html: true,
+                            placement: 'top',
+                            trigger:'hover',
+                            content: function() {
+                                return $('#popover_content_wrapper').html();
+                            }
+                        });
+                    });
+                    </script>
+                    {%endfor%}
+
+{%endfor%}
+
+
+                    <script>
+                        $('#myTab a').click(function(e) {
+                            e.preventDefault();
+                            $(this).tab('show');
+                        });
+                        </script>
+
+                        <script type="text/javascript">
+                            $(document).ready(function() {
+                                $("#input").cleditor();
+                            });
+                            $(document).ready(function() {
+                                $("#input1").cleditor();
+                            });
+                            </script>
+
+
+                                {#
+                    {% if type == "UpdateAnalyse" %}
+                                <script type="text/javascript">
+                                   {# $.fn.editable.defaults.mode = 'inline'; 
+                                       $('.username').editable({
+                                           type: 'text',
+                                           pk: 1,
+                                           url: "{{path('Inra2013Bundle_UpdateAnalyse')}}",
+                                           title: 'Modification des resultats'
+                                       });
+                           
+                    {% endif %}
+               #}   
+{%endblock %}

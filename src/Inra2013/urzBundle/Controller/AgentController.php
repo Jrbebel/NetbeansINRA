@@ -128,8 +128,9 @@ class AgentController extends Controller {
         $user = $this->container->get('security.context')->getToken()->getUser()->getFonction(); // on récupere la fonction de l'utilisateur connecté
         $userId = $this->container->get('security.context')->getToken()->getUser()->getId(); // on récupere la fonction de l'utilisateur connecté
         $StatusProto = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Protocole')->StatusEncours();
+        $StatusFini=$this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Protocole')->StatusTermine() ;
         $StatusProtoId = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Protocole')->StatusEncoursId($userId);
-   
+    //   \Doctrine\Common\Util\Debug::dump($StatusFini);
         if ($this->get('security.context')->isGranted('ROLE_ADMINISTRATEUR')) {
 
 
@@ -139,7 +140,7 @@ class AgentController extends Controller {
 
             if ($user == "Laborantin(e)") {
 
-                return $this->render("Inra2013urzBundle:Default:IndexUser.html.twig", array('response' => $StatusProto));
+                return $this->render("Inra2013urzBundle:Default:IndexUser.html.twig", array('response' => $StatusProto,'responseFini' => $StatusFini));
             } else if ($user == "Chercheur") {
 
                 return $this->render("Inra2013urzBundle:Default:IndexChercheur.html.twig", array('response' => $StatusProtoId));
@@ -148,7 +149,7 @@ class AgentController extends Controller {
 
             if ($user == "Laborantin(e)") {
 
-                return $this->render("Inra2013urzBundle:Default:IndexUser.html.twig", array('response' => $StatusProto));
+                return $this->render("Inra2013urzBundle:Default:IndexUser.html.twig", array('response' => $StatusProto,'responseFini' => $StatusFini));
             } else if ($user == "Chercheur") {
 
    return $this->render("Inra2013urzBundle:Default:IndexChercheur.html.twig", array('response' => $StatusProtoId));

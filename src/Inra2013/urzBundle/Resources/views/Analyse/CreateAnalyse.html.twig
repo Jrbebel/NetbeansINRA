@@ -57,7 +57,10 @@
                                 <th>CodeLabo</th>
 
                      {%for Champ in Champs[typeanalyse.Nom] %}
+                                 {% if Champ.ChampCalcule != 1 %}
                                 <th>{{Champ.Champ}}</th>
+                                 {% endif %}
+
                      {% endfor %} 
 
 
@@ -86,9 +89,10 @@
 
                                          {% for Champ in Champs[typeanalyse.Nom] %}
 
-
+                                         {% if Champ.ChampCalcule != 1 %}
                                     <td>{{ form_widget(attribute(formulaire,Champ.Champ)) }}</td>  
-       {{ form_errors(attribute(formulaire,Champ.Champ)) }}
+                                        {{ form_errors(attribute(formulaire,Champ.Champ)) }}
+                                        {% endif %}
                                        {% endfor %} 
 
 

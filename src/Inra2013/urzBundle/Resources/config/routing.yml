@@ -89,13 +89,17 @@ Inra2013Bundle_CudAnalyse:
    defaults: { _controller : Inra2013urzBundle:Analyse:CudAnalyse }
  
  
-    #Chemin Pour la creation et update des analyses
+    #Chemin pour voir partie des analyses avec role utlisateur laborantin
  
 Inra2013Bundle_VoirAnalyse:
    pattern: /User/VoirAnalyse
    defaults: { _controller : Inra2013urzBundle:Analyse:VoirAnalyse }
   
+  #Chemin pour voir partie des analyses avec role utlisateur laborantin
  
+Inra2013Bundle_VoirAnalyseChercheur:
+   pattern: /User/VoirAnalyseFini
+   defaults: { _controller : Inra2013urzBundle:Analyse:VoirAnalyseChercheur }  
  #Chemin Pour la creation des analyses
  
 Inra2013Bundle_CreateAnalyse:

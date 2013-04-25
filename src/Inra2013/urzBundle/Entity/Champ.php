@@ -36,12 +36,23 @@ class Champ {
     private $ChampCalcule;
 
     /**
-     *  *@ORM\ManyToOne(targetEntity="Inra2013\urzBundle\Entity\TypeAnalyse",inversedBy="Analyse")
+     *  *@ORM\ManyToOne(targetEntity="Inra2013\urzBundle\Entity\TypeAnalyse",inversedBy="Analyse",cascade={"persist"})
      * 
      */
     private $Analyse;
 
 
+
+  
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->ChampsFormule = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
     /**
      * Get id
      *
@@ -119,5 +130,38 @@ class Champ {
     public function getAnalyse()
     {
         return $this->Analyse;
+    }
+
+    /**
+     * Add ChampsFormule
+     *
+     * @param \Inra2013\urzBundle\Entity\Formule $champsFormule
+     * @return Champ
+     */
+    public function addChampsFormule(\Inra2013\urzBundle\Entity\Formule $champsFormule)
+    {
+        $this->ChampsFormule[] = $champsFormule;
+    
+        return $this;
+    }
+
+    /**
+     * Remove ChampsFormule
+     *
+     * @param \Inra2013\urzBundle\Entity\Formule $champsFormule
+     */
+    public function removeChampsFormule(\Inra2013\urzBundle\Entity\Formule $champsFormule)
+    {
+        $this->ChampsFormule->removeElement($champsFormule);
+    }
+
+    /**
+     * Get ChampsFormule
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getChampsFormule()
+    {
+        return $this->ChampsFormule;
     }
 }

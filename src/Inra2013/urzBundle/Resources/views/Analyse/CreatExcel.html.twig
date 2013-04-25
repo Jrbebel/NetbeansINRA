@@ -1,4 +1,9 @@
-{% extends "Inra2013urzBundle:Default:IndexUser.html.twig" %}
+{% set parent = "Inra2013urzBundle:Default:IndexUser.html.twig"%}
+{% if User =="Chercheur" %}
+{% set parent = "Inra2013urzBundle:Default:IndexChercheur.html.twig" %}
+{% endif%}
+{%extends parent %}
+
 {% block title %}Exporter Fichier{% endblock %}
 {% block stylesheets %}
 <link rel="stylesheet" href="{{asset('css/C.css')}}" />
@@ -84,7 +89,7 @@
                 source: function (request, response) {
                     
                     var id = $('#protocole').val();
-                 
+                 console.log("Id;" +id);
                     var DATA = 'id=' + id;
                     $.ajax({
                         url: "{{ path('Inra2013Bundle_SearchProtocole') }}", 

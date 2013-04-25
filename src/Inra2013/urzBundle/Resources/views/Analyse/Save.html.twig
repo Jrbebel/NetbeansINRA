@@ -40,8 +40,8 @@
     <p>Analyse crée avec succes.</p>
 </div>
 {% elseif Status == "AnalyseError" %}
-<div class="alert alert-success"><a href="#" class="close" data-dismiss="alert">&times;</a>
-    <p>Analyse crée avec succes.</p>
+<div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert">&times;</a>
+    <p>Ce nom est deja utilisé ,réessayez ou contactez l'administrateur.</p>
 </div>
 {% elseif Status == "Champs" %}
 <div class="alert alert-success"><a href="#" class="close" data-dismiss="alert">&times;</a>
@@ -50,6 +50,14 @@
 {% elseif Status == "ChampsError" %}
 <div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert">&times;</a>
     <p>Enregistrement des champs pour l'analyse a échoué,recommencez ou contactez l'adminiistrateur</p>
+</div>
+{% elseif Status == "Formule" %}
+<div class="alert alert-success"><a href="#" class="close" data-dismiss="alert">&times;</a>
+    <p>Création de la formule réussi.</p>
+</div>
+{% elseif Status == "FormuleError" %}
+<div class="alert alert-danger"><a href="#" class="close" data-dismiss="alert">&times;</a>
+    <p>Enregistrement de la formule echoué,recommencez ou contactez l'adminiistrateur</p>
 </div>
 {%endif%}
 

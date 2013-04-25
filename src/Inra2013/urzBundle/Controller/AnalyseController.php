@@ -477,33 +477,51 @@ class AnalyseController extends Controller {
 
 
                 foreach ($ResultTypeAnalyse as $Champs) {
-                    
+
                     $getChamps = "getChamps" . $Champs['Nom'];
-                    $ChampsAll=$this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Champ')->FindChampAnalyse($Champs['id']);
+                    $ChampsAna = "Champs" . $Champs['Nom'];
+
+                    $ChampsAll = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Champ')->FindChampAnalyse($Champs['id']);
                     $ChampsId = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Champ')->FindChampAnalyseNot($Champs['id']);
                     $ChampsIdCalcule = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Champ')->FindChampsCalcule($Champs['id']);
 
                     foreach ($type->$getChamps() as $value) {  //recupere les champs 
                         $countChampsnull = 0;
+                        $Lettre = 'A';
+                        $tableau = array();
                         foreach ($ChampsId as $ChampsAnalyse) {
                             /*                             * **********On enregistre un utilisateur si et seulment si tout les champs de l analyse soit rempli,Compteur de valeur avec compteur de champs vide ou pas ************** */
                             $champsanalyse = "get" . $ChampsAnalyse['Champ'];
+
                             if (!is_null($value->$champsanalyse())) {
+                                $tableau[$Lettre] = ($value->$champsanalyse()); //On enregistre les valeur dans le tableau afin de faire le calcule
                                 $countChampsnull++;
+                                ++$Lettre;
                             }
 
-                       //      \Doctrine\Common\Util\Debug::dump($value->$champsanalyse());
+                            //      \Doctrine\Common\Util\Debug::dump($value->$champsanalyse());
                             //  print_r("Le champsId est de " . count($ChampsId) . "alors que le countChampsnull est de" . $countChampsnull . "<br>");
                             if (count($ChampsId) == $countChampsnull) {
                                 /*                                 * *****On fait le calcul pour les champs calcule car on sait cas se stade tout les champs sont renseigné ******* */
 
-                                foreach ($ChampsAll as $resultat) {
-                                    $limite
-                                  //  print_r('<br>');
-                                }
 
 
-                                //$value->setOPG3(14);
+
+                                /*                                 * Attribution des variable pour champs
+                                  foreach ($ChampsAll as $resultat) {
+                                  $champsanalyse = $resultat->getChamp();
+
+                                  $tableau[$Lettre] = $resultat->getChamp();
+                                  }
+                                 * * */
+                                $setChampsCalcule = "set" . $ChampsIdCalcule[0]->getChamp();
+                                $Formule = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Formule')->FindOneBy(array('Champs' => $ChampsIdCalcule[0]->getId()));
+                                $formulMath = $Formule->getFormuMath();
+                                  \Doctrine\Common\Util\Debug::dump($formulMath);
+                                eval($formulMath);
+                                //   eval('$p=($tableau["A"]+$tableau["B"])*1200;');
+                                \Doctrine\Common\Util\Debug::dump($resultat);
+                                $value->$setChampsCalcule($resultat);
                                 $value->setUser($User);
                             }
                         }
@@ -514,8 +532,8 @@ class AnalyseController extends Controller {
                 $em->persist($champs);
                 $em->flush();
 
-                return new response('je fauis l essau  ' . $Status);
-                //return $this->redirect($this->generateUrl('Inra2013Bundle_Save', array("Status" => "SaveAnalyse")));
+               // return new response('je fauis l essau  ' . $Status);
+                return $this->redirect($this->generateUrl('Inra2013Bundle_Save', array("Status" => "SaveAnalyse")));
             }
 
             return $this->render("Inra2013urzBundle:Analyse:CreateAnalyse.html.twig", array('form' => $form->getForm()->createView(), 'Resultat' => $ResultCodeLabo, 'TypeAnalyse' => $ResultTypeAnalyse, 'ResultatCodeLabo' => $CodeLabo, 'Champs' => $ChampsId, 'NumProtocole' => $numProtocole, 'Protocole' => $Protocole, 'Role' => $User->getRoles(), 'type' => $Status));

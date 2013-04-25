@@ -75,43 +75,50 @@ class ProtocoleRepository extends EntityRepository {
     }
 
     public function StatusEncours() {
+
+
         $from = "Inra2013urzBundle:Protocole";
         $alias = "a";
-        $qb = $this->_em->createQueryBuilder();
-        $qb->select('a')
-                ->from($from, $alias);
-
-        return $qb->getQuery()->getResult();
-    }  
-    
-    
-    public function StatusEncoursId($id) {
-        
-          $from = "Inra2013urzBundle:Protocole";
-        $alias = "a";
+        $id=2;
         $qb = $this->_em->createQueryBuilder();
         $qb->select('a')
                 ->from($from, $alias)
-               ->where("a.Responsable =:id")
-                ->setParameter('id', $id)
-                ;
-
-        return $qb->getQuery()->getResult();
-    }
-
-    public function StatusTermine() {
-        $from = "Inra2013urzBundle:Protocole";
-        $alias = "a";
-        $id = 2;
-        $qb = $this->_em->createQueryBuilder();
-        $qb->select('a')
-                ->from($from, $alias)
-                ->where('c.Validation =:id')
+                ->where("a.Validation !=:id")
                 ->setParameter('id', $id);
+
         return $qb->getQuery()->getResult();
     }
 
-  
+    public function StatusEncoursId($id) {
+
+        $from = "Inra2013urzBundle:Protocole";
+        $alias = "a";
+        $qb = $this->_em->createQueryBuilder();
+        $qb->select('a')
+                ->from($from, $alias)
+                ->where("a.Responsable =:id")
+                ->setParameter('id', $id)
+        ;
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /***
+     * fonction qui retourne les protocole qui ont été validé par la responsable
+     * visible jusqu'a 7 jours apres sa validation
+     * 
+     * 
+     */
+    
+    
+    public function StatusTermine() {
+
+        $dql = "select c from Inra2013urzBundle:Protocole c where c.Validation= 2 and date_diff(CURRENT_DATE(),c.DateValidationAnalyse ) <= 7 ";
+
+        $em = $this->_em->createQuery($dql);
+
+        return $resultat = $em->getResult();
+    }
 
 }
 

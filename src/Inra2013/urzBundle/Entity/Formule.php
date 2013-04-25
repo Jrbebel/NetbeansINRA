@@ -27,9 +27,13 @@ class Formule
      * @ORM\Column(name="FormuMath", type="string", length=255)
      */
     private $FormuMath;
-
-
     
+  /**
+     *  *@ORM\ManyToOne(targetEntity="Inra2013\urzBundle\Entity\Champ",inversedBy="Champ",cascade={"persist"})
+     * 
+     */
+    private $Champs;
+
     /**
      * Get id
      *
