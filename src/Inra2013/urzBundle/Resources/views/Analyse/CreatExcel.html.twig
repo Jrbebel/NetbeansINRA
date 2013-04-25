@@ -1,7 +1,9 @@
 {% set parent = "Inra2013urzBundle:Default:IndexUser.html.twig"%}
-{% if User =="Chercheur" %}
+
+{% if User == "Chercheur" %}
 {% set parent = "Inra2013urzBundle:Default:IndexChercheur.html.twig" %}
-{% endif%}
+{% endif %}
+
 {%extends parent %}
 
 {% block title %}Exporter Fichier{% endblock %}
@@ -9,6 +11,7 @@
 <link rel="stylesheet" href="{{asset('css/C.css')}}" />
 {% endblock %}
 {% block body %}
+
 {%if type == "createanalyse" %}
 <legend>Créer des analyses pour protocole</legend>
 {%elseif type == "voiranalyse"%}
@@ -22,6 +25,7 @@
 
 {%endif%}
 <div class="well">
+
     <form class="form-search" action="{{path('Inra2013Bundle_SearchProtocole')}}" method="POST">
         <label>Quel est votre protocole ?</label>
         </br>
@@ -48,7 +52,7 @@
         <dt>Date validation: </dt>
         <dd>{{protocole[0].DateValidation | date("d M Y")}}</dd>
         <dt>Description:</dt>
-        <dd>{{ protocole[0].Description | raw  }}</dd>
+        <dd>{{ protocole[0].Description | raw }}</dd>
         <dt>Analyse faite : </dt>
         <dd>
     {% for analyse in Analyse %}

@@ -8,7 +8,7 @@
         <li class="active"><a href={{ path("Inra2013urzBundle_Redirectionagent")}}><i class="icon-home icon-white"></i> Home</a></li>
         <li><a href={{path("Inra2013Bundle_CreateProtocole")}}><i class="icon-file"></i> Crée un protocole</a></li>
         <li><a href="{{path('Inra2013Bundle_VoirAnalyseChercheur')}}"><i class="icon-eye-open"></i> Voir un protocole </a></li>
-        <li><a href="#"><i class="icon-pencil"></i> </a></li>
+        <li><a  href="{{path("Inra2013Bundle_CreateExcel")}}" ><i class=" icon-download-alt"></i> Exporter fichier protocole </a></li>
         <li><a href="#"><i class="i"></i></a></li>
     </ul>
 </div>
@@ -17,9 +17,9 @@
 {% block body %}
 
 {%if response is empty%}
-    <div class="alert alert-info">
-        <h4>VOUS AVEZ AUCUN PROTOCOLE EN COURS</h4>
-    </div>
+<div class="alert alert-info">
+    <h4>VOUS AVEZ AUCUN PROTOCOLE EN COURS</h4>
+</div>
 {%else%}
 
 <table class="table">
@@ -34,18 +34,18 @@
     </thead>
     <tbody>
         {% for Encours in response %}
-  <tr class="{{attribute(ValideChercheur.class,Encours.Validation)}}">
-    <td>{{loop.index}}</td>
-    <td><a href="{{path("Inra2013Bundle_VoirAnalyseChercheur",{'NumProtocole':Encours.id})}}" >{{Encours.NomProtocole}}</a></td>
-     <td>{{Encours.DateValidation|date("d-m-Y")}}</td>  
-     <td>{{attribute(ValideChercheur.info,Encours.Validation)}}</td>
-  </tr> 
+            <tr class="{{attribute(ValideChercheur.class,Encours.Validation)}}">
+                <td>{{loop.index}}</td>
+                <td><a href="{{path("Inra2013Bundle_VoirAnalyseChercheur",{'NumProtocole':Encours.id})}}" >{{Encours.NomProtocole}}</a></td>
+                <td>{{Encours.DateValidation|date("d-m-Y")}}</td>  
+                <td>{{attribute(ValideChercheur.info,Encours.Validation)}}</td>
+            </tr> 
 
 
 {% endfor %} 
-  
-    </tbody>
-</table>
+
+        </tbody>
+    </table>
 
 {% endif %} 
 

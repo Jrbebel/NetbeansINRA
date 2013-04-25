@@ -51,73 +51,77 @@
                 <tr class="{{attribute(Valide.class,Encours.Validation)}}">
 
                     <td>{{loop.index}}</td>
-                    <td><a href="{{path("Inra2013Bundle_CudAnalyse",{'NumProtocole':Encours.id})}}" >{{Encours.NomProtocole}}</a></td>
-                    <td>{{Encours.Responsable.Nom}} {{Encours.Responsable.Prenom}}</td>
-                    <td>{{Encours.DateValidation|date("d-m-Y")}}</td>
-                    <td>{{attribute(Valide.info,Encours.Validation)}}</td>
+                    {% if Encours.Validation == 1 or Encours.Validation == 3 %}
+                    <td><a href="{{path("Inra2013Bundle_VoirAnalyse",{'NumProtocole':Encours.id})}}" >{{Encours.NomProtocole}}</a></td>
+                    {%else%}
+                        <td><a href="{{path("Inra2013Bundle_CudAnalyse",{'NumProtocole':Encours.id})}}" >{{Encours.NomProtocole}}</a></td>
+                    {%endif%}  
+                            <td>{{Encours.Responsable.Nom}} {{Encours.Responsable.Prenom}}</td>
+                            <td>{{Encours.DateValidation|date("d-m-Y")}}</td>
+                            <td>{{attribute(Valide.info,Encours.Validation)}}</td>
                 {% if Encours.Commentaire is empty %}
-                    <td><img src="{{asset('img/lettre_ferme.png')}}" height=25 width=30 alt="icone-message" /></td>
+                            <td><img src="{{asset('img/lettre_ferme.png')}}" height=25 width=30 alt="icone-message" /></td>
                 {%else%}
-                        <td><a href="#myModal{{loop.index}}" role="button"  data-toggle="modal"><img src="{{asset('img/lettre_ouverte.png')}}" height=25 width=30 alt="icone-message" /></a></td>
+                                <td><a href="#myModal{{loop.index}}" role="button"  data-toggle="modal"><img src="{{asset('img/lettre_ouverte.png')}}" height=25 width=30 alt="icone-message" /></a></td>
 
                  {%endif%}       
 
-                    </tr>       
+                            </tr>       
 
 {% endfor %}  
 
 
 
 
-                </tbody>
+                        </tbody>
 
-            </table>
+                    </table>
 
 {% if responseFini is not empty %}
 
-            <table class="table table-striped" >
+                    <table class="table table-striped" >
 
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Protocole</th>
-                        <th>Responsable</th>
-                        <th>Valider le</th>
-                        <th>Valider resp</th>
-                        <th>Status</th>
-                        <th>Message</th>
-                    </tr>
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Protocole</th>
+                                <th>Responsable</th>
+                                <th>Valider le</th>
+                                <th>Valider resp</th>
+                                <th>Status</th>
+                                <th>Message</th>
+                            </tr>
 
-                </thead>
+                        </thead>
 
-                <tbody>
+                        <tbody>
 
       {% for Encours in responseFini %}
 
-                    <tr class="{{attribute(Valide.class,Encours.Validation)}}">
+                            <tr class="{{attribute(Valide.class,Encours.Validation)}}">
 
-                        <td>{{loop.index}}</td>
-                        <td><a href="{{path("Inra2013Bundle_CudAnalyse",{'NumProtocole':Encours.id})}}" >{{Encours.NomProtocole}}</a></td>
-                        <td>{{Encours.Responsable.Nom}} {{Encours.Responsable.Prenom}}</td>
-                        <td>{{Encours.DateValidation|date("d-m-Y")}}</td>
-                        <td>{{Encours.DateValidationAnalyse|date("d-m-Y")}}</td>
-                        <td>{{attribute(Valide.info,Encours.Validation)}}</td>
+                                <td>{{loop.index}}</td>
+                                <td><a href="{{path("Inra2013Bundle_CudAnalyse",{'NumProtocole':Encours.id})}}" >{{Encours.NomProtocole}}</a></td>
+                                <td>{{Encours.Responsable.Nom}} {{Encours.Responsable.Prenom}}</td>
+                                <td>{{Encours.DateValidation|date("d-m-Y")}}</td>
+                                <td>{{Encours.DateValidationAnalyse|date("d-m-Y")}}</td>
+                                <td>{{attribute(Valide.info,Encours.Validation)}}</td>
                 {% if Encours.Commentaire is empty %}
-                        <td><img src="{{asset('img/lettre_ferme.png')}}" height=25 width=30 alt="icone-message" /></td>
+                                <td><img src="{{asset('img/lettre_ferme.png')}}" height=25 width=30 alt="icone-message" /></td>
                 {%else%}
-                            <td><a href="#myModalB{{loop.index}}" role="button"  data-toggle="modal"><img src="{{asset('img/lettre_ouverte.png')}}" height=25 width=30 alt="icone-message" /></a></td>
+                                    <td><a href="#myModalB{{loop.index}}" role="button"  data-toggle="modal"><img src="{{asset('img/lettre_ouverte.png')}}" height=25 width=30 alt="icone-message" /></a></td>
 
                  {%endif%}       
 
-                        </tr>       
+                                </tr>       
                 {% endfor %}      
 
 
 
-                    </tbody>
+                            </tbody>
 
 
-                </table>
+                        </table>
 
 {%endif%}
 
@@ -126,21 +130,21 @@
 
 
  {% if Encours.Commentaire is not empty %}
-                <div class="modal hide" id="myModal{{loop.index}}"><!-- note the use of "hide" class -->
-                    <div class="modal-header">
-                        <button class="close" data-dismiss="modal">×</button>
-                        <h3>Message</h3>
-                    </div>
-                    <div class="modal-body">
+                        <div class="modal hide" id="myModal{{loop.index}}"><!-- note the use of "hide" class -->
+                            <div class="modal-header">
+                                <button class="close" data-dismiss="modal">×</button>
+                                <h3>Message</h3>
+                            </div>
+                            <div class="modal-body">
 
                 {{Encours.Commentaire|raw}}
 
-                    </div>
-                    <div class="modal-footer">
-                        <a href="#" class="btn btn-danger" data-dismiss="modal">Close</a><!-- note the use of "data-dismiss" -->
+                            </div>
+                            <div class="modal-footer">
+                                <a href="#" class="btn btn-danger" data-dismiss="modal">Close</a><!-- note the use of "data-dismiss" -->
 
-                    </div>
-                </div>​
+                            </div>
+                        </div>​
    {% endif %}         
  {% endfor %} 
 
@@ -149,21 +153,21 @@
 
 
  {% if Encours.Commentaire is not empty %}
-                <div class="modal hide" id="myModalB{{loop.index}}"><!-- note the use of "hide" class -->
-                    <div class="modal-header">
-                        <button class="close" data-dismiss="modal">×</button>
-                        <h3>Message</h3>
-                    </div>
-                    <div class="modal-body">
+                        <div class="modal hide" id="myModalB{{loop.index}}"><!-- note the use of "hide" class -->
+                            <div class="modal-header">
+                                <button class="close" data-dismiss="modal">×</button>
+                                <h3>Message</h3>
+                            </div>
+                            <div class="modal-body">
 
                 {{Encours.Commentaire|raw}}
 
-                    </div>
-                    <div class="modal-footer">
-                        <a href="#" class="btn btn-danger" data-dismiss="modal">Close</a><!-- note the use of "data-dismiss" -->
+                            </div>
+                            <div class="modal-footer">
+                                <a href="#" class="btn btn-danger" data-dismiss="modal">Close</a><!-- note the use of "data-dismiss" -->
 
-                    </div>
-                </div>​
+                            </div>
+                        </div>​
    {% endif %}         
  {% endfor %} 
        {% endif %}         
@@ -172,12 +176,12 @@
 
 
  {% block javascripts %}
-                <script>
+                        <script>
 
-                    $('#myModal').on('click', function() {
+                            $('#myModal').on('click', function() {
 
-                        $('#myModal').modal('loading');
-                    });
+                                $('#myModal').modal('loading');
+                            });
 
-                    </script>
+                            </script>
 {% endblock %}

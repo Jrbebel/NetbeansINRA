@@ -140,17 +140,20 @@ class AgentController extends Controller {
 
             if ($user == "Laborantin(e)") {
 
-                return $this->render("Inra2013urzBundle:Default:IndexUser.html.twig", array('response' => $StatusProto,'responseFini' => $StatusFini));
-            } else if ($user == "Chercheur") {
+                return $this->render("Inra2013urzBundle:Default:IndexUser.html.twig", array('response' => $StatusProto,'responseFini' => $StatusFini,'User'=>$user));
+          
+                } else if ($user == "Chercheur") {
 
                 return $this->render("Inra2013urzBundle:Default:IndexChercheur.html.twig", array('response' => $StatusProtoId));
             }
-        } elseif ($this->get('security.context')->isGranted('ROLE_UTILISATEUR')) {
+       
+            } elseif ($this->get('security.context')->isGranted('ROLE_UTILISATEUR')) {
 
             if ($user == "Laborantin(e)") {
 
-                return $this->render("Inra2013urzBundle:Default:IndexUser.html.twig", array('response' => $StatusProto,'responseFini' => $StatusFini));
-            } else if ($user == "Chercheur") {
+                return $this->render("Inra2013urzBundle:Default:IndexUser.html.twig", array('response' => $StatusProto,'responseFini' => $StatusFini,'User'=>$user));
+           
+                } else if ($user == "Chercheur") {
 
    return $this->render("Inra2013urzBundle:Default:IndexChercheur.html.twig", array('response' => $StatusProtoId));
             }
