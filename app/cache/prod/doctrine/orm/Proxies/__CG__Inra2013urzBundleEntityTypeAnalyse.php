@@ -81,6 +81,18 @@ class TypeAnalyse extends \Inra2013\urzBundle\Entity\TypeAnalyse implements \Doc
         return parent::getTypeCategorie();
     }
 
+    public function setChamps(\Inra2013\urzBundle\Entity\Champ $champs = NULL)
+    {
+        $this->__load();
+        return parent::setChamps($champs);
+    }
+
+    public function getChamps()
+    {
+        $this->__load();
+        return parent::getChamps();
+    }
+
     public function addChamp(\Inra2013\urzBundle\Entity\Champ $champs)
     {
         $this->__load();
@@ -91,24 +103,6 @@ class TypeAnalyse extends \Inra2013\urzBundle\Entity\TypeAnalyse implements \Doc
     {
         $this->__load();
         return parent::removeChamp($champs);
-    }
-
-    public function getChamps()
-    {
-        $this->__load();
-        return parent::getChamps();
-    }
-
-    public function setAnalyse(\Inra2013\urzBundle\Entity\TypeAnalyse $analyse = NULL)
-    {
-        $this->__load();
-        return parent::setAnalyse($analyse);
-    }
-
-    public function getAnalyse()
-    {
-        $this->__load();
-        return parent::getAnalyse();
     }
 
 

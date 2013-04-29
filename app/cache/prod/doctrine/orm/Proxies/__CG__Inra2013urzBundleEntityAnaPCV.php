@@ -42,22 +42,28 @@ class AnaPCV extends \Inra2013\urzBundle\Entity\AnaPCV implements \Doctrine\ORM\
     }
 
     
-    public function getId()
+    public function setPCV1($pCV1)
     {
         $this->__load();
-        return parent::getId();
+        return parent::setPCV1($pCV1);
     }
 
-    public function setPcv($pcv)
+    public function getPCV1()
     {
         $this->__load();
-        return parent::setPcv($pcv);
+        return parent::getPCV1();
     }
 
-    public function getPcv()
+    public function setPCV2($pCV2)
     {
         $this->__load();
-        return parent::getPcv();
+        return parent::setPCV2($pCV2);
+    }
+
+    public function getPCV2()
+    {
+        $this->__load();
+        return parent::getPCV2();
     }
 
     public function setCodeLabo(\Inra2013\urzBundle\Entity\Analyse $codeLabo)
@@ -87,7 +93,7 @@ class AnaPCV extends \Inra2013\urzBundle\Entity\AnaPCV implements \Doctrine\ORM\
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'Pcv', 'CodeLabo', 'User');
+        return array('__isInitialized__', 'PCV1', 'PCV2', 'CodeLabo', 'User');
     }
 
     public function __clone()

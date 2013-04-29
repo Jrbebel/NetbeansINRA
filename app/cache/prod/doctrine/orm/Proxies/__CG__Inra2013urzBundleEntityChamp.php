@@ -63,6 +63,18 @@ class Champ extends \Inra2013\urzBundle\Entity\Champ implements \Doctrine\ORM\Pr
         return parent::getChamp();
     }
 
+    public function setChampCalcule($champCalcule)
+    {
+        $this->__load();
+        return parent::setChampCalcule($champCalcule);
+    }
+
+    public function getChampCalcule()
+    {
+        $this->__load();
+        return parent::getChampCalcule();
+    }
+
     public function setAnalyse(\Inra2013\urzBundle\Entity\TypeAnalyse $analyse = NULL)
     {
         $this->__load();
@@ -75,10 +87,28 @@ class Champ extends \Inra2013\urzBundle\Entity\Champ implements \Doctrine\ORM\Pr
         return parent::getAnalyse();
     }
 
+    public function addChampsFormule(\Inra2013\urzBundle\Entity\Formule $champsFormule)
+    {
+        $this->__load();
+        return parent::addChampsFormule($champsFormule);
+    }
+
+    public function removeChampsFormule(\Inra2013\urzBundle\Entity\Formule $champsFormule)
+    {
+        $this->__load();
+        return parent::removeChampsFormule($champsFormule);
+    }
+
+    public function getChampsFormule()
+    {
+        $this->__load();
+        return parent::getChampsFormule();
+    }
+
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'id', 'Champ', 'Analyse');
+        return array('__isInitialized__', 'id', 'Champ', 'ChampCalcule', 'Analyse');
     }
 
     public function __clone()

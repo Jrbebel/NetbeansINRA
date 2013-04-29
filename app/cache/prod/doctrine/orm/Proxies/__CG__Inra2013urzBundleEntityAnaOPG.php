@@ -42,76 +42,40 @@ class AnaOPG extends \Inra2013\urzBundle\Entity\AnaOPG implements \Doctrine\ORM\
     }
 
     
-    public function setOeufLu($oeufLu)
+    public function setOPG1($oPG1)
     {
         $this->__load();
-        return parent::setOeufLu($oeufLu);
+        return parent::setOPG1($oPG1);
     }
 
-    public function getOeufLu()
+    public function getOPG1()
     {
         $this->__load();
-        return parent::getOeufLu();
+        return parent::getOPG1();
     }
 
-    public function setVolLu($volLu)
+    public function setOPG2($oPG2)
     {
         $this->__load();
-        return parent::setVolLu($volLu);
+        return parent::setOPG2($oPG2);
     }
 
-    public function getVolLu()
+    public function getOPG2()
     {
         $this->__load();
-        return parent::getVolLu();
+        return parent::getOPG2();
     }
 
-    public function setOpg($opg)
+    public function setOPG3($oPG3)
     {
         $this->__load();
-        return parent::setOpg($opg);
+        return parent::setOPG3($oPG3);
     }
 
-    public function getOpg()
+    public function getOPG3()
     {
         $this->__load();
-        return parent::getOpg();
-    }
-
-    public function setConccidies($conccidies)
-    {
-        $this->__load();
-        return parent::setConccidies($conccidies);
-    }
-
-    public function getConccidies()
-    {
-        $this->__load();
-        return parent::getConccidies();
-    }
-
-    public function setMonezia($monezia)
-    {
-        $this->__load();
-        return parent::setMonezia($monezia);
-    }
-
-    public function getMonezia()
-    {
-        $this->__load();
-        return parent::getMonezia();
-    }
-
-    public function setStrongeledia($strongeledia)
-    {
-        $this->__load();
-        return parent::setStrongeledia($strongeledia);
-    }
-
-    public function getStrongeledia()
-    {
-        $this->__load();
-        return parent::getStrongeledia();
+        return parent::getOPG3();
     }
 
     public function setCodeLabo(\Inra2013\urzBundle\Entity\Analyse $codeLabo)
@@ -138,22 +102,10 @@ class AnaOPG extends \Inra2013\urzBundle\Entity\AnaOPG implements \Doctrine\ORM\
         return parent::getUser();
     }
 
-    public function setPrisEssai($prisEssai)
-    {
-        $this->__load();
-        return parent::setPrisEssai($prisEssai);
-    }
-
-    public function getPrisEssai()
-    {
-        $this->__load();
-        return parent::getPrisEssai();
-    }
-
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'PrisEssai', 'OeufLu', 'VolLu', 'Opg', 'Conccidies', 'Monezia', 'Strongeledia', 'CodeLabo', 'User');
+        return array('__isInitialized__', 'OPG1', 'OPG2', 'OPG3', 'CodeLabo', 'User');
     }
 
     public function __clone()

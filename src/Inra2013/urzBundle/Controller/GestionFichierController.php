@@ -27,9 +27,10 @@ class GestionFichierController extends Controller {
 
     public function UploadAction() {
 
-
+      
         if ($this->getRequest()->getMethod() == 'POST') {
             $protocole = $this->get('Request')->get('protocole'); // on recupère le protocole courant
+           
             $type = $this->get('Request')->get('type'); // on recupere le type pour savoir sur quel methode envoyé le fichier
             /** Recupération des informations du fichier avec les differents type d'erreur   * */
             if ($_FILES['files']['error']) {
@@ -98,7 +99,7 @@ class GestionFichierController extends Controller {
         $files['files']["tmp_name"] = $this->path . "/" . $_POST['files'];
         $sheet = $this->ReadExcelAction($files); //On lit le fichier excel
         $entityName = "Inra2013urzBundle:Protocole";
-        $numProtocole = $this->get('request')->get('NumProtocole');
+        $numProtocole = $this->get('request')->get('numProtocole');
         /*         * On recupere l entité protocole correspondant au numero de protocole* */
         $Protocole = $this->getDoctrine()->getEntityManager()->getRepository($entityName)->findBy(array('id' => $numProtocole));
         $ResultTypeAnalyse = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Protocole')->AnalyseProtocole($numProtocole);
@@ -138,11 +139,11 @@ class GestionFichierController extends Controller {
 
                             $Animal = $cell->getValue();
                             $Analyse[$i]->setAnimal($Animal);
-                        } elseif ($cell->getColumn() == 'G') {
+                        } elseif ($cell->getColumn() == 'I') {
 
                             if ($cell->getValue() != "Date prvt") {
 
-                                $date = $feuille->getStyle('G1')->getNumberFormat()->toFormattedString($cell->getValue(), "M/D/YYYY"); //Etant donné que le format récuperé est un float,on utilise cette fonction pour le mettre aux format date
+                                $date = $feuille->getStyle('I1')->getNumberFormat()->toFormattedString($cell->getValue(), "M/D/YYYY"); //Etant donné que le format récuperé est un float,on utilise cette fonction pour le mettre aux format date
                                 $Analyse[$i]->setDatePrelev(new \DateTime($date));
                             }
                         } elseif ($cell->getColumn() == 'H') {
@@ -158,7 +159,7 @@ class GestionFichierController extends Controller {
 
                             $CodeLabo = $Analyse[$i]->getCodeLabo();
 
-                            $SearchCodeLabo = $this->getDoctrine()->getEntityManager()->getRepository("Inra2013urzBundle:Analyse")->find($CodeLabo);
+                            $SearchCodeLabo = $this->getDoctrine()->getEntityManager()->getRepository("Inra2013urzBundle:Analyse")->findByOne($CodeLabo);
 
                             if (!$SearchCodeLabo) {
 
@@ -175,9 +176,9 @@ class GestionFichierController extends Controller {
             /*             * On enregistrer les codelabo correspondant aux type d analyse que l'on veut ** */
             foreach ($TabCodeLabo as $i => $value) {
 
-                $SearchCodeLabo = $this->getDoctrine()->getEntityManager()->getRepository("Inra2013urzBundle:Analyse")->find($value); // on recupere les code labo dans table analyse
-
-                $AnalyseAna[$i]->setCodeLabo($SearchCodeLabo);
+                $SearchCodeLabos = $this->getDoctrine()->getEntityManager()->getRepository("Inra2013urzBundle:Analyse")->find($value); // on recupere les code labo dans table analyse
+                \Doctrine\Common\Util\Debug::dump($SearchCodeLabos);
+                $AnalyseAna[$i]->setCodeLabo($SearchCodeLabos);
                 $em->persist($AnalyseAna[$i]);
             }
             $em->flush(); //on sauvegarde dans la base
@@ -194,10 +195,13 @@ class GestionFichierController extends Controller {
      */
     public function CreateExcelAction() {
 
+        $type = $this->getRequest()->get('Typage');
+
         if ($this->getRequest()->getMethod() == 'GET') {  //si c est un GET alors on affiche le formulaire de recherche de protocole
-            return $this->render("Inra2013urzBundle:Analyse:CreatExcel.html.twig", array('type' => 'createxcel'));
+            $user = $this->container->get('security.context')->getToken()->getUser()->getFonction(); // on récupere la fonction de l'utilisateur connecté
+            return $this->render("Inra2013urzBundle:Analyse:CreatExcel.html.twig", array('type' => 'createxcel', "User" => $user, "Typage" => $type));
         } else if ($this->getRequest()->getMethod() == 'POST') // si c est un POST alors on traite la demande de creation de la fiche
-            $id = $this->get('request')->get('NumProtocole');
+            $id = $this->get('request')->get('numProtocole');
 
         $excelService = $this->get('xls.service_xls5');
 
@@ -282,22 +286,23 @@ class GestionFichierController extends Controller {
             /*             * Key['Nom'] = OPG,EOsino ... * */
             $AnalyseProto = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Protocole')->CodeLaboProtocole($Key['Nom'], $id);
 
-            
+
             /*             * Les valeurs recuperer,on les mets dans les champs prévu* */
             foreach ($AnalyseProto as $i => $analyse) {
 
 
                 $resultatA = $analyse->getCodeLabo();
-                $resultatB = NULL;
+                $resultatB = $NameFile;
                 $resultatC = NULL;
-                $resultatD = NULL; 
+                $resultatD = NULL;
                 $resultatE = NULL;
                 $resultatF = NULL;
                 $resultatG = NULL;
                 $resultatH = NULL;
-                $resultatI = //date de prelevemento:
-                $resultatJ =  //date de prelevemet
-                $resultatK = NULL;
+                $resultatI = $analyse->getDatePrelev()->format('Y-m-d');
+//$analyse->getDatePrelev(); //date de prelevemento:
+                $resultatJ = //date de prelevemet
+                        $resultatK = NULL;
                 $resultatL = NULL;
                 $resultatM = NULL;
                 $resultatN = NULL;
@@ -330,8 +335,7 @@ class GestionFichierController extends Controller {
                 // $this->$Type($excelService->excelObj, $Resultat, $AnalyseProto);
             }
 
-
-            $this->Champs($Key['Nom'], $excelService->excelObj, $Resultat, $AnalyseProto);
+            $this->Champs($Key['Nom'], $excelService->excelObj, $Resultat, $AnalyseProto, $type);
 
 
 
@@ -394,7 +398,7 @@ class GestionFichierController extends Controller {
      * @param $file : Feuille,Resultat,Nom
      * @author BEBEL Jean Raynal
      */
-    public function Champs($Nom, $feuille, $Resultat, $AnalyseProto) {
+    public function Champs($Nom, $feuille, $Resultat, $AnalyseProto, $Typage) {
 
         $LimiteDebut = "O";
         $LimiteFin = "O";
@@ -404,11 +408,17 @@ class GestionFichierController extends Controller {
         /*         * Faut recherché les champs pour les différentes analyses */
 
 
-        $ChampsAnalyse = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:TypeAnalyse')->findBy(array("Nom" => $Nom));
+        $ChampsAnalyse = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:TypeAnalyse')->findOneBy(array("Nom" => $Nom));
+
+        if ($Typage != 1) {
+            $Champ = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Champ')-> FindChampAnalyse($ChampsAnalyse->getId());
+        } else {
+            $Champ = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Champ')->FindChampAnalyseNot($ChampsAnalyse->getId());
+        }
 
 
         /*         * On applique le style pour les différents champs qui viennent d'etre génerer** */
-        foreach ($ChampsAnalyse[0]->getChamps() as $po) {
+        foreach ($Champ as $po) {
 
 
 
@@ -418,19 +428,25 @@ class GestionFichierController extends Controller {
             ++$LimiteFin;
         }
 
-        /*         * *On rempli les champs avec les valeurs de la BDD***** */
-        foreach ($AnalyseProto as $i => $analyse) {
-            $Champs = "getChamps" . $ChampsAnalyse[0]->getNom();
-            $LimiteFin = "O"; //on commence par la derniere colonne des champs obligatoires
-            foreach ($ChampsAnalyse[0]->getChamps() as $value) {
-                $getChamp = "get" . $value->getChamp();
-                foreach ($analyse->$Champs() as $valeur) {
-                    $feuille->setActiveSheetIndex($Resultat)
-                            ->setCellValue($LimiteFin . ($i + 2), $valeur->$getChamp());
-                    ++$LimiteFin; //on incremente l'alphabetF 
+
+        if ($Typage != 1) {
+
+            /*             * *On rempli les champs avec les valeurs de la BDD***** */
+            foreach ($AnalyseProto as $i => $analyse) {
+                $Champs = "getChamps" . $ChampsAnalyse->getNom();
+                $LimiteFin = "O"; //on commence par la derniere colonne des champs obligatoires
+                foreach ($ChampsAnalyse->getChamps() as $value) {
+                    $getChamp = "get" . $value->getChamp();
+                    foreach ($analyse->$Champs() as $valeur) {
+
+                        $feuille->setActiveSheetIndex($Resultat)
+                                ->setCellValue($LimiteFin . ($i + 2), $valeur->$getChamp());
+                        ++$LimiteFin; //on incremente l'alphabetF 
+                    }
                 }
             }
         }
+        return new response('jeus');
     }
 
     /**
@@ -474,7 +490,8 @@ class GestionFichierController extends Controller {
         if ($this->getRequest()->getMethod() == 'GET') {  //si c est un GET alors on affiche le formulaire de recherche de protocole
             return $this->render('Inra2013urzBundle:Analyse:CreatExcel.html.twig', array('type' => 'listing'));
         } else if ($this->getRequest()->getMethod() == 'POST') {
-            $NumProtocole = $this->get('request')->get('NumProtocole');
+           
+            $NumProtocole = $this->getRequest()->get('numProtocole');
 
             return $this->render("Inra2013urzBundle:Default:edit.html.twig", array("protocole" => $NumProtocole, "form_path" => 'Inra2013Bundle_SaveFile', "type" => 'listing'));
         }
@@ -492,7 +509,9 @@ class GestionFichierController extends Controller {
             return $this->render('Inra2013urzBundle:Analyse:CreatExcel.html.twig', array('type' => 'ImportResultat'));
         } elseif ($this->getRequest()->getMethod() == 'POST') {
 
-            $NumProtocole = $this->get('request')->get('NumProtocole');
+            $NumProtocole = $this->get('request')->get('numProtocole');
+           print_r("numero protocole".$NumProtocole);
+           // return new response('je suis dans import resultat');
             $Status = $this->get('request')->get('Status');
             $entityName = "Inra2013urzBundle:Protocole";
             $em = $this->getDoctrine()->getManager();
@@ -505,13 +524,13 @@ class GestionFichierController extends Controller {
                 $sheet = $this->ReadExcelAction($files); //On lit le fichier excel
 
                 foreach ($ResultTypeAnalyse as $Value) {
-
+   
 
                     $i = 0;
                     $feuille = $sheet->getSheetByName($Value['Nom']);
                     /*                     * Faut recherché les champs pour les différentes analyses */
 
-                   // print_r($Value['Nom'] . "<br>");
+                    // print_r($Value['Nom'] . "<br>");
                     //   $CodeLabo = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Protocole')->CodeLaboProtocole($Value['Nom'], $NumProtocole);
                     //   $Analyse = array();
                     foreach ($feuille->getRowIterator() as $key => $row) {
@@ -529,43 +548,41 @@ class GestionFichierController extends Controller {
                         foreach ($row->getCellIterator() as $cell) {
 
                             if ($row->getRowIndex() != 1) { //on regarde pas la premiere ligne du tableur ,c'est les titres des colonnes
-                                $ChampsAnalyse = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:TypeAnalyse')->findBy(array("Nom" => $Value['Nom']));
+                                $ChampsAnalyse = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:TypeAnalyse')->findOneBy(array("Nom" => $Value['Nom']));
 
-                                $value = $ChampsAnalyse[0]->getChamps();
+                                $value = $ChampsAnalyse->getChamps();
 
                                 if ($cell->getColumn() == "A") {
                                     //print_r($i);
-                                    $Analyse = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Ana' . $Value['Nom'])->findBy(array("CodeLabo" => $cell->getValue()));
-                                    $Analyse[0]->setUser($User);
+                                    $Analyse = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Ana' . $Value['Nom'])->findOneBy(array("CodeLabo" => $cell->getValue()));
                                     // $Analyse[$key]->setCodeLabo($Analyse[$key]->getCodeLabo());
                                 }
 
-                                /*                                 * *On lit le tableau et pour chaque codelabo on va rentrer les valeurs voulu* */ elseif ($cell->getColumn() == $LimiteDebut) {
-                                    //    print_r( $LimiteDebut);
+                                /*                                 * *On lit le tableau et pour chaque codelabo on va rentrer les valeurs voulu* */ 
+                                elseif ($cell->getColumn() == $LimiteDebut) {
+
                                     $Champ = "set" . $value[$Champs]->getChamp();
-                                    $ChampsAnalyse = "getChamps" . $ChampsAnalyse[0]->getNom();
-                                    //       \Doctrine\Common\Util\Debug::dump($Analyse[0]);
-                                    $Analyse[0]->$Champ($cell->getValue());
+                                 //   $Champs = "getChamps" . $ChampsAnalyse-[0]>getNom();
+                                     if (!is_null($cell->getValue())) {
+                                        $Analyse->$Champ($cell->getValue());                                                                          
+                                        $Analyse->setUser($User);
+                                   }
                                     ++$LimiteDebut;
                                     $Champs++;
                                 }
-                                $em->persist($Analyse[0]);
+           
+                                $em->persist($Analyse);
                             }
                         }
                     }
                 }
                 $em->flush();
 
-
-                              return $this->redirect($this->generateUrl('Inra2013Bundle_Save', array("Status" => "SaveAnalyse")));
-
+return new response('je suis dans le monde de ralfi');
+                return $this->redirect($this->generateUrl('Inra2013Bundle_Save', array("Status" => "SaveAnalyse")));
             }
             return $this->render("Inra2013urzBundle:Default:edit.html.twig", array("protocole" => $NumProtocole, "form_path" => 'Inra2013Bundle_ImportResultat', "type" => 'ImportResult'));
         }
-    }
-
-    Public function CreateAnalyseAction() {
-        
     }
 
 }

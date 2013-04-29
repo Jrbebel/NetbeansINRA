@@ -38,63 +38,33 @@ class __TwigTemplate_cbacc6889e18f3a18456fff343741e4b extends Twig_Template
     public function block_menu2($context, array $blocks = array())
     {
         // line 5
-        if (((isset($context["Role"]) ? $context["Role"] : null) == "ROLE_RESPONSABLE")) {
-            // line 6
-            echo "    ";
-            if ((($this->getAttribute($this->getAttribute((isset($context["Protocole"]) ? $context["Protocole"] : null), 0, array(), "array"), "Validation") == 1) || ($this->getAttribute($this->getAttribute((isset($context["Protocole"]) ? $context["Protocole"] : null), 0, array(), "array"), "Validation") == 3))) {
-                // line 7
-                echo "<div class=\"well\" >
-
-    <form method=\"POST\" action=";
-                // line 9
-                echo twig_escape_filter($this->env, $this->env->getExtension('routing')->getPath("Inra2013Bundle_ValidAnalyse"), "html", null, true);
-                echo " >
-        <h5>Conformité des résultats ?</h5>
-        <button class=\"btn btn-primary\" type=\"submit\" >Valider</button>
-
-        <a  role=\"button\" class=\"btn btn-danger\" data-toggle=\"modal\" href=\"#refus\" >Réfuser </a>
-        <input type=\"hidden\" name=\"NumProtocole\" value=\"";
-                // line 14
-                echo twig_escape_filter($this->env, (isset($context["NumProtocole"]) ? $context["NumProtocole"] : null), "html", null, true);
-                echo "\" />
-        <input type=\"hidden\" name=\"Status\" value=2 />  
-    </form>
-
-</div>
-    ";
-            }
-            // line 20
-            echo "
- ";
-        }
-        // line 22
         echo "
 ";
-        // line 23
-        if (((isset($context["Role"]) ? $context["Role"] : null) == "ROLE_UTILISATEUR")) {
-            // line 24
+        // line 6
+        if ((($this->getAttribute((isset($context["Role"]) ? $context["Role"] : null), 0, array(), "array") == "ROLE_UTILISATEUR") || ((isset($context["type"]) ? $context["type"] : null) == "UpdateAnalyse"))) {
+            // line 7
             echo "    ";
             if (($this->getAttribute($this->getAttribute((isset($context["Protocole"]) ? $context["Protocole"] : null), 0, array(), "array"), "Validation") != 2)) {
-                // line 25
+                // line 8
                 echo "<div class=\"well\" >
     <a  role=\"button\" class=\"btn btn-primary\" data-toggle=\"modal\" href=\"#validation\" >Demande de validation</a>
 </div>
 ";
             }
-            // line 29
+            // line 12
             echo "    ";
         }
     }
 
-    // line 34
+    // line 17
     public function block_body($context, array $blocks = array())
     {
-        // line 36
+        // line 19
         echo "
 <ul class=\"nav nav-tabs\" id=\"myTab\">
 
     ";
-        // line 39
+        // line 22
         $context['_parent'] = (array) $context;
         $context['_seq'] = twig_ensure_traversable((isset($context["TypeAnalyse"]) ? $context["TypeAnalyse"] : null));
         $context['loop'] = array(
@@ -111,10 +81,10 @@ class __TwigTemplate_cbacc6889e18f3a18456fff343741e4b extends Twig_Template
             $context['loop']['last'] = 1 === $length;
         }
         foreach ($context['_seq'] as $context["_key"] => $context["typeanalyse"]) {
-            // line 40
+            // line 23
             echo "    ";
             if (($this->getAttribute((isset($context["loop"]) ? $context["loop"] : null), "index") == 1)) {
-                // line 41
+                // line 24
                 echo "    <li class=\"active\"><a href=\"#";
                 echo twig_escape_filter($this->env, $this->getAttribute((isset($context["typeanalyse"]) ? $context["typeanalyse"] : null), "Nom"), "html", null, true);
                 echo "\">";
@@ -122,7 +92,7 @@ class __TwigTemplate_cbacc6889e18f3a18456fff343741e4b extends Twig_Template
                 echo "</a></li>
      ";
             } else {
-                // line 43
+                // line 26
                 echo "        <li ><a href=\"#";
                 echo twig_escape_filter($this->env, $this->getAttribute((isset($context["typeanalyse"]) ? $context["typeanalyse"] : null), "Nom"), "html", null, true);
                 echo "\">";
@@ -130,7 +100,7 @@ class __TwigTemplate_cbacc6889e18f3a18456fff343741e4b extends Twig_Template
                 echo "</a></li>
     ";
             }
-            // line 45
+            // line 28
             echo "    ";
             ++$context['loop']['index0'];
             ++$context['loop']['index'];
@@ -144,17 +114,18 @@ class __TwigTemplate_cbacc6889e18f3a18456fff343741e4b extends Twig_Template
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['typeanalyse'], $context['_parent'], $context['loop']);
         $context = array_merge($_parent, array_intersect_key($context, $_parent));
-        // line 46
+        // line 29
         echo "
         </ul>
         <form action=\"";
-        // line 48
-        echo twig_escape_filter($this->env, $this->env->getExtension('routing')->getPath("Inra2013Bundle_CreateAnalyse"), "html", null, true);
+        // line 31
+        echo twig_escape_filter($this->env, $this->env->getExtension('routing')->getPath("Inra2013Bundle_CudAnalyse"), "html", null, true);
         echo "\" method=\"POST\" >
+
             <div class=\"tab-content\">
 
   ";
-        // line 51
+        // line 35
         $context['_parent'] = (array) $context;
         $context['_seq'] = twig_ensure_traversable((isset($context["TypeAnalyse"]) ? $context["TypeAnalyse"] : null));
         $context['loop'] = array(
@@ -171,24 +142,38 @@ class __TwigTemplate_cbacc6889e18f3a18456fff343741e4b extends Twig_Template
             $context['loop']['last'] = 1 === $length;
         }
         foreach ($context['_seq'] as $context["_key"] => $context["typeanalyse"]) {
-            // line 52
+            // line 36
             echo "
+ ";
+            // line 37
+            $context["size"] = twig_length_filter($this->env, $this->getAttribute((isset($context["ResultatCodeLabo"]) ? $context["ResultatCodeLabo"] : null), $this->getAttribute((isset($context["typeanalyse"]) ? $context["typeanalyse"] : null), "Nom"), array(), "array"));
+            echo "    
+
 
 
     ";
-            // line 55
+            // line 41
             if (($this->getAttribute((isset($context["loop"]) ? $context["loop"] : null), "index") == 1)) {
-                // line 56
+                // line 42
                 echo "
                 <div class=\"tab-pane active\" id=\"";
-                // line 57
+                // line 43
                 echo twig_escape_filter($this->env, $this->getAttribute((isset($context["typeanalyse"]) ? $context["typeanalyse"] : null), "Nom"), "html", null, true);
                 echo "\" >
 
+
+
+
                ";
-                // line 59
-                if ((twig_length_filter($this->env, (isset($context["Resultat"]) ? $context["Resultat"] : null)) > 0)) {
+                // line 48
+                if ((twig_length_filter($this->env, (isset($context["Resultat"]) ? $context["Resultat"] : null)) != 0)) {
                     echo "  
+
+";
+                    // line 50
+                    if ((twig_length_filter($this->env, $this->getAttribute((isset($context["ResultatCodeLabo"]) ? $context["ResultatCodeLabo"] : null), $this->getAttribute((isset($context["typeanalyse"]) ? $context["typeanalyse"] : null), "Nom"), array(), "array")) != 0)) {
+                        echo "  
+
 
                     <table class=\"table table-striped\" >
                         <thead>
@@ -197,348 +182,349 @@ class __TwigTemplate_cbacc6889e18f3a18456fff343741e4b extends Twig_Template
                                 <th>CodeLabo</th>
 
                      ";
-                    // line 67
-                    $context['_parent'] = (array) $context;
-                    $context['_seq'] = twig_ensure_traversable($this->getAttribute((isset($context["Champs"]) ? $context["Champs"] : null), $this->getAttribute((isset($context["typeanalyse"]) ? $context["typeanalyse"] : null), "Nom"), array(), "array"));
-                    foreach ($context['_seq'] as $context["_key"] => $context["Champ"]) {
-                        // line 68
-                        echo "                                <th>";
-                        echo twig_escape_filter($this->env, $this->getAttribute((isset($context["Champ"]) ? $context["Champ"] : null), "Champ"), "html", null, true);
-                        echo "</th>
+                        // line 59
+                        $context['_parent'] = (array) $context;
+                        $context['_seq'] = twig_ensure_traversable($this->getAttribute((isset($context["Champs"]) ? $context["Champs"] : null), $this->getAttribute((isset($context["typeanalyse"]) ? $context["typeanalyse"] : null), "Nom"), array(), "array"));
+                        foreach ($context['_seq'] as $context["_key"] => $context["Champ"]) {
+                            // line 60
+                            echo "                                 ";
+                            if (($this->getAttribute((isset($context["Champ"]) ? $context["Champ"] : null), "ChampCalcule") != 1)) {
+                                // line 61
+                                echo "                                <th>";
+                                echo twig_escape_filter($this->env, $this->getAttribute((isset($context["Champ"]) ? $context["Champ"] : null), "Champ"), "html", null, true);
+                                echo "</th>
+                                 ";
+                            }
+                            // line 63
+                            echo "
                      ";
-                    }
-                    $_parent = $context['_parent'];
-                    unset($context['_seq'], $context['_iterated'], $context['_key'], $context['Champ'], $context['_parent'], $context['loop']);
-                    $context = array_merge($_parent, array_intersect_key($context, $_parent));
-                    // line 69
-                    echo " 
-                                    <th>Fait par</th>
+                        }
+                        $_parent = $context['_parent'];
+                        unset($context['_seq'], $context['_iterated'], $context['_key'], $context['Champ'], $context['_parent'], $context['loop']);
+                        $context = array_merge($_parent, array_intersect_key($context, $_parent));
+                        // line 64
+                        echo " 
+
 
                                 </tr>
                             </thead>
                             <tbody>
 
-        ";
-                    // line 76
-                    $context['_parent'] = (array) $context;
-                    $context['_seq'] = twig_ensure_traversable($this->getAttribute((isset($context["ResultatCodeLabo"]) ? $context["ResultatCodeLabo"] : null), $this->getAttribute((isset($context["typeanalyse"]) ? $context["typeanalyse"] : null), "Nom"), array(), "array"));
-                    $context['loop'] = array(
-                      'parent' => $context['_parent'],
-                      'index0' => 0,
-                      'index'  => 1,
-                      'first'  => true,
-                    );
-                    if (is_array($context['_seq']) || (is_object($context['_seq']) && $context['_seq'] instanceof Countable)) {
-                        $length = count($context['_seq']);
-                        $context['loop']['revindex0'] = $length - 1;
-                        $context['loop']['revindex'] = $length;
-                        $context['loop']['length'] = $length;
-                        $context['loop']['last'] = 1 === $length;
-                    }
-                    foreach ($context['_seq'] as $context["_key"] => $context["typecodelabo"]) {
-                        // line 77
+                                  ";
+                        // line 72
                         echo "
+
+
+
+                                          ";
+                        // line 76
+                        $context['_parent'] = (array) $context;
+                        $context['_seq'] = twig_ensure_traversable($this->getAttribute((isset($context["form"]) ? $context["form"] : null), ("Champs" . $this->getAttribute((isset($context["typeanalyse"]) ? $context["typeanalyse"] : null), "Nom"))));
+                        $context['loop'] = array(
+                          'parent' => $context['_parent'],
+                          'index0' => 0,
+                          'index'  => 1,
+                          'first'  => true,
+                        );
+                        if (is_array($context['_seq']) || (is_object($context['_seq']) && $context['_seq'] instanceof Countable)) {
+                            $length = count($context['_seq']);
+                            $context['loop']['revindex0'] = $length - 1;
+                            $context['loop']['revindex'] = $length;
+                            $context['loop']['length'] = $length;
+                            $context['loop']['last'] = 1 === $length;
+                        }
+                        foreach ($context['_seq'] as $context["keys"] => $context["formulaire"]) {
+                            echo "  
+
+ ";
+                            // line 80
+                            echo "
+
+
                                 <tr>  
                                     <td>";
-                        // line 79
-                        echo twig_escape_filter($this->env, $this->getAttribute((isset($context["loop"]) ? $context["loop"] : null), "index"), "html", null, true);
-                        echo "</td>    
+                            // line 84
+                            echo twig_escape_filter($this->env, $this->getAttribute((isset($context["loop"]) ? $context["loop"] : null), "index"), "html", null, true);
+                            echo "</td>    
+
 
                                     <td> ";
-                        // line 81
-                        echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute((isset($context["typecodelabo"]) ? $context["typecodelabo"] : null), "CodeLabo"), "CodeLabo"), "html", null, true);
-                        echo " </td>
+                            // line 87
+                            echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute((isset($context["ResultatCodeLabo"]) ? $context["ResultatCodeLabo"] : null), $this->getAttribute((isset($context["typeanalyse"]) ? $context["typeanalyse"] : null), "Nom"), array(), "array"), (isset($context["keys"]) ? $context["keys"] : null), array(), "array"), "html", null, true);
+                            echo " </td>  
 
 
-                               ";
-                        // line 84
-                        $context['_parent'] = (array) $context;
-                        $context['_seq'] = twig_ensure_traversable($this->getAttribute((isset($context["Champs"]) ? $context["Champs"] : null), $this->getAttribute((isset($context["typeanalyse"]) ? $context["typeanalyse"] : null), "Nom"), array(), "array"));
-                        foreach ($context['_seq'] as $context["_key"] => $context["Champ"]) {
-                            echo "    
-
-                                    ";
-                            // line 86
-                            if (twig_test_empty($this->getAttribute((isset($context["typecodelabo"]) ? $context["typecodelabo"] : null), "User"))) {
-                                // line 87
-                                echo "
-                                    <td><input type=\"text\" name=\"[";
-                                // line 88
-                                echo twig_escape_filter($this->env, $this->getAttribute((isset($context["Champ"]) ? $context["Champ"] : null), "Champ"), "html", null, true);
-                                echo "][";
-                                echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute((isset($context["typecodelabo"]) ? $context["typecodelabo"] : null), "CodeLabo"), "CodeLabo"), "html", null, true);
-                                echo "]\" class=\"span7\"  /></td>
-
-                                    ";
-                            } else {
+                                         ";
+                            // line 90
+                            $context['_parent'] = (array) $context;
+                            $context['_seq'] = twig_ensure_traversable($this->getAttribute((isset($context["Champs"]) ? $context["Champs"] : null), $this->getAttribute((isset($context["typeanalyse"]) ? $context["typeanalyse"] : null), "Nom"), array(), "array"));
+                            foreach ($context['_seq'] as $context["_key"] => $context["Champ"]) {
                                 // line 91
                                 echo "
-                                  ";
-                                // line 92
-                                if (((isset($context["type"]) ? $context["type"] : null) == "UpdateAnalyse")) {
-                                    // line 93
-                                    echo "                                        <td><a href=\"#\" data-name='";
-                                    echo twig_escape_filter($this->env, $this->getAttribute((isset($context["typeanalyse"]) ? $context["typeanalyse"] : null), "Nom"), "html", null, true);
-                                    echo ";";
-                                    echo twig_escape_filter($this->env, $this->getAttribute((isset($context["Champ"]) ? $context["Champ"] : null), "Champ"), "html", null, true);
-                                    echo ";";
-                                    echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute((isset($context["typecodelabo"]) ? $context["typecodelabo"] : null), "CodeLabo"), "CodeLabo"), "html", null, true);
-                                    echo "' data-type=\"text\" class=\"username\">";
-                                    echo twig_escape_filter($this->env, $this->getAttribute((isset($context["typecodelabo"]) ? $context["typecodelabo"] : null), $this->getAttribute((isset($context["Champ"]) ? $context["Champ"] : null), "Champ")), "html", null, true);
-                                    echo "</a></td>
-            ";
-                                } else {
-                                    // line 95
-                                    echo "                                        <td>";
-                                    echo twig_escape_filter($this->env, $this->getAttribute((isset($context["typecodelabo"]) ? $context["typecodelabo"] : null), $this->getAttribute((isset($context["Champ"]) ? $context["Champ"] : null), "Champ")), "html", null, true);
-                                    echo "</td>
-                      
-            ";
-                                }
-                                // line 97
-                                echo "                
-
-                                    ";
-                            }
-                            // line 100
-                            echo "
-                               ";
-                        }
-                        $_parent = $context['_parent'];
-                        unset($context['_seq'], $context['_iterated'], $context['_key'], $context['Champ'], $context['_parent'], $context['loop']);
-                        $context = array_merge($_parent, array_intersect_key($context, $_parent));
-                        // line 102
-                        echo "                                         ";
-                        if (twig_test_empty($this->getAttribute((isset($context["typecodelabo"]) ? $context["typecodelabo"] : null), "User"))) {
-                            // line 103
-                            echo "
                                          ";
-                        } else {
-                            // line 104
+                                // line 92
+                                if (($this->getAttribute((isset($context["Champ"]) ? $context["Champ"] : null), "ChampCalcule") != 1)) {
+                                    // line 93
+                                    echo "                                    <td>";
+                                    echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute((isset($context["formulaire"]) ? $context["formulaire"] : null), $this->getAttribute((isset($context["Champ"]) ? $context["Champ"] : null), "Champ")), 'widget');
+                                    echo "</td>  
+                                        ";
+                                    // line 94
+                                    echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute((isset($context["formulaire"]) ? $context["formulaire"] : null), $this->getAttribute((isset($context["Champ"]) ? $context["Champ"] : null), "Champ")), 'errors');
+                                    echo "
+                                        ";
+                                }
+                                // line 96
+                                echo "                                       ";
+                            }
+                            $_parent = $context['_parent'];
+                            unset($context['_seq'], $context['_iterated'], $context['_key'], $context['Champ'], $context['_parent'], $context['loop']);
+                            $context = array_merge($_parent, array_intersect_key($context, $_parent));
                             echo " 
 
-                                    <td> ";
-                            // line 106
-                            echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute((isset($context["typecodelabo"]) ? $context["typecodelabo"] : null), "User"), "Nom"), "html", null, true);
-                            echo " ";
-                            echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute((isset($context["typecodelabo"]) ? $context["typecodelabo"] : null), "User"), "Prenom"), "html", null, true);
-                            echo "</td>
-                                         ";
+
+                                </tr>
+ ";
+                            ++$context['loop']['index0'];
+                            ++$context['loop']['index'];
+                            $context['loop']['first'] = false;
+                            if (isset($context['loop']['length'])) {
+                                --$context['loop']['revindex0'];
+                                --$context['loop']['revindex'];
+                                $context['loop']['last'] = 0 === $context['loop']['revindex0'];
+                            }
                         }
-                        // line 108
-                        echo "
-                                </tr> 
+                        $_parent = $context['_parent'];
+                        unset($context['_seq'], $context['_iterated'], $context['keys'], $context['formulaire'], $context['_parent'], $context['loop']);
+                        $context = array_merge($_parent, array_intersect_key($context, $_parent));
+                        // line 100
+                        echo "     
+
+                            </tbody>
+                        </table>   
+
+                     ";
+                        // line 105
+                        if ((twig_length_filter($this->env, (isset($context["Resultat"]) ? $context["Resultat"] : null)) > 0)) {
+                            // line 106
+                            echo "                        <input type=\"hidden\" name=\"NumProtocole\" value=\"";
+                            echo twig_escape_filter($this->env, (isset($context["NumProtocole"]) ? $context["NumProtocole"] : null), "html", null, true);
+                            echo "\" />
+                        <input type=\"hidden\" name=\"demande\" value=\"";
+                            // line 107
+                            echo twig_escape_filter($this->env, (isset($context["type"]) ? $context["type"] : null), "html", null, true);
+                            echo "\" />
+                        <input type=\"hidden\" name=\"Save\" value=\"Save\" />
+                        <div class=\"span4\"> <input type=\"submit\" value=\"Cancel\" class=\"btn btn-danger\" />  <input type=\"submit\" value=\"Enregistrer\" class=\"btn btn-primary\" />  </div>
+
+
+               ";
+                        }
+                        // line 112
+                        echo "  
 
         ";
-                        ++$context['loop']['index0'];
-                        ++$context['loop']['index'];
-                        $context['loop']['first'] = false;
-                        if (isset($context['loop']['length'])) {
-                            --$context['loop']['revindex0'];
-                            --$context['loop']['revindex'];
-                            $context['loop']['last'] = 0 === $context['loop']['revindex0'];
-                        }
-                    }
-                    $_parent = $context['_parent'];
-                    unset($context['_seq'], $context['_iterated'], $context['_key'], $context['typecodelabo'], $context['_parent'], $context['loop']);
-                    $context = array_merge($_parent, array_intersect_key($context, $_parent));
-                    // line 112
-                    echo "                            </tbody>
-                        </table>        
+                    } else {
+                        // line 115
+                        echo "                        <h3><p class=\"text-center text-error \">Toute les analyses ont été faite</p> </h3>         
         ";
-                } else {
-                    // line 114
-                    echo "          
+                    }
+                    // line 117
+                    echo "
+        ";
+                } elseif ((twig_length_filter($this->env, (isset($context["Resultat"]) ? $context["Resultat"] : null)) == 0)) {
+                    // line 118
+                    echo "       
+
+
+
+
                         <h3><p class=\"text-center text-error \">En attente du listing de Code Labo</p> </h3>
+
+
+
 
         ";
                 }
-                // line 118
-                echo "                    </div>
+                // line 129
+                echo "
+                    </div>
 
         ";
             } else {
-                // line 121
+                // line 133
                 echo "
-                    <div class=\"tab-pane\" id=\"";
-                // line 122
+                    <div class=\"tab-pane \" id=\"";
+                // line 134
                 echo twig_escape_filter($this->env, $this->getAttribute((isset($context["typeanalyse"]) ? $context["typeanalyse"] : null), "Nom"), "html", null, true);
                 echo "\" >
+
+
                ";
-                // line 123
+                // line 137
                 if ((twig_length_filter($this->env, (isset($context["Resultat"]) ? $context["Resultat"] : null)) > 0)) {
                     echo "  
 
-                            <table class=\"table table-striped\" >
-                                <thead>
-                                    <tr>
-                                        <th>Id</th>
-                                        <th>CodeLabo</th>
+";
+                    // line 139
+                    if ((twig_length_filter($this->env, $this->getAttribute((isset($context["ResultatCodeLabo"]) ? $context["ResultatCodeLabo"] : null), $this->getAttribute((isset($context["typeanalyse"]) ? $context["typeanalyse"] : null), "Nom"), array(), "array")) != 0)) {
+                        echo " 
+                        <table class=\"table table-striped\" >
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>CodeLabo</th>
 
-                                  ";
-                    // line 131
-                    $context['_parent'] = (array) $context;
-                    $context['_seq'] = twig_ensure_traversable($this->getAttribute((isset($context["Champs"]) ? $context["Champs"] : null), $this->getAttribute((isset($context["typeanalyse"]) ? $context["typeanalyse"] : null), "Nom"), array(), "array"));
-                    foreach ($context['_seq'] as $context["_key"] => $context["Champ"]) {
-                        // line 132
-                        echo "
-                                        <th>";
-                        // line 133
-                        echo twig_escape_filter($this->env, $this->getAttribute((isset($context["Champ"]) ? $context["Champ"] : null), "Champ"), "html", null, true);
-                        echo "</th>
-
-                                  ";
-                    }
-                    $_parent = $context['_parent'];
-                    unset($context['_seq'], $context['_iterated'], $context['_key'], $context['Champ'], $context['_parent'], $context['loop']);
-                    $context = array_merge($_parent, array_intersect_key($context, $_parent));
-                    // line 135
-                    echo " 
-
-                                        <th>Fait par</th>
-
-                                    </tr>
-                                </thead>
-                                <tbody>
-
-        ";
-                    // line 143
-                    $context['_parent'] = (array) $context;
-                    $context['_seq'] = twig_ensure_traversable($this->getAttribute((isset($context["ResultatCodeLabo"]) ? $context["ResultatCodeLabo"] : null), $this->getAttribute((isset($context["typeanalyse"]) ? $context["typeanalyse"] : null), "Nom"), array(), "array"));
-                    $context['loop'] = array(
-                      'parent' => $context['_parent'],
-                      'index0' => 0,
-                      'index'  => 1,
-                      'first'  => true,
-                    );
-                    if (is_array($context['_seq']) || (is_object($context['_seq']) && $context['_seq'] instanceof Countable)) {
-                        $length = count($context['_seq']);
-                        $context['loop']['revindex0'] = $length - 1;
-                        $context['loop']['revindex'] = $length;
-                        $context['loop']['length'] = $length;
-                        $context['loop']['last'] = 1 === $length;
-                    }
-                    foreach ($context['_seq'] as $context["_key"] => $context["typecodelabo"]) {
-                        // line 144
-                        echo "
-
-                                    <tr>  
-                                        <td>";
-                        // line 147
-                        echo twig_escape_filter($this->env, $this->getAttribute((isset($context["loop"]) ? $context["loop"] : null), "index"), "html", null, true);
-                        echo "</td>    
-                                        <td> ";
-                        // line 148
-                        echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute((isset($context["typecodelabo"]) ? $context["typecodelabo"] : null), "CodeLabo"), "CodeLabo"), "html", null, true);
-                        echo " </td>
-                                    ";
-                        // line 149
+                     ";
+                        // line 146
                         $context['_parent'] = (array) $context;
                         $context['_seq'] = twig_ensure_traversable($this->getAttribute((isset($context["Champs"]) ? $context["Champs"] : null), $this->getAttribute((isset($context["typeanalyse"]) ? $context["typeanalyse"] : null), "Nom"), array(), "array"));
                         foreach ($context['_seq'] as $context["_key"] => $context["Champ"]) {
-                            echo "    
-
-                                    ";
-                            // line 151
-                            if (twig_test_empty($this->getAttribute((isset($context["typecodelabo"]) ? $context["typecodelabo"] : null), "User"))) {
-                                // line 152
-                                echo "
-                                        <td><input type=\"text\" name=\"";
-                                // line 153
-                                echo twig_escape_filter($this->env, $this->getAttribute((isset($context["Champ"]) ? $context["Champ"] : null), "Champ"), "html", null, true);
-                                echo "[";
-                                echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute((isset($context["typecodelabo"]) ? $context["typecodelabo"] : null), "CodeLabo"), "CodeLabo"), "html", null, true);
-                                echo "]\" class=\"span7\" /></td>
-
-                                    ";
-                            } else {
-                                // line 156
-                                echo "                                        
-            ";
-                                // line 157
-                                if (((isset($context["type"]) ? $context["type"] : null) == "UpdateAnalyse")) {
-                                    // line 158
-                                    echo "                                        <td><a href=\"#\" data-name='";
-                                    echo twig_escape_filter($this->env, $this->getAttribute((isset($context["typeanalyse"]) ? $context["typeanalyse"] : null), "Nom"), "html", null, true);
-                                    echo ";";
-                                    echo twig_escape_filter($this->env, $this->getAttribute((isset($context["Champ"]) ? $context["Champ"] : null), "Champ"), "html", null, true);
-                                    echo ";";
-                                    echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute((isset($context["typecodelabo"]) ? $context["typecodelabo"] : null), "CodeLabo"), "CodeLabo"), "html", null, true);
-                                    echo "' data-type=\"text\" class=\"username\">";
-                                    echo twig_escape_filter($this->env, $this->getAttribute((isset($context["typecodelabo"]) ? $context["typecodelabo"] : null), $this->getAttribute((isset($context["Champ"]) ? $context["Champ"] : null), "Champ")), "html", null, true);
-                                    echo "</a></td>
-            ";
-                                } else {
-                                    // line 160
-                                    echo "                                        <td>";
-                                    echo twig_escape_filter($this->env, $this->getAttribute((isset($context["typecodelabo"]) ? $context["typecodelabo"] : null), $this->getAttribute((isset($context["Champ"]) ? $context["Champ"] : null), "Champ")), "html", null, true);
-                                    echo "</td>
-                      
-            ";
-                                }
-                                // line 162
-                                echo "                                         
-                                    ";
-                            }
-                            // line 164
+                            // line 147
                             echo "
-                               ";
+                                    <th>";
+                            // line 148
+                            echo twig_escape_filter($this->env, $this->getAttribute((isset($context["Champ"]) ? $context["Champ"] : null), "Champ"), "html", null, true);
+                            echo "</th>
+
+                     ";
                         }
                         $_parent = $context['_parent'];
                         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['Champ'], $context['_parent'], $context['loop']);
                         $context = array_merge($_parent, array_intersect_key($context, $_parent));
-                        // line 166
-                        echo "                                  ";
-                        if (twig_test_empty($this->getAttribute((isset($context["typecodelabo"]) ? $context["typecodelabo"] : null), "User"))) {
-                            // line 167
-                            echo "                                        <td></td>
+                        // line 150
+                        echo " 
+
+
+                                </tr>
+                            </thead>
+                            <tbody>
+
+
+
+
+
+                                          ";
+                        // line 161
+                        $context['_parent'] = (array) $context;
+                        $context['_seq'] = twig_ensure_traversable($this->getAttribute((isset($context["form"]) ? $context["form"] : null), ("Champs" . $this->getAttribute((isset($context["typeanalyse"]) ? $context["typeanalyse"] : null), "Nom"))));
+                        $context['loop'] = array(
+                          'parent' => $context['_parent'],
+                          'index0' => 0,
+                          'index'  => 1,
+                          'first'  => true,
+                        );
+                        if (is_array($context['_seq']) || (is_object($context['_seq']) && $context['_seq'] instanceof Countable)) {
+                            $length = count($context['_seq']);
+                            $context['loop']['revindex0'] = $length - 1;
+                            $context['loop']['revindex'] = $length;
+                            $context['loop']['length'] = $length;
+                            $context['loop']['last'] = 1 === $length;
+                        }
+                        foreach ($context['_seq'] as $context["keys"] => $context["formulaire"]) {
+                            echo "   
+                                <tr>  
+                                    <td>";
+                            // line 163
+                            echo twig_escape_filter($this->env, $this->getAttribute((isset($context["loop"]) ? $context["loop"] : null), "index"), "html", null, true);
+                            echo "</td>
+                                    <td> ";
+                            // line 164
+                            echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute((isset($context["ResultatCodeLabo"]) ? $context["ResultatCodeLabo"] : null), $this->getAttribute((isset($context["typeanalyse"]) ? $context["typeanalyse"] : null), "Nom"), array(), "array"), (isset($context["keys"]) ? $context["keys"] : null), array(), "array"), "html", null, true);
+                            echo " </td>  
+
+
+
                                          ";
-                        } else {
                             // line 168
+                            $context['_parent'] = (array) $context;
+                            $context['_seq'] = twig_ensure_traversable($this->getAttribute((isset($context["Champs"]) ? $context["Champs"] : null), $this->getAttribute((isset($context["typeanalyse"]) ? $context["typeanalyse"] : null), "Nom"), array(), "array"));
+                            foreach ($context['_seq'] as $context["_key"] => $context["Champ"]) {
+                                // line 169
+                                echo "                                             ";
+                                echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute((isset($context["formulaire"]) ? $context["formulaire"] : null), $this->getAttribute((isset($context["Champ"]) ? $context["Champ"] : null), "Champ")), 'errors');
+                                echo "
+
+                                    <td>";
+                                // line 171
+                                echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute((isset($context["formulaire"]) ? $context["formulaire"] : null), $this->getAttribute((isset($context["Champ"]) ? $context["Champ"] : null), "Champ")), 'widget');
+                                echo "</td>  
+
+
+                                        ";
+                            }
+                            $_parent = $context['_parent'];
+                            unset($context['_seq'], $context['_iterated'], $context['_key'], $context['Champ'], $context['_parent'], $context['loop']);
+                            $context = array_merge($_parent, array_intersect_key($context, $_parent));
+                            // line 174
                             echo " 
 
-                                        <td>";
-                            // line 170
-                            echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute((isset($context["typecodelabo"]) ? $context["typecodelabo"] : null), "User"), "Nom"), "html", null, true);
-                            echo " ";
-                            echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute((isset($context["typecodelabo"]) ? $context["typecodelabo"] : null), "User"), "Prenom"), "html", null, true);
-                            echo "</td>
-                                         ";
-                        }
-                        // line 172
-                        echo "                                    </tr> 
 
+                                </tr>
+                                        ";
+                            ++$context['loop']['index0'];
+                            ++$context['loop']['index'];
+                            $context['loop']['first'] = false;
+                            if (isset($context['loop']['length'])) {
+                                --$context['loop']['revindex0'];
+                                --$context['loop']['revindex'];
+                                $context['loop']['last'] = 0 === $context['loop']['revindex0'];
+                            }
+                        }
+                        $_parent = $context['_parent'];
+                        unset($context['_seq'], $context['_iterated'], $context['keys'], $context['formulaire'], $context['_parent'], $context['loop']);
+                        $context = array_merge($_parent, array_intersect_key($context, $_parent));
+                        // line 178
+                        echo "     
+
+                            </tbody>
+                        </table> 
+
+                         ";
+                        // line 183
+                        if ((twig_length_filter($this->env, (isset($context["Resultat"]) ? $context["Resultat"] : null)) > 0)) {
+                            // line 184
+                            echo "                        <input type=\"hidden\" name=\"numProtocole\" value=\"";
+                            echo twig_escape_filter($this->env, (isset($context["NumProtocole"]) ? $context["NumProtocole"] : null), "html", null, true);
+                            echo "\" />
+                        <input type=\"hidden\" name=\"demande\" value=\"";
+                            // line 185
+                            echo twig_escape_filter($this->env, (isset($context["type"]) ? $context["type"] : null), "html", null, true);
+                            echo "\" />
+                        <input type=\"hidden\" name=\"Save\" value=\"Save\" />
+
+                        <div class=\"span4\"> <input type=\"submit\" value=\"Cancel\" class=\"btn btn-danger\" />  <input type=\"submit\" value=\"Enregistrer\" class=\"btn btn-primary\" />  </div>
+
+
+               ";
+                        }
+                        // line 191
+                        echo "  
+
+                         ";
+                    } else {
+                        // line 194
+                        echo "                        <h3><p class=\"text-center text-error \">Toute les analyses ont été faite</p> </h3>         
         ";
-                        ++$context['loop']['index0'];
-                        ++$context['loop']['index'];
-                        $context['loop']['first'] = false;
-                        if (isset($context['loop']['length'])) {
-                            --$context['loop']['revindex0'];
-                            --$context['loop']['revindex'];
-                            $context['loop']['last'] = 0 === $context['loop']['revindex0'];
-                        }
                     }
-                    $_parent = $context['_parent'];
-                    unset($context['_seq'], $context['_iterated'], $context['_key'], $context['typecodelabo'], $context['_parent'], $context['loop']);
-                    $context = array_merge($_parent, array_intersect_key($context, $_parent));
-                    // line 175
-                    echo "                                </tbody>
-
-                            </table>
-";
-                } else {
-                    // line 179
-                    echo "                            <h3><p class=\"text-center text-error \">En attente du listing de Code Labo</p> </h3>
-
-";
+                    // line 196
+                    echo "       ";
+                } elseif ((twig_length_filter($this->env, (isset($context["Resultat"]) ? $context["Resultat"] : null)) == 0)) {
+                    echo "         
+                        <h3><p class=\"text-center text-error \">En attente du listing de Code Labo</p> </h3>
+                    </div>
+        ";
                 }
-                // line 182
-                echo "                        </div>
+                // line 200
+                echo "
+
+
+                </div>
 
 
 ";
             }
-            // line 185
+            // line 206
             echo "  
 
 
@@ -555,60 +541,93 @@ class __TwigTemplate_cbacc6889e18f3a18456fff343741e4b extends Twig_Template
         $_parent = $context['_parent'];
         unset($context['_seq'], $context['_iterated'], $context['_key'], $context['typeanalyse'], $context['_parent'], $context['loop']);
         $context = array_merge($_parent, array_intersect_key($context, $_parent));
-        // line 189
+        // line 210
         echo "
-                ";
-        // line 190
-        if ((($this->getAttribute($this->getAttribute((isset($context["Protocole"]) ? $context["Protocole"] : null), 0, array(), "array"), "Validation") == 0) && (twig_length_filter($this->env, (isset($context["Resultat"]) ? $context["Resultat"] : null)) > 0))) {
-            // line 191
-            echo "                        <input type=\"hidden\" name=\"NumProtocole\" value=\"";
-            echo twig_escape_filter($this->env, (isset($context["NumProtocole"]) ? $context["NumProtocole"] : null), "html", null, true);
-            echo "\" />
-                        <input type=\"hidden\" name=\"Status\" value=\"Enregistrer\" />
-                        <div class=\"span4\"> <input type=\"submit\" value=\"Cancel\" class=\"btn btn-danger\" />  <input type=\"submit\" value=\"Enregistrer\" class=\"btn btn-primary\" />  </div>
 
 
-                        ";
-        }
-        // line 196
-        echo "     
-
-
-
-
-
-                    </div>  
-
-                </form> 
 
 ";
-        // line 207
+        // line 214
+        echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute((isset($context["form"]) ? $context["form"] : null), "_token"), 'widget');
         echo "
-                <form method=\"POST\" action=";
-        // line 208
+
+
+
+            </form> 
+
+";
+        // line 221
+        echo "
+            <form method=\"POST\" action=";
+        // line 222
         echo twig_escape_filter($this->env, $this->env->getExtension('routing')->getPath("Inra2013Bundle_ValidAnalyse"), "html", null, true);
         echo " >
-                    <div id=\"validation\" class=\"modal hide fade\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalLabel\" aria-hidden=\"true\">
-                        <div class=\"modal-header\">
-                            <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">×</button>
-                            <h3 id=\"myModalLabel\">ENVOIE POUR VALIDATION</h3>
-                        </div>
-                        <div class=\"modal-body\">
-                            <p>Êtes-vous sur de vouloir envoyer les resultats pour validation?</p></br>
-                            <p>Commentaire :</p>
-                            <textarea name=\"Commentaire\" id=\"input\" class=\"offset1 span7\" rows=\"3\">     
+                <div id=\"validation\" class=\"modal hide fade\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalLabel\" aria-hidden=\"true\">
+                    <div class=\"modal-header\">
+                        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">×</button>
+                        <h3 id=\"myModalLabel\">ENVOIE POUR VALIDATION</h3>
+                    </div>
+                    <div class=\"modal-body\">
+                        <p>Êtes-vous sur de vouloir envoyer les resultats pour validation?</p></br>
+                        <p>Commentaire :</p>
+                        <textarea name=\"Commentaire\" id=\"input\" class=\"offset1 span7\" rows=\"3\">     
                                 ";
-        // line 218
+        // line 232
         if ((!twig_test_empty($this->getAttribute($this->getAttribute((isset($context["Protocole"]) ? $context["Protocole"] : null), 0, array(), "array"), "Commentaire")))) {
-            // line 219
+            // line 233
             echo "                                            </br>
                                             ";
-            // line 220
+            // line 234
             echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute((isset($context["Protocole"]) ? $context["Protocole"] : null), 0, array(), "array"), "Commentaire"), "html", null, true);
             echo " </br></br>  *****************************************************
                                           ";
         }
-        // line 222
+        // line 236
+        echo "                                              
+                            </textarea>
+                        </div>
+
+
+                        <div class=\"modal-footer\">
+                            <button class=\"btn btn-danger\" data-dismiss=\"modal\" aria-hidden=\"true\">Annuler</button>
+                            <button class=\"btn btn-primary\" type=\"submit\" >Validation</button></a>
+                        </div>
+                    </div>
+                    <input type=\"hidden\" name=\"NumProtocole\" value=\"";
+        // line 246
+        echo twig_escape_filter($this->env, (isset($context["NumProtocole"]) ? $context["NumProtocole"] : null), "html", null, true);
+        echo "\" />
+                    <input type=\"hidden\" name=\"Status\" value=1 />  
+                </form>
+
+";
+        // line 251
+        echo "
+                <form method=\"POST\" action=";
+        // line 252
+        echo twig_escape_filter($this->env, $this->env->getExtension('routing')->getPath("Inra2013Bundle_ValidAnalyse"), "html", null, true);
+        echo " >
+                    <div id=\"refus\" class=\"modal hide fade\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalLabel\" aria-hidden=\"true\">
+                        <div class=\"modal-header\">
+                            <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">×</button>
+                            <h3 id=\"myModalLabel\">REFUS DE LA VALIDATION </h3>
+                        </div>
+                        <div class=\"modal-body\">
+                            <p>Êtes-vous sur de vouloir envoyer les resultats pour validation?</p></br>
+                            <p>Commentaire :</p>
+                            <textarea name=\"Commentaire\" id=\"input1\" class=\"offset1 span7\" rows=\"3\">     
+                                ";
+        // line 262
+        if ((!twig_test_empty($this->getAttribute($this->getAttribute((isset($context["Protocole"]) ? $context["Protocole"] : null), 0, array(), "array"), "Commentaire")))) {
+            // line 263
+            echo "                                            </br>
+                                            ";
+            // line 264
+            echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute((isset($context["Protocole"]) ? $context["Protocole"] : null), 0, array(), "array"), "Commentaire"), "html", null, true);
+            echo " </br></br>  *****************************************************
+                                          ";
+        }
+        // line 266
         echo "                                              
                                 </textarea>
                             </div>
@@ -620,69 +639,24 @@ class __TwigTemplate_cbacc6889e18f3a18456fff343741e4b extends Twig_Template
                             </div>
                         </div>
                         <input type=\"hidden\" name=\"NumProtocole\" value=\"";
-        // line 232
+        // line 276
         echo twig_escape_filter($this->env, (isset($context["NumProtocole"]) ? $context["NumProtocole"] : null), "html", null, true);
         echo "\" />
                         <input type=\"hidden\" name=\"Status\" value=1 />  
                     </form>
 
 ";
-        // line 237
-        echo "
-                    <form method=\"POST\" action=";
-        // line 238
-        echo twig_escape_filter($this->env, $this->env->getExtension('routing')->getPath("Inra2013Bundle_ValidAnalyse"), "html", null, true);
-        echo " >
-                        <div id=\"refus\" class=\"modal hide fade\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalLabel\" aria-hidden=\"true\">
-                            <div class=\"modal-header\">
-                                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">×</button>
-                                <h3 id=\"myModalLabel\">REFUS DE LA VALIDATION </h3>
-                            </div>
-                            <div class=\"modal-body\">
-                                <p>Êtes-vous sur de vouloir envoyer les resultats pour validation?</p></br>
-                                <p>Commentaire :</p>
-                                <textarea name=\"Commentaire\" id=\"input1\" class=\"offset1 span7\" rows=\"3\">     
-                                ";
-        // line 248
-        if ((!twig_test_empty($this->getAttribute($this->getAttribute((isset($context["Protocole"]) ? $context["Protocole"] : null), 0, array(), "array"), "Commentaire")))) {
-            // line 249
-            echo "                                            </br>
-                                            ";
-            // line 250
-            echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute((isset($context["Protocole"]) ? $context["Protocole"] : null), 0, array(), "array"), "Commentaire"), "html", null, true);
-            echo " </br></br>  *****************************************************
-                                          ";
-        }
-        // line 252
-        echo "                                              
-                                    </textarea>
-                                </div>
-
-
-                                <div class=\"modal-footer\">
-                                    <button class=\"btn btn-danger\" data-dismiss=\"modal\" aria-hidden=\"true\">Annuler</button>
-                                    <button class=\"btn btn-primary\" type=\"submit\" >Validation</button></a>
-                                </div>
-                            </div>
-                            <input type=\"hidden\" name=\"NumProtocole\" value=\"";
-        // line 262
-        echo twig_escape_filter($this->env, (isset($context["NumProtocole"]) ? $context["NumProtocole"] : null), "html", null, true);
-        echo "\" />
-                            <input type=\"hidden\" name=\"Status\" value=1 />  
-                        </form>
-
-";
     }
 
-    // line 267
+    // line 281
     public function block_stylesheets($context, array $blocks = array())
     {
-        // line 268
-        echo "                        <link rel=\"stylesheet\" type=\"text/css\" href=\"";
+        // line 282
+        echo "                    <link rel=\"stylesheet\" type=\"text/css\" href=\"";
         echo twig_escape_filter($this->env, $this->env->getExtension('assets')->getAssetUrl("js/CLEditor1_3_0/jquery.cleditor.css"), "html", null, true);
         echo "\" />
-                        <link rel=\"stylesheet\" type=\"text/css\" href=\"";
-        // line 269
+                    <link rel=\"stylesheet\" type=\"text/css\" href=\"";
+        // line 283
         echo twig_escape_filter($this->env, $this->env->getExtension('assets')->getAssetUrl("bootstrap-editable/css/bootstrap-editable.css"), "html", null, true);
         echo "\" />
 
@@ -690,52 +664,39 @@ class __TwigTemplate_cbacc6889e18f3a18456fff343741e4b extends Twig_Template
 ";
     }
 
-    // line 273
+    // line 287
     public function block_javascripts($context, array $blocks = array())
     {
         echo " 
-                        <script type=\"text/javascript\" src=\"";
-        // line 274
+                    <script type=\"text/javascript\" src=\"";
+        // line 288
         echo twig_escape_filter($this->env, $this->env->getExtension('assets')->getAssetUrl("js/CLEditor1_3_0/jquery.cleditor.min.js"), "html", null, true);
         echo "\"></script>
-                        <script type=\"text/javascript\" src=\"";
-        // line 275
+                    <script type=\"text/javascript\" src=\"";
+        // line 289
         echo twig_escape_filter($this->env, $this->env->getExtension('assets')->getAssetUrl("bootstrap-editable/js/bootstrap-editable.js"), "html", null, true);
         echo "\"></script>
-                        <script>
-                            \$('#myTab a').click(function(e) {
-                                e.preventDefault();
-                                \$(this).tab('show');
+                    <script>
+                        \$('#myTab a').click(function(e) {
+                            e.preventDefault();
+                            \$(this).tab('show');
+                        });
+                        </script>
+
+                        <script type=\"text/javascript\">
+                            \$(document).ready(function() {
+                                \$(\"#input\").cleditor();
+                            });
+                            \$(document).ready(function() {
+                                \$(\"#input1\").cleditor();
                             });
                             </script>
 
-                            <script type=\"text/javascript\">
-                                \$(document).ready(function() {
-                                    \$(\"#input\").cleditor();
-                                });
-                                \$(document).ready(function() {
-                                    \$(\"#input1\").cleditor();
-                                });
-                                </script>
-                    ";
-        // line 291
-        if (((isset($context["type"]) ? $context["type"] : null) == "UpdateAnalyse")) {
-            // line 292
-            echo "                                <script type=\"text/javascript\">
-                                   ";
-            // line 294
-            echo "                                       \$('.username').editable({
-                                           type: 'text',
-                                           pk: 1,
-                                           url: \"";
-            // line 297
-            echo twig_escape_filter($this->env, $this->env->getExtension('routing')->getPath("Inra2013Bundle_UpdateAnalyse"), "html", null, true);
-            echo "\",
-                                           title: 'Modification des resultats'
-                                       });
-                                    </script>
-                    ";
-        }
+
+                                ";
+        // line 319
+        echo "   
+";
     }
 
     public function getTemplateName()
@@ -750,6 +711,6 @@ class __TwigTemplate_cbacc6889e18f3a18456fff343741e4b extends Twig_Template
 
     public function getDebugInfo()
     {
-        return array (  732 => 297,  727 => 294,  724 => 292,  722 => 291,  703 => 275,  699 => 274,  694 => 273,  686 => 269,  681 => 268,  678 => 267,  669 => 262,  657 => 252,  652 => 250,  649 => 249,  647 => 248,  634 => 238,  631 => 237,  624 => 232,  612 => 222,  607 => 220,  604 => 219,  602 => 218,  589 => 208,  586 => 207,  574 => 196,  564 => 191,  562 => 190,  559 => 189,  542 => 185,  536 => 182,  531 => 179,  525 => 175,  509 => 172,  502 => 170,  498 => 168,  494 => 167,  491 => 166,  484 => 164,  480 => 162,  473 => 160,  461 => 158,  459 => 157,  456 => 156,  448 => 153,  445 => 152,  443 => 151,  436 => 149,  432 => 148,  428 => 147,  423 => 144,  406 => 143,  396 => 135,  387 => 133,  384 => 132,  380 => 131,  369 => 123,  365 => 122,  362 => 121,  357 => 118,  351 => 114,  346 => 112,  329 => 108,  322 => 106,  318 => 104,  314 => 103,  311 => 102,  304 => 100,  299 => 97,  280 => 93,  278 => 92,  275 => 91,  267 => 88,  264 => 87,  262 => 86,  255 => 84,  244 => 79,  240 => 77,  223 => 76,  190 => 59,  182 => 56,  175 => 52,  158 => 51,  152 => 48,  148 => 46,  134 => 45,  166 => 72,  150 => 67,  146 => 65,  115 => 40,  90 => 34,  80 => 26,  53 => 17,  49 => 10,  23 => 3,  243 => 81,  238 => 73,  234 => 68,  231 => 67,  214 => 69,  210 => 60,  203 => 55,  200 => 54,  195 => 8,  164 => 82,  145 => 69,  129 => 61,  124 => 49,  110 => 43,  107 => 42,  87 => 37,  52 => 12,  37 => 8,  56 => 18,  20 => 1,  301 => 100,  295 => 96,  292 => 95,  289 => 94,  287 => 93,  282 => 90,  276 => 86,  273 => 85,  270 => 84,  268 => 83,  263 => 80,  249 => 81,  245 => 77,  230 => 75,  222 => 73,  220 => 62,  215 => 70,  211 => 69,  204 => 66,  198 => 63,  185 => 57,  183 => 60,  177 => 58,  160 => 57,  149 => 51,  123 => 47,  120 => 43,  112 => 44,  106 => 36,  82 => 30,  65 => 16,  38 => 4,  155 => 58,  144 => 50,  141 => 54,  139 => 50,  135 => 47,  126 => 43,  109 => 47,  103 => 43,  101 => 42,  70 => 19,  67 => 20,  61 => 16,  47 => 14,  28 => 6,  105 => 24,  96 => 21,  93 => 36,  83 => 18,  76 => 24,  72 => 32,  68 => 22,  50 => 9,  94 => 39,  88 => 27,  79 => 25,  59 => 22,  43 => 6,  32 => 2,  225 => 96,  216 => 90,  212 => 88,  205 => 68,  201 => 67,  196 => 80,  194 => 62,  191 => 78,  189 => 7,  186 => 76,  180 => 55,  172 => 76,  163 => 63,  159 => 61,  154 => 68,  147 => 55,  132 => 48,  127 => 49,  121 => 55,  118 => 41,  114 => 42,  104 => 35,  100 => 33,  78 => 24,  75 => 23,  71 => 22,  63 => 20,  58 => 14,  34 => 5,  91 => 38,  84 => 31,  74 => 23,  66 => 21,  55 => 15,  41 => 5,  46 => 7,  26 => 2,  22 => 3,  27 => 4,  24 => 4,  29 => 2,  21 => 1,  44 => 13,  35 => 4,  31 => 4,  25 => 3,  19 => 2,  184 => 70,  178 => 71,  171 => 62,  165 => 58,  162 => 81,  157 => 56,  153 => 74,  151 => 73,  143 => 67,  138 => 63,  136 => 50,  133 => 43,  130 => 47,  122 => 44,  119 => 36,  116 => 46,  111 => 32,  108 => 31,  102 => 30,  98 => 39,  95 => 39,  92 => 30,  89 => 19,  85 => 29,  81 => 36,  73 => 19,  64 => 23,  60 => 19,  57 => 18,  54 => 12,  51 => 13,  48 => 11,  45 => 9,  42 => 12,  39 => 11,  36 => 6,  33 => 8,  30 => 7,);
+        return array (  698 => 319,  677 => 289,  673 => 288,  668 => 287,  660 => 283,  655 => 282,  652 => 281,  643 => 276,  631 => 266,  626 => 264,  623 => 263,  621 => 262,  608 => 252,  605 => 251,  598 => 246,  586 => 236,  581 => 234,  578 => 233,  576 => 232,  563 => 222,  560 => 221,  551 => 214,  545 => 210,  528 => 206,  519 => 200,  511 => 196,  507 => 194,  502 => 191,  492 => 185,  487 => 184,  485 => 183,  478 => 178,  460 => 174,  450 => 171,  444 => 169,  440 => 168,  433 => 164,  429 => 163,  409 => 161,  396 => 150,  387 => 148,  384 => 147,  380 => 146,  370 => 139,  365 => 137,  359 => 134,  356 => 133,  350 => 129,  337 => 118,  333 => 117,  329 => 115,  324 => 112,  315 => 107,  310 => 106,  308 => 105,  278 => 96,  266 => 92,  259 => 90,  253 => 87,  247 => 84,  241 => 80,  221 => 76,  206 => 64,  199 => 63,  193 => 61,  190 => 60,  174 => 50,  169 => 48,  161 => 43,  158 => 42,  156 => 41,  146 => 36,  170 => 76,  152 => 68,  148 => 67,  113 => 51,  99 => 42,  77 => 33,  115 => 40,  90 => 29,  80 => 26,  53 => 17,  49 => 8,  23 => 3,  243 => 81,  238 => 73,  234 => 68,  231 => 67,  214 => 61,  210 => 60,  203 => 55,  200 => 54,  195 => 8,  164 => 72,  145 => 69,  129 => 35,  124 => 49,  110 => 43,  107 => 47,  87 => 28,  52 => 12,  37 => 8,  56 => 18,  20 => 1,  301 => 100,  295 => 96,  292 => 95,  289 => 94,  287 => 93,  282 => 90,  276 => 86,  273 => 94,  270 => 84,  268 => 93,  263 => 91,  249 => 79,  245 => 77,  230 => 75,  222 => 73,  220 => 62,  215 => 72,  211 => 69,  204 => 66,  198 => 63,  185 => 61,  183 => 60,  177 => 58,  160 => 57,  149 => 37,  123 => 47,  120 => 43,  112 => 44,  106 => 36,  82 => 36,  65 => 16,  38 => 4,  155 => 58,  144 => 65,  141 => 54,  139 => 50,  135 => 47,  126 => 45,  109 => 37,  103 => 34,  101 => 43,  70 => 20,  67 => 19,  61 => 22,  47 => 14,  28 => 6,  105 => 24,  96 => 26,  93 => 20,  83 => 18,  76 => 22,  72 => 23,  68 => 22,  50 => 8,  94 => 39,  88 => 24,  79 => 23,  59 => 22,  43 => 7,  32 => 2,  225 => 96,  216 => 90,  212 => 88,  205 => 84,  201 => 83,  196 => 80,  194 => 62,  191 => 78,  189 => 7,  186 => 59,  180 => 72,  172 => 67,  163 => 63,  159 => 61,  154 => 59,  147 => 55,  132 => 48,  127 => 61,  121 => 45,  118 => 29,  114 => 42,  104 => 28,  100 => 33,  78 => 24,  75 => 23,  71 => 19,  63 => 19,  58 => 12,  34 => 5,  91 => 20,  84 => 31,  74 => 24,  66 => 21,  55 => 12,  41 => 5,  46 => 7,  26 => 11,  22 => 3,  27 => 4,  24 => 4,  29 => 2,  21 => 1,  44 => 6,  35 => 4,  31 => 4,  25 => 1,  19 => 2,  184 => 70,  178 => 71,  171 => 62,  165 => 58,  162 => 81,  157 => 56,  153 => 74,  151 => 73,  143 => 67,  138 => 53,  136 => 63,  133 => 43,  130 => 47,  122 => 31,  119 => 55,  116 => 46,  111 => 32,  108 => 31,  102 => 30,  98 => 22,  95 => 31,  92 => 39,  89 => 19,  85 => 23,  81 => 40,  73 => 32,  64 => 23,  60 => 17,  57 => 18,  54 => 10,  51 => 13,  48 => 11,  45 => 10,  42 => 12,  39 => 11,  36 => 6,  33 => 8,  30 => 7,);
     }
 }

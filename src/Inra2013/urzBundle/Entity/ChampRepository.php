@@ -39,7 +39,7 @@ class ChampRepository extends EntityRepository {
                 ->andwhere('a.ChampCalcule != 1')
                 ->setParameter('id', $id);
 
-        return $qb->getQuery()->getArrayResult();
+        return $qb->getQuery()->getResult();
     }
     
     

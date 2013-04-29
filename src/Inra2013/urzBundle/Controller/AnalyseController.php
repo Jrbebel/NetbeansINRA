@@ -30,7 +30,7 @@ class AnalyseController extends Controller {
     public function SearchProtocoleAction() {
 
         $request = $this->getRequest();
-        $user = $this->container->get('security.context')->getToken()->getUser()->getFonction(); // on récupere la fonction de l'utilisateur connecté
+       $user = $this->container->get('security.context')->getToken()->getUser()->getFonction(); // on récupere la fonction de l'utilisateur connecté
 
         if ($request->isXmlHttpRequest()) {
 
@@ -46,10 +46,13 @@ class AnalyseController extends Controller {
 
             return $reponse;
         } elseif ($this->getRequest()->getMethod() == "POST") {
-
-            $id = $request->request->get("idprotocole");
-            $type = $request->request->get('demande');
-
+            
+      
+            $id = $request->get("idprotocole");
+            $type = $request->get('demande');
+            $typage=$request->get('typage');
+         
+print_r("Le protocole dans search ".$id);
             $Protocole = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Protocole')->findBy(array("id" => $id));
 
 
@@ -57,17 +60,17 @@ class AnalyseController extends Controller {
 
             if ($type == "listing") {
 
-                return $this->render("Inra2013urzBundle:Analyse:CreatExcel.html.twig", array("protocole" => $Protocole, "Analyse" => $Analyse, 'form_path' => 'Inra2013Bundle_ImportListing', 'form_value' => 'Importer listing', 'type' => $type, 'protocole' => $Protocole));
+                return $this->render("Inra2013urzBundle:Analyse:CreatExcel.html.twig", array("User" => $user,"protocole" => $Protocole, "Analyse" => $Analyse, 'form_path' => 'Inra2013Bundle_ImportListing', 'form_value' => 'Importer listing', 'type' => $type, 'protocole' => $Protocole));
             } elseif ($type == "createxcel") {
-                return $this->render("Inra2013urzBundle:Analyse:CreatExcel.html.twig", array("protocole" => $Protocole, "Analyse" => $Analyse, 'form_path' => 'Inra2013Bundle_CreateExcel', 'form_value' => 'Générer Fichier Excel', 'type' => $type, 'protocole' => $Protocole));
+                return $this->render("Inra2013urzBundle:Analyse:CreatExcel.html.twig", array("User" => $user,"protocole" => $Protocole, "Analyse" => $Analyse, 'form_path' => 'Inra2013Bundle_CreateExcel', 'form_value' => 'Générer Fichier Excel', 'type' => $type, 'protocole' => $Protocole,"Typage"=>$typage));
             } elseif ($type == "createanalyse") {
-                return $this->render("Inra2013urzBundle:Analyse:CreatExcel.html.twig", array("protocole" => $Protocole, "Analyse" => $Analyse, 'form_path' => 'Inra2013Bundle_CudAnalyse', 'form_value' => 'Créer analyse', 'type' => $type, 'protocole' => $Protocole));
+                return $this->render("Inra2013urzBundle:Analyse:CreatExcel.html.twig", array("User" => $user,"protocole" => $Protocole, "Analyse" => $Analyse, 'form_path' => 'Inra2013Bundle_CudAnalyse', 'form_value' => 'Créer analyse', 'type' => $type, 'protocole' => $Protocole));
             } elseif ($type == "ImportResultat") {
-                return $this->render("Inra2013urzBundle:Analyse:CreatExcel.html.twig", array("protocole" => $Protocole, "Analyse" => $Analyse, 'form_path' => 'Inra2013Bundle_ImportResultat', 'form_value' => 'Importer Resultat', 'type' => $type, 'protocole' => $Protocole));
+                return $this->render("Inra2013urzBundle:Analyse:CreatExcel.html.twig", array("User" => $user,"protocole" => $Protocole, "Analyse" => $Analyse, 'form_path' => 'Inra2013Bundle_ImportResultat', 'form_value' => 'Importer Resultat', 'type' => $type, 'protocole' => $Protocole));
             } elseif ($type == "UpdateAnalyse") {
-                return $this->render("Inra2013urzBundle:Analyse:CreatExcel.html.twig", array("protocole" => $Protocole, "Analyse" => $Analyse, 'form_path' => 'Inra2013Bundle_CudAnalyse', 'form_value' => 'Modification Resultat', 'type' => $type, 'protocole' => $Protocole));
+                return $this->render("Inra2013urzBundle:Analyse:CreatExcel.html.twig", array("User" => $user,"protocole" => $Protocole, "Analyse" => $Analyse, 'form_path' => 'Inra2013Bundle_CudAnalyse', 'form_value' => 'Modification Resultat', 'type' => $type, 'protocole' => $Protocole));
             } elseif ($type == "voiranalyse") {
-                return $this->render("Inra2013urzBundle:Analyse:CreatExcel.html.twig", array("protocole" => $Protocole, "Analyse" => $Analyse, 'form_path' => 'Inra2013Bundle_VoirAnalyse', 'form_value' => 'Voir Resultat', 'type' => $type, 'protocole' => $Protocole));
+                return $this->render("Inra2013urzBundle:Analyse:CreatExcel.html.twig", array("User" => $user,"protocole" => $Protocole, "Analyse" => $Analyse, 'form_path' => 'Inra2013Bundle_VoirAnalyse', 'form_value' => 'Voir Resultat', 'type' => $type, 'protocole' => $Protocole));
             } elseif ($type == "voiranalyseChercheur") {
                 return $this->render("Inra2013urzBundle:Analyse:CreatExcel.html.twig", array("User" => $user, "protocole" => $Protocole, "Analyse" => $Analyse, 'form_path' => 'Inra2013Bundle_VoirAnalyseChercheur', 'form_value' => 'Voir Resultat', 'type' => $type, 'protocole' => $Protocole));
             }
@@ -179,6 +182,7 @@ class AnalyseController extends Controller {
         $responsable = $this->container->get('security.context')->getToken()->getUser();
         $typeProtocole->setResponsable($responsable);
         $typeProtocole->setValidation(FALSE);
+        $typeProtocole->setDateValidationAnalyse(NULL);
         $TypeCategorie = $this->getDoctrine()->getRepository("Inra2013urzBundle:TypeCategorie")->findAll();
         //\Doctrine\Common\Util\Debug::dump($CategorieAnalyse); //les champs
 
@@ -377,7 +381,7 @@ class AnalyseController extends Controller {
 
     public function CudAnalyseAction() {
 
-        $numProtocole = $this->getRequest()->get('NumProtocole');
+        $numProtocole = $this->getRequest()->get('numProtocole');
 
 
         if ($this->getRequest()->getMethod() == "GET" && !isset($numProtocole)) {
@@ -386,13 +390,13 @@ class AnalyseController extends Controller {
 
             return $this->render('Inra2013urzBundle:Analyse:CreatExcel.html.twig', array('type' => 'UpdateAnalyse'));
         }
-
+    
 
         $Status = $this->getRequest()->get('demande');
         $Save = $this->getRequest()->get('Save');
         $ResultTypeAnalyse = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Protocole')->AnalyseProtocole($numProtocole);
         $User = $this->container->get('security.context')->getToken()->getUser();
-
+        
 
         $Protocole = $this->getDoctrine()->getEntityManager()->getRepository("Inra2013urzBundle:Protocole")->findBy(array('id' => $numProtocole));
 
@@ -478,6 +482,7 @@ class AnalyseController extends Controller {
             if ($formulaire->isValid()) {
 
 
+                
                 foreach ($ResultTypeAnalyse as $Champs) {
 
                     $getChamps = "getChamps" . $Champs['Nom'];
@@ -518,12 +523,15 @@ class AnalyseController extends Controller {
                                  * * */
                                 $setChampsCalcule = "set" . $ChampsIdCalcule[0]->getChamp();
                                 $Formule = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Formule')->FindOneBy(array('Champs' => $ChampsIdCalcule[0]->getId()));
+                               if(!is_null($Formule)){
                                 $formulMath = $Formule->getFormuMath();
-                                \Doctrine\Common\Util\Debug::dump($formulMath);
+                             //   \Doctrine\Common\Util\Debug::dump($formulMath);
                                 eval($formulMath);
+                                    $value->$setChampsCalcule($resultat);  
+                               }
                                 //   eval('$p=($tableau["A"]+$tableau["B"])*1200;');
-                                \Doctrine\Common\Util\Debug::dump($resultat);
-                                $value->$setChampsCalcule($resultat);
+                             //   \Doctrine\Common\Util\Debug::dump($resultat);
+                             
                                 $value->setUser($User);
                             }
                         }
@@ -538,7 +546,7 @@ class AnalyseController extends Controller {
                 return $this->redirect($this->generateUrl('Inra2013Bundle_Save', array("Status" => "SaveAnalyse")));
             }
 
-            return $this->render("Inra2013urzBundle:Analyse:CreateAnalyse.html.twig", array('form' => $form->getForm()->createView(), 'Resultat' => $ResultCodeLabo, 'TypeAnalyse' => $ResultTypeAnalyse, 'ResultatCodeLabo' => $CodeLabo, 'Champs' => $ChampsId, 'NumProtocole' => $numProtocole, 'Protocole' => $Protocole, 'Role' => $User->getRoles(), 'type' => $Status));
+          //  return $this->render("Inra2013urzBundle:Analyse:CreateAnalyse.html.twig", array('form' => $form->getForm()->createView(), 'Resultat' => $ResultCodeLabo, 'TypeAnalyse' => $ResultTypeAnalyse, 'ResultatCodeLabo' => $CodeLabo, 'Champs' => $ChampsId, 'NumProtocole' => $numProtocole, 'Protocole' => $Protocole, 'Role' => $User->getRoles(), 'type' => $Status));
         }
 
         

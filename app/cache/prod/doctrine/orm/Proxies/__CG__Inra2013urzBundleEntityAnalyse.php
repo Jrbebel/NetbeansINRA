@@ -42,18 +42,6 @@ class Analyse extends \Inra2013\urzBundle\Entity\Analyse implements \Doctrine\OR
     }
 
     
-    public function setAnimal($animal)
-    {
-        $this->__load();
-        return parent::setAnimal($animal);
-    }
-
-    public function getAnimal()
-    {
-        $this->__load();
-        return parent::getAnimal();
-    }
-
     public function setCodeLabo($codeLabo)
     {
         $this->__load();
@@ -64,6 +52,18 @@ class Analyse extends \Inra2013\urzBundle\Entity\Analyse implements \Doctrine\OR
     {
         $this->__load();
         return parent::getCodeLabo();
+    }
+
+    public function setAnimal($animal)
+    {
+        $this->__load();
+        return parent::setAnimal($animal);
+    }
+
+    public function getAnimal()
+    {
+        $this->__load();
+        return parent::getAnimal();
     }
 
     public function setDatePrelev($datePrelev)
@@ -126,30 +126,6 @@ class Analyse extends \Inra2013\urzBundle\Entity\Analyse implements \Doctrine\OR
         return parent::getNaturEchant();
     }
 
-    public function setUser(\Inra2013\urzBundle\Entity\User $user = NULL)
-    {
-        $this->__load();
-        return parent::setUser($user);
-    }
-
-    public function getUser()
-    {
-        $this->__load();
-        return parent::getUser();
-    }
-
-    public function setId($id)
-    {
-        $this->__load();
-        return parent::setId($id);
-    }
-
-    public function getId()
-    {
-        $this->__load();
-        return parent::getId();
-    }
-
     public function setProtocole(\Inra2013\urzBundle\Entity\Protocole $protocole = NULL)
     {
         $this->__load();
@@ -162,10 +138,82 @@ class Analyse extends \Inra2013\urzBundle\Entity\Analyse implements \Doctrine\OR
         return parent::getProtocole();
     }
 
+    public function addChampsOPG(\Inra2013\urzBundle\Entity\AnaOPG $champsOPG)
+    {
+        $this->__load();
+        return parent::addChampsOPG($champsOPG);
+    }
+
+    public function removeChampsOPG(\Inra2013\urzBundle\Entity\AnaOPG $champsOPG)
+    {
+        $this->__load();
+        return parent::removeChampsOPG($champsOPG);
+    }
+
+    public function getChampsOPG()
+    {
+        $this->__load();
+        return parent::getChampsOPG();
+    }
+
+    public function addChampsPCV(\Inra2013\urzBundle\Entity\AnaPCV $champsPCV)
+    {
+        $this->__load();
+        return parent::addChampsPCV($champsPCV);
+    }
+
+    public function removeChampsPCV(\Inra2013\urzBundle\Entity\AnaPCV $champsPCV)
+    {
+        $this->__load();
+        return parent::removeChampsPCV($champsPCV);
+    }
+
+    public function getChampsPCV()
+    {
+        $this->__load();
+        return parent::getChampsPCV();
+    }
+
+    public function addChampsEosinophile(\Inra2013\urzBundle\Entity\AnaEosinophile $champsEosinophile)
+    {
+        $this->__load();
+        return parent::addChampsEosinophile($champsEosinophile);
+    }
+
+    public function removeChampsEosinophile(\Inra2013\urzBundle\Entity\AnaEosinophile $champsEosinophile)
+    {
+        $this->__load();
+        return parent::removeChampsEosinophile($champsEosinophile);
+    }
+
+    public function getChampsEosinophile()
+    {
+        $this->__load();
+        return parent::getChampsEosinophile();
+    }
+
+    public function addChampsEssai(\Inra2013\urzBundle\Entity\AnaEssai $champsEssai)
+    {
+        $this->__load();
+        return parent::addChampsEssai($champsEssai);
+    }
+
+    public function removeChampsEssai(\Inra2013\urzBundle\Entity\AnaEssai $champsEssai)
+    {
+        $this->__load();
+        return parent::removeChampsEssai($champsEssai);
+    }
+
+    public function getChampsEssai()
+    {
+        $this->__load();
+        return parent::getChampsEssai();
+    }
+
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'CodeLabo', 'Animal', 'DatePrelev', 'DateAnalyse', 'Observation', 'Lot_Groupe', 'NaturEchant', 'Protocole');
+        return array('__isInitialized__', 'CodeLabo', 'Animal', 'DatePrelev', 'DateAnalyse', 'Observation', 'Lot_Groupe', 'NaturEchant', 'Protocole', 'ChampsOPG', 'ChampsPCV', 'ChampsEosinophile');
     }
 
     public function __clone()

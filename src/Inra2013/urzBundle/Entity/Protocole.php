@@ -39,7 +39,7 @@ class Protocole {
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="DateValidationAnalyse", type="date")
+     * @ORM\Column(name="DateValidationAnalyse", type="date",nullable=true)
      */
     private $DateValidationAnalyse;
 

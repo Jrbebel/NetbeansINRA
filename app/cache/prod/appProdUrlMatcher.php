@@ -91,6 +91,21 @@ class appProdUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirecta
                 return array (  '_controller' => 'Inra2013\\urzBundle\\Controller\\AnalyseController::SearchProtocoleAction',  '_route' => 'Inra2013Bundle_SearchProtocole',);
             }
 
+            // Inra2013Bundle_CudAnalyse
+            if ($pathinfo === '/User/CudAnalyse') {
+                return array (  '_controller' => 'Inra2013\\urzBundle\\Controller\\AnalyseController::CudAnalyseAction',  '_route' => 'Inra2013Bundle_CudAnalyse',);
+            }
+
+            // Inra2013Bundle_VoirAnalyse
+            if ($pathinfo === '/User/VoirAnalyse') {
+                return array (  '_controller' => 'Inra2013\\urzBundle\\Controller\\AnalyseController::VoirAnalyseAction',  '_route' => 'Inra2013Bundle_VoirAnalyse',);
+            }
+
+            // Inra2013Bundle_VoirAnalyseChercheur
+            if ($pathinfo === '/User/VoirAnalyseFini') {
+                return array (  '_controller' => 'Inra2013\\urzBundle\\Controller\\AnalyseController::VoirAnalyseChercheurAction',  '_route' => 'Inra2013Bundle_VoirAnalyseChercheur',);
+            }
+
             // Inra2013Bundle_CreateAnalyse
             if ($pathinfo === '/User/CreateAnalyse') {
                 return array (  '_controller' => 'Inra2013\\urzBundle\\Controller\\AnalyseController::CreateAnalyseAction',  '_route' => 'Inra2013Bundle_CreateAnalyse',);
@@ -99,11 +114,6 @@ class appProdUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirecta
             // Inra2013Bundle_UpdateAnalyse
             if ($pathinfo === '/User/UpdateAnalyse') {
                 return array (  '_controller' => 'Inra2013\\urzBundle\\Controller\\AnalyseController::UpdateAnalyseAction',  '_route' => 'Inra2013Bundle_UpdateAnalyse',);
-            }
-
-            // Inra2013urzBunle_VoirAnalyse
-            if (0 === strpos($pathinfo, '/User/VoirAnalyse') && preg_match('#^/User/VoirAnalyse/(?P<numProtocole>[^/]+)$#s', $pathinfo, $matches)) {
-                return array_merge($this->mergeDefaults($matches, array (  '_controller' => 'Inra2013\\urzBundle\\Controller\\AnalyseController::VoirAnalyseAction',)), array('_route' => 'Inra2013urzBunle_VoirAnalyse'));
             }
 
             // Inra2013Bundle_CreateProtocole
@@ -121,6 +131,11 @@ class appProdUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirecta
                 return array (  '_controller' => 'Inra2013\\urzBundle\\Controller\\AnalyseController::SearchTypeAnalyseAction',  '_route' => 'Inra2013Bundle_SearchTypeAnalyse',);
             }
 
+            // Inra2013Bundle_SearchChamp
+            if ($pathinfo === '/Search/Champ') {
+                return array (  '_controller' => 'Inra2013\\urzBundle\\Controller\\AnalyseController::SearchChampAction',  '_route' => 'Inra2013Bundle_SearchChamp',);
+            }
+
             // Inra2013Bundle_ValidAnalyse
             if ($pathinfo === '/User/Validation') {
                 return array (  '_controller' => 'Inra2013\\urzBundle\\Controller\\AnalyseController::ValidAnalyseAction',  '_route' => 'Inra2013Bundle_ValidAnalyse',);
@@ -129,6 +144,16 @@ class appProdUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirecta
             // Inra2013Bundle_CreateAnalyseBdd
             if ($pathinfo === '/User/AnalyseCreate') {
                 return array (  '_controller' => 'Inra2013\\urzBundle\\Controller\\AnalyseController::CreateAnalyseBddAction',  '_route' => 'Inra2013Bundle_CreateAnalyseBdd',);
+            }
+
+            // Inra2013Bundle_FormuleChamp
+            if ($pathinfo === '/User/FormuleChamp') {
+                return array (  '_controller' => 'Inra2013\\urzBundle\\Controller\\AnalyseController::FormuleChampAction',  '_route' => 'Inra2013Bundle_FormuleChamp',);
+            }
+
+            // Inra2013Bundle_Save
+            if (0 === strpos($pathinfo, '/User/Save') && preg_match('#^/User/Save/(?P<Status>[^/]+)$#s', $pathinfo, $matches)) {
+                return array_merge($this->mergeDefaults($matches, array (  '_controller' => 'Inra2013\\urzBundle\\Controller\\AnalyseController::SaveAction',)), array('_route' => 'Inra2013Bundle_Save'));
             }
 
         }

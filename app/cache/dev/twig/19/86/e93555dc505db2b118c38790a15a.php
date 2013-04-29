@@ -67,25 +67,58 @@ class __TwigTemplate_1986e93555dc505db2b118c38790a15a extends Twig_Template
             echo $this->env->getExtension('form')->renderer->searchAndRenderBlock((isset($context["form"]) ? $context["form"] : $this->getContext($context, "form")), 'rest');
             echo " 
 
-
+";
+            // line 19
+            $context['_parent'] = (array) $context;
+            $context['_seq'] = twig_ensure_traversable((isset($context["TypeCategorie"]) ? $context["TypeCategorie"] : $this->getContext($context, "TypeCategorie")));
+            $context['loop'] = array(
+              'parent' => $context['_parent'],
+              'index0' => 0,
+              'index'  => 1,
+              'first'  => true,
+            );
+            if (is_array($context['_seq']) || (is_object($context['_seq']) && $context['_seq'] instanceof Countable)) {
+                $length = count($context['_seq']);
+                $context['loop']['revindex0'] = $length - 1;
+                $context['loop']['revindex'] = $length;
+                $context['loop']['length'] = $length;
+                $context['loop']['last'] = 1 === $length;
+            }
+            foreach ($context['_seq'] as $context["_key"] => $context["Resultat"]) {
+                // line 20
+                echo "        </br>
+        <div id=\"style";
+                // line 21
+                echo twig_escape_filter($this->env, $this->getAttribute((isset($context["loop"]) ? $context["loop"] : $this->getContext($context, "loop")), "index"), "html", null, true);
+                echo "\"></div>
+        <select id=\"analyse";
+                // line 22
+                echo twig_escape_filter($this->env, $this->getAttribute((isset($context["loop"]) ? $context["loop"] : $this->getContext($context, "loop")), "index"), "html", null, true);
+                echo "\" class=\"select\"><option>Sélectionner catégorie</option></select>
+        </br>
+        <div id=\"resultat";
+                // line 24
+                echo twig_escape_filter($this->env, $this->getAttribute((isset($context["loop"]) ? $context["loop"] : $this->getContext($context, "loop")), "index"), "html", null, true);
+                echo "\"></div>     
+  ";
+                ++$context['loop']['index0'];
+                ++$context['loop']['index'];
+                $context['loop']['first'] = false;
+                if (isset($context['loop']['length'])) {
+                    --$context['loop']['revindex0'];
+                    --$context['loop']['revindex'];
+                    $context['loop']['last'] = 0 === $context['loop']['revindex0'];
+                }
+            }
+            $_parent = $context['_parent'];
+            unset($context['_seq'], $context['_iterated'], $context['_key'], $context['Resultat'], $context['_parent'], $context['loop']);
+            $context = array_merge($_parent, array_intersect_key($context, $_parent));
+            // line 25
+            echo "   
         </br>
 ";
-            // line 22
-            echo "        <div id=\"style1\"></div>
-        <select id=\"analyse1\" class=\"select\"><option>Sélectionner catégorie</option></select>
-        </br>
-        <div id=\"resultat1\"></div>
-";
-            // line 27
-            echo "        <div id=\"style2\"></div>
-        <select id=\"analyse2\" class=\"select\"><option>Sélectionner catégorie</option></select>
-        </br>
-        <div id=\"resultat2\"></div>
-
-        </br>
-
-
-
+            // line 33
+            echo "
         <input type=\"submit\" value=\"Annuler\" class=\"btn btn-danger\" />
         <input type=\"submit\" class=\"btn btn-primary\" />
 
@@ -100,52 +133,52 @@ class __TwigTemplate_1986e93555dc505db2b118c38790a15a extends Twig_Template
 
 ";
         }
-        // line 49
+        // line 47
         echo "
 ";
     }
 
-    // line 52
+    // line 50
     public function block_stylesheets($context, array $blocks = array())
     {
-        // line 53
+        // line 51
         echo "<link rel=\"stylesheet\" href=\"";
         echo twig_escape_filter($this->env, $this->env->getExtension('assets')->getAssetUrl("css/cupertino/jquery-ui-1.10.2.custom.min.css"), "html", null, true);
         echo "\" />  ";
         echo " 
 <link rel=\"stylesheet\" type=\"text/css\" href=\"";
-        // line 54
+        // line 52
         echo twig_escape_filter($this->env, $this->env->getExtension('assets')->getAssetUrl("js/CLEditor1_3_0/jquery.cleditor.css"), "html", null, true);
         echo "\" /> ";
         echo " 
 ";
     }
 
-    // line 59
+    // line 57
     public function block_javascripts($context, array $blocks = array())
     {
-        // line 60
+        // line 58
         echo "
 <script type=\"text/javascript\"  src=\"";
-        // line 61
+        // line 59
         echo twig_escape_filter($this->env, $this->env->getExtension('assets')->getAssetUrl("js/jquery-ui-1.10.0.custom.min.js"), "html", null, true);
         echo "\" ></script> ";
-        // line 62
+        // line 60
         echo "<script type=\"text/javascript\" src=\"";
         echo twig_escape_filter($this->env, $this->env->getExtension('assets')->getAssetUrl("js/CLEditor1_3_0/jquery.cleditor.min.js"), "html", null, true);
         echo "\"></script> ";
-        // line 63
+        // line 61
         echo "<script type=\"text/javascript\" src=\"";
         echo twig_escape_filter($this->env, $this->env->getExtension('assets')->getAssetUrl("js/CLEditor1_3_0/jquery.cleditor.js"), "html", null, true);
         echo "\"></script> ";
-        // line 64
+        // line 62
         echo "<script type=\"text/javascript\" src=\"";
         echo twig_escape_filter($this->env, $this->env->getExtension('assets')->getAssetUrl("js/CLEditor1_3_0/plugin.js"), "html", null, true);
         echo "\"></script> ";
-        // line 65
+        // line 63
         echo "
 <script type=\"text/javascript\">
-    \$(document).ready(function() {        
+    \$(document).ready(function() {
 
         \$(\".ckeditor\").cleditor();
 
@@ -158,23 +191,98 @@ class __TwigTemplate_1986e93555dc505db2b118c38790a15a extends Twig_Template
 
         \$(function() {
 
-            \$(\"#analyse1\").hide();
-            \$(\"#analyse2\").hide();
+";
+        // line 78
+        $context['_parent'] = (array) $context;
+        $context['_seq'] = twig_ensure_traversable((isset($context["TypeCategorie"]) ? $context["TypeCategorie"] : $this->getContext($context, "TypeCategorie")));
+        $context['loop'] = array(
+          'parent' => $context['_parent'],
+          'index0' => 0,
+          'index'  => 1,
+          'first'  => true,
+        );
+        if (is_array($context['_seq']) || (is_object($context['_seq']) && $context['_seq'] instanceof Countable)) {
+            $length = count($context['_seq']);
+            $context['loop']['revindex0'] = $length - 1;
+            $context['loop']['revindex'] = $length;
+            $context['loop']['length'] = $length;
+            $context['loop']['last'] = 1 === $length;
+        }
+        foreach ($context['_seq'] as $context["_key"] => $context["Resultat"]) {
+            // line 79
+            echo "          \$(\"#analyse";
+            echo twig_escape_filter($this->env, $this->getAttribute((isset($context["loop"]) ? $context["loop"] : $this->getContext($context, "loop")), "index"), "html", null, true);
+            echo "\").hide();
+ ";
+            ++$context['loop']['index0'];
+            ++$context['loop']['index'];
+            $context['loop']['first'] = false;
+            if (isset($context['loop']['length'])) {
+                --$context['loop']['revindex0'];
+                --$context['loop']['revindex'];
+                $context['loop']['last'] = 0 === $context['loop']['revindex0'];
+            }
+        }
+        $_parent = $context['_parent'];
+        unset($context['_seq'], $context['_iterated'], $context['_key'], $context['Resultat'], $context['_parent'], $context['loop']);
+        $context = array_merge($_parent, array_intersect_key($context, $_parent));
+        // line 80
+        echo " 
+          
+           
 
             \$('input[type=checkbox]').click(function() {
                 var cochee = \$(this).is(':checked'); // je regarde si la case est cochée ou non 
 
                 var value = \$(this).attr(\"value\"); //je recupere la valeur value dans le checkbox
                 var DATA = 'id=' + value;
+";
+        // line 89
+        $context['_parent'] = (array) $context;
+        $context['_seq'] = twig_ensure_traversable((isset($context["TypeCategorie"]) ? $context["TypeCategorie"] : $this->getContext($context, "TypeCategorie")));
+        $context['loop'] = array(
+          'parent' => $context['_parent'],
+          'index0' => 0,
+          'index'  => 1,
+          'first'  => true,
+        );
+        if (is_array($context['_seq']) || (is_object($context['_seq']) && $context['_seq'] instanceof Countable)) {
+            $length = count($context['_seq']);
+            $context['loop']['revindex0'] = $length - 1;
+            $context['loop']['revindex'] = $length;
+            $context['loop']['length'] = $length;
+            $context['loop']['last'] = 1 === $length;
+        }
+        foreach ($context['_seq'] as $context["_key"] => $context["Resultat"]) {
+            // line 90
+            echo "         var div_style_titre";
+            echo twig_escape_filter($this->env, $this->getAttribute((isset($context["loop"]) ? $context["loop"] : $this->getContext($context, "loop")), "index"), "html", null, true);
+            echo " = \"<fieldset><legend>";
+            echo twig_escape_filter($this->env, (isset($context["Resultat"]) ? $context["Resultat"] : $this->getContext($context, "Resultat")), "html", null, true);
+            echo "</fieldset>\";
+ ";
+            ++$context['loop']['index0'];
+            ++$context['loop']['index'];
+            $context['loop']['first'] = false;
+            if (isset($context['loop']['length'])) {
+                --$context['loop']['revindex0'];
+                --$context['loop']['revindex'];
+                $context['loop']['last'] = 0 === $context['loop']['revindex0'];
+            }
+        }
+        $_parent = $context['_parent'];
+        unset($context['_seq'], $context['_iterated'], $context['_key'], $context['Resultat'], $context['_parent'], $context['loop']);
+        $context = array_merge($_parent, array_intersect_key($context, $_parent));
+        // line 91
+        echo " 
 
-                var div_style_titre1 = \"<fieldset><legend>Analyses Chimiques et Biochimiques</legend></fieldset>\";
-                var div_style_titre2 = \"<fieldset><legend>Analyses Biologiques</legend></fieldset>\";
+              
                 if (cochee == true) {
                     \$(function() {
 
                         \$.ajax({
                             url: \"";
-        // line 95
+        // line 98
         echo twig_escape_filter($this->env, $this->env->getExtension('routing')->getPath("Inra2013Bundle_SearchCategorieAnalyse"), "html", null, true);
         echo "\", // j'utilise le lien pour aller cherche les contenus à rajouter
                             cache: false,
@@ -185,26 +293,67 @@ class __TwigTemplate_1986e93555dc505db2b118c38790a15a extends Twig_Template
 
                                 \$.map(data, function(item, i) {
 
+";
+        // line 107
+        $context['_parent'] = (array) $context;
+        $context['_seq'] = twig_ensure_traversable((isset($context["TypeCategorie"]) ? $context["TypeCategorie"] : $this->getContext($context, "TypeCategorie")));
+        $context['loop'] = array(
+          'parent' => $context['_parent'],
+          'index0' => 0,
+          'index'  => 1,
+          'first'  => true,
+        );
+        if (is_array($context['_seq']) || (is_object($context['_seq']) && $context['_seq'] instanceof Countable)) {
+            $length = count($context['_seq']);
+            $context['loop']['revindex0'] = $length - 1;
+            $context['loop']['revindex'] = $length;
+            $context['loop']['length'] = $length;
+            $context['loop']['last'] = 1 === $length;
+        }
+        foreach ($context['_seq'] as $context["_key"] => $context["Resultat"]) {
+            // line 108
+            echo "
 
-
-                                    if (value == 1) {  // si c le premier type de categorie
-                                        \$(\"#analyse1\").show();
+                                 if (value == \"";
+            // line 110
+            echo twig_escape_filter($this->env, $this->getAttribute((isset($context["loop"]) ? $context["loop"] : $this->getContext($context, "loop")), "index"), "html", null, true);
+            echo "\" ) {  // si c le premier type de categorie
+                                        \$(\"#analyse";
+            // line 111
+            echo twig_escape_filter($this->env, $this->getAttribute((isset($context["loop"]) ? $context["loop"] : $this->getContext($context, "loop")), "index"), "html", null, true);
+            echo "\").show();
                                         var div_data = \"<option value=\" + item.id + \">\" + item.Nom + \"</option>\";
-                                        \$(div_data).appendTo(\"#analyse1\");
+                                        \$(div_data).appendTo(\"#analyse";
+            // line 113
+            echo twig_escape_filter($this->env, $this->getAttribute((isset($context["loop"]) ? $context["loop"] : $this->getContext($context, "loop")), "index"), "html", null, true);
+            echo "\");
                                         if (i == 0) { // on affiche le titre qu'une seul fois 
-                                            \$(div_style_titre1).appendTo(\"#style1\");
+                                            \$(div_style_titre";
+            // line 115
+            echo twig_escape_filter($this->env, $this->getAttribute((isset($context["loop"]) ? $context["loop"] : $this->getContext($context, "loop")), "index"), "html", null, true);
+            echo ").appendTo(\"#style";
+            echo twig_escape_filter($this->env, $this->getAttribute((isset($context["loop"]) ? $context["loop"] : $this->getContext($context, "loop")), "index"), "html", null, true);
+            echo "\");
                                         }
 
-                                    } else if (value == 2) {  //si c le deuxieme,on l'affiche dans une autre div 
-                                        \$(\"#analyse2\").show();
-                                        var div_data = \"<option value=\" + item.id + \">\" + item.Nom + \"</option>\";
-                                        \$(div_data).appendTo(\"#analyse2\");
-
-                                        if (i == 0) {
-                                            // on affiche le titre qu'une seul fois 
-                                            \$(div_style_titre2).appendTo(\"#style2\");
-                                        }
                                     }
+                            
+   ";
+            ++$context['loop']['index0'];
+            ++$context['loop']['index'];
+            $context['loop']['first'] = false;
+            if (isset($context['loop']['length'])) {
+                --$context['loop']['revindex0'];
+                --$context['loop']['revindex'];
+                $context['loop']['last'] = 0 === $context['loop']['revindex0'];
+            }
+        }
+        $_parent = $context['_parent'];
+        unset($context['_seq'], $context['_iterated'], $context['_key'], $context['Resultat'], $context['_parent'], $context['loop']);
+        $context = array_merge($_parent, array_intersect_key($context, $_parent));
+        // line 120
+        echo "                                   
+                                    
 
                                 })
 
@@ -218,20 +367,65 @@ class __TwigTemplate_1986e93555dc505db2b118c38790a15a extends Twig_Template
 
 
                 } else { //si on decoche le checkbox
+";
+        // line 135
+        $context['_parent'] = (array) $context;
+        $context['_seq'] = twig_ensure_traversable((isset($context["TypeCategorie"]) ? $context["TypeCategorie"] : $this->getContext($context, "TypeCategorie")));
+        $context['loop'] = array(
+          'parent' => $context['_parent'],
+          'index0' => 0,
+          'index'  => 1,
+          'first'  => true,
+        );
+        if (is_array($context['_seq']) || (is_object($context['_seq']) && $context['_seq'] instanceof Countable)) {
+            $length = count($context['_seq']);
+            $context['loop']['revindex0'] = $length - 1;
+            $context['loop']['revindex'] = $length;
+            $context['loop']['length'] = $length;
+            $context['loop']['last'] = 1 === $length;
+        }
+        foreach ($context['_seq'] as $context["_key"] => $context["Resultat"]) {
+            // line 136
+            echo "
+     if (value == \"";
+            // line 137
+            echo twig_escape_filter($this->env, $this->getAttribute((isset($context["loop"]) ? $context["loop"] : $this->getContext($context, "loop")), "index"), "html", null, true);
+            echo "\") {
 
-                    if (value == 1) {
-
-                        \$(\"#style1\").empty();
-                        \$(\"#analyse1\").empty();
-                        \$(\"#analyse1\").hide();
-
-                    } else if (value == 2) {
-
-                        \$(\"#style2\").empty()
-                        \$(\"#analyse2\").empty();
-                        \$(\"#analyse2\").hide();
-
+                        \$(\"#style";
+            // line 139
+            echo twig_escape_filter($this->env, $this->getAttribute((isset($context["loop"]) ? $context["loop"] : $this->getContext($context, "loop")), "index"), "html", null, true);
+            echo "\").empty();
+                        \$(\"#analyse";
+            // line 140
+            echo twig_escape_filter($this->env, $this->getAttribute((isset($context["loop"]) ? $context["loop"] : $this->getContext($context, "loop")), "index"), "html", null, true);
+            echo "\").empty();
+                        \$(\"#analyse";
+            // line 141
+            echo twig_escape_filter($this->env, $this->getAttribute((isset($context["loop"]) ? $context["loop"] : $this->getContext($context, "loop")), "index"), "html", null, true);
+            echo "\").hide();
+                        \$(\"#resultat";
+            // line 142
+            echo twig_escape_filter($this->env, $this->getAttribute((isset($context["loop"]) ? $context["loop"] : $this->getContext($context, "loop")), "index"), "html", null, true);
+            echo "\").hide();
                     }
+   ";
+            ++$context['loop']['index0'];
+            ++$context['loop']['index'];
+            $context['loop']['first'] = false;
+            if (isset($context['loop']['length'])) {
+                --$context['loop']['revindex0'];
+                --$context['loop']['revindex'];
+                $context['loop']['last'] = 0 === $context['loop']['revindex0'];
+            }
+        }
+        $_parent = $context['_parent'];
+        unset($context['_seq'], $context['_iterated'], $context['_key'], $context['Resultat'], $context['_parent'], $context['loop']);
+        $context = array_merge($_parent, array_intersect_key($context, $_parent));
+        // line 144
+        echo "                                   
+                    
+          
                 }
 
 
@@ -239,12 +433,38 @@ class __TwigTemplate_1986e93555dc505db2b118c38790a15a extends Twig_Template
 
 
             /***************************************************************************************************************************************/
+";
+        // line 154
+        $context['_parent'] = (array) $context;
+        $context['_seq'] = twig_ensure_traversable((isset($context["TypeCategorie"]) ? $context["TypeCategorie"] : $this->getContext($context, "TypeCategorie")));
+        $context['loop'] = array(
+          'parent' => $context['_parent'],
+          'index0' => 0,
+          'index'  => 1,
+          'first'  => true,
+        );
+        if (is_array($context['_seq']) || (is_object($context['_seq']) && $context['_seq'] instanceof Countable)) {
+            $length = count($context['_seq']);
+            $context['loop']['revindex0'] = $length - 1;
+            $context['loop']['revindex'] = $length;
+            $context['loop']['length'] = $length;
+            $context['loop']['last'] = 1 === $length;
+        }
+        foreach ($context['_seq'] as $context["_key"] => $context["Resultat"]) {
+            // line 155
+            echo "            \$(\"select#analyse";
+            echo twig_escape_filter($this->env, $this->getAttribute((isset($context["loop"]) ? $context["loop"] : $this->getContext($context, "loop")), "index"), "html", null, true);
+            echo " \").click(function() {
 
-            \$(\"select#analyse1 \").click(function() {
+                \$(\"select#analyse";
+            // line 157
+            echo twig_escape_filter($this->env, $this->getAttribute((isset($context["loop"]) ? $context["loop"] : $this->getContext($context, "loop")), "index"), "html", null, true);
+            echo " option:selected\").each(function() {
 
-                \$(\"select#analyse1 option:selected\").each(function() {
-
-                    \$(\"#resultat1\").empty();
+                    \$(\"#resultat";
+            // line 159
+            echo twig_escape_filter($this->env, $this->getAttribute((isset($context["loop"]) ? $context["loop"] : $this->getContext($context, "loop")), "index"), "html", null, true);
+            echo "\").empty();
                     value = \$(this).attr(\"value\"); //je recupere la valeur value dans le selectionnée
 
                     var DATA = 'id=' + value;
@@ -252,9 +472,9 @@ class __TwigTemplate_1986e93555dc505db2b118c38790a15a extends Twig_Template
 
                         \$.ajax({
                             url: \"";
-        // line 170
-        echo twig_escape_filter($this->env, $this->env->getExtension('routing')->getPath("Inra2013Bundle_SearchTypeAnalyse"), "html", null, true);
-        echo "\", // j'utilise le lien pour aller cherche les contenus à rajouter
+            // line 166
+            echo twig_escape_filter($this->env, $this->env->getExtension('routing')->getPath("Inra2013Bundle_SearchTypeAnalyse"), "html", null, true);
+            echo "\", // j'utilise le lien pour aller cherche les contenus à rajouter
                             cache: false,
                             dataType: \"json\",
                             method: \"POST\",
@@ -266,7 +486,10 @@ class __TwigTemplate_1986e93555dc505db2b118c38790a15a extends Twig_Template
 
                                     var div_data = \"<label class='checkbox  inline'><input type='checkbox' name='choix_analyse[]' id='inlineCheckbox'\" + i + \" value=\" + item.id + \">\" + item.Nom + \"</label>\";
 
-                                    \$(div_data).appendTo(\"#resultat1\");
+                                    \$(div_data).appendTo(\"#resultat";
+            // line 178
+            echo twig_escape_filter($this->env, $this->getAttribute((isset($context["loop"]) ? $context["loop"] : $this->getContext($context, "loop")), "index"), "html", null, true);
+            echo "\");
 
 
 
@@ -287,16 +510,21 @@ class __TwigTemplate_1986e93555dc505db2b118c38790a15a extends Twig_Template
 
             });
 
-            \$(\"select#analyse2 \").click(function() {
-
-
-                \$(\"select#analyse2 option:selected\").each(function() {
-
-                });
-
-
-
-            });
+         ";
+            ++$context['loop']['index0'];
+            ++$context['loop']['index'];
+            $context['loop']['first'] = false;
+            if (isset($context['loop']['length'])) {
+                --$context['loop']['revindex0'];
+                --$context['loop']['revindex'];
+                $context['loop']['last'] = 0 === $context['loop']['revindex0'];
+            }
+        }
+        $_parent = $context['_parent'];
+        unset($context['_seq'], $context['_iterated'], $context['_key'], $context['Resultat'], $context['_parent'], $context['loop']);
+        $context = array_merge($_parent, array_intersect_key($context, $_parent));
+        // line 199
+        echo "  
 
         });
 
@@ -320,6 +548,6 @@ class __TwigTemplate_1986e93555dc505db2b118c38790a15a extends Twig_Template
 
     public function getDebugInfo()
     {
-        return array (  256 => 170,  128 => 60,  125 => 59,  261 => 86,  258 => 85,  241 => 80,  229 => 72,  218 => 65,  197 => 63,  173 => 55,  156 => 50,  142 => 64,  86 => 24,  69 => 14,  40 => 4,  732 => 297,  727 => 294,  724 => 292,  722 => 291,  703 => 275,  699 => 274,  694 => 273,  686 => 269,  681 => 268,  678 => 267,  669 => 262,  657 => 252,  652 => 250,  649 => 249,  647 => 248,  634 => 238,  631 => 237,  624 => 232,  612 => 222,  607 => 220,  604 => 219,  602 => 218,  589 => 208,  586 => 207,  574 => 196,  564 => 191,  562 => 190,  559 => 189,  542 => 185,  536 => 182,  531 => 179,  525 => 175,  509 => 172,  502 => 170,  498 => 168,  494 => 167,  491 => 166,  484 => 164,  480 => 162,  473 => 160,  461 => 158,  459 => 157,  456 => 156,  448 => 153,  445 => 152,  443 => 151,  436 => 149,  432 => 148,  428 => 147,  423 => 144,  406 => 143,  396 => 135,  387 => 133,  384 => 132,  380 => 131,  369 => 123,  365 => 122,  362 => 121,  357 => 118,  351 => 114,  346 => 112,  329 => 108,  322 => 106,  318 => 104,  314 => 103,  311 => 102,  304 => 100,  299 => 97,  280 => 93,  278 => 92,  275 => 91,  267 => 88,  264 => 87,  262 => 86,  255 => 84,  244 => 79,  240 => 77,  223 => 76,  190 => 59,  182 => 56,  175 => 52,  158 => 51,  148 => 48,  134 => 62,  166 => 72,  150 => 67,  146 => 65,  90 => 34,  53 => 10,  49 => 9,  23 => 3,  243 => 81,  238 => 73,  234 => 68,  231 => 67,  214 => 69,  210 => 60,  203 => 55,  200 => 54,  195 => 8,  164 => 53,  129 => 61,  124 => 42,  110 => 43,  107 => 41,  87 => 37,  56 => 11,  20 => 1,  301 => 100,  295 => 96,  292 => 95,  289 => 94,  287 => 93,  282 => 90,  276 => 86,  273 => 85,  270 => 84,  268 => 83,  263 => 80,  249 => 81,  245 => 77,  230 => 75,  222 => 73,  220 => 62,  215 => 70,  211 => 69,  204 => 66,  198 => 63,  185 => 57,  183 => 60,  177 => 58,  160 => 57,  112 => 53,  82 => 30,  65 => 13,  38 => 4,  144 => 50,  141 => 54,  135 => 47,  126 => 43,  109 => 52,  103 => 43,  67 => 17,  61 => 12,  47 => 14,  28 => 6,  105 => 24,  93 => 36,  76 => 24,  72 => 32,  68 => 22,  94 => 39,  88 => 27,  79 => 25,  59 => 12,  225 => 96,  216 => 64,  212 => 88,  205 => 68,  201 => 67,  196 => 80,  194 => 62,  191 => 59,  189 => 7,  186 => 76,  180 => 55,  172 => 76,  159 => 61,  154 => 68,  147 => 55,  132 => 45,  127 => 43,  121 => 55,  118 => 54,  114 => 42,  104 => 49,  100 => 33,  78 => 18,  75 => 23,  71 => 15,  58 => 14,  34 => 5,  91 => 38,  84 => 31,  26 => 2,  27 => 4,  24 => 4,  21 => 1,  44 => 13,  31 => 2,  25 => 3,  19 => 2,  70 => 19,  63 => 20,  46 => 7,  22 => 3,  163 => 63,  155 => 58,  152 => 49,  149 => 51,  145 => 69,  139 => 50,  131 => 61,  123 => 47,  120 => 43,  115 => 40,  106 => 36,  101 => 42,  96 => 21,  83 => 18,  80 => 27,  74 => 22,  66 => 21,  55 => 15,  52 => 12,  50 => 9,  43 => 5,  41 => 5,  37 => 3,  35 => 4,  32 => 2,  29 => 2,  184 => 70,  178 => 95,  171 => 62,  165 => 58,  162 => 81,  157 => 56,  153 => 74,  151 => 73,  143 => 67,  138 => 63,  136 => 46,  133 => 43,  130 => 47,  122 => 44,  119 => 36,  116 => 46,  111 => 38,  108 => 37,  102 => 30,  98 => 39,  95 => 39,  92 => 30,  89 => 19,  85 => 29,  81 => 36,  73 => 19,  64 => 23,  60 => 19,  57 => 11,  54 => 12,  51 => 13,  48 => 7,  45 => 6,  42 => 12,  39 => 11,  36 => 6,  33 => 8,  30 => 7,);
+        return array (  527 => 199,  491 => 178,  476 => 166,  466 => 159,  455 => 155,  438 => 154,  405 => 141,  401 => 140,  397 => 139,  392 => 137,  389 => 136,  372 => 135,  355 => 120,  323 => 111,  298 => 107,  286 => 98,  277 => 91,  213 => 79,  179 => 63,  175 => 62,  167 => 60,  142 => 50,  137 => 47,  117 => 25,  140 => 54,  501 => 179,  498 => 178,  488 => 172,  473 => 171,  461 => 157,  448 => 155,  426 => 144,  422 => 149,  407 => 148,  395 => 140,  382 => 132,  360 => 128,  357 => 127,  345 => 117,  328 => 113,  319 => 110,  313 => 110,  311 => 109,  307 => 108,  303 => 107,  299 => 106,  293 => 105,  283 => 103,  275 => 100,  258 => 90,  236 => 80,  207 => 67,  192 => 63,  182 => 60,  176 => 59,  173 => 58,  86 => 20,  69 => 14,  40 => 4,  698 => 319,  677 => 289,  673 => 288,  668 => 287,  660 => 283,  655 => 282,  652 => 281,  643 => 276,  631 => 266,  626 => 264,  623 => 263,  621 => 262,  608 => 252,  605 => 251,  598 => 246,  586 => 236,  581 => 234,  578 => 233,  576 => 232,  563 => 222,  560 => 221,  551 => 214,  545 => 210,  528 => 206,  519 => 200,  511 => 196,  507 => 194,  502 => 191,  492 => 173,  487 => 184,  485 => 183,  478 => 178,  460 => 174,  450 => 156,  444 => 169,  440 => 168,  433 => 164,  429 => 163,  409 => 142,  396 => 150,  387 => 148,  384 => 133,  380 => 146,  370 => 139,  365 => 137,  359 => 134,  356 => 133,  350 => 129,  337 => 118,  333 => 115,  329 => 115,  324 => 112,  315 => 108,  310 => 106,  308 => 105,  278 => 101,  266 => 92,  259 => 90,  253 => 87,  247 => 84,  221 => 76,  206 => 64,  199 => 63,  193 => 61,  190 => 62,  174 => 50,  169 => 48,  161 => 58,  158 => 57,  156 => 41,  146 => 51,  170 => 76,  148 => 67,  113 => 51,  99 => 42,  90 => 29,  53 => 23,  49 => 9,  77 => 16,  23 => 3,  255 => 86,  250 => 77,  243 => 75,  241 => 89,  238 => 81,  234 => 68,  231 => 67,  214 => 61,  210 => 60,  203 => 55,  200 => 54,  195 => 8,  164 => 59,  129 => 35,  124 => 49,  110 => 43,  107 => 47,  87 => 28,  56 => 11,  20 => 1,  301 => 100,  295 => 96,  292 => 95,  289 => 94,  287 => 104,  282 => 90,  276 => 86,  273 => 94,  270 => 84,  268 => 93,  263 => 91,  249 => 79,  245 => 77,  230 => 80,  222 => 73,  220 => 62,  215 => 72,  211 => 69,  204 => 66,  198 => 65,  185 => 61,  183 => 60,  177 => 58,  160 => 66,  112 => 44,  82 => 36,  65 => 13,  38 => 6,  144 => 65,  141 => 54,  135 => 47,  126 => 49,  109 => 37,  103 => 30,  67 => 17,  61 => 12,  47 => 19,  28 => 6,  105 => 24,  93 => 20,  76 => 22,  72 => 19,  68 => 22,  94 => 26,  88 => 24,  79 => 17,  59 => 12,  225 => 71,  216 => 90,  212 => 88,  205 => 84,  201 => 83,  196 => 78,  194 => 62,  191 => 78,  189 => 7,  186 => 61,  180 => 72,  172 => 67,  159 => 61,  154 => 59,  147 => 55,  132 => 52,  127 => 49,  121 => 33,  118 => 29,  114 => 42,  104 => 28,  100 => 28,  78 => 24,  75 => 23,  71 => 19,  58 => 12,  34 => 5,  91 => 20,  84 => 31,  26 => 11,  27 => 4,  24 => 4,  21 => 1,  44 => 6,  31 => 2,  25 => 1,  19 => 2,  70 => 24,  63 => 19,  46 => 7,  22 => 3,  163 => 63,  155 => 54,  152 => 68,  149 => 37,  145 => 51,  139 => 50,  131 => 42,  123 => 48,  120 => 43,  115 => 40,  106 => 36,  101 => 24,  96 => 22,  83 => 26,  80 => 26,  74 => 24,  66 => 21,  55 => 12,  52 => 12,  50 => 8,  43 => 5,  41 => 7,  37 => 3,  35 => 5,  32 => 2,  29 => 3,  184 => 70,  178 => 71,  171 => 61,  165 => 57,  162 => 86,  157 => 55,  153 => 79,  151 => 52,  143 => 50,  138 => 53,  136 => 53,  133 => 43,  130 => 47,  122 => 31,  119 => 55,  116 => 46,  111 => 38,  108 => 33,  102 => 29,  98 => 22,  95 => 31,  92 => 21,  89 => 20,  85 => 23,  81 => 27,  73 => 25,  64 => 23,  60 => 17,  57 => 11,  54 => 10,  51 => 13,  48 => 7,  45 => 6,  42 => 12,  39 => 11,  36 => 6,  33 => 8,  30 => 7,);
     }
 }

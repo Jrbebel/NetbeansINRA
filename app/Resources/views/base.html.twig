@@ -39,7 +39,7 @@
 
 
 {% else %}
-
+                     
 {% render 'FOSUserBundle:Security:login' %}
 
 {% endif %}
@@ -58,8 +58,8 @@
                             <div class="well" >
                                 <ul class="nav nav-list">
                                     <li class="active"><a href={{path('Inra2013urzBundle_Homepage')}} ><i class="icon-home icon-white"></i> Accueil</a></li>
-                                    <li><a href={{Accueil.Lien.PremierLien}}><i class="icon-barcode"></i> {{Accueil.Lien.ItemPremier}}</a></li>
-                                    <li><a href={{Accueil.Lien.DeuxiemeLien}}><i class="icon-book "></i> {{Accueil.Lien.ItemDeuxieme}}</a></li>
+                                    <li><a target="_blank" href={{Accueil.Lien.PremierLien}}><i class="icon-barcode"></i> {{Accueil.Lien.ItemPremier}}</a></li>
+                                    <li><a target="_blank" href={{Accueil.Lien.DeuxiemeLien}}><i class="icon-book "></i> {{Accueil.Lien.ItemDeuxieme}}</a></li>
                                     <li><a href="#"><i class="i"></i> Misc</a></li>
                                 </ul>
                             </div>
@@ -70,7 +70,12 @@
                         <div class="span9" style="height: 300px">
 
 
-   {% block body %}{% endblock %}
+   {% block body %}
+{%if erreur is defined%}
+                            <div class="well"><strong>{{erreur}}</strong></div>
+                         
+{%endif%}   
+{% endblock %}
 
                         </div>
 

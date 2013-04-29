@@ -35,7 +35,7 @@ class Analyse {
     /**
      * @var \Date
      *
-     * @ORM\Column(name="DatePrelev",nullable=true)
+     * @ORM\Column(name="DatePrelev",type="date",nullable=true)
      */
     private $DatePrelev;
 

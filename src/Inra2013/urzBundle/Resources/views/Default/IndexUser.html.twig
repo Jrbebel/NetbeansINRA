@@ -11,8 +11,8 @@
         <li><a  href="{{path('Inra2013Bundle_VoirAnalyse')}}" ><i class="icon-eye-open"></i> Voir analyse</a></li>
         <li><a  href="{{path('Inra2013Bundle_ImportResultat')}}"   ><i class=" icon-folder-open"></i> Importer Resultat </a></li>
         <li><a  href="{{path("Inra2013Bundle_ImportListing")}}"><i class=" icon-folder-open"></i> Importer listing échantillon </a></li>
-        <li><a  href="{{path("Inra2013Bundle_CreateExcel")}}" ><i class=" icon-download-alt"></i> Exporter fichier protocole </a></li>
-        <li><a  href="{{path("Inra2013Bundle_CreateExcel")}}" ><i class=" icon-download-alt"></i> Exporter resultat excel </a></li>
+        <li><a  href="{{path("Inra2013Bundle_CreateExcel",{'Typage':'1'})}}" ><i class=" icon-download-alt"></i> Exporter feuille protocole </a></li>
+        <li><a  href="{{path("Inra2013Bundle_CreateExcel")}}" ><i class=" icon-download-alt"></i> Exporter resultat protocole </a></li>
 {% if is_granted('ROLE_RESPONSABLE') %}
             <li><a  href="{{path('Inra2013Bundle_CreateAnalyseBdd')}}" ><i class=" icon-plus"></i> Créer type analyse</a></li>
 
@@ -54,7 +54,7 @@
                     {% if Encours.Validation == 1 or Encours.Validation == 3 %}
                     <td><a href="{{path("Inra2013Bundle_VoirAnalyse",{'NumProtocole':Encours.id})}}" >{{Encours.NomProtocole}}</a></td>
                     {%else%}
-                        <td><a href="{{path("Inra2013Bundle_CudAnalyse",{'NumProtocole':Encours.id})}}" >{{Encours.NomProtocole}}</a></td>
+                        <td><a href="{{path("Inra2013Bundle_CudAnalyse",{'numProtocole':Encours.id})}}" >{{Encours.NomProtocole}}</a></td>
                     {%endif%}  
                             <td>{{Encours.Responsable.Nom}} {{Encours.Responsable.Prenom}}</td>
                             <td>{{Encours.DateValidation|date("d-m-Y")}}</td>

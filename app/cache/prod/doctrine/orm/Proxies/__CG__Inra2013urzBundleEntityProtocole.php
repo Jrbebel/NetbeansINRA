@@ -135,10 +135,22 @@ class Protocole extends \Inra2013\urzBundle\Entity\Protocole implements \Doctrin
         return parent::getCommentaire();
     }
 
+    public function setDateValidationAnalyse($dateValidationAnalyse)
+    {
+        $this->__load();
+        return parent::setDateValidationAnalyse($dateValidationAnalyse);
+    }
+
+    public function getDateValidationAnalyse()
+    {
+        $this->__load();
+        return parent::getDateValidationAnalyse();
+    }
+
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'id', 'NomProtocole', 'DateValidation', 'Validation', 'Description', 'Commentaire', 'Responsable');
+        return array('__isInitialized__', 'id', 'NomProtocole', 'DateValidation', 'DateValidationAnalyse', 'Validation', 'Description', 'Commentaire', 'Responsable');
     }
 
     public function __clone()

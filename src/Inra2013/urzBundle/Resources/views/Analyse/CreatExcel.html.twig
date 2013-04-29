@@ -33,41 +33,47 @@
         <input type="text" id="protocole" name="protocole" required="required" />
         <input type="hidden" name="idprotocole" id="institut" />
         <input type="hidden" name="demande" value="{{type}}"/>
-               <button type="submit" class="btn">Search</button>
+        {%if Typage is defined%}
+        <input type="hidden" name="typage" value="{{Typage}}" />
+       {%endif%}
+        <button type="submit" class="btn">Search</button>
     </form>
 </div>
 
 {% if protocole is defined %}
 
-    <form class="form-search" action="{{path(form_path)}}" method="POST">
+<form class="form-search" action="{{path(form_path)}}" method="POST">
 
-<div class="alert alert-info"> <button type="button" class="close" data-dismiss="alert">&times;</button>
-    <dl class="dl-horizontal">
-        <dt>Num Protocole : </dt>
-        <dd>{{protocole[0].id}}</dd>
-        <dt>Description : </dt>
-        <dd>{{protocole[0].NomProtocole}}</dd>
-        <dt>Dirigé par : </dt>
-        <dd>{{protocole[0].Responsable.Nom}} {{protocole[0].Responsable.Prenom}}</dd>
-        <dt>Date validation: </dt>
-        <dd>{{protocole[0].DateValidation | date("d M Y")}}</dd>
-        <dt>Description:</dt>
-        <dd>{{ protocole[0].Description | raw }}</dd>
-        <dt>Analyse faite : </dt>
-        <dd>
+    <div class="alert alert-info"> <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <dl class="dl-horizontal">
+            <dt>Num Protocole : </dt>
+            <dd>{{protocole[0].id}}</dd>
+            <dt>Description : </dt>
+            <dd>{{protocole[0].NomProtocole}}</dd>
+            <dt>Dirigé par : </dt>
+            <dd>{{protocole[0].Responsable.Nom}} {{protocole[0].Responsable.Prenom}}</dd>
+            <dt>Date validation: </dt>
+            <dd>{{protocole[0].DateValidation | date("d M Y")}}</dd>
+            <dt>Description:</dt>
+            <dd>{{ protocole[0].Description | raw }}</dd>
+            <dt>Analyse faite : </dt>
+            <dd>
     {% for analyse in Analyse %}
-                
+
                 {{analyse.Nom}},
-                
+
                 {%endfor%}
-        
-        </dd>
-    </dl>
-        </br>
-        <input type="hidden" name="NumProtocole" value="{{protocole[0].id}}" />
-        <input type="hidden" name="demande" value="{{type}}" />
-        <input type="submit"  value="{{form_value}}" class="btn btn-primary" />
-</div>
+
+                </dd>
+            </dl>
+            </br>
+            <input type="hidden" name=" numProtocole" value="{{protocole[0].id}}" />
+            <input type="hidden" name="demande" value="{{type}}" />
+        {%if Typage is defined%}
+            <input type="hidden" name="Typage" value="{{Typage}}" />
+             {%endif%}
+            <input type="submit"  value="{{form_value}}" class="btn btn-primary" />
+        </div>
     </form>
 {% endif %}
 
@@ -75,61 +81,59 @@
 
 {% block javascripts %}
 
-<script type="text/javascript" src="{{asset('js/jquery.ui.autocomplete.js')}}"></script>
-<script type="text/javascript" src="{{asset('js/jquery-ui-1.10.0.custom.js')}}"></script>
-<script type="text/javascript" src="{{asset('js/jquery.ui.core.min.js')}}"></script>
-<script type="text/javascript" src="{{asset('js/jquery.ui.position.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/jquery.ui.autocomplete.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/jquery-ui-1.10.0.custom.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/jquery.ui.core.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/jquery.ui.position.min.js')}}"></script>
 
 
 
 
-<script type="text/javascript">
+    <script type="text/javascript">
 
-       $(document).ready(function () {
+        $(document).ready(function() {
 
 
             $("#protocole").autocomplete({
-    
-                source: function (request, response) {
-                    
+                source: function(request, response) {
+
                     var id = $('#protocole').val();
-                 console.log("Id;" +id);
+                    console.log("Id;" + id);
                     var DATA = 'id=' + id;
                     $.ajax({
-                        url: "{{ path('Inra2013Bundle_SearchProtocole') }}", 
+                        url: "{{ path('Inra2013Bundle_SearchProtocole') }}",
                         method: "POST",
                         dataType: "json",
                         data: DATA,
-                        success: function (data) {
-                            response($.map(data, function (item,i) {  
-                              
-                                return {                                   
-                         
+                        success: function(data) {
+                            response($.map(data, function(item, i) {
+
+                                return {
                                     value: item.NomProtocole,
                                     id: item.id,
-                                    }
+                                }
                             }))
                         }
                     })
                 },
-                select: function (event, ui) {
-                
-                    $('#institut').val( ui.item.id);
-                
+                select: function(event, ui) {
+
+                    $('#institut').val(ui.item.id);
+
                 },
-                change: function (event, ui) {
-                 
+                change: function(event, ui) {
+
                     $('#institut').val(ui.item.id);
 
 
 
                 }
             });
-     
-      });
-     
-     
-      
-    </script>
+
+        });
+
+
+
+        </script>
 
 {% endblock %}

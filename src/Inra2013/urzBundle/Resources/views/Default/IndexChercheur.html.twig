@@ -36,16 +36,21 @@
         {% for Encours in response %}
             <tr class="{{attribute(ValideChercheur.class,Encours.Validation)}}">
                 <td>{{loop.index}}</td>
+                {% if Encours.Validation == 2 %}
                 <td><a href="{{path("Inra2013Bundle_VoirAnalyseChercheur",{'NumProtocole':Encours.id})}}" >{{Encours.NomProtocole}}</a></td>
-                <td>{{Encours.DateValidation|date("d-m-Y")}}</td>  
-                <td>{{attribute(ValideChercheur.info,Encours.Validation)}}</td>
-            </tr> 
+               {% else %}
+                    <td>{{Encours.NomProtocole}}</td>
+
+                    {%endif%}
+                    <td>{{Encours.DateValidation|date("d-m-Y")}}</td>  
+                    <td>{{attribute(ValideChercheur.info,Encours.Validation)}}</td>
+                </tr> 
 
 
 {% endfor %} 
 
-        </tbody>
-    </table>
+            </tbody>
+        </table>
 
 {% endif %} 
 

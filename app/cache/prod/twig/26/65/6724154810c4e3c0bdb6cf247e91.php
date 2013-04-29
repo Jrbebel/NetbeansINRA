@@ -50,31 +50,39 @@ class __TwigTemplate_26656724154810c4e3c0bdb6cf247e91 extends Twig_Template
         echo "\"  ><i class=\" icon-plus\"></i> Créer analyse </a></li>
         <li><a  href=\"";
         // line 10
-        echo twig_escape_filter($this->env, $this->env->getExtension('routing')->getPath("Inra2013Bundle_UpdateAnalyse"), "html", null, true);
+        echo twig_escape_filter($this->env, $this->env->getExtension('routing')->getPath("Inra2013Bundle_CudAnalyse"), "html", null, true);
         echo "\" ><i class=\"icon-pencil\"></i> Modifier analyse</a></li>
         <li><a  href=\"";
         // line 11
+        echo twig_escape_filter($this->env, $this->env->getExtension('routing')->getPath("Inra2013Bundle_VoirAnalyse"), "html", null, true);
+        echo "\" ><i class=\"icon-eye-open\"></i> Voir analyse</a></li>
+        <li><a  href=\"";
+        // line 12
         echo twig_escape_filter($this->env, $this->env->getExtension('routing')->getPath("Inra2013Bundle_ImportResultat"), "html", null, true);
         echo "\"   ><i class=\" icon-folder-open\"></i> Importer Resultat </a></li>
         <li><a  href=\"";
-        // line 12
+        // line 13
         echo twig_escape_filter($this->env, $this->env->getExtension('routing')->getPath("Inra2013Bundle_ImportListing"), "html", null, true);
         echo "\"><i class=\" icon-folder-open\"></i> Importer listing échantillon </a></li>
         <li><a  href=\"";
-        // line 13
-        echo twig_escape_filter($this->env, $this->env->getExtension('routing')->getPath("Inra2013Bundle_CreateExcel"), "html", null, true);
-        echo "\" ><i class=\" icon-download-alt\"></i> Exporter fichier excel </a></li>
-";
         // line 14
+        echo twig_escape_filter($this->env, $this->env->getExtension('routing')->getPath("Inra2013Bundle_CreateExcel", array("Typage" => "1")), "html", null, true);
+        echo "\" ><i class=\" icon-download-alt\"></i> Exporter feuille protocole </a></li>
+        <li><a  href=\"";
+        // line 15
+        echo twig_escape_filter($this->env, $this->env->getExtension('routing')->getPath("Inra2013Bundle_CreateExcel"), "html", null, true);
+        echo "\" ><i class=\" icon-download-alt\"></i> Exporter resultat protocole </a></li>
+";
+        // line 16
         if ($this->env->getExtension('security')->isGranted("ROLE_RESPONSABLE")) {
-            // line 15
+            // line 17
             echo "            <li><a  href=\"";
             echo twig_escape_filter($this->env, $this->env->getExtension('routing')->getPath("Inra2013Bundle_CreateAnalyseBdd"), "html", null, true);
             echo "\" ><i class=\" icon-plus\"></i> Créer type analyse</a></li>
 
 ";
         }
-        // line 18
+        // line 20
         echo "        </ul>
 
     </div>
@@ -82,11 +90,22 @@ class __TwigTemplate_26656724154810c4e3c0bdb6cf247e91 extends Twig_Template
 ";
     }
 
-    // line 24
+    // line 26
     public function block_body($context, array $blocks = array())
     {
         echo " 
 
+";
+        // line 28
+        if (twig_test_empty((isset($context["response"]) ? $context["response"] : null))) {
+            // line 29
+            echo "    <div class=\"alert alert-info\">
+        <h4>AUCUN PROTOCOLE EN COURS</h4>
+    </div>
+";
+        } else {
+            // line 33
+            echo "
     <table class=\"table table-striped\" >
 
         <thead>
@@ -103,169 +122,390 @@ class __TwigTemplate_26656724154810c4e3c0bdb6cf247e91 extends Twig_Template
 
         <tbody>
  ";
-        // line 41
-        $context['_parent'] = (array) $context;
-        $context['_seq'] = twig_ensure_traversable((isset($context["response"]) ? $context["response"] : null));
-        $context['loop'] = array(
-          'parent' => $context['_parent'],
-          'index0' => 0,
-          'index'  => 1,
-          'first'  => true,
-        );
-        if (is_array($context['_seq']) || (is_object($context['_seq']) && $context['_seq'] instanceof Countable)) {
-            $length = count($context['_seq']);
-            $context['loop']['revindex0'] = $length - 1;
-            $context['loop']['revindex'] = $length;
-            $context['loop']['length'] = $length;
-            $context['loop']['last'] = 1 === $length;
-        }
-        foreach ($context['_seq'] as $context["_key"] => $context["Encours"]) {
-            // line 42
-            echo "
+            // line 49
+            $context['_parent'] = (array) $context;
+            $context['_seq'] = twig_ensure_traversable((isset($context["response"]) ? $context["response"] : null));
+            $context['loop'] = array(
+              'parent' => $context['_parent'],
+              'index0' => 0,
+              'index'  => 1,
+              'first'  => true,
+            );
+            if (is_array($context['_seq']) || (is_object($context['_seq']) && $context['_seq'] instanceof Countable)) {
+                $length = count($context['_seq']);
+                $context['loop']['revindex0'] = $length - 1;
+                $context['loop']['revindex'] = $length;
+                $context['loop']['length'] = $length;
+                $context['loop']['last'] = 1 === $length;
+            }
+            foreach ($context['_seq'] as $context["_key"] => $context["Encours"]) {
+                // line 50
+                echo "
                 <tr class=\"";
-            // line 43
-            echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute((isset($context["Valide"]) ? $context["Valide"] : null), "class"), $this->getAttribute((isset($context["Encours"]) ? $context["Encours"] : null), "Validation")), "html", null, true);
-            echo "\">
+                // line 51
+                echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute((isset($context["Valide"]) ? $context["Valide"] : null), "class"), $this->getAttribute((isset($context["Encours"]) ? $context["Encours"] : null), "Validation")), "html", null, true);
+                echo "\">
 
                     <td>";
-            // line 45
-            echo twig_escape_filter($this->env, $this->getAttribute((isset($context["loop"]) ? $context["loop"] : null), "index"), "html", null, true);
-            echo "</td>
-                    <td><a href=\"";
-            // line 46
-            echo twig_escape_filter($this->env, $this->env->getExtension('routing')->getPath("Inra2013urzBunle_VoirAnalyse", array("numProtocole" => $this->getAttribute((isset($context["Encours"]) ? $context["Encours"] : null), "id"))), "html", null, true);
-            echo "\" >";
-            echo twig_escape_filter($this->env, $this->getAttribute((isset($context["Encours"]) ? $context["Encours"] : null), "NomProtocole"), "html", null, true);
-            echo "</a></td>
-                    <td>";
-            // line 47
-            echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute((isset($context["Encours"]) ? $context["Encours"] : null), "Responsable"), "Nom"), "html", null, true);
-            echo " ";
-            echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute((isset($context["Encours"]) ? $context["Encours"] : null), "Responsable"), "Prenom"), "html", null, true);
-            echo "</td>
-                    <td>";
-            // line 48
-            echo twig_escape_filter($this->env, twig_date_format_filter($this->env, $this->getAttribute((isset($context["Encours"]) ? $context["Encours"] : null), "DateValidation"), "d-m-Y"), "html", null, true);
-            echo "</td>
-                    <td>";
-            // line 49
-            echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute((isset($context["Valide"]) ? $context["Valide"] : null), "info"), $this->getAttribute((isset($context["Encours"]) ? $context["Encours"] : null), "Validation")), "html", null, true);
-            echo "</td>
-                ";
-            // line 50
-            if (twig_test_empty($this->getAttribute((isset($context["Encours"]) ? $context["Encours"] : null), "Commentaire"))) {
-                // line 51
-                echo "                    <td><img src=\"";
-                echo twig_escape_filter($this->env, $this->env->getExtension('assets')->getAssetUrl("img/lettre_ferme.png"), "html", null, true);
-                echo "\" height=25 width=30 alt=\"icone-message\" /></td>
-                ";
-            } else {
                 // line 53
-                echo "                        <td><a href=\"#myModal";
                 echo twig_escape_filter($this->env, $this->getAttribute((isset($context["loop"]) ? $context["loop"] : null), "index"), "html", null, true);
-                echo "\" role=\"button\"  data-toggle=\"modal\"><img src=\"";
-                echo twig_escape_filter($this->env, $this->env->getExtension('assets')->getAssetUrl("img/lettre_ouverte.png"), "html", null, true);
-                echo "\" height=25 width=30 alt=\"icone-message\" /></a></td>
+                echo "</td>
+                    ";
+                // line 54
+                if ((($this->getAttribute((isset($context["Encours"]) ? $context["Encours"] : null), "Validation") == 1) || ($this->getAttribute((isset($context["Encours"]) ? $context["Encours"] : null), "Validation") == 3))) {
+                    // line 55
+                    echo "                    <td><a href=\"";
+                    echo twig_escape_filter($this->env, $this->env->getExtension('routing')->getPath("Inra2013Bundle_VoirAnalyse", array("NumProtocole" => $this->getAttribute((isset($context["Encours"]) ? $context["Encours"] : null), "id"))), "html", null, true);
+                    echo "\" >";
+                    echo twig_escape_filter($this->env, $this->getAttribute((isset($context["Encours"]) ? $context["Encours"] : null), "NomProtocole"), "html", null, true);
+                    echo "</a></td>
+                    ";
+                } else {
+                    // line 57
+                    echo "                        <td><a href=\"";
+                    echo twig_escape_filter($this->env, $this->env->getExtension('routing')->getPath("Inra2013Bundle_CudAnalyse", array("numProtocole" => $this->getAttribute((isset($context["Encours"]) ? $context["Encours"] : null), "id"))), "html", null, true);
+                    echo "\" >";
+                    echo twig_escape_filter($this->env, $this->getAttribute((isset($context["Encours"]) ? $context["Encours"] : null), "NomProtocole"), "html", null, true);
+                    echo "</a></td>
+                    ";
+                }
+                // line 58
+                echo "  
+                            <td>";
+                // line 59
+                echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute((isset($context["Encours"]) ? $context["Encours"] : null), "Responsable"), "Nom"), "html", null, true);
+                echo " ";
+                echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute((isset($context["Encours"]) ? $context["Encours"] : null), "Responsable"), "Prenom"), "html", null, true);
+                echo "</td>
+                            <td>";
+                // line 60
+                echo twig_escape_filter($this->env, twig_date_format_filter($this->env, $this->getAttribute((isset($context["Encours"]) ? $context["Encours"] : null), "DateValidation"), "d-m-Y"), "html", null, true);
+                echo "</td>
+                            <td>";
+                // line 61
+                echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute((isset($context["Valide"]) ? $context["Valide"] : null), "info"), $this->getAttribute((isset($context["Encours"]) ? $context["Encours"] : null), "Validation")), "html", null, true);
+                echo "</td>
+                ";
+                // line 62
+                if (twig_test_empty($this->getAttribute((isset($context["Encours"]) ? $context["Encours"] : null), "Commentaire"))) {
+                    // line 63
+                    echo "                            <td><img src=\"";
+                    echo twig_escape_filter($this->env, $this->env->getExtension('assets')->getAssetUrl("img/lettre_ferme.png"), "html", null, true);
+                    echo "\" height=25 width=30 alt=\"icone-message\" /></td>
+                ";
+                } else {
+                    // line 65
+                    echo "                                <td><a href=\"#myModal";
+                    echo twig_escape_filter($this->env, $this->getAttribute((isset($context["loop"]) ? $context["loop"] : null), "index"), "html", null, true);
+                    echo "\" role=\"button\"  data-toggle=\"modal\"><img src=\"";
+                    echo twig_escape_filter($this->env, $this->env->getExtension('assets')->getAssetUrl("img/lettre_ouverte.png"), "html", null, true);
+                    echo "\" height=25 width=30 alt=\"icone-message\" /></a></td>
 
                  ";
-            }
-            // line 55
-            echo "       
+                }
+                // line 67
+                echo "       
 
-                    </tr>       
+                            </tr>       
 
 ";
-            ++$context['loop']['index0'];
-            ++$context['loop']['index'];
-            $context['loop']['first'] = false;
-            if (isset($context['loop']['length'])) {
-                --$context['loop']['revindex0'];
-                --$context['loop']['revindex'];
-                $context['loop']['last'] = 0 === $context['loop']['revindex0'];
+                ++$context['loop']['index0'];
+                ++$context['loop']['index'];
+                $context['loop']['first'] = false;
+                if (isset($context['loop']['length'])) {
+                    --$context['loop']['revindex0'];
+                    --$context['loop']['revindex'];
+                    $context['loop']['last'] = 0 === $context['loop']['revindex0'];
+                }
             }
-        }
-        $_parent = $context['_parent'];
-        unset($context['_seq'], $context['_iterated'], $context['_key'], $context['Encours'], $context['_parent'], $context['loop']);
-        $context = array_merge($_parent, array_intersect_key($context, $_parent));
-        // line 59
-        echo "  
-                </tbody>
+            $_parent = $context['_parent'];
+            unset($context['_seq'], $context['_iterated'], $context['_key'], $context['Encours'], $context['_parent'], $context['loop']);
+            $context = array_merge($_parent, array_intersect_key($context, $_parent));
+            // line 71
+            echo "  
 
-            </table>
+
+
+
+                        </tbody>
+
+                    </table>
+
+";
+            // line 80
+            if ((!twig_test_empty((isset($context["responseFini"]) ? $context["responseFini"] : null)))) {
+                // line 81
+                echo "
+                    <table class=\"table table-striped\" >
+
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Protocole</th>
+                                <th>Responsable</th>
+                                <th>Valider le</th>
+                                <th>Valider resp</th>
+                                <th>Status</th>
+                                <th>Message</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+      ";
+                // line 99
+                $context['_parent'] = (array) $context;
+                $context['_seq'] = twig_ensure_traversable((isset($context["responseFini"]) ? $context["responseFini"] : null));
+                $context['loop'] = array(
+                  'parent' => $context['_parent'],
+                  'index0' => 0,
+                  'index'  => 1,
+                  'first'  => true,
+                );
+                if (is_array($context['_seq']) || (is_object($context['_seq']) && $context['_seq'] instanceof Countable)) {
+                    $length = count($context['_seq']);
+                    $context['loop']['revindex0'] = $length - 1;
+                    $context['loop']['revindex'] = $length;
+                    $context['loop']['length'] = $length;
+                    $context['loop']['last'] = 1 === $length;
+                }
+                foreach ($context['_seq'] as $context["_key"] => $context["Encours"]) {
+                    // line 100
+                    echo "
+                            <tr class=\"";
+                    // line 101
+                    echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute((isset($context["Valide"]) ? $context["Valide"] : null), "class"), $this->getAttribute((isset($context["Encours"]) ? $context["Encours"] : null), "Validation")), "html", null, true);
+                    echo "\">
+
+                                <td>";
+                    // line 103
+                    echo twig_escape_filter($this->env, $this->getAttribute((isset($context["loop"]) ? $context["loop"] : null), "index"), "html", null, true);
+                    echo "</td>
+                                <td><a href=\"";
+                    // line 104
+                    echo twig_escape_filter($this->env, $this->env->getExtension('routing')->getPath("Inra2013Bundle_CudAnalyse", array("NumProtocole" => $this->getAttribute((isset($context["Encours"]) ? $context["Encours"] : null), "id"))), "html", null, true);
+                    echo "\" >";
+                    echo twig_escape_filter($this->env, $this->getAttribute((isset($context["Encours"]) ? $context["Encours"] : null), "NomProtocole"), "html", null, true);
+                    echo "</a></td>
+                                <td>";
+                    // line 105
+                    echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute((isset($context["Encours"]) ? $context["Encours"] : null), "Responsable"), "Nom"), "html", null, true);
+                    echo " ";
+                    echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute((isset($context["Encours"]) ? $context["Encours"] : null), "Responsable"), "Prenom"), "html", null, true);
+                    echo "</td>
+                                <td>";
+                    // line 106
+                    echo twig_escape_filter($this->env, twig_date_format_filter($this->env, $this->getAttribute((isset($context["Encours"]) ? $context["Encours"] : null), "DateValidation"), "d-m-Y"), "html", null, true);
+                    echo "</td>
+                                <td>";
+                    // line 107
+                    echo twig_escape_filter($this->env, twig_date_format_filter($this->env, $this->getAttribute((isset($context["Encours"]) ? $context["Encours"] : null), "DateValidationAnalyse"), "d-m-Y"), "html", null, true);
+                    echo "</td>
+                                <td>";
+                    // line 108
+                    echo twig_escape_filter($this->env, $this->getAttribute($this->getAttribute((isset($context["Valide"]) ? $context["Valide"] : null), "info"), $this->getAttribute((isset($context["Encours"]) ? $context["Encours"] : null), "Validation")), "html", null, true);
+                    echo "</td>
+                ";
+                    // line 109
+                    if (twig_test_empty($this->getAttribute((isset($context["Encours"]) ? $context["Encours"] : null), "Commentaire"))) {
+                        // line 110
+                        echo "                                <td><img src=\"";
+                        echo twig_escape_filter($this->env, $this->env->getExtension('assets')->getAssetUrl("img/lettre_ferme.png"), "html", null, true);
+                        echo "\" height=25 width=30 alt=\"icone-message\" /></td>
+                ";
+                    } else {
+                        // line 112
+                        echo "                                    <td><a href=\"#myModalB";
+                        echo twig_escape_filter($this->env, $this->getAttribute((isset($context["loop"]) ? $context["loop"] : null), "index"), "html", null, true);
+                        echo "\" role=\"button\"  data-toggle=\"modal\"><img src=\"";
+                        echo twig_escape_filter($this->env, $this->env->getExtension('assets')->getAssetUrl("img/lettre_ouverte.png"), "html", null, true);
+                        echo "\" height=25 width=30 alt=\"icone-message\" /></a></td>
+
+                 ";
+                    }
+                    // line 114
+                    echo "       
+
+                                </tr>       
+                ";
+                    ++$context['loop']['index0'];
+                    ++$context['loop']['index'];
+                    $context['loop']['first'] = false;
+                    if (isset($context['loop']['length'])) {
+                        --$context['loop']['revindex0'];
+                        --$context['loop']['revindex'];
+                        $context['loop']['last'] = 0 === $context['loop']['revindex0'];
+                    }
+                }
+                $_parent = $context['_parent'];
+                unset($context['_seq'], $context['_iterated'], $context['_key'], $context['Encours'], $context['_parent'], $context['loop']);
+                $context = array_merge($_parent, array_intersect_key($context, $_parent));
+                // line 117
+                echo "      
+
+
+
+                            </tbody>
+
+
+                        </table>
+
+";
+            }
+            // line 127
+            echo "
  ";
-        // line 63
-        $context['_parent'] = (array) $context;
-        $context['_seq'] = twig_ensure_traversable((isset($context["response"]) ? $context["response"] : null));
-        $context['loop'] = array(
-          'parent' => $context['_parent'],
-          'index0' => 0,
-          'index'  => 1,
-          'first'  => true,
-        );
-        if (is_array($context['_seq']) || (is_object($context['_seq']) && $context['_seq'] instanceof Countable)) {
-            $length = count($context['_seq']);
-            $context['loop']['revindex0'] = $length - 1;
-            $context['loop']['revindex'] = $length;
-            $context['loop']['length'] = $length;
-            $context['loop']['last'] = 1 === $length;
-        }
-        foreach ($context['_seq'] as $context["_key"] => $context["Encours"]) {
-            echo " 
+            // line 128
+            $context['_parent'] = (array) $context;
+            $context['_seq'] = twig_ensure_traversable((isset($context["response"]) ? $context["response"] : null));
+            $context['loop'] = array(
+              'parent' => $context['_parent'],
+              'index0' => 0,
+              'index'  => 1,
+              'first'  => true,
+            );
+            if (is_array($context['_seq']) || (is_object($context['_seq']) && $context['_seq'] instanceof Countable)) {
+                $length = count($context['_seq']);
+                $context['loop']['revindex0'] = $length - 1;
+                $context['loop']['revindex'] = $length;
+                $context['loop']['length'] = $length;
+                $context['loop']['last'] = 1 === $length;
+            }
+            foreach ($context['_seq'] as $context["_key"] => $context["Encours"]) {
+                echo " 
+
+
+
  ";
-            // line 64
-            if ((!twig_test_empty($this->getAttribute((isset($context["Encours"]) ? $context["Encours"] : null), "Commentaire")))) {
-                // line 65
-                echo "            <div class=\"modal hide\" id=\"myModal";
-                echo twig_escape_filter($this->env, $this->getAttribute((isset($context["loop"]) ? $context["loop"] : null), "index"), "html", null, true);
-                echo "\"><!-- note the use of \"hide\" class -->
-                <div class=\"modal-header\">
-                    <button class=\"close\" data-dismiss=\"modal\">×</button>
-                    <h3>Message</h3>
-                </div>
-                <div class=\"modal-body\">
+                // line 132
+                if ((!twig_test_empty($this->getAttribute((isset($context["Encours"]) ? $context["Encours"] : null), "Commentaire")))) {
+                    // line 133
+                    echo "                        <div class=\"modal hide\" id=\"myModal";
+                    echo twig_escape_filter($this->env, $this->getAttribute((isset($context["loop"]) ? $context["loop"] : null), "index"), "html", null, true);
+                    echo "\"><!-- note the use of \"hide\" class -->
+                            <div class=\"modal-header\">
+                                <button class=\"close\" data-dismiss=\"modal\">×</button>
+                                <h3>Message</h3>
+                            </div>
+                            <div class=\"modal-body\">
 
                 ";
-                // line 72
-                echo $this->getAttribute((isset($context["Encours"]) ? $context["Encours"] : null), "Commentaire");
-                echo "
+                    // line 140
+                    echo $this->getAttribute((isset($context["Encours"]) ? $context["Encours"] : null), "Commentaire");
+                    echo "
 
-                </div>
-                <div class=\"modal-footer\">
-                    <a href=\"#\" class=\"btn btn-danger\" data-dismiss=\"modal\">Close</a><!-- note the use of \"data-dismiss\" -->
+                            </div>
+                            <div class=\"modal-footer\">
+                                <a href=\"#\" class=\"btn btn-danger\" data-dismiss=\"modal\">Close</a><!-- note the use of \"data-dismiss\" -->
 
-                </div>
-            </div>​
+                            </div>
+                        </div>​
    ";
-            }
-            // line 80
-            echo "          
+                }
+                // line 148
+                echo "         
  ";
-            ++$context['loop']['index0'];
-            ++$context['loop']['index'];
-            $context['loop']['first'] = false;
-            if (isset($context['loop']['length'])) {
-                --$context['loop']['revindex0'];
-                --$context['loop']['revindex'];
-                $context['loop']['last'] = 0 === $context['loop']['revindex0'];
+                ++$context['loop']['index0'];
+                ++$context['loop']['index'];
+                $context['loop']['first'] = false;
+                if (isset($context['loop']['length'])) {
+                    --$context['loop']['revindex0'];
+                    --$context['loop']['revindex'];
+                    $context['loop']['last'] = 0 === $context['loop']['revindex0'];
+                }
             }
+            $_parent = $context['_parent'];
+            unset($context['_seq'], $context['_iterated'], $context['_key'], $context['Encours'], $context['_parent'], $context['loop']);
+            $context = array_merge($_parent, array_intersect_key($context, $_parent));
+            // line 149
+            echo " 
+
+                 ";
+            // line 151
+            $context['_parent'] = (array) $context;
+            $context['_seq'] = twig_ensure_traversable((isset($context["responseFini"]) ? $context["responseFini"] : null));
+            $context['loop'] = array(
+              'parent' => $context['_parent'],
+              'index0' => 0,
+              'index'  => 1,
+              'first'  => true,
+            );
+            if (is_array($context['_seq']) || (is_object($context['_seq']) && $context['_seq'] instanceof Countable)) {
+                $length = count($context['_seq']);
+                $context['loop']['revindex0'] = $length - 1;
+                $context['loop']['revindex'] = $length;
+                $context['loop']['length'] = $length;
+                $context['loop']['last'] = 1 === $length;
+            }
+            foreach ($context['_seq'] as $context["_key"] => $context["Encours"]) {
+                echo " 
+
+
+
+ ";
+                // line 155
+                if ((!twig_test_empty($this->getAttribute((isset($context["Encours"]) ? $context["Encours"] : null), "Commentaire")))) {
+                    // line 156
+                    echo "                        <div class=\"modal hide\" id=\"myModalB";
+                    echo twig_escape_filter($this->env, $this->getAttribute((isset($context["loop"]) ? $context["loop"] : null), "index"), "html", null, true);
+                    echo "\"><!-- note the use of \"hide\" class -->
+                            <div class=\"modal-header\">
+                                <button class=\"close\" data-dismiss=\"modal\">×</button>
+                                <h3>Message</h3>
+                            </div>
+                            <div class=\"modal-body\">
+
+                ";
+                    // line 163
+                    echo $this->getAttribute((isset($context["Encours"]) ? $context["Encours"] : null), "Commentaire");
+                    echo "
+
+                            </div>
+                            <div class=\"modal-footer\">
+                                <a href=\"#\" class=\"btn btn-danger\" data-dismiss=\"modal\">Close</a><!-- note the use of \"data-dismiss\" -->
+
+                            </div>
+                        </div>​
+   ";
+                }
+                // line 171
+                echo "         
+ ";
+                ++$context['loop']['index0'];
+                ++$context['loop']['index'];
+                $context['loop']['first'] = false;
+                if (isset($context['loop']['length'])) {
+                    --$context['loop']['revindex0'];
+                    --$context['loop']['revindex'];
+                    $context['loop']['last'] = 0 === $context['loop']['revindex0'];
+                }
+            }
+            $_parent = $context['_parent'];
+            unset($context['_seq'], $context['_iterated'], $context['_key'], $context['Encours'], $context['_parent'], $context['loop']);
+            $context = array_merge($_parent, array_intersect_key($context, $_parent));
+            // line 172
+            echo " 
+       ";
         }
-        $_parent = $context['_parent'];
-        unset($context['_seq'], $context['_iterated'], $context['_key'], $context['Encours'], $context['_parent'], $context['loop']);
-        $context = array_merge($_parent, array_intersect_key($context, $_parent));
+        // line 173
+        echo "         
+
+";
     }
 
-    // line 85
+    // line 178
     public function block_javascripts($context, array $blocks = array())
     {
-        // line 86
-        echo "            <script>
+        // line 179
+        echo "                        <script>
 
-                \$('#myModal').on('click', function() {
+                            \$('#myModal').on('click', function() {
 
-                    \$('#myModal').modal('loading');
-                });
+                                \$('#myModal').modal('loading');
+                            });
 
-                </script>
+                            </script>
 ";
     }
 
@@ -281,6 +521,6 @@ class __TwigTemplate_26656724154810c4e3c0bdb6cf247e91 extends Twig_Template
 
     public function getDebugInfo()
     {
-        return array (  261 => 86,  258 => 85,  241 => 80,  229 => 72,  218 => 65,  197 => 63,  173 => 55,  156 => 50,  142 => 47,  86 => 24,  69 => 14,  40 => 5,  732 => 297,  727 => 294,  724 => 292,  722 => 291,  703 => 275,  699 => 274,  694 => 273,  686 => 269,  681 => 268,  678 => 267,  669 => 262,  657 => 252,  652 => 250,  649 => 249,  647 => 248,  634 => 238,  631 => 237,  624 => 232,  612 => 222,  607 => 220,  604 => 219,  602 => 218,  589 => 208,  586 => 207,  574 => 196,  564 => 191,  562 => 190,  559 => 189,  542 => 185,  536 => 182,  531 => 179,  525 => 175,  509 => 172,  502 => 170,  498 => 168,  494 => 167,  491 => 166,  484 => 164,  480 => 162,  473 => 160,  461 => 158,  459 => 157,  456 => 156,  448 => 153,  445 => 152,  443 => 151,  436 => 149,  432 => 148,  428 => 147,  423 => 144,  406 => 143,  396 => 135,  387 => 133,  384 => 132,  380 => 131,  369 => 123,  365 => 122,  362 => 121,  357 => 118,  351 => 114,  346 => 112,  329 => 108,  322 => 106,  318 => 104,  314 => 103,  311 => 102,  304 => 100,  299 => 97,  280 => 93,  278 => 92,  275 => 91,  267 => 88,  264 => 87,  262 => 86,  255 => 84,  244 => 79,  240 => 77,  223 => 76,  190 => 59,  182 => 56,  175 => 52,  158 => 51,  152 => 49,  148 => 48,  134 => 45,  166 => 72,  150 => 67,  146 => 65,  115 => 40,  90 => 34,  80 => 26,  53 => 10,  49 => 9,  23 => 3,  243 => 81,  238 => 73,  234 => 68,  231 => 67,  214 => 69,  210 => 60,  203 => 55,  200 => 54,  195 => 8,  164 => 53,  145 => 69,  129 => 61,  124 => 42,  110 => 43,  107 => 41,  87 => 37,  52 => 12,  37 => 4,  56 => 18,  20 => 1,  301 => 100,  295 => 96,  292 => 95,  289 => 94,  287 => 93,  282 => 90,  276 => 86,  273 => 85,  270 => 84,  268 => 83,  263 => 80,  249 => 81,  245 => 77,  230 => 75,  222 => 73,  220 => 62,  215 => 70,  211 => 69,  204 => 66,  198 => 63,  185 => 57,  183 => 60,  177 => 58,  160 => 57,  149 => 51,  123 => 47,  120 => 43,  112 => 44,  106 => 36,  82 => 30,  65 => 13,  38 => 4,  155 => 58,  144 => 50,  141 => 54,  139 => 50,  135 => 47,  126 => 43,  109 => 47,  103 => 43,  101 => 42,  70 => 19,  67 => 20,  61 => 12,  47 => 14,  28 => 6,  105 => 24,  96 => 21,  93 => 36,  83 => 18,  76 => 24,  72 => 32,  68 => 22,  50 => 9,  94 => 39,  88 => 27,  79 => 25,  59 => 22,  43 => 6,  32 => 2,  225 => 96,  216 => 64,  212 => 88,  205 => 68,  201 => 67,  196 => 80,  194 => 62,  191 => 59,  189 => 7,  186 => 76,  180 => 55,  172 => 76,  163 => 63,  159 => 61,  154 => 68,  147 => 55,  132 => 45,  127 => 43,  121 => 55,  118 => 41,  114 => 42,  104 => 35,  100 => 33,  78 => 18,  75 => 23,  71 => 15,  63 => 20,  58 => 14,  34 => 5,  91 => 38,  84 => 31,  74 => 23,  66 => 21,  55 => 15,  41 => 5,  46 => 7,  26 => 2,  22 => 3,  27 => 4,  24 => 4,  29 => 2,  21 => 1,  44 => 13,  35 => 4,  31 => 3,  25 => 3,  19 => 2,  184 => 70,  178 => 71,  171 => 62,  165 => 58,  162 => 81,  157 => 56,  153 => 74,  151 => 73,  143 => 67,  138 => 63,  136 => 46,  133 => 43,  130 => 47,  122 => 44,  119 => 36,  116 => 46,  111 => 32,  108 => 31,  102 => 30,  98 => 39,  95 => 39,  92 => 30,  89 => 19,  85 => 29,  81 => 36,  73 => 19,  64 => 23,  60 => 19,  57 => 11,  54 => 12,  51 => 13,  48 => 11,  45 => 8,  42 => 12,  39 => 11,  36 => 6,  33 => 8,  30 => 7,);
+        return array (  501 => 179,  498 => 178,  488 => 172,  473 => 171,  461 => 163,  448 => 155,  426 => 151,  422 => 149,  407 => 148,  395 => 140,  382 => 132,  360 => 128,  357 => 127,  345 => 117,  328 => 114,  319 => 112,  313 => 110,  311 => 109,  307 => 108,  303 => 107,  299 => 106,  293 => 105,  283 => 103,  275 => 100,  258 => 99,  236 => 80,  207 => 67,  192 => 63,  182 => 60,  176 => 59,  173 => 58,  86 => 20,  69 => 14,  40 => 5,  698 => 319,  677 => 289,  673 => 288,  668 => 287,  660 => 283,  655 => 282,  652 => 281,  643 => 276,  631 => 266,  626 => 264,  623 => 263,  621 => 262,  608 => 252,  605 => 251,  598 => 246,  586 => 236,  581 => 234,  578 => 233,  576 => 232,  563 => 222,  560 => 221,  551 => 214,  545 => 210,  528 => 206,  519 => 200,  511 => 196,  507 => 194,  502 => 191,  492 => 173,  487 => 184,  485 => 183,  478 => 178,  460 => 174,  450 => 156,  444 => 169,  440 => 168,  433 => 164,  429 => 163,  409 => 161,  396 => 150,  387 => 148,  384 => 133,  380 => 146,  370 => 139,  365 => 137,  359 => 134,  356 => 133,  350 => 129,  337 => 118,  333 => 117,  329 => 115,  324 => 112,  315 => 107,  310 => 106,  308 => 105,  278 => 101,  266 => 92,  259 => 90,  253 => 87,  247 => 84,  241 => 80,  221 => 76,  206 => 64,  199 => 63,  193 => 61,  190 => 62,  174 => 50,  169 => 48,  161 => 43,  158 => 42,  156 => 41,  146 => 51,  170 => 76,  152 => 68,  148 => 67,  113 => 51,  99 => 42,  77 => 16,  115 => 40,  90 => 29,  80 => 26,  53 => 10,  49 => 9,  23 => 3,  243 => 81,  238 => 81,  234 => 68,  231 => 67,  214 => 61,  210 => 60,  203 => 55,  200 => 54,  195 => 8,  164 => 72,  145 => 69,  129 => 35,  124 => 49,  110 => 43,  107 => 47,  87 => 28,  52 => 12,  37 => 4,  56 => 18,  20 => 1,  301 => 100,  295 => 96,  292 => 95,  289 => 94,  287 => 104,  282 => 90,  276 => 86,  273 => 94,  270 => 84,  268 => 93,  263 => 91,  249 => 79,  245 => 77,  230 => 75,  222 => 73,  220 => 62,  215 => 72,  211 => 69,  204 => 66,  198 => 65,  185 => 61,  183 => 60,  177 => 58,  160 => 57,  149 => 37,  123 => 47,  120 => 43,  112 => 44,  106 => 36,  82 => 36,  65 => 13,  38 => 4,  155 => 54,  144 => 65,  141 => 54,  139 => 50,  135 => 47,  126 => 49,  109 => 37,  103 => 34,  101 => 43,  70 => 20,  67 => 19,  61 => 12,  47 => 14,  28 => 6,  105 => 24,  96 => 26,  93 => 20,  83 => 18,  76 => 22,  72 => 23,  68 => 22,  50 => 8,  94 => 26,  88 => 24,  79 => 17,  59 => 22,  43 => 7,  32 => 2,  225 => 71,  216 => 90,  212 => 88,  205 => 84,  201 => 83,  196 => 80,  194 => 62,  191 => 78,  189 => 7,  186 => 61,  180 => 72,  172 => 67,  163 => 63,  159 => 61,  154 => 59,  147 => 55,  132 => 48,  127 => 61,  121 => 45,  118 => 29,  114 => 42,  104 => 28,  100 => 28,  78 => 24,  75 => 23,  71 => 19,  63 => 19,  58 => 12,  34 => 5,  91 => 20,  84 => 31,  74 => 24,  66 => 21,  55 => 12,  41 => 5,  46 => 7,  26 => 11,  22 => 3,  27 => 4,  24 => 4,  29 => 2,  21 => 1,  44 => 6,  35 => 4,  31 => 3,  25 => 1,  19 => 2,  184 => 70,  178 => 71,  171 => 62,  165 => 57,  162 => 81,  157 => 55,  153 => 74,  151 => 53,  143 => 50,  138 => 53,  136 => 63,  133 => 43,  130 => 47,  122 => 31,  119 => 55,  116 => 46,  111 => 32,  108 => 33,  102 => 29,  98 => 22,  95 => 31,  92 => 39,  89 => 19,  85 => 23,  81 => 40,  73 => 15,  64 => 23,  60 => 17,  57 => 11,  54 => 10,  51 => 13,  48 => 11,  45 => 8,  42 => 12,  39 => 11,  36 => 6,  33 => 8,  30 => 7,);
     }
 }

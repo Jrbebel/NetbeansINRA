@@ -42,28 +42,28 @@ class AnaEosinophile extends \Inra2013\urzBundle\Entity\AnaEosinophile implement
     }
 
     
-    public function setEosinoLu($eosinoLu)
+    public function setEosinophile1($eosinophile1)
     {
         $this->__load();
-        return parent::setEosinoLu($eosinoLu);
+        return parent::setEosinophile1($eosinophile1);
     }
 
-    public function getEosinoLu()
+    public function getEosinophile1()
     {
         $this->__load();
-        return parent::getEosinoLu();
+        return parent::getEosinophile1();
     }
 
-    public function setEosinoVal($eosinoVal)
+    public function setEosinophile2($eosinophile2)
     {
         $this->__load();
-        return parent::setEosinoVal($eosinoVal);
+        return parent::setEosinophile2($eosinophile2);
     }
 
-    public function getEosinoVal()
+    public function getEosinophile2()
     {
         $this->__load();
-        return parent::getEosinoVal();
+        return parent::getEosinophile2();
     }
 
     public function setCodeLabo(\Inra2013\urzBundle\Entity\Analyse $codeLabo)
@@ -93,7 +93,7 @@ class AnaEosinophile extends \Inra2013\urzBundle\Entity\AnaEosinophile implement
 
     public function __sleep()
     {
-        return array('__isInitialized__', 'EosinoLu', 'EosinoVal', 'CodeLabo', 'User');
+        return array('__isInitialized__', 'Eosinophile1', 'Eosinophile2', 'CodeLabo', 'User');
     }
 
     public function __clone()
