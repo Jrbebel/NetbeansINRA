@@ -82,6 +82,24 @@ Inra2013Bundle_SearchProtocole:
    pattern: /Search/Protocole
    defaults: { _controller : Inra2013urzBundle:Analyse:SearchProtocole }
  
+    #Chemin Pour la creation et update des analyses
+ 
+Inra2013Bundle_CudAnalyse:
+   pattern: /User/CudAnalyse
+   defaults: { _controller : Inra2013urzBundle:Analyse:CudAnalyse }
+ 
+ 
+    #Chemin pour voir partie des analyses avec role utlisateur laborantin
+ 
+Inra2013Bundle_VoirAnalyse:
+   pattern: /User/VoirAnalyse
+   defaults: { _controller : Inra2013urzBundle:Analyse:VoirAnalyse }
+  
+  #Chemin pour voir partie des analyses avec role utlisateur laborantin
+ 
+Inra2013Bundle_VoirAnalyseChercheur:
+   pattern: /User/VoirAnalyseFini
+   defaults: { _controller : Inra2013urzBundle:Analyse:VoirAnalyseChercheur }  
  #Chemin Pour la creation des analyses
  
 Inra2013Bundle_CreateAnalyse:
@@ -119,6 +137,12 @@ Inra2013Bundle_SearchTypeAnalyse :
    pattern: /Search/TypeAnalyse
    defaults: { _controller : Inra2013urzBundle:Analyse:SearchTypeAnalyse }
    
+   #Chemin pour la recherche des champs d'une analyse pour mettre une formulé(requete json et ajax)
+   
+Inra2013Bundle_SearchChamp :
+   pattern: /Search/Champ
+   defaults: { _controller : Inra2013urzBundle:Analyse:SearchChamp }   
+   
  #Chemin pour la validation du protocole par le laborantnin(e) 
  
 Inra2013Bundle_ValidAnalyse :
@@ -131,3 +155,16 @@ Inra2013Bundle_ValidAnalyse :
 Inra2013Bundle_CreateAnalyseBdd :
    pattern: /User/AnalyseCreate
    defaults: { _controller : Inra2013urzBundle:Analyse:CreateAnalyseBdd }
+   
+   
+#Chemin pour l'insertion de la formule dans la base de données pour un champs
+ 
+Inra2013Bundle_FormuleChamp :
+   pattern: /User/FormuleChamp
+   defaults: { _controller : Inra2013urzBundle:Analyse:FormuleChamp }   
+   
+ #Chemin pour l'insertion de la formule dans la base de données pour un champs
+ 
+Inra2013Bundle_Save :
+   pattern: /User/Save/{Status}
+   defaults: { _controller : Inra2013urzBundle:Analyse:Save }     
