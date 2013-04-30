@@ -41,6 +41,22 @@ class AgentController extends Controller {
 
         return $this->render('Inra2013urzBundle:Registration:ListeAgent.html.twig', array('liste_user' => $user, 'Status' => $default, "pagination" => $pagination));
     }
+    
+    /**
+     * function description
+     * Montre la liste des agents du laboratoire
+     */
+    public function AccueilAction ($vide="vide"){
+     
+    $paginator = $this->get('knp_paginator');
+    $agents=$this->get('fos_user.user_manager');
+    $user=$agents->findUsers();
+       
+    $resultat=$paginator->paginate($user,$this->get('request')->query->get('page',1),10);
+         
+        return $this->render('Inra2013urzBundle:Default:index.html.twig',array('user'=>$user,'statut'=>$vide,'resultat'=>$resultat));
+        
+    }
 
     /**
      * function description
@@ -94,7 +110,7 @@ class AgentController extends Controller {
         if ($this->getRequest()->getMethod() == 'POST') {
 
             $capture = $this->getRequest()->get('Inra2013_user_registration');
-    
+
             $user->setUsername($capture['username']);
             $user->setNom($capture['Nom']);
             $user->setPrenom($capture['Prenom']);
@@ -128,32 +144,26 @@ class AgentController extends Controller {
         $user = $this->container->get('security.context')->getToken()->getUser()->getFonction(); // on récupere la fonction de l'utilisateur connecté
         $userId = $this->container->get('security.context')->getToken()->getUser()->getId(); // on récupere la fonction de l'utilisateur connecté
         $StatusProto = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Protocole')->StatusEncours();
-        $StatusFini=$this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Protocole')->StatusTermine() ;
         $StatusProtoId = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Protocole')->StatusEncoursId($userId);
-    //   \Doctrine\Common\Util\Debug::dump($StatusFini);
+       
         if ($this->get('security.context')->isGranted('ROLE_ADMINISTRATEUR')) {
-
-
             return $this->render("Inra2013urzBundle:Default:IndexAdmin.html.twig");
-            
         } elseif ($this->get('security.context')->isGranted('ROLE_RESPONSABLE')) {
 
             if ($user == "Laborantin(e)") {
 
-                return $this->render("Inra2013urzBundle:Default:IndexUser.html.twig", array('response' => $StatusProto,'responseFini' => $StatusFini,'User'=>$user));
-          
-                } else if ($user == "Chercheur") {
+                return $this->render("Inra2013urzBundle:Default:IndexUser.html.twig", array('response' => $StatusProto));
+                
+            } else if ($user == "Chercheur") {
 
                 return $this->render("Inra2013urzBundle:Default:IndexChercheur.html.twig", array('response' => $StatusProtoId));
             }
-       
-            } elseif ($this->get('security.context')->isGranted('ROLE_UTILISATEUR')) {
+        } elseif ($this->get('security.context')->isGranted('ROLE_UTILISATEUR')) {
 
             if ($user == "Laborantin(e)") {
 
-                return $this->render("Inra2013urzBundle:Default:IndexUser.html.twig", array('response' => $StatusProto,'responseFini' => $StatusFini,'User'=>$user));
-           
-                } else if ($user == "Chercheur") {
+                return $this->render("Inra2013urzBundle:Default:IndexUser.html.twig", array('response' => $StatusProto));
+            } else if ($user == "Chercheur") {
 
    return $this->render("Inra2013urzBundle:Default:IndexChercheur.html.twig", array('response' => $StatusProtoId));
             }
