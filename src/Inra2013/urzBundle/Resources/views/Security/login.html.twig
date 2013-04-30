@@ -1,10 +1,25 @@
-{% extends "Inra2013urzBundle::layout.html.twig" %}
+ {% extends "Inra2013urzBundle::layout.html.twig" %} 
+{#% extends "::base.html.twig" % #}
+
+
+
+{% block title %}erreur_login{% endblock %}
 
 {% block fos_user_content %}
-
 {% if error %}
-    <div>{{ error|trans({}, 'FOSUserBundle') }}</div>
-{% endif %}
+
+{% block menu %} 
+<div class="alert">
+<button type="button" class="close" data-dismiss="alert">&times;</button>
+    <strong>Warning!</strong> Best check yo self, you're not looking too good.
+    </div> 
+{% endblock %}
+
+
+   <div>{{ error|trans({}, 'FOSUserBundle') }}</div>
+      
+   
+   {% endif %}
 
 <form action="{{ path("fos_user_security_check") }}" method="post">
     <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />

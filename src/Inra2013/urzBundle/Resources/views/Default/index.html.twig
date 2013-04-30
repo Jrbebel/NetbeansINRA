@@ -1,18 +1,18 @@
 {% extends "::base.html.twig" %}
 {% block title %}Bienvenue{% endblock %}
 {%block body %}
-<p class="lead">Bienvenue sur le site du laboratoire de l'URZ. 
+<p class="accordion-toggle">Bienvenue sur le site du laboratoire de l'URZ. 
 En fonction de votre accès, cette application vous permettra de trouverez l'ensemble des résultats issus des différents protocoles menés au sein de l'unité et principalement mené sur le domaine expérimental PTEA.<br> De même vous trouverez un ensemble de méthodologie sur les analyses de laboratoire ainsi que des tutoriels et procédures pour la manipulation d'appareils propre à notre laboratoire.
-    Notre équipe est la suivante:<br><br></p>
+    Notre équipe est la suivante:<br><br>
 En fonction de votre accès, cette application vous permettra de trouverez l'ensemble des résultats issus des différents protocoles menés au sein de l'unité et principalement mené sur le domaine expérimental PTEA.<br> De même vous trouverez un ensemble de méthodologie sur les analyses de laboratoire ainsi que des tutoriels et procédures pour la manipulation d'appareils propre à notre laboratoire.
     Notre équipe est la suivante:<br><br></p>
 
 {% set entete=['Nom','Prenom','Email','Telephone'] %} 
     
     <table class="table table-bordered"> 
-      <tr align="center">
+      <tr>
         {%for liste in entete%}
-          <td>  {{liste}}</td>
+          <td><b> {{liste|upper}}</b></td>
          {% endfor %}</tr> 
         {% for agents in user if agents.Fonction=='Laborantin(e)' %}
             <tr>
