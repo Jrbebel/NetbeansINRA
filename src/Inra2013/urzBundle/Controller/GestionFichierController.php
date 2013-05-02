@@ -159,7 +159,7 @@ class GestionFichierController extends Controller {
 
                             $CodeLabo = $Analyse[$i]->getCodeLabo();
 
-                            $SearchCodeLabo = $this->getDoctrine()->getEntityManager()->getRepository("Inra2013urzBundle:Analyse")->find($CodeLabo);
+                            $SearchCodeLabo = $this->getDoctrine()->getEntityManager()->getRepository("Inra2013urzBundle:Analyse")->findByOne($CodeLabo);
 
                             if (!$SearchCodeLabo) {
 
@@ -177,7 +177,7 @@ class GestionFichierController extends Controller {
             foreach ($TabCodeLabo as $i => $value) {
 
                 $SearchCodeLabos = $this->getDoctrine()->getEntityManager()->getRepository("Inra2013urzBundle:Analyse")->find($value); // on recupere les code labo dans table analyse
-              
+                \Doctrine\Common\Util\Debug::dump($SearchCodeLabos);
                 $AnalyseAna[$i]->setCodeLabo($SearchCodeLabos);
                 $em->persist($AnalyseAna[$i]);
             }
@@ -412,7 +412,9 @@ class GestionFichierController extends Controller {
 
         if ($Typage != 1) {
             $Champ = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Champ')-> FindChampAnalyse($ChampsAnalyse->getId());
-       
+        } else {
+            $Champ = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Champ')->FindChampAnalyseNot($ChampsAnalyse->getId());
+        }
 
 
         /*         * On applique le style pour les différents champs qui viennent d'etre génerer** */
@@ -426,7 +428,7 @@ class GestionFichierController extends Controller {
             ++$LimiteFin;
         }
 
- }
+
         if ($Typage != 1) {
 
             /*             * *On rempli les champs avec les valeurs de la BDD***** */
@@ -508,7 +510,7 @@ class GestionFichierController extends Controller {
         } elseif ($this->getRequest()->getMethod() == 'POST') {
 
             $NumProtocole = $this->get('request')->get('numProtocole');
-          
+           print_r("numero protocole".$NumProtocole);
            // return new response('je suis dans import resultat');
             $Status = $this->get('request')->get('Status');
             $entityName = "Inra2013urzBundle:Protocole";
@@ -576,17 +578,11 @@ class GestionFichierController extends Controller {
                 }
                 $em->flush();
 
+return new response('je suis dans le monde de ralfi');
                 return $this->redirect($this->generateUrl('Inra2013Bundle_Save', array("Status" => "SaveAnalyse")));
             }
             return $this->render("Inra2013urzBundle:Default:edit.html.twig", array("protocole" => $NumProtocole, "form_path" => 'Inra2013Bundle_ImportResultat', "type" => 'ImportResult'));
         }
-    }
-    
-    public function AjoutFonctionGitAction(){
-        
-        return new Response('je suis dans la maison');
-        
-        
     }
 
 }

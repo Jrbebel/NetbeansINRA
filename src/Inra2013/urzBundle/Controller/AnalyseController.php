@@ -52,7 +52,7 @@ class AnalyseController extends Controller {
             $type = $request->get('demande');
             $typage=$request->get('typage');
          
-
+print_r("Le protocole dans search ".$id);
             $Protocole = $this->getDoctrine()->getEntityManager()->getRepository('Inra2013urzBundle:Protocole')->findBy(array("id" => $id));
 
 
@@ -218,7 +218,7 @@ class AnalyseController extends Controller {
 
                 $em->flush(); //on sauvegarde le tous 
 
-                return $this->render("Inra2013urzBundle:Analyse:CreateProtocole.html.twig", array('Status' => 'Save',  "TypeCategorie" => $TypeCategorie,'Num' => $typeProtocole->getNomProtocole()));
+                return $this->render("Inra2013urzBundle:Analyse:CreateProtocole.html.twig", array('Status' => 'Save', 'Num' => $typeProtocole->getNomProtocole()));
             }
         }
         return $this->render("Inra2013urzBundle:Analyse:CreateProtocole.html.twig", array('form' => $form->createView(), "TypeCategorie" => $TypeCategorie));
@@ -321,7 +321,7 @@ class AnalyseController extends Controller {
 
     public function VoirAnalyseAction() {
 
-        $numProtocole = $this->getRequest()->get('numProtocole');
+        $numProtocole = $this->getRequest()->get('NumProtocole');
 
         if ($this->getRequest()->getMethod() == 'GET' && !isset($numProtocole)) {  //si c est un GET alors on affiche le formulaire de recherche de protocole
             return $this->render("Inra2013urzBundle:Analyse:CreatExcel.html.twig", array('type' => 'voiranalyse'));
