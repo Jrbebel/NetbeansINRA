@@ -581,6 +581,11 @@ class GestionFichierController extends Controller {
             return $this->render("Inra2013urzBundle:Default:edit.html.twig", array("protocole" => $NumProtocole, "form_path" => 'Inra2013Bundle_ImportResultat', "type" => 'ImportResult'));
         }
     }
+    
+    public function AjoutFonctionGitAction(){
+        
+        
+    }
 
 }
 
