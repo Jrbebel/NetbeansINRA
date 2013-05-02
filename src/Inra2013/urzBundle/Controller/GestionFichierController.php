@@ -585,6 +585,8 @@ class GestionFichierController extends Controller {
     public function AjoutFonctionGitAction(){
         
         return new Response('je suis dans la maison');
+        
+        
     }
 
 }
