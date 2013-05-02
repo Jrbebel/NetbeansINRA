@@ -510,7 +510,7 @@ class GestionFichierController extends Controller {
         } elseif ($this->getRequest()->getMethod() == 'POST') {
 
             $NumProtocole = $this->get('request')->get('numProtocole');
-           print_r("numero protocole".$NumProtocole);
+    
            // return new response('je suis dans import resultat');
             $Status = $this->get('request')->get('Status');
             $entityName = "Inra2013urzBundle:Protocole";
@@ -583,6 +583,10 @@ return new response('je suis dans le monde de ralfi');
             }
             return $this->render("Inra2013urzBundle:Default:edit.html.twig", array("protocole" => $NumProtocole, "form_path" => 'Inra2013Bundle_ImportResultat', "type" => 'ImportResult'));
         }
+    }
+    public function FonctiionIronManAction(){
+        
+        return new Response("tony stark");
     }
 
 }
