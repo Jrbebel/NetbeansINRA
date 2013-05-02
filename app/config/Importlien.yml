@@ -15,6 +15,23 @@ twig:
            #Deuxieme lien dans l'accueil
            DeuxiemeLien: http://genomique.genotoul.fr/intranet/index.php?id=133
            ItemDeuxieme: Document barcode
+           #Troisieme lien dans l'accueil
+           TroisiemeLien: http://crb-animal.antilles.inra.fr/inra/html/ 
+           ItemTroisieme: Labcollector
+           #Deuxieme lien dans l'accueil
+           QuatriemeLien: http://intranet.antilles.inra.fr/laboratoire
+           ItemQuatrieme: Lecteur Laboratoire
+           #Deuxieme lien dans l'accueil
+           CinquiemeLien: http://genomique.genotoul.fr/intranet/index.php?id=133
+           ItemCinquieme: Lecteur Partage
+           
+           
+           
+           
+           
+           
+           
+           
           
  #Partie administrative    
       Administrateur:
