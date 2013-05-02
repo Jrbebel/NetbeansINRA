@@ -11,41 +11,32 @@
         <script type="text/javascript" src="{{asset ('js/jquery.js')}}" ></script>
         <script type="text/javascript"  src="{{asset ('bootstrap_final/js/bootstrap.js')}}" ></script>
         <script type="text/javascript"  src="{{asset ('js/downdrop.js')}}" ></script>
-
-
     </head>
     <body>
 
-        <div class="container-fluid">
+    <div class="container-fluid">
 
-            <div class="row-fluid ">
-                <div class="span3"><img  style=" margin-top: 10px; height: 200px; width: 285px" src="{{asset('img/suzlabo.JPG')}}" /></div>
-                <div class="span9"><h1 style="text-align: center; margin-top: 50px">{{Accueil.Titre}}</h1></div>
-            </div> 
-            <div class="row-fluid"  style="margin-top: 50px">
+    <div class="row-fluid ">
+     <div class="span3"><img  style=" margin-top: 10px; height: 150px; width: 220px" src="{{asset('img/suzlabo.JPG')}}" /></div>
+     <div class="span9"><h3 style="text-align: center; margin-top: 40px">{{Accueil.Titre}}</h1></div>
+    </div> 
+    <div class="row-fluid"  style="margin-top: 50px">
+      <div class="span3" > 
+      <div class="well" >
+      {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
 
-                <div class="span3" > 
+      <strong><a href="{{ path('fos_user_profile_show') }}">{{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }}</a></strong><br> <br>                          
 
-                    <div class="well" >
-{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+      <div class="btn-group navbar">
+      <a class="btn btn-primary" href="{{ path('fos_user_security_logout') }}"><i class="icon-user icon-white"></i>   {{ 'layout.logout'|trans([], 'FOSUserBundle') }}</a>
 
-                            <strong><a href="{{ path('fos_user_profile_show') }}">{{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }}</a></strong><br> <br>                          
+      </div>
+      {% else %}
+        {% render 'FOSUserBundle:Security:login' %}
+      {% endif %}
+      </div>
 
-                            <div class="btn-group navbar">
-                                <a class="btn btn-primary" href="{{ path('fos_user_security_logout') }}"><i class="icon-user icon-white"></i>   {{ 'layout.logout'|trans([], 'FOSUserBundle') }}</a>
-
-                            </div>
-
-
-
-{% else %}
-                     
-{% render 'FOSUserBundle:Security:login' %}
-
-{% endif %}
-                        </div>
-
-{% for key, flash in app.session.getFlashes() %}
+    {% for key, flash in app.session.getFlashes() %}
                         <div class="{{ flash }}">
     {{ key|trans([], 'FOSUserBundle') }}
                             </div>
@@ -54,16 +45,18 @@
                     {% block menu%}
 
 
-
-                            <div class="well" >
-                                <ul class="nav nav-list">
-                                    <li class="active"><a href={{path('Inra2013urzBundle_Homepage')}} ><i class="icon-home icon-white"></i> Accueil</a></li>
-                                    <li><a target="_blank" href={{Accueil.Lien.PremierLien}}><i class="icon-barcode"></i> {{Accueil.Lien.ItemPremier}}</a></li>
-                                    <li><a target="_blank" href={{Accueil.Lien.DeuxiemeLien}}><i class="icon-book "></i> {{Accueil.Lien.ItemDeuxieme}}</a></li>
-                                    <li><a href="#"><i class="i"></i> Misc</a></li>
-                                </ul>
-                            </div>
-                    {% endblock%}
+<div class="well" >
+ <ul class="nav nav-list">
+  <li class="active"><a href={{path('Inra2013urzBundle_Homepage')}} ><i class="icon-home icon-white"></i> Accueil</a></li>
+  <li><a target="_blank" href={{Accueil.Lien.PremierLien}}><i class="icon-barcode"></i> {{Accueil.Lien.ItemPremier}}</a></li>
+  <li><a target="_blank" href={{Accueil.Lien.DeuxiemeLien}}><i class="icon-book "></i> {{Accueil.Lien.ItemDeuxieme}}</a></li>
+ <li><a target="_blank" href={{Accueil.Lien.TroisiemeLien}}><i class="icon-barcode"></i> {{Accueil.Lien.ItemTroisieme}}</a></li>
+ <li><a target="_blank" href={{Accueil.Lien.QuatriemeLien}}><i class="icon-folder-open"></i> {{Accueil.Lien.ItemQuatrieme}}</a></li>
+ <li><a target="_blank" href={{Accueil.Lien.CinquiemeLien}}><i class="icon-folder-open"></i> {{Accueil.Lien.ItemCinquieme}}</a></li>
+  <li><a href="#"><i class="i"></i> Misc</a></li>
+</ul>
+</div>
+{% endblock%}
 {%block menu2 %}
  {% endblock%}
                         </div>
